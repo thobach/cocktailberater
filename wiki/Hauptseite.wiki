@@ -1,4 +1,5 @@
-Dies ist die Übersichtsseite des Wikis.
+#labels Featured
+#Dies ist die Übersichtsseite des Wikis.
 
 = Inhalt =
 * [Todos]
