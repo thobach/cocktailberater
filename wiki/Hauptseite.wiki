@@ -1,4 +1,4 @@
-#Dies ist die Übersichtsseite des Wikis.
+Dies ist die Übersichtsseite des Wikis.
 
 = Inhalt =
-* Todos
+* [Todos]
