@@ -1,0 +1,7 @@
+Die hier dargestelltne Aufgaben sollten demnächst erledigt werden.
+
+= Aufgaben =
+* Wikistruktur überlegen und anlegen
+* altes Wiki migrieren
+* SVN Ordner anlegen, dokumentieren und migrieren
+* Zend Framework auf aktuelles Bootstrapping umstellen
