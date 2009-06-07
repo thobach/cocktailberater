@@ -1,7 +1,8 @@
-Die hier dargestelltne Aufgaben sollten demnächst erledigt werden.
+#labels Phase-Requirements
+Die hier dargestelltne Aufgaben sollten demnächst erledigt werden. Wer hat Lust sich zu beteiligen?
 
 = Aufgaben =
-* Wikistruktur überlegen und anlegen
-* altes Wiki migrieren
-* SVN Ordner anlegen, dokumentieren und migrieren
-* Zend Framework auf aktuelles Bootstrapping umstellen
+  * Wikistruktur überlegen und anlegen
+  * altes Wiki migrieren
+  * SVN Ordner anlegen, dokumentieren und migrieren
+  * Zend Framework auf aktuelles Bootstrapping umstellen (Thomas)
