@@ -1,4 +1,4 @@
-#labels Phase-Requirements
+#labels Phase-Requirements,Featured
 Die hier dargestelltne Aufgaben sollten demnächst erledigt werden. Wer hat Lust sich zu beteiligen?
 
 = Aufgaben =
