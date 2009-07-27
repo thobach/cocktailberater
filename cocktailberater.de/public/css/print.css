@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+
+#sub_nav {
+	display: none;
+}
+
+.print {
+	display: block;
+	width: 100%;
+}
+
+table, tr, td {
+	border: 1px solid black;
+}

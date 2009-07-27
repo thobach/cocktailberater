@@ -1,0 +1,488 @@
+/*
+cocktailberater.de Screen Stylesheet
+
+version:   1.0
+date:      21/07/07
+author:    Thomas Bachmann
+email:     thobach@web.de
+
+website:   www.cocktailberater.de
+
+version history: /html/css/screen.css
+-----------------------------------------------------------------------------*/
+
+/* Import other stylesheets
+-----------------------------------------------------------------------------*/
+/* @import url("otherstylesheet.css"); */
+
+/* Remove margin, padding and border from everything 
+-----------------------------------------------------------------------------*/
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif
+		;
+}
+
+/* Styles for layout
+-----------------------------------------------------------------------------*/
+.clear {
+	clear: both;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
+
+.center {
+	text-align: center;
+}
+
+.hide {
+	display: none;	
+}
+
+.abstand {
+	padding: 0.2em;	
+}
+
+.abstand_links {
+	margin-left: 1em;	
+}
+
+.abstand_links_doppelt {
+	margin-left: 2em;	
+}
+
+.abstand_links_halb {
+	margin-left: 0.2em;	
+}
+
+.abstand_rechts {
+	margin-right: 1em;	
+}
+
+.abstand_rechts_doppelt {
+	margin-right: 2em;	
+}
+
+.abstand_rechts_halb {
+	margin-right: 0.2em;	
+}
+
+.abstand_oben {
+	margin-top: 1em;	
+}
+
+.abstand_oben_doppelt {
+	margin-top: 2em;	
+}
+
+.abstand_unten {
+	margin-bottom: 1em;	
+}
+
+.abstand_unten_doppelt {
+	margin-bottom: 2em;	
+}
+
+/* Set up the document
+-----------------------------------------------------------------------------*/
+body {
+	font: 62.5%/ 1.5 "Lucida Grande", "Lucida Sans", Tahoma, Verdana,
+		sans-serif;
+	color: #000000;
+	text-align: center;
+}
+
+#wrapper {
+	width: 600px; /* Set page width here - you can also use percentage */
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: #FFFFFF;
+	border: 1px solid #808080;
+}
+
+/* Typography
+-----------------------------------------------------------------------------*/
+h1 {
+	font-size: 2.2em; /* Equivalent to 22pt */
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+h2 {
+	font-size: 2.0em; /* Equivalent to 20pt */
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+h3 {
+	font-size: 1.4em; /* Equivalent to 18pt */
+}
+
+h4 {
+	font-size: 1.2em; /* Equivalent to 18pt */
+}
+
+h5 {
+	font-size: 1.4em; /* Equivalent to 14pt */
+}
+
+p,q,cite {
+	font-size: 1.2em; /* Equivalent to 12pt */
+}
+
+ul,ol,dl {
+	list-style: none;
+	font-size: 1.2em; /* Equivalent to 12pt */
+}
+
+ul li,dd,dt {
+	font-size: 0.9em; /* Equivalent to 12pt */
+	clear: both;
+}
+
+ul ul li {
+	font-size: 0.7em;
+	font-weight: normal;
+}
+
+a:link {
+	color: #54616E;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #54616E;
+	text-decoration: none;
+}
+
+a:active {
+	color: #54616E;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #000000;
+	text-decoration: none;
+}
+
+.link {
+	text-decoration: underline;
+	color: #54616E;	
+}
+
+/* Header
+-----------------------------------------------------------------------------*/
+#header {
+	margin-left: auto;
+	margin-right: auto;
+	border-bottom: 1px solid #808080;
+	height: 142px;
+	width: 600px;
+	height: 142px;
+	border-bottom: 1px solid #808080;
+}
+
+/* Navigation
+-----------------------------------------------------------------------------*/
+	/* Footer
+-----------------------------------------------------------------------------*/
+#footer {
+	clear: left;
+	width: 600px;
+	height: 38px;
+	text-align: center;
+	font-size: 0.8em;
+	width: 600px;
+	padding-top: 20px;
+}
+
+/* Homepage
+-----------------------------------------------------------------------------*/
+#homepage {
+	clear: left;
+	width: 600px;
+	text-align: center;
+	font-size: 1.2em;
+}
+
+#wiki {
+	text-align: justify;
+}
+
+#spacing-left {
+	margin-left: 16px;
+	margin-right: 16px;
+	margin-top: 1.0em;
+	text-align: justify;
+}
+
+/* Your template
+-----------------------------------------------------------------------------*/
+	/* Forms
+-----------------------------------------------------------------------------*/
+
+.regular_form fieldset {
+	border: 1px solid #54616E;
+	background-color: #F2F2F2;
+	padding: 1em;
+	margin-bottom: 1em;
+}
+
+.regular_form legend {
+	border: 1px solid #999999;
+	background-color: #D6D6D6;
+	margin-left: 1em;
+	padding: 0.3em;
+	font-weight: bold;
+}
+
+#hinweis,#achtung {
+	background-color: white;
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+	padding: 0.3em;
+	font-weight: bold;
+}
+
+#hinweis {
+	border: 1px solid blue;
+	color: blue;
+}
+
+#achtung {
+	border: 1px solid red;
+	color: red;
+}
+
+input.small {
+	width: 3em;
+}
+
+input.big, textarea.big {
+	width: 25em;
+}
+
+input.text, textarea.text {
+	padding: 3px;
+	border: 1px solid #999999;
+}
+
+input.q,input.q2,input.small {
+	background-color: white;
+	border-style: dotted;
+	border-color: #cf0060;
+	border-width: 0 0 2px 0;
+}
+
+input.q {
+	width: 180px;
+	font-size: 1.5em;
+}
+
+input.q2 {
+	width: 120px;
+	font-size: 1em;
+}
+
+input.submit, #submit, #anmelden, #abmelden {
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: 1.5em;
+	background-color: #bd5585;
+	border-style: solid;
+	border-color: #cf0060;
+	border-width: 0 0 2px 0;
+}
+
+p.description {
+	font-size: 0.8em;
+	color: gray;
+	margin-top: 0.2em;
+	text-align: left;	
+}
+
+#legende_suchen {
+	font-size: 1.5em;
+}
+
+#suche_name {
+	padding: 20px;
+}
+
+.spacing100px {
+	margin-top: 70px;
+}
+
+#cocktail {
+	float: left;
+	padding: 5px;
+}
+
+#ergebnisse {
+	width: 450px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.attribut {
+	clear: left;
+	float: left;
+	/*background-color: black;*/
+	color: #cf0060;
+	text-align: left;
+	margin: 2px;
+	padding: 1px;
+	width: 100px;
+}
+
+.wert {
+	float: left;
+	width: 300px;
+	text-align: justify;
+	margin: 2px;
+	padding: 1px;
+}
+
+label {
+	text-align: left;
+}
+
+label.small {
+	width: 10em;
+}
+
+#pointer {
+	cursor: pointer;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.icon {
+	position: absolute;
+	bottom: 0;
+	width: 100px;
+}
+
+.error {
+	margin-top: 2em;
+	width: 545px;
+	margin-left: 20px;
+	background-color: rgb(244, 225, 225);
+	border: 1px solid rgb(204, 0, 0);
+	padding: 0.2em;
+	color: rgb(204, 0, 0);
+}
+
+#box {
+	padding: 5px;
+	border: 1px solid black;
+	margin: 5px;
+}
+
+.highlight:hover {
+	background-color: white;	
+}
+
+.pink {
+	color: #cf0060;
+}
+
+/* Suche
+-----------------------------------------------------------------------------*/
+.suggest_link {
+	background-color: #FFFFFF;
+	padding: 2px 6px 2px 6px;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.suggest_link_over {
+	background-color: #3366CC;
+	padding: 2px 6px 2px 6px;
+	border: 1px solid black;
+}
+
+#search_suggest {
+	position: absolute;
+	width: 180px;
+	margin-left: 10px;
+	background-color: #FFFFFF;
+	text-align: left;
+	border: 1px solid #000000;
+	border-top: none;
+	border-bottom: none;
+	background-color: #FFFFFF;
+}
+
+/**
+ *	aus dijit.css
+ *	TextBox related.
+ *	Everything that has an <input>
+ */
+
+.dijitTextBox,
+.dijitComboBox,
+.dijitSpinner {
+	border: solid grey 1px;
+	background-color: white;
+	width: 15em;	/* need to set default size on outer node since inner nodes say <input style="width:100%"> and <td width=100%>.  user can override */
+}
+
+/* Menu */
+
+.dijitMenu {
+	border:1px solid grey;
+	background-color:white;
+}
+
+.dijitMenuItem{
+	white-space: nowrap;
+	padding:.1em .2em;
+	text-align: left;
+}
+
+.dijitMenuItemHover {
+	cursor:pointer;
+	cursor:hand;
+	background-color:#B5D5FF;
+	color:black;
+}
+
+
+/* Tables 
+-----------------------------------------------------------------------------*/
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+td {
+	text-align: left;
+	font-weight: normal;
+}
+
+table.table {
+	padding: 0.1em;
+}
+
+table.table thead {
+	background-color: #CF0060;
+}
+
+table.table td,table.table th {
+	border: 1px solid black;
+	padding: 0.2em;
+}
