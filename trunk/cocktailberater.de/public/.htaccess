@@ -1,0 +1,20 @@
+#php_value display_startup_errors "1"
+#php_value display_errors "1"
+
+#RewriteEngine On
+
+#RewriteCond %{REQUEST_FILENAME} -s [OR]
+#RewriteCond %{REQUEST_FILENAME} -l [OR]
+#RewriteCond %{REQUEST_FILENAME} -d
+#RewriteRule ^.*$ - [NC,L]
+##RewriteRule ^.*$ /cocktail/html/index.php [NC,L]
+#RewriteRule !\.(js|ico|gif|jpg|png|css|pdf)$ index.php
+
+SetEnv APPLICATION_ENV development
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
