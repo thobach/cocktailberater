@@ -1,0 +1,21 @@
+<div id="regular_form" style="margin-top: 1em;">
+<form action="<?php print $this->baseUrl(); ?>index/newsletterAbmelden" method="post">
+<fieldset><legend>Newsletter-Abmeldung</legend> <?php echo $this->hinweis2; ?>
+<div class="attribut"><label>E-Mail-Adresse:</label></div>
+<div class="wert"><?php 
+echo $this->formText('email', '', array('size' => 32, 'class' => 'text'))
+?> (*)<br />
+z.B.: max.mustermann@mustermann.de</div>
+<div class="attribut"><label>Grund:</label></div>
+<div class="wert"><?php 
+echo $this->formText('grund', '', array('size' => 32, 'class' => 'text'))
+?></div>
+<label class="attribut"></label>
+<div class="wert"><?php 
+echo $this->formSubmit('abmelden', 'Abmelden', array())
+?><br />
+<br />
+(*) Pflichtfeld</div>
+</fieldset>
+</form>
+</div>

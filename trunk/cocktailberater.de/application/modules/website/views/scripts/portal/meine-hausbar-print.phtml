@@ -1,0 +1,33 @@
+<?php print $this->notice($this->message); ?>
+<h2 style="margin-top: 0;">Meine Hausbar</h2>
+<p style="margin-bottom: 2em;">Bitte wählen Sie Ihre vorhanden Zutataen
+aus der folgenden Liste aus.</p>
+<table border="1" cellspacing="1"
+	style="border: 1px solid black; margin: 1em;">
+	<?php
+	$ingredientCategories=IngredientCategory::getIngredientCategories();
+	foreach($ingredientCategories as $ingredientCategory){
+		print "<tr><td colspan=\"3\" style=\"padding-top: 2em; padding-left: 1em;\"><h3>$ingredientCategory->name</h3></td></tr>";
+		print '<tr style="color: red;"><td style="padding-left: 1em;">Name</td><td>Hersteller</td><td>Anzahl</td></tr>';
+		$ingredients=IngredientCategory::getIngredientsByCategory($ingredientCategory->id);
+		foreach($ingredients as $ingredient){
+			$products=Product::productsByIngredientId($ingredient->id);
+			if (is_array($products)) {
+				$printProducts = '';
+				foreach($products as $product){
+					if ($this->bar->hasProduct($product->id)) {
+						$printProducts = stripslashes("<tr><td style=\"padding-left: 1em;\"><input type=\"checkbox\" $checked /> <span title=\"$product->name\">{$product->name}</span> </td><td><em>{$product->getManufacturer()->name}</em></td><td style=\"width: 100px;\">&nbsp;</td></tr>");
+					}
+				}
+				if($printProducts){
+					print "<tr><td colspan=\"3\" style=\"padding-left: 1em;\"><h4>$ingredient->name</h4></td></tr>";
+					print $printProducts;
+				}
+			}
+
+		}
+	}
+	?>
+</table>
+</div>
+

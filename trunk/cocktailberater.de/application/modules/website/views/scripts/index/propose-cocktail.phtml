@@ -1,0 +1,300 @@
+<script type="text/javascript">
+<!--
+function mehrZutaten(idzutaten_kategorie) {
+  if(document.getElementById('anzahlZutatKateg'+idzutaten_kategorie).value!=11)
+  {
+  	document.getElementById('zut_kat_'+idzutaten_kategorie+'_div_' + document.getElementById('anzahlZutatKateg'+idzutaten_kategorie).value).style.display='block';
+  	document.getElementById('anzahlZutatKateg'+idzutaten_kategorie).value++;
+  }
+  else
+  {
+  	alert ('Es können maximal 10 Zutaten einer Kategorie zu einem Cocktail gehören.');
+  } 
+}
+//-->
+</script>
+<div id="spacing-left">
+<h1>Rezept vorschlagen</h1>
+<div class="regular_form" style="margin-top: 1em;">
+<form enctype="application/x-www-form-urlencoded" action=""	method="post">
+	<fieldset id="allgemein">
+		<legend>Allgemeines zum Cocktail</legend>
+		<div class="attribut">
+			<label for="cocktail_name">Cocktailname:</label>
+		</div>
+		<div class="wert">
+			<?php // setup our data store: ?>
+			<div dojoType="custom.TestNameReadStore" jsId="testStore"
+			    url="<?= $this->baseUrl(); ?>rezepte/autocomplete/format/ajax" requestMethod="get"></div>
+			<?php // render our form: ?>
+			<?= $this->form ?>
+			
+			<?php // setup Dojo-related CSS to load in HTML head: ?>
+			<?php $this->headStyle()->captureStart() ?>
+			@import "<?= $this->baseUrl(); ?>js/dojo-release-1.0.2/dijit/themes/tundra/tundra.css";
+			@import "<?= $this->baseUrl(); ?>js/dojo-release-1.0.2/dojo/resources/dojo.css";
+			<?php $this->headStyle()->captureEnd(); ?>
+			
+			<?php // setup javascript to load in HTML head, including all required Dojo
+			   // libraries: ?>
+			<?php $this->headScript()
+			        ->setAllowArbitraryAttributes(true)
+			        ->appendFile($this->baseUrl() . 'js/dojo-release-1.0.2/dojo/dojo.js', 
+			            'text/javascript', 
+			            array('djConfig' => 'parseOnLoad: true'))
+			        ->captureStart() ?>
+			djConfig.usePlainJson=true;
+			dojo.registerModulePath("custom","../custom");
+			dojo.require("dojo.parser");
+			dojo.require("dojox.data.QueryReadStore");
+			dojo.require("dijit.form.ComboBox");
+			dojo.require("custom.TestNameReadStore");
+
+			// Beim Ändern des Inhalts im Inputfeld 'cocktail_name' soll überprüft 
+			// werden, ob es den Cocktail schon gibt. Wenn ja, das Feld Beschreibung 
+			// gefüllt und auf disabled gesetzt werden
+				
+			function cocktailexists() {
+				// AJAX Anfrage definieren
+				var kw = {
+						// TODO: URL muss dynamisch erzeugt werden und wahrscheinlich fehlt die Implementierung der Anfrage
+				        url: "http://<?=$_SERVER['HTTP_HOST'];?>:<?=$_SERVER['SERVER_PORT'];?><?= $this->baseUrl(); ?>api/public/api/get-cocktail-by-name",
+				        load: function(data){
+				        		if(data) {
+				                	// Beschreibung füllen
+				                	dojo.byId('cocktail_beschreibung').value=data.getElementsByTagName("beschreibung")[0].firstChild.nodeValue;
+				                	// Beschreibung auf disabled setzen
+				                	dojo.byId('cocktail_beschreibung').disabled=true;
+				                	// Infotext zu Rezeptvariante anzeigen
+				                	dojo.byId('hinweis_cocktail_existiert').className='alert';
+				                	// Cocktailkategorien schon vorausfüllen
+				                	fillCocktailKategorien(data);				                					                	
+				                } else {
+				                	dojo.byId('cocktail_beschreibung').value='';
+				                	dojo.byId('cocktail_beschreibung').disabled=false;
+				                	dojo.byId('hinweis_cocktail_existiert').className='hide';
+				                }
+				        },
+				        error: function(data){
+				                console.debug("An error occurred: ", data);
+				        },
+				        timeout: 2000,
+				        form: "widget_cocktail_name",
+				        handleAs: "xml"
+				};
+				// AJAX Anfrage absenden
+				dojo.xhrGet(kw);
+			}
+			
+			function fillCocktailKategorien (data) {
+	        	for (var i = 0; i < data.getElementsByTagName("kategorie").length; i++) {
+	        		dojo.byId('idcocktail_kategorie_'+data.getElementsByTagName("kategorie")[i].getAttribute("id")).checked=true;
+	        	}
+			}
+
+			<?php $this->headScript()->captureEnd() ?>
+			<p class="description">(z.B.: Sex on the Beach)</p>
+		</div>
+		<div class="attribut">
+			<label for="cocktail_beschreibung">Kurz- beschreibung:</label>
+		</div>
+		<div class="wert">
+			<textarea name="cocktail_beschreibung" id="cocktail_beschreibung" class="text" rows="8" cols="40"></textarea>
+			<p id="hinweis_cocktail_existiert" class="hide">Der Cocktail existiert schon in der Datenbank. Sie können aber eine neue Rezeptvariante vorschalgen.</p>
+			<p class="description">(Herkunft, Namensursprung, Kurzbezeichnungen, z.B.: ein fruchtiger, mäßig süßer Longdrink aus den USA)</p>
+		</div>
+	</fieldset>
+	<fieldset id="zutaten_mengen">
+		<legend>Zutaten &amp; Mengenangaben</legend>	
+		<?php 
+		$units =  Component::getUnits();
+		foreach (IngredientCategory::getIngredientCategories() as $category){
+		    $feld=0;
+			$zutaten = IngredientCategory::getIngredientsByCategory($category->id); ?>
+		<fieldset id="<?php print $category->name; ?>">
+			<legend><?php print $category->name; ?></legend>
+			<input type="hidden" name="anzahlZutatKateg<?php print $category->id; ?>" id="anzahlZutatKateg<?php print $category->id; ?>" value="2" />
+			<?php for($i=1;$i<11;$i++){ ?>
+			<div id="zut_kat_<?php print $category->id; ?>_div_<?php print $i; ?>"<?php if($i!=1) { ?> style="display:none;"<?php } ?>>
+				<input type="text" 
+					name="menge_zut_kat_<?php print $category->id; ?>_feld_<?php $feld++; print $feld; ?>" 
+					id="menge_zut_kat_<?php print $category->id; ?>_feld_<?php print $feld; ?>" 
+					value="Menge" class="text" onclick="if(this.value=='Menge') this.value='';" />
+				<select name="einheit_zut_kat_<?php print $category->id; ?>_feld_<?php print $feld; ?>" 
+					id="einheit_zut_kat_<?php print $category->id; ?>_feld_<?php print $feld; ?>">
+				<?php foreach ($units as $unit){ ?>
+					<option value="<?php print $unit; ?>" label="<?php print $unit; ?>"><?php print $unit; ?></option>
+				<?php } ?>
+				</select>
+				<select name="idzutat_zut_kat_<?php print $category->id; ?>_feld_<?php print $feld; ?>" 
+					id="idzutat_zut_kat_<?php print $category->id; ?>_feld_<?php print $feld; ?>">
+					<option value="">-Zutat-</option>
+				    <?php foreach ($zutaten as $zutat){ ?>
+					<option value="<?php print $zutat->id; ?>" label="<?php print $zutat->name; ?>"><?php print $zutat->name; ?></option>
+					<?php } ?>
+				</select>
+			</div>
+			<?php } ?>
+			(<a href="javascript:;" onclick="mehrZutaten(<?php print $category->id; ?>);">mehr ...</a>)
+		</fieldset>
+		<?php  }     ?>
+	</fieldset>
+	<fieldset id="weitere_angaben">
+		<legend>weitere Angaben</legend>
+		<div class="attribut">
+			<label for="rezept_anweisung">Anweisung:</label>
+		</div>
+		<div class="wert" style="width: 420px;">
+			<textarea name="rezept_anweisung" id="rezept_anweisung" class="text" rows="8" cols="40"></textarea>
+			<p class="description">(z.B.: Im Shaker mit Eis schütteln, in ein Longdrinkglas auf 3-4 Eiswürfel abgießen. Mit ein wenig Cola auffüllen. Eine Limettenscheibe zur Dekoration.)</p>
+		</div>
+		<div class="attribut">
+			<label for="zeitaufwand_min">Zeitaufwand (Min.):</label>
+		</div>
+		<div class="wert">
+			<input type="text" name="zeitaufwand_min" id="zeitaufwand_min" value="" class="text small" /> Min.
+			<p class="description">(z.B.: 3 Min.)</p>
+		</div>
+		<div class="attribut">
+			<label for="schwierigkeits_grad">Schwierigkeits- grad:</label>
+		</div>
+		<div class="wert" style="width: 420px;">
+			<label for="schwierigkeits_grad_anfaenger">
+				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_anfaenger" value="Anfänger" class="abstand_rechts" />
+				<img src="<?php print $this->baseUrl() ; ?>img/leicht.png" alt="Schwierigkeitsgrad Anfänger" align="absmiddle" />
+				Anfänger
+			</label>
+			<label for="schwierigkeits_grad_fortgeschritten" class="abstand_links_doppelt">
+				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_fortgeschritten" value="Anfänger" class="abstand_rechts" />
+				<img src="<?php print $this->baseUrl() ; ?>img/mittel.png" alt="Schwierigkeitsgrad Fortgeschritten" align="absmiddle" /> Fortgeschritten
+			</label>
+			<label for="schwierigkeits_grad_profi" class="abstand_links_doppelt">
+				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_profi" value="Anfänger" class="abstand_rechts" />
+				<img src="<?php print $this->baseUrl() ; ?>img/schwer.png" alt="Schwierigkeitsgrad Profi" align="absmiddle" /> Profi
+			</label>
+			<p class="description">Der Schwierigkeitsgrad richtet sich nach dem Können. Ein Cuba Libre ist etwas für "Anfänger", ein B52 ist eher etwas für "Profis", da hier die Likörschichten getrennt sein müssen.</p>
+		</div>
+		<div class="attribut">
+			<label for="kategorien">Kategorien:</label>
+		</div>
+		<div class="wert" style="width: 420px;">
+			<?php
+			$i=2;
+			foreach (RecipeCategory::getRecipeCategories() as $recipeCategory) { $i++; ?>
+			<label for="<?php print $kategorieid; ?>" class="small left<?php if($i%3==0) { print ' clear'; } ?>">
+				<input type="checkbox" name="kategorien[]" id="idcocktail_kategorie_<?php print $recipeCategory->id; ?>" value="<?php print $recipeCategory->id; ?>" class="abstand_rechts_halb" />
+				<?php print $recipeCategory->name; ?>
+				</label>
+			<?php } ?>
+			<p class="description clear">Es können mehrere Kategorien für einen Cocktail gelten. Diese können sich auch mit den Schlagwörtern / Tags überschneiden.</p>
+		</div>
+		<div class="attribut">
+			<label for="tags">Schlagwörter (Tags):</label>
+		</div>
+		<div class="wert">
+			<textarea name="tags" id="tags" class="text" rows="4" cols="40"></textarea>
+			<p class="description">(kommagetrennte Schlagwörter - z.B.: fruchtig, süß, alkoholisch, Rum)</p>
+		</div>
+		<div class="attribut">
+			<label for="quelle">Quelle:</label>
+		</div>
+		<div class="wert">
+			<input type="text" name="quelle" id="quelle" value="" class="text big" />
+			<p class="description">(Quelle des Rezeptes, woher haben Sie das Rezept? z.B. aus einem Buch, von einer Webseite, ...)</p>
+		</div>
+	</fieldset>
+	<fieldset id="glas">
+		<legend>Glas</legend>
+		<?php foreach (Glass::listGlasses() as $glass) { ?>
+		<label for="idglas<?php print $glass->id ?>" style="width: 32%; height: 5em;" class="left highlight abstand">
+			<input type="radio" name="idglas" id="idglas<?php print $glass->id ?>" value="<?php print $glass->id ?>" class="left clear abstand_rechts abstand_oben_doppelt" />
+			<img src="<?php $config = Zend_Registry::get('config'); print $config->paths->glas_picture_path.$glass->getPhoto()->fileName ?>" alt="<?php print $glass->getPhoto()->name ?>" class="left abstand_rechts"  />
+			<?php print $glass->name ?> (<?php print $glass->volumeMl ?> cl)
+		</label>
+		<?php } ?>
+	</fieldset>
+	<fieldset id="fotos">
+		<legend>Fotos</legend>
+		<div class="attribut">Hinweis:</div>
+		<div class="wert">
+			<p class="description"><strong>Bitte beachten Sie, es dürfen keine Fotos hochgeladen werden, an denen Sie keine Rechte haben.</strong></p>
+		</div>
+		<div class="attribut">
+			<label for="foto">Foto (Upload):</label>
+		</div>
+		<div class="wert">
+			<input name="foto" id="foto" class="text" type="file" />
+			<p class="description">(Foto des Cocktails von diesem Computer hochladen)</p>
+		</div>
+		<p class="clear center">-oder-</p>
+		<div class="attribut">
+			<label for="fotourl">Foto (Url):</label>
+		</div>
+		<div class="wert">
+			<input name="fotourl" id="fotourl" class="text big" />
+			<p class="description">(Foto des Cocktails von einer anderen Webseite verlinken)</p>
+		</div>
+		<div class="attribut">
+			<label for="foto_name">Fotoname:</label>
+		</div>
+		<div class="wert">
+			<input name="foto_name" id="foto_name" class="text" />
+			<p class="description">(Name des Fotos, meist entspricht es dem Cocktailnamen)</p>
+		</div>
+		<div class="attribut">
+			<label for="foto_beschreibung">Foto- beschreibung:</label>
+		</div>
+		<div class="wert">
+			<textarea name="foto_beschreibung" id="foto_beschreibung" class="text big" rows="4"></textarea>
+			<p class="description">(Beschreibung des Fotos, was ist auf dem Foto zu sehen)</p>
+		</div>
+	</fieldset>
+	<fieldset id="Videos">
+		<legend>Videos</legend>
+		<div class="attribut">Hinweis:</div>
+		<div class="wert">
+			<p class="description"><strong>Bitte beachten Sie, es dürfen keine Videos hochgeladen werden, an denen Sie keine Rechte haben.</strong></p>
+		</div>
+		<!-- <div class="attribut">
+			<label for="video">Video (Upload):</label>
+		</div>
+		<div class="wert">
+			<p class="abstand_unten"><span class="error">(funktioniert noch nicht)</span></p>
+			<input name="video" id="video" class="text" type="file" />
+			<p class="description">(Video des Cocktails von diesem Computer hochladen)</p>
+		</div>
+		<p class="clear center">-oder-</p> -->
+		<div class="attribut">
+			<label for="videourl">Video (Url):</label>
+		</div>
+		<div class="wert">
+			<input name="videourl" id="videourl" class="text big" />
+			<p class="description">(Video des Cocktails von einer anderen Webseite verlinken, z.B. <br />
+				<a href="http://www.youtube.de/" target="_blank">Youtube</a>: "http://www.youtube.com/v/h_V84WEyohM"
+				<a href="http://www.guba.com/" target="_blank">Guba</a>: "http://www.guba.com/f/root.swf?video_url=http://free.guba.com/uploaditem/3000023478/flash.flv&isEmbeddedPlayer=true"
+				<a href="http://www.metacafe.com/" target="_blank">Metacafe</a>: "http://www.metacafe.com/fplayer/510532/the_mai_tai_how_to_make_the_perfect_cocktail.swf"
+				<a href="http://www.expertvillage.com/" target="_blank">Expert Village</a>: "http://www.expertvillage.com/player.swf?flv=alcohol-drinks-mai-tai-finish"
+				)
+			</p>
+		</div>
+		<div class="attribut">
+			<label for="video_name">Videoname:</label>
+		</div>
+		<div class="wert">
+			<input name="video_name" id="video_name" class="text" />
+			<p class="description">(Name des Videos)</p>
+		</div>
+		<div class="attribut">
+			<label for="video_beschreibung">Video- beschreibung:</label>
+		</div>
+		<div class="wert">
+			<textarea name="video_beschreibung" id="video_beschreibung" class="text big" rows="4"></textarea>
+			<p class="description">(Beschreibung des Videos, was ist auf dem Video zu sehen)</p>
+		</div>
+	</fieldset>
+
+
+	<input type="submit" name="einsenden" id="einsenden" value="Einsenden" class="submit" />
+</form>
+</div>
+</div>

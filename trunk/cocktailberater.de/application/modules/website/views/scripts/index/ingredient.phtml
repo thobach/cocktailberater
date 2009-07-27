@@ -1,0 +1,45 @@
+<?php require ("views/scripts/template/search.phtml");
+$config = Zend_Registry::get('config'); ?>
+<h4 class="left" style="margin-left: 25px;">Zutaten-Info: <?php print $this->ingredient->name; ?></h4><br />
+<div style="margin-left: 25px; margin-top: 15px">
+<div class="attribut">Name:</div>
+<div class="wert"><?php print $this->ingredient->name; ?></div>
+<div class="attribut">Beschreibung:</div>
+<div class="wert"><?php print $this->ingredient->description; ?></div>
+<div class="attribut">Alkoholgehalt:</div>
+<div class="wert"><?php print $this->ingredient->getAverageAlcoholLevel(); ?> %</div>
+<div class="attribut">Kalorien:</div>
+<div class="wert"><?php print $this->ingredient->getAverageCaloriesKcal(); ?> kcal / 100g bzw. 100 ml</div>
+<div class="attribut">Einheit:</div>
+<div class="wert"><?php print $this->ingredient->getMostUsedUnit(); ?></div>
+<div class="attribut">Gewicht pro Einheit:</div>
+<div class="wert"><?php print $this->ingredient->getAverageWeightGram(); ?> kg</div>
+<div class="attribut">Kategorien:</div>
+<div class="wert"><?php
+if(is_array($this->ingredient->getIngredientCategories())){
+	foreach ($this->ingredient->getIngredientCategories() as $category) {
+
+		print $category->name.'<br />';
+	}
+}
+; ?></div>
+<div class="attribut">Produkte:</div>
+<div class="wert"><?php
+$products = Product::productsByIngredientId($this->ingredient->id);
+if(is_array($products)){
+	foreach ($products as $product) {
+		print $product->name.' ('.$product->getManufacturer()->name.') - '.$product->size.' '.$product->unit.'<br />';
+	}
+}
+?></div>
+<div class="attribut">Cocktails mit <?php print $this->ingredient->name; ?>:</div>
+<div class="wert"><?php
+if(is_array($this->cocktails)){
+	foreach ($this->cocktails as $cocktail) {
+		$recipes = $cocktail->getRecipes();
+		$recipe = $recipes[0];
+		require ("views/scripts/template/preview.phtml");
+	}
+}
+?>
+</div>

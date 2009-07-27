@@ -1,0 +1,40 @@
+<?php require ("views/scripts/template/portal_nav.phtml"); ?>
+<div style="float: left; width: 410px;">
+<?php print $this->notice($this->message); ?>
+<h2 style="margin-top: 0;">Meine Hausbar</h2>
+<p style="margin-bottom: 2em;">Bitte wählen Sie Ihre vorhanden Zutataen aus der folgenden Liste aus.</p>
+<form id="product2bar" name="product2bar" action="" method="post"><?php 
+$ingredientCategories=IngredientCategory::getIngredientCategories();
+foreach($ingredientCategories as $ingredientCategory){
+	print "<h3 class=\"pointer\" onclick=\"if(document.getElementById('category_$ingredientCategory->id').style.display=='none') { document.getElementById('category_$ingredientCategory->id').style.display='block'; } else { document.getElementById('category_$ingredientCategory->id').style.display='none'; }\"> <img src=\"".$this->baseUrl()."/img/next.gif\" alt=\"pfeil\" style=\"height: 1em;\" /> $ingredientCategory->name</h3>";
+	print '<div id="category_'.$ingredientCategory->id.'" style="border: 1px solid #981267; background-color: #E7E7E7; margin-top: 0.5em; padding: 1em; margin-bottom: 2em;" class="print hide">';
+	$ingredients=IngredientCategory::getIngredientsByCategory($ingredientCategory->id);
+	foreach($ingredients as $ingredient){
+		print "<h4 style=\"margin-top: 0.5em;\">$ingredient->name</h4>";
+		$products=Product::productsByIngredientId($ingredient->id);
+		if (is_array($products)) {
+			foreach($products as $product){
+				if ($this->bar->hasProduct($product->id)) {
+					$checked='checked="checked"';
+				} else {
+					$checked='';
+				}
+				print stripslashes("<p style=\"margin-left: 1em;\"><input type=\"checkbox\" name=\"product2bar[]\" value=\"$product->id\" $checked /> <span title=\"$product->name\">{$this->shortenText($product->name,20)}</span> - <em title=\"{$product->getManufacturer()->name}\" style=\"font-size: 0.8em;\">von: {$this->shortenText($product->getManufacturer()->name,16)}</em></p>");
+			}
+		}else {
+			print '<p style="margin-left: 1em;">Keine Produkte vorhanden.</p>';
+		}
+
+	}
+print '</div>';
+}
+?>
+<div>
+<input style="margin-top: 2em; float: left;" type="submit" value="speichern" name="submit_product2bar" class="submit pointer" onclick="document.getElementById('product2bar').submit(); this.disabled='disabled';" />
+
+<input style="margin-top: 2em; float: right;" type="button" value="drucken" class="submit pointer" onclick="window.print();" />
+</div>
+</form>
+</div>
+</div>
+

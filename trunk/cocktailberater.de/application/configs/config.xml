@@ -1,0 +1,262 @@
+<?xml version="1.0"?>
+<config>
+	<!--
+		<environments> <environment> <id>thobalin</id>
+		<hostname>thobachm.de.ibm.com</hostname> </environment> <environment>
+		<id>thobamac</id> <hostname>thobach@web.de</hostname> </environment>
+		<environment> <id>thobawin</id> <hostname>THOBACHM</hostname>
+		</environment> <environment> <id>nictp</id>
+		<hostname>MRB103</hostname> </environment> <environment>
+		<id>testserver</id> <hostname>root@cb</hostname> </environment>
+		<environment> <id>life</id> <hostname>webmaster@cocktailberater.de
+		</hostname> </environment> <environment> <id>life</id>
+		<hostname>webmaster@www.cocktailberater.de </hostname> </environment>
+		<environment> <id>life</id> <hostname>webmaster@api.cocktailberater.de
+		</hostname> </environment> <environment> <id>stage</id>
+		<hostname>webmaster@api-stage.cocktailberater.de </hostname>
+		</environment> <environment> <id>stage</id>
+		<hostname>webmaster@www-stage.cocktailberater.de </hostname>
+		</environment> <environment> <id>tobias</id>
+		<hostname>TPTOBIAS</hostname> </environment> </environments>
+	-->
+	<thobawin>
+		<mail>
+			<defaultsendername>Cocktailberater.de
+			</defaultsendername>
+			<defaultsender>kontakt@cocktailberater.de
+			</defaultsender>
+			<defaultrecipient>entwickler@cocktailberater.de
+			</defaultrecipient>
+			<defaultrecipientname>Entwicklerteam -
+				Cocktailberater.de</defaultrecipientname>
+			<smtp_server>smtp.cocktailberater.de
+			</smtp_server>
+			<username>702304</username>
+			<password>kontaktcb2008</password>
+		</mail>
+		<paths>
+			<project_path>C:\Program
+				Files\xampp\htdocs\cocktailberater.de</project_path>
+			<admin_banner>
+				http://localhost/cocktailberater.de/html/img/banner_small.png
+			</admin_banner>
+			<uri>/cocktailberater.de/html/</uri>
+		</paths>
+		<database>
+			<adapter>PDO_MYSQL</adapter>
+			<params>
+				<host>localhost</host>
+				<username>cocktailberater</username>
+				<password>cocktailberater</password>
+				<dbname>cocktailberater</dbname>
+			</params>
+		</database>
+		<cache>
+			<enabled>false</enabled>
+		</cache>
+		<throwexceptions>true</throwexceptions>
+	</thobawin>
+	<tobias>
+		<mail>
+			<defaultsendername>Cocktailberater.de
+			</defaultsendername>
+			<defaultsender>kontakt@cocktailberater.de
+			</defaultsender>
+			<defaultrecipient>entwickler@cocktailberater.de
+			</defaultrecipient>
+			<defaultrecipientname>Entwicklerteam -
+				Cocktailberater.de</defaultrecipientname>
+			<smtp_server>smtp.cocktailberater.de
+			</smtp_server>
+			<username>702304</username>
+			<password>kontaktcb2008</password>
+		</mail>
+		<paths>
+			<project_path>D:\xampp\htdocs\cocktailberater.de
+			</project_path>
+			<admin_banner>
+				http://localhost/cocktailberater.de/html/img/banner_small.png
+			</admin_banner>
+			<uri>/html/</uri>
+		</paths>
+		<database>
+			<adapter>PDO_MYSQL</adapter>
+			<params>
+				<host>localhost</host>
+				<username>root</username>
+				<password></password>
+				<dbname>cb</dbname>
+			</params>
+		</database>
+		<cache>
+			<enabled>true</enabled>
+		</cache>
+		<throwexceptions>true</throwexceptions>
+	</tobias>
+
+	<nictp>
+		<mail>
+			<defaultsendername>Cocktailberater.de
+			</defaultsendername>
+			<defaultsender>kontakt@cocktailberater.de
+			</defaultsender>
+			<defaultrecipient>entwickler@cocktailberater.de
+			</defaultrecipient>
+			<defaultrecipientname>Entwicklerteam -
+				Cocktailberater.de</defaultrecipientname>
+			<smtp_server>smtp.cocktailberater.de
+			</smtp_server>
+			<username>702304</username>
+			<password>kontaktcb2008</password>
+		</mail>
+		<paths>
+			<project_path>C:\Documents and
+				Settings\Administrator\pdt_workspace\cocktailberater</project_path>
+			<admin_banner>http://localhost/html/img/banner_small.png
+			</admin_banner>
+			<uri>/html/</uri>
+		</paths>
+		<database>
+			<adapter>PDO_MYSQL</adapter>
+			<params>
+				<host>localhost</host>
+				<username>cocktailberater</username>
+				<password>fickenamstrand</password>
+				<dbname>cocktailberater</dbname>
+			</params>
+		</database>
+		<cache>
+			<enabled>true</enabled>
+		</cache>
+		<throwexceptions>false</throwexceptions>
+	</nictp>
+	<thobamac extends="testing">
+		<paths>
+			<project_path>/Users/thobach/Sites/cocktailberater.de/website/
+			</project_path>
+			<admin_banner>
+				http://192.168.1.2:12345/~thobach/cocktailberater.de/website/public/img/banner_small.png
+			</admin_banner>
+			<uri>/cocktail/html/</uri>
+		</paths>
+		<database>
+			<adapter>PDO_MYSQL</adapter>
+			<params>
+				<host>localhost</host>
+				<username>cocktailberater</username>
+				<password>cocktailberater</password>
+				<dbname>cocktailberater</dbname>
+			</params>
+		</database>
+	</thobamac>
+	<thobalin>
+		<mail>
+			<defaultsendername>Cocktailberater.de
+			</defaultsendername>
+			<defaultsender>kontakt@cocktailberater.de
+			</defaultsender>
+			<defaultrecipient>entwickler@cocktailberater.de
+			</defaultrecipient>
+			<defaultrecipientname>Entwicklerteam -
+				Cocktailberater.de</defaultrecipientname>
+			<smtp_server>smtp.cocktailberater.de
+			</smtp_server>
+			<username>702304</username>
+			<password>kontaktcb2008</password>
+		</mail>
+		<paths>
+			<project_path>/Applications/MAMP/htdocs/cocktailberater.de/website/
+			</project_path>
+			<admin_banner>
+				http://192.168.1.2:12345/cocktailberater.de/website/public/img/banner_small.png
+			</admin_banner>
+		</paths>
+		<database>
+			<adapter>PDO_MYSQL</adapter>
+			<params>
+				<host>localhost</host>
+				<username>db71134_20</username>
+				<password>thobacb2008</password>
+				<dbname>db71134_20</dbname>
+			</params>
+		</database>
+		<cache>
+			<enabled>false</enabled>
+		</cache>
+		<throwexceptions>true</throwexceptions>
+	</thobalin>
+	<testing extends="production">
+		<phpSettings>
+			<display_startup_errors>1</display_startup_errors>
+			<display_errors>1</display_errors>
+		</phpSettings>
+		<cache>
+			<enabled>false</enabled>
+		</cache>
+	</testing>
+	<staging extends="production">
+		<database>
+			<params>
+				<username>db71134_26</username>
+				<password>mysqlcb2008</password>
+				<dbname>db71134_26</dbname>
+			</params>
+		</database>
+	</staging>
+	<production>
+		<mail>
+			<defaultsendername>Cocktailberater.de
+			</defaultsendername>
+			<defaultsender>kontakt@cocktailberater.de
+			</defaultsender>
+			<defaultrecipient>entwickler@cocktailberater.de
+			</defaultrecipient>
+			<defaultrecipientname>Entwicklerteam -
+				Cocktailberater.de</defaultrecipientname>
+			<smtp_server>smtp.cocktailberater.de
+			</smtp_server>
+			<username>702304</username>
+			<password>kontaktcb2008</password>
+		</mail>
+		<paths>
+			<project_path>
+				/kunden/71134_93059/rp-hosting/10004/10006/cocktailberater.de/website
+			</project_path>
+			<uri>/</uri>
+		</paths>
+		<database>
+			<adapter>PDO_MYSQL</adapter>
+			<params>
+				<host>mysql5.webseitenberater.de</host>
+				<username>db71134_25</username>
+				<password>mysqlcb2008</password>
+				<dbname>db71134_25</dbname>
+			</params>
+		</database>
+		<cache>
+			<enabled>true</enabled>
+		</cache>
+		<throwexceptions>true</throwexceptions>
+		<!-- Zend Application paths -->
+		<resources>
+			<frontController>
+				<controllerDirectory>/Users/thobach/Sites/cocktailberater.de/application/modules/default/controllers</controllerDirectory>
+			</frontController>
+			<layout>
+				<layout>layout</layout>
+				<layoutPath>/Users/thobach/Sites/cocktailberater.de/application/modules/default/layouts/view/scripts/</layoutPath>
+			</layout>
+		</resources>
+		<includePaths>
+			<library>/Users/thobach/Sites/cocktailberater.de/library</library>
+		</includePaths>
+		<bootstrap>
+			<path>/Users/thobach/Sites/cocktailberater.de/application/Bootstrap.php</path>
+			<class>Bootstrap</class>
+		</bootstrap>
+		<phpSettings>
+			<display_startup_errors>0</display_startup_errors>
+			<display_errors>0</display_errors>
+		</phpSettings>
+	</production>
+</config>
