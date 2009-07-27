@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<?php $title = 'der cocktailberater';
+if($this->layout()->getView()->title!='') { 
+	$title .=  ' - '.$this->layout()->getView()->title;
+}
+?>
+<?php print $this->headStyle(); ?>
+<link rel="stylesheet"
+	href="<?php print $this->layout()->getView()->uri; ?>css/screen.css"
+	type="text/css" media="screen" />
+<link rel="stylesheet"
+	href="<?php print $this->layout()->getView()->uri; ?>css/print.css"
+	type="text/css" media="print" />
+	
+<link rel="stylesheet"
+	href="<?php print $this->layout()->getView()->uri; ?>css/jquery.bettertip.css"
+	type="text/css" media="screen" />
+<link rel="stylesheet"
+	href="<?php print $this->layout()->getView()->uri; ?>css/thickbox.css"
+	type="text/css" media="screen" />
+<!-- AddThis Bookmark Button BEGIN -->
+<!--
+TODO: uncomment addthis
+<script type="text/javascript">var addthis_pub = 'thobach';</script>
+<script type="text/javascript" src="http://s9.addthis.com/js/widget.php?v=10"></script>
+-->
+<!-- AddThis Bookmark Button END -->
+<script type="text/javascript"
+	src="<?php print $this->layout()->getView()->uri; ?>js/jquery-latest.pack.js"></script>
+<script type="text/javascript"
+	src="<?php print $this->layout()->getView()->uri; ?>js/thickbox-compressed.js"></script>
+<script type="text/javascript"
+	src="<?php print $this->layout()->getView()->uri; ?>js/suche.js"></script>
+<script type="text/javascript"
+	src="<?php print $this->layout()->getView()->uri; ?>js/jquery.bettertip.pack.js"></script>
+<?php
+print $this->headTitle($title); ?>
+<?php print $this->headScript(); ?>
+
+</head>
+<body>
+<div id="distance"
+<?php if($this->layout()->getView()->start) { print ' style="height:100px"';} ?>></div>
+<div id="wrapper">
+<div id="header"><a
+	href="<?php print $this->layout()->getView()->uri; ?>"><img
+	src="<?php print $this->layout()->getView()->uri; ?>img/banner_small.png"
+	alt="cocktailberater.de Banner" width="600" height="142" /></a></div>
+<!-- id:header -->
+<div id="homepage"><?php if($this->layout()->getView()->error) { ?>
+<div class="error">
+<p><?php print $this->layout()->getView()->error; ?></p>
+</div>
+<?php } ?>

@@ -1,0 +1,38 @@
+<form method="post" id="suche_name"
+	action="<?php print $this->url(array('controller'=>'index','action'=>'search','module'=>'website'),null,true); ?>"><fieldset><input
+	type="hidden" name="selection" id="selection" value="-1" /></fieldset>
+<div style="float: left; width: 122px; margin-top: 12px; padding-left: 2em;">
+<fieldset><legend> <span id="legende_suchen">Cocktail: </span> </legend>
+</fieldset>
+</div>
+<div style="float: left; width: 408px;">
+<div style="float: left; margin-left: 10px; margin-top: 12px;"><input
+	name="q_<?php $rand = rand(); print $rand;  ?>" type="text" class="q"
+	id="q"
+	onkeyup="searchSuggest('<?php print $this->url(array('controller'=>'index','action'=>'suggest','module'=>'website'),null,true); ?>/?search=',event);document.getElementById('search_suggest').style.display='block';"
+	style="margin-left: 10px;" /> <input type="hidden" name="query_field"
+	value="q_<?php print $rand;  ?>" /> <!--  onmouseout="document.getElementById('search_suggest').style.display='none';"
+	onmouseover="document.getElementById('search_suggest').style.display='block';" -->
+<div
+	style="float: left; margin-top: -2px; display: none; background-color: transparent; border: none;"
+	id="search_suggest"
+	onclick="document.getElementById('search_suggest').style.display='none';"></div>
+</div>
+<fieldset><input
+	style="float: left; background-color: white; height: 58px; 137 px; margin-left: 4em;"
+	name="submit" type="image"
+	src="<?php print $this->baseUrl();?>/img/suchen-button.png"
+	value="rezept suchen" id="search" /></fieldset>
+</div>
+<div
+	style="clear: both; width: 560px; padding-top: 14px; margin-left: 100px; text-align: left">
+<!-- Name --> <input id="search_type1" name="search_type" value="name"
+	checked="checked" type="radio" style="background-color: #f49ec0; vertical-align: text-top" /><label
+	for="search_type1">&nbsp;über Name</label> <!-- Zutat --> <input
+	id="search_type2" name="search_type" value="ingredient" type="radio"
+	style="margin-left: 20px; background-color: #f49ec0; vertical-align: text-top" /> <label
+	for="search_type2">&nbsp;über Zutat</label> <!-- Tag --> <input
+	id="search_type3" name="search_type" value="tag" type="radio"
+	style="margin-left: 20px; background-color: #f49ec0; vertical-align: text-top" /> <label
+	for="search_type3">&nbsp;über Schlagwort / Tag</label></div>
+</form>

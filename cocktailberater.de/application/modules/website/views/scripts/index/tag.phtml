@@ -1,0 +1,14 @@
+<?php require ("views/scripts/template/search.phtml"); ?>
+<h4>Cocktails mit dem Tag: <?php print $this->tag; ?></h4><br />
+<?php
+if ($this->recipes) {
+$config = Zend_Registry::get('config');?>
+<div id="ergebnisse"
+	style="clear:left;"><?php foreach ($this->recipes as $recipe){ ?>
+<?php require ("views/scripts/template/preview.phtml"); ?>
+<?php } ?>
+</div>
+<!-- div: ergebnisse -->
+<?php } else { ?>
+<p>Bitte geben Sie einen Suchbegriff ein.</p>
+<?php } ?>

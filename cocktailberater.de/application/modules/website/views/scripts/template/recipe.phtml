@@ -1,0 +1,553 @@
+<?php
+$recipe = $this->recipe;
+$photos = $recipe->getPhotos();
+$videos = $recipe->getVideos();
+if(!isset($count)){
+	$count = 0;
+}
+if(!isset($gesamt)){
+	$gesamt = 1;
+}
+?>
+<div
+	id="rezept_<?php print $count; ?>" <?php if($count!=0){ ?>
+	style="display: none;" <?php } ?>>
+<hr
+	style="border-bottom: 1px solid #aa1061; width: 562px; margin-left: auto; margin-right: auto;" />
+<div style="float: right;"><img style="<?php 
+	if(isset($photos[0]) && $photos[0]->fileName) {  ?>width: 160px<?php } 
+	else { ?>margin-top: 1em; <?php }?>"
+	src="<?php
+	if(isset($photos[0]) && $photos[0]->fileName) { 
+		echo $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName ;
+	} else {
+	 	echo $this->baseUrl().'/img/wikilogo.png';
+	}
+	?>"
+	alt="<?php
+	print str_replace ( '\\', '', $recipe->name ) ;
+	?>"
+	title="<?php
+	print str_replace ( '\\', '', $recipe->name ) ;
+	?>"
+	style="margin-bottom: 20px;" />
+<div
+	style="clear: both; margin-left: auto; margin-right: auto; width: 140px;">
+	<?php
+	if (sizeof($videos)>0) {
+		?><img src="<?php
+	print $this->baseUrl() ;
+	?>/img/video.png" alt="Video"
+	title="Video"
+	style="margin-right: 10px; margin-top: 4px; vertical-align: top; cursor: pointer"
+	onclick="document.getElementById('video').style.display='block'; return false;" /><?php
+	}
+	//print_r($this->foto);
+	$i = 0 ;
+	if(is_array($photos)){
+		foreach ( $photos as $photo ) {
+			$i ++ ;
+			?><a
+	href="<?php
+	echo $this->baseUrl() .'/img/recipes/' . $photo->originalFileName ;
+	?>"
+	class="thickbox"
+	title="<?php
+	print str_replace ( '\\', '', $recipe->name ) ;
+	?>"
+	rel="gallery"><?php
+	if ($i == 1) {
+		?><img src="<?php
+		print $this->baseUrl() ;
+		?>/img/foto.png" alt="Fotos"
+	title="Fotos"
+	style="margin-left: 10px; margin-top: 4px; vertical-align: top; margin-bottom: 20px;" /><?php
+	}
+	?></a><?php
+		}
+	} else { ?> keine Galerie <?php  }
+	/* try
+	 {
+		$flickr = new Zend_Service_Flickr('f9726af417e035136717b20f41a2c3ac');
+		$results = $flickr->tagSearch($this->cocktail->cocktail_name.',cocktail',array('tag_mode'=>'all','sort'=>'interestingness-desc'));
+		foreach ($results as $result) {
+		echo '<a href="'.$result->Medium->uri.'" target="_blank" class="thickbox" rel="gallery"></a> ';
+		#print_r($result);
+		}
+		}
+		catch (Zend_Service_Exception $e)
+		{
+		print '<div><br />Flicker ist nicht verfügbar!</div>';
+		} */
+	?> <?php if($gesamt!=1) { ?> <br />
+<a href="#"
+	onclick="document.getElementById('rezept_<?php print $count; ?>').style.display='none'; document.getElementById('rezept_<?php if($gesamt != $count+1) { print $count+1; } else { print '0'; } ?>').style.display='block';">weitere
+Rezeptvarianten &gt;</a> <?php } ?></div>
+</div>
+<!-- class="right" -->
+<div style="margin-left: 25px; margin-top: 15px">
+<div class="attribut">Name:</div>
+<div class="wert"><?php
+print str_replace ( '\\', '', $recipe->name ) ;
+?></div>
+<div class="attribut">Beschreibung:</div>
+<div class="wert"><?php
+print $recipe->description ;
+?></div>
+<div class="attribut">Zutaten:</div>
+<div class="wert"><?php
+//Zend_Debug::dump($rezept); exit;
+foreach ( $recipe->getComponents() as $component ) {
+	print $component->amount ;
+	print ' ' ;
+	print $component->unit ;
+	print ' ' ;
+	?> <a id="zutat<?php print $component->getIngredient()->id ;?>"
+	href="<?php print $this->url(array('controller'=>'index','action'=>'ingredient-preview','id'=>$component->getIngredient()->id),null,true); ?>?width=140"
+	class="betterTip"
+	onclick="location.href='<?php print $this->url(array('controller'=>'index','action'=>'ingredient','id'=>$component->getIngredient()->id),null,true); ?>'"
+	title="<?php echo $this->escape ( str_replace ( '\\', '', $component->getIngredient()->name ) ) ?>">
+	<?php print $component->getIngredient()->name ; ?></a><br />
+	<?php
+} // foreach
+?></div>
+<div class="attribut">Anweisung:</div>
+<div class="wert"><?php
+print $recipe->instruction ;
+?></div>
+<div class="attribut">Schlagworte / Tags:<br />
+<span id="switcha1"
+	onclick="document.getElementById('tag_form').style.display='block'; document.getElementById('switcha1').innerHTML='';"
+	style="cursor: pointer; color: #54616E">(hinzufügen)</span></div>
+<div class="wert"><?php
+$tags = Website_Model_Tag::tagsByRecipeId( $recipe->id, true) ;
+if (is_array ( $tags )) {
+	foreach ( $tags as $tag ) {
+		?><a id="tag<?php
+		print $tag->id;
+		?>"
+	href="<?php print $this->url(array('controller'=>'index','action'=>'recipes-with-tag','tag'=>$tag->name),null,true); ?>/?width=240"
+	title="Cocktails mit Tag: <?php
+		echo $this->escape ( str_replace ( '\\', '', $tag->name ) ) ?>"
+	onclick="location.href='<?php print $this->url(array('controller'=>'index','action'=>'tag','tag'=>$tag->name),null,true); ?>'"
+	class="betterTip"><?php
+	print $tag->name ;
+	?></a> <?php
+	}
+} else {
+	print 'keine Tags vorhanden' ;
+}
+?>
+<form id="tag_form" class="regular_form"
+	style="margin-top: 1em; display: none; margin-bottom: 0.5em;"
+	action="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id),null,true); ?>"
+	method="post">
+<fieldset><legend>Schlagwort / Tag hinzufügen</legend> <input
+	type="text" name="newtag" class="q2"
+	style="width: 210px; height: 1.6em; float: left; color: #cf0060; font-size: 1.1em;" />
+<input name="recipe" value="<?php print $recipe->id; ?>" type="hidden" />
+<input type="submit" class="submit"
+	style="background-color: white; float: right;" value="Taggen"
+	name="submit" /></fieldset>
+</form>
+</div>
+<div class="attribut">Bewertung:</div>
+<div class="wert"><?php
+$durchschnitt = $this->recipe->getRating();
+?> <a
+	href="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>1),null,true); ?>"
+	title="geschmackssache" style="clear: both; float: left;"><img
+	src="<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 1) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>"
+	alt="geschmackssache" id="bewertung1"
+	style="width: 18px; height: 18px;"
+	onmouseover="this.src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'"
+	onmouseout="this.src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 1) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>'" /></a> <a
+	href="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>2),null,true); ?>"
+	title="ganz ok" style="float: left;"><img
+	src="<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 2) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>"
+	alt="ganz ok" id="bewertung2" style="width: 18px; height: 18px;"
+	onmouseover="this.src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'; 
+	document.getElementById('bewertung1').src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'"
+	onmouseout="this.src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 2) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>'; 
+	document.getElementById('bewertung1').src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 1) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>'" /></a> <a
+	href="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>3),null,true); ?>"
+	title="gut" style="float: left;"><img
+	src="<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 3) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>"
+	alt="gut" id="bewertung3" style="width: 18px; height: 18px;"
+	onmouseover="this.src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'; 
+	document.getElementById('bewertung1').src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'; 
+	document.getElementById('bewertung2').src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'; "
+	onmouseout="this.src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 3) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>'; 
+	document.getElementById('bewertung1').src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 2) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>'; 
+	document.getElementById('bewertung2').src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 1) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>'" /></a> <a
+	href="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>4),null,true); ?>"
+	title="sehr gut" style="float: left;"><img
+	src="<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 4) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>"
+	alt="sehr gut" id="bewertung4" style="width: 18px; height: 18px;"
+	onmouseover="this.src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'; 
+	document.getElementById('bewertung1').src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'; 
+	document.getElementById('bewertung2').src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png';
+	document.getElementById('bewertung3').src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'; "
+	onmouseout="this.src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 4) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>'; 
+	document.getElementById('bewertung1').src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 3) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>'; 
+	document.getElementById('bewertung2').src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 2) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>';
+	document.getElementById('bewertung3').src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 1) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>';" /></a> <a
+	href="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>5),null,true); ?>"
+	title="absoluter Favorit" style="float: left;"><img
+	src="<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 5) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>"
+	alt="absoluter Favorit" id="bewertung5"
+	style="width: 18px; height: 18px;"
+	onmouseover="this.src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'; 
+	document.getElementById('bewertung1').src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'; 
+	document.getElementById('bewertung2').src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png';
+	document.getElementById('bewertung3').src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png';
+	document.getElementById('bewertung4').src='<?php
+	print $this->baseUrl() ;
+	?>/img/1_stars_pink.png'; "
+	onmouseout="this.src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 5) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>'; 
+	document.getElementById('bewertung1').src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 1) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>'; 
+	document.getElementById('bewertung2').src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 2) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>';
+	document.getElementById('bewertung3').src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 3) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>';
+	document.getElementById('bewertung4').src='<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($durchschnitt >= 4) {
+		print '1_stars.png' ;
+	} else {
+		print 'not_yet_rated_1.png' ;
+	}
+	?>';" /></a> &nbsp;(Anzahl Stimmen: <?php
+	print $this->recipe->ratingsCount.' - Ø ' . number_format ( $this->recipe->getRating(), 2, ',', '' ) ;
+
+	?>)</div>
+<div class="attribut">Kommentare:<br />
+<span id="switchb1"
+	onclick="document.getElementById('kommentar_form').style.display='block'; document.getElementById('switchb1').innerHTML='';"
+	style="cursor: pointer; color: #54616E">(einfügen)</span></div>
+<div class="wert"><span id="switchc1"
+	onclick="document.getElementById('kommentar1').style.display='block'; document.getElementById('switchc1').innerHTML='';"
+	style="cursor: pointer; color: #54616E">anzeigen</span><span
+	id="kommentar1" style="display: none"><?php
+	if (is_array ( $this->recipe->getComments() )) {
+		foreach ( $this->recipe->getComments() as $comment ) {
+			print $comment->comment . ' (von: ' ;
+			if ($comment->memberId) {
+				$member = new Member ( $comment->memberId ) ;
+				print '<a href="mailto:' . $member->email . '">' . $member->firstname . ' ' . $kunde->lastname . '</a>' ;
+			} else {
+				print 'anonym' ;
+			}
+			print ')<br />' ;
+		}
+	} else {
+		print 'keine Kommentare vorhanden' ;
+	}
+	?></span>
+<form id="kommentar_form" class="regular_form"
+	style="margin-top: 1em; display: none;"
+	action="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$this->recipe->id),null,true); ?>"
+	method="post">
+<fieldset><legend>Kommentar hinzufügen</legend> <textarea name="comment"
+	class="q2"
+	style="width: 274px; height: 100px; float: left; margin-bottom: 1em; border: 1px solid black; color: #cf0060; font-size: 1.1em;"></textarea>
+<input type="submit" class="submit"
+	style="background-color: white; float: right;" value="Kommentieren"
+	name="submit" /></fieldset>
+</form>
+</div>
+<div class="attribut">Quelle:</div>
+<div class="wert"><?php if($recipe->source) {
+	print $recipe->source;
+} else {
+	?>-keine angegeben-<?php } ?></div>
+</div>
+<!-- class=left -->
+<div id="video" style="display: none;"><?php
+if ($videos) {
+	$i = 0 ;
+	foreach ( $videos as $video ) {
+		?>
+<div id="box"
+	style="float: left; clear: both; width: 440px; margin-left: 110px"><object
+	width="425" height="350">
+	<param name="movie"
+		value="<?php
+		echo $this->escape ( $video->url ) ;
+		?>" />
+	<param name="wmode" value="transparent" />
+	<embed src="<?php
+		echo $this->escape ( $video->url ) ;
+		?>"
+		type="application/x-shockwave-flash" wmode="transparent" width="425"
+		height="350" /></object></div>
+		<?php
+	}
+} else {
+	?>
+<div id="box"
+	style="float: left; clear: both; width: 440px; margin-left: 110px">Kein
+Video gefunden.</div>
+	<?php
+}
+?></div>
+<div
+	style="clear: both; position: relative; height: 110px; margin-left: 25px"
+	class="left">
+<div class="left icon" style="left: 270px;"><img
+	src="<?php
+	print $this->baseUrl() ;
+	?>/img/zeit.png" alt="Zeitaufwand"
+	title="Zeitaufwand" style="vertical-align: top" /><br />
+	<?php
+	print $recipe->workMin;
+	?> min</div>
+<div class="left icon" style="left: 180px;"><img
+	src="<?php
+	print $this->baseUrl() ;
+	?>/img/<?php
+	if ($recipe->difficulty == Website_Model_Recipe::BEGINNER) {
+		print "leicht.png" ;
+		$difficultyMessage = 'Anfänger';
+	}
+	else if ($recipe->difficulty == Website_Model_Recipe::ADVANCED) {
+		print "mittel.png" ;
+		$difficultyMessage = 'Fortgeschritten';
+	}
+	else if ($recipe->difficulty == Website_Model_Recipe::PROFI) {
+		print "schwer.png" ;
+		$difficultyMessage = 'Profi';
+	} else {
+		// TODO: Bild erstellen, welches ausdrückt, dass es keine Information dazu gibt...
+		print "leicht.png" ;
+		$difficultyMessage = 'n/a';
+	}
+	?>"
+	alt="Schwierigkeitsgrad <?php
+	print $difficultyMessage;
+	?>"
+	title="Schwierigkeitsgrad <?php
+	print $difficultyMessage;
+	?>" /><br />
+	<?php
+	print $difficultyMessage
+	;
+	?></div>
+<div class="left icon" style="left: 0px;"><img
+	src="<?php
+	echo $this->baseUrl() .'/img/glasses/'. $recipe->getGlass()->getPhoto()->fileName ;
+	?>"
+	alt="Glas <?php
+	print $recipe->getGlass()->name ;
+	?>"
+	title="Glas <?php
+	print $recipe->getGlass()->name ;
+	?>" /><br />
+	<?php
+	print $recipe->getGlass()->name ;
+	?></div>
+<div class="left icon" style="left: 360px; vertical-align: top"><img
+	src="<?php
+	print $this->baseUrl() ;
+	?>/img/menschen.png" alt="Kalorien"
+	title="Kalorien" /><br />
+	<?php
+	print $recipe->getCaloriesKcal();
+	?> kcal</div>
+<div class="left icon" style="left: 450px; vertical-align: top"><img
+	src="<?php
+	print $this->baseUrl() ;
+	?>/img/prozent.png" alt="Alkoholgehalt"
+	title="Alkoholgehalt" /><br />
+	<?php
+	print $recipe->getAlcoholLevel();
+	?> % Alkohol</div>
+<div class="left icon" style="left: 90px;"><img
+	src="<?php
+	print $this->baseUrl() ;
+	?>/img/volumen.png" alt="Volumen"
+	title="Volumen" style="vertical-align: middle;" /><br />
+	<?php
+	print $recipe->getVolumeCl() ;
+	?> cl</div>
+</div>
+</div>

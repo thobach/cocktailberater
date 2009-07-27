@@ -1,0 +1,11 @@
+<?php require ("views/scripts/template/mail_header.phtml"); ?>
+<h2>Herzlich Willkommen bei cocktailberater.de!</h2>
+<p>Es ist nur noch ein Schritt nötig, um Ihre Newsletteranmeldung zu
+vervollständigen:<br />
+<br />
+<a
+	href="<?php print $this->baseUrl(); ?>index/newsletterAnmeldungBestaetigung/email/<?php print $this->email; ?>"
+	style="text-decoration: underline">Newsletteranmeldung bestätigen</a><br />
+<br />
+Vielen Dank</p>
+<?php require ("views/scripts/template/footer.phtml"); ?>
