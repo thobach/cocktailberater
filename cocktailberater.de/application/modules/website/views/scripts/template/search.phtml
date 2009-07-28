@@ -1,3 +1,42 @@
+<?php 
+$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+$this->dojo()->enable();
+?>
+<div dojoType="custom.TestNameReadStore" jsId="testStore"
+    url="<?php echo $this->url(array('action'=>'suggest','controller'=>'index','module'=>'website','format'=>'ajax')); ?>"
+    requestMethod="get"></div>
+    
+<?php $this->headScript()->captureStart(); ?>
+djConfig.usePlainJson=true;
+dojo.registerModulePath("custom","<?php echo $this->baseUrl(); ?>/js/custom");
+dojo.require("dojo.parser");
+dojo.require("dojox.data.QueryReadStore");
+dojo.require("dijit.form.ComboBox");
+dojo.require("custom.TestNameReadStore");
+<?php $this->headScript()->captureEnd(); ?>
+
+<?php 
+
+$form = new Zend_Form();
+            $form->setMethod('get')
+                ->setAction(
+                    $this->baseUrl() . '/test/process'
+                )
+                ->addElements(array(
+                    'test' => array('type' => 'text', 'options' => array(
+                        'filters'        => array('StringTrim'),
+                        'dojoType'       => array('dijit.form.ComboBox'),
+                        'store'          => 'testStore',
+                        'autoComplete'   => 'false',
+                        'hasDownArrow'   => 'true',
+                        'label' => 'Your input:',
+                    )),
+                    'go' => array('type' => 'submit',
+                                  'options' => array('label' => 'Go!'))
+                ));
+echo $form;
+                    ?>
+
 <form method="post" id="suche_name"
 	action="<?php print $this->url(array('controller'=>'index','action'=>'search','module'=>'website'),null,true); ?>"><fieldset><input
 	type="hidden" name="selection" id="selection" value="-1" /></fieldset>
