@@ -157,6 +157,7 @@ class Website_IndexController extends Zend_Controller_Action {
 
 
 	public function suggestAction () {
+		/*
 		// Layouts für Info-Felder deaktivieren
 		$this->_helper->layout->disableLayout();
 		//$config = Zend_Registry::get ( 'config' ) ;
@@ -168,6 +169,23 @@ class Website_IndexController extends Zend_Controller_Action {
 			$this->view->tags = Tag::listTags ( $this->_getParam ( 'search' ),6,true) ;
 		}
 		$this->view->search_type = $this->_getParam ( 'search_type' ) ;
+		*/
+		if ('ajax' != $this->_getParam('format', false)) {
+            return $this->_helper->redirector('index');
+        }
+        if ($this->getRequest()->isPost()) {
+            return $this->_helper->redirector('index');
+        }
+
+        $match = trim($this->getRequest()->getQuery('test', ''));
+
+        $matches = array('Mai Tai');
+        /*foreach ($this->getData() as $datum) {
+            if (0 === strpos($datum, $match)) {
+                $matches[] = $datum;
+            }
+        }*/
+        $this->_helper->autoCompleteDojo($matches);
 	}
 
 	// Impressum
