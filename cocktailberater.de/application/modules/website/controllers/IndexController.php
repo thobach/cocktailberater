@@ -157,34 +157,29 @@ class Website_IndexController extends Zend_Controller_Action {
 
 
 	public function suggestAction () {
-		/*
-		// Layouts für Info-Felder deaktivieren
-		$this->_helper->layout->disableLayout();
-		//$config = Zend_Registry::get ( 'config' ) ;
-		if ($this->_getParam ( 'search_type' ) == 'name') {
-			$this->view->recipes = Recipe::searchByName ( $this->_getParam ( 'search' ), 6 ) ;
+		$this->suggestions = array();
+		$search = str_replace('*',null,$this->_getParam ( 'search' ));
+		if ($this->_getParam ( 'search_type' ) == 'name' || !$this->_hasParam ( 'search_type' )) {
+			$this->suggestions = Website_Model_Recipe::searchByName ( $search, 6 ) ;
+			// Zend_Debug::dump($this->suggestions);
 		} elseif ($this->_getParam ( 'search_type' ) == 'ingredient') {
-			$this->view->ingredients = Ingredient::listIngredients ( $this->_getParam ( 'search' ), 6 ) ;
+			$this->suggestions = Website_Model_Ingredient::listIngredients ($search, 6 ) ;
 		} elseif ($this->_getParam ( 'search_type' ) == 'tag') {
-			$this->view->tags = Tag::listTags ( $this->_getParam ( 'search' ),6,true) ;
+			$this->suggestions = Website_Model_Tag::listTags ( $search,6,true) ;
 		}
-		$this->view->search_type = $this->_getParam ( 'search_type' ) ;
-		*/
+		//$this->view->search_type = $this->_getParam ( 'search_type' ) ;
+		
 		if ('ajax' != $this->_getParam('format', false)) {
             return $this->_helper->redirector('index');
         }
         if ($this->getRequest()->isPost()) {
             return $this->_helper->redirector('index');
         }
-
-        $match = trim($this->getRequest()->getQuery('test', ''));
-
-        $matches = array('Mai Tai');
-        /*foreach ($this->getData() as $datum) {
-            if (0 === strpos($datum, $match)) {
-                $matches[] = $datum;
-            }
-        }*/
+        
+        $matches = array();
+        foreach ($this->suggestions as $suggestion) {
+        	$matches[] = $suggestion->name;
+        }
         $this->_helper->autoCompleteDojo($matches);
 	}
 
