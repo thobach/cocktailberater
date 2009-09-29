@@ -135,7 +135,7 @@ class Website_Model_Tag {
 		$tags = $db->fetchAll('SELECT id FROM tag WHERE name LIKE ? '.$uniqueSql.$limitSql, str_replace ( '\'', '\\\'', $search.'%' ));
 		$tagArray = array();
 		foreach ($tags as $tag) {
-			$tagArray[$tag->id] = CbFactory::factory('Tag', $tag->id);
+			$tagArray[$tag['id']] = Website_Model_CbFactory::factory('Website_Model_Tag', $tag['id']);
 		}
 		return ($tagArray) ;
 	}
