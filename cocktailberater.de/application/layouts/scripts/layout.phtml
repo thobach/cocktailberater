@@ -1,0 +1,97 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <?php
+    $title = 'der cocktailberater';
+	if($this->layout()->getView()->title!='') { 
+		$title .=  ' - '.$this->layout()->getView()->title;
+	}
+    echo $this->headTitle($title);
+    
+    // dojo
+	$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+	if ($this->dojo()->isEnabled()){
+		$this->dojo()->setLocalPath($this->baseUrl().'/js/dojo/dojo/dojo.js')->setDjConfigOption('parseOnLoad', true);
+		$this->dojo()->addStyleSheetModule('dijit.themes.tundra');
+		echo $this->dojo();
+	}
+    
+    $this->headLink()->appendStylesheet($this->baseUrl().'/css/screen.css')
+    			->appendStylesheet($this->baseUrl().'/css/print.css','print')
+    //			->appendStylesheet($this->baseUrl().'/css/jquery.bettertip.css')
+    //			->appendStylesheet($this->baseUrl().'/css/thickbox.css')
+    			->headLink(array('rel' => 'favicon',
+                                  'href' => $this->baseUrl().'/img/favicon.ico'),
+                                  'PREPEND')
+    			->headLink(array('rel' => 'alternate', 'type' => 'application/atom+xml', 'title' => 'cocktailberater - Atom',
+                                  'href' => 'http://blog.cocktailberater.de/feeds/posts/default'))
+    			->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => 'cocktailberater - RSS',
+                                  'href' => 'http://blog.cocktailberater.de/feeds/posts/default?alt=rss'));
+    echo $this->headLink();
+    //$this->headScript()->appendFile($this->baseUrl().'/js/jquery-latest.pack.js','text/javascript')
+    //			->appendFile($this->baseUrl().'/js/thickbox-compressed.js','text/javascript')
+    //			->appendFile($this->baseUrl().'/js/suche.js','text/javascript')
+    //			->appendFile($this->baseUrl().'/js/jquery.bettertip.pack.js','text/javascript');
+    echo $this->headScript();
+    echo $this->headStyle();
+    ?>
+</head>
+<body class="tundra">
+    <div id="distance"
+<?php if($this->layout()->getView()->start) { print ' style="height:100px"';} ?>></div>
+<div id="wrapper">
+<div id="header"><a
+	href="<?php print $this->url(array('controller'=>'index','action'=>'index','module'=>'website'),null,true); ?>"><img
+	src="<?php print $this->baseUrl(); ?>/img/banner_small.png"
+	alt="cocktailberater.de Banner" width="600" height="142" /></a></div>
+<!-- id:header -->
+<div id="homepage"><?php if($this->layout()->getView()->error) { ?>
+<div class="error">
+<p><?php print $this->layout()->getView()->error; ?></p>
+</div>
+<?php } ?>
+
+    <div id="nav"><?php echo $this->placeholder('nav') ?></div>
+
+    <div id="content"><?php echo $this->layout()->content ?></div>
+</div>
+<!-- id:homepage -->
+<div id="footer"><a href="<?php print $this->url(array('controller'=>'index','action'=>'index','module'=>'website'),null,true); ?>">home</a><!--  - <a
+	href="<?php print $this->url(array('controller'=>'index','action'=>'newsletter','module'=>'website'),null,true); ?>">newsletter</a> --> - <a
+	href="<?php print $this->url(array('controller'=>'portal','action'=>'index','module'=>'website'),null,true); ?>">portal</a> - <a
+	href="<?php print $this->url(array('controller'=>'index','action'=>'top10','module'=>'website'),null,true); ?>">top10</a> - <a
+	href="<?php print $this->url(array('controller'=>'index','action'=>'imprint','module'=>'website'),null,true); ?>" title="Impressum"><img
+	src="<?php print $this->baseUrl(); ?>/img/adresse.png" alt="Impressum"
+	title="Impressum" height="10" /> impressum</a> - (c) 2009 by <a
+	href="http://www.thobach.de">Thomas Bachmann</a> - <a
+	href="http://validator.w3.org/check?uri=referer">XHMTL 1.0</a> - <a
+	href="http://jigsaw.w3.org/css-validator/">CSS</a><br />
+<a href="http://www.addthis.com/bookmark.php"
+	onclick="addthis_url   = location.href; addthis_title = document.title; return addthis_click(this);"
+	title="Diese Seiteeinem (Social)-BookmarkingServicehinzufügen"><img
+	src="http://s9.addthis.com/button1-bm.gif" width="125" height="16"
+	alt="Diese Seite einem (Social)-Bookmarking Service hinzufügen"
+	style="margin-top: 2px;" /></a>
+</div>
+<!-- id:footer -->
+</div>
+<!-- id:wrapper -->
+<!-- Google Analytics START -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-7324992-1");
+	pageTracker._trackPageview();
+} catch(err) {
+	
+}</script>
+<!-- Google Analytics END -->
+<!-- Zend_Version: <?php echo Zend_Version::VERSION; ?> -->
+</body>
+</html>
