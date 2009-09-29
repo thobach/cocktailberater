@@ -1,5 +1,5 @@
 <?php
-class Menu {
+class Website_Model_Menu {
 
 	// attributes
 	private $id;

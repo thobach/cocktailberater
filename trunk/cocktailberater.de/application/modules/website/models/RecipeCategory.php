@@ -1,5 +1,5 @@
 <?php
-class RecipeCategory extends Category {
+class Website_Model_RecipeCategory extends Category {
 
 
 	/**

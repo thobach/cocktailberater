@@ -155,7 +155,7 @@ if (is_array ( $tags )) {
 <div class="wert"><?php
 $durchschnitt = $this->recipe->getRating();
 ?> <a
-	href="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>1),null,true); ?>"
+	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>1),null,true); ?>"
 	title="geschmackssache" style="clear: both; float: left;"><img
 	src="<?php
 	print $this->baseUrl() ;
@@ -180,7 +180,7 @@ $durchschnitt = $this->recipe->getRating();
 		print 'not_yet_rated_1.png' ;
 	}
 	?>'" /></a> <a
-	href="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>2),null,true); ?>"
+	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>2),null,true); ?>"
 	title="ganz ok" style="float: left;"><img
 	src="<?php
 	print $this->baseUrl() ;
@@ -216,7 +216,7 @@ $durchschnitt = $this->recipe->getRating();
 		print 'not_yet_rated_1.png' ;
 	}
 	?>'" /></a> <a
-	href="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>3),null,true); ?>"
+	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>3),null,true); ?>"
 	title="gut" style="float: left;"><img
 	src="<?php
 	print $this->baseUrl() ;
@@ -264,7 +264,7 @@ $durchschnitt = $this->recipe->getRating();
 		print 'not_yet_rated_1.png' ;
 	}
 	?>'" /></a> <a
-	href="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>4),null,true); ?>"
+	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>4),null,true); ?>"
 	title="sehr gut" style="float: left;"><img
 	src="<?php
 	print $this->baseUrl() ;
@@ -324,7 +324,7 @@ $durchschnitt = $this->recipe->getRating();
 		print 'not_yet_rated_1.png' ;
 	}
 	?>';" /></a> <a
-	href="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>5),null,true); ?>"
+	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>5),null,true); ?>"
 	title="absoluter Favorit" style="float: left;"><img
 	src="<?php
 	print $this->baseUrl() ;

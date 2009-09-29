@@ -1,5 +1,5 @@
 <?php
-class MenuException extends CocktailberaterException {
+class Website_Model_MenuException extends CocktailberaterException {
 
 }
 ?>

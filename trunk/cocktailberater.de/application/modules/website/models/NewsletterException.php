@@ -1,5 +1,5 @@
 <?php
-class NewsletterException extends CocktailberaterException {
+class Website_Model_NewsletterException extends CocktailberaterException {
 
 }
 ?>

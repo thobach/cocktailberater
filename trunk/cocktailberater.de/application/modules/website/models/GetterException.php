@@ -1,4 +1,4 @@
 <?php
-class GetterException extends Zend_Exception
+class Website_Model_GetterException extends Zend_Exception
 {}
 

@@ -1,7 +1,7 @@
 <?php
 // TODO: do not use this adapter any more...
 
-class CbAuthAdapter implements Zend_Auth_Adapter_Interface
+class Website_Model_CbAuthAdapter implements Zend_Auth_Adapter_Interface
 {
 	private $emailAdress;
 	private $passwordHash;

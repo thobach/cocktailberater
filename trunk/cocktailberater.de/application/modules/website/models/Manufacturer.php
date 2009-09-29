@@ -1,5 +1,5 @@
 <?php
-class Manufacturer {
+class Website_Model_Manufacturer {
 
 	// attributes
 	private $id ;

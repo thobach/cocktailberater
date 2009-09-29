@@ -1,7 +1,7 @@
 <?php
 // TODO: übersetzen
 
-class Newsletter
+class Website_Model_Newsletter
 {
 	// attributes
 	private $id;

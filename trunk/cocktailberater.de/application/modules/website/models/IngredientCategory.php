@@ -3,7 +3,7 @@
  * IngredientCategory class
  *
  */
-class IngredientCategory extends Category {
+class Website_Model_IngredientCategory extends Category {
 
 	/**
 	 * magic getter for all attributes

@@ -50,7 +50,7 @@ class Website_Model_Recipe {
 		if (property_exists(get_class($this), $name)) {
 			// load associations only when needed (performance)
 			if($name == '_cocktail' && !is_a($this->_cocktail,'Cocktail')){
-				$this->_cocktail = CbFactory::factory('Cocktail', $this->cocktailId);
+				$this->_cocktail = Website_Model_CbFactory::factory('Cocktail', $this->cocktailId);
 			} elseif($name=='_member' && !is_a($this->_member,'Member')){
 				$this->_member = Website_Model_CbFactory::factory('Website_Model_Member', $this->memberId);
 			} elseif($name=='_glass' && !is_a($this->_glass,'Glass')){
@@ -99,7 +99,7 @@ class Website_Model_Recipe {
 	{
 		// TODO: write unit test
 		if(!$this->_cocktail){
-			$this->_cocktail = CbFactory::factory('Cocktail',$this->cocktailId);
+			$this->_cocktail = Website_Model_CbFactory::factory('Cocktail',$this->cocktailId);
 		}
 		return $this->_cocktail;
 	}
@@ -140,7 +140,7 @@ class Website_Model_Recipe {
 	 */
 	public static function exists($id) {
 		// TODO: write unit test
-		$recipeTable = CbFactory::factory('Website_Model_MysqlTable', 'recipe') ;
+		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe') ;
 		$recipe = $recipeTable->fetchRow('id='.$id);
 		if ($recipe) {
 			return $recipe->id;
@@ -368,7 +368,7 @@ class Website_Model_Recipe {
 	
 	public function addRecipeCategory ($recipeCategoryId){
 		// TODO: write unit test
-		$table = CbFactory::factory('Website_Model_MysqlTable','recipe2recipecategory');
+		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe2recipecategory');
 		$data['recipe'] = $this->id;
 		$data['recipeCategory'] = $recipeCategoryId;
 		$table->insert($data);
@@ -564,7 +564,7 @@ class Website_Model_Recipe {
 	 * @tested
 	 */
 	public function save () {
-		$table = CbFactory::factory('Website_Model_MysqlTable','recipe');
+		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe');
 		if ($this->id) {
 			// update recipe
 			//var_dump($this->dataBaseRepresentation ());
@@ -606,7 +606,7 @@ class Website_Model_Recipe {
 	 * @tested
 	 */
 	public function delete (){
-		$recipeTable = CbFactory::factory('Website_Model_MysqlTable', 'recipe');
+		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe');
 		/*$components = $this->getComponents();
 		if(is_array($components)){
 			foreach ($components as $component){

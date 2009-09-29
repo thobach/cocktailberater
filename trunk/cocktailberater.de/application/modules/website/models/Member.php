@@ -1,5 +1,5 @@
 <?php
-class Member {
+class Website_Model_Member {
 
 	// attributes
 	private $id;
