@@ -122,7 +122,7 @@ class Website_Model_Ingredient {
 		LIMIT ' . $limit, array ( str_replace ( '\'', '\\\'', $search ) . '%' ) ) ; // evtl. das noch davor: '%'.
 		$ingredientArray = array();
 		foreach ($result as $ingredient) {
-			$ingredientArray[] = Website_Model_CbFactory::factory('Website_Model_Ingredient',$ingredient->id);
+			$ingredientArray[] = Website_Model_CbFactory::factory('Website_Model_Ingredient',$ingredient['id']);
 		}
 		return ($ingredientArray) ;
 	}
