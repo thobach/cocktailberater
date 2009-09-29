@@ -1,5 +1,5 @@
 <?php
-class HtmlPage {
+class Website_Model_HtmlPage {
 	public static function postDispatch ( $_this ) {
 		
 	}

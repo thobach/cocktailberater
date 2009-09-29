@@ -1,5 +1,5 @@
 <?php
-class Party {
+class Website_Model_Party {
 
 	// attributes
 	private $id;

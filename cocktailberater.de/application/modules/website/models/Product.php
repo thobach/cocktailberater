@@ -1,5 +1,5 @@
 <?php
-class Product
+class Website_Model_Product
 {
 	// attributes
 	private $id;

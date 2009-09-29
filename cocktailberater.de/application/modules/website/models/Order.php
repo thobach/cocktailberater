@@ -1,5 +1,5 @@
 <?php
-class Order {
+class Website_Model_Order {
 
 	// attributes
 	private $id;

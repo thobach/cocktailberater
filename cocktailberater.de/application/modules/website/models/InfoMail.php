@@ -3,7 +3,7 @@
  * Infomail class for email messaging
  *
  */
-class Infomail
+class Website_Model_Infomail
 {
 	// attributes
 	private $subject;

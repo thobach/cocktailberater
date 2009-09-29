@@ -1,5 +1,5 @@
 <?php
-class PhotoCategory extends Category {
+class Website_Model_PhotoCategory extends Category {
 	
 	// attributes
 	private $folder;

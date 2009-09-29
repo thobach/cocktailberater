@@ -1,5 +1,5 @@
 <?php
-class Rating {
+class Website_Model_Rating {
 	// attributes
 	private $id;
 	private $memberId;

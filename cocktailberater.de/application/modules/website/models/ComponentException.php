@@ -1,5 +1,5 @@
 <?php
-class ComponentException extends CocktailberaterException {
+class Website_Model_ComponentException extends CocktailberaterException {
 
 }
 ?>
