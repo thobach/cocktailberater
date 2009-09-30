@@ -14,15 +14,13 @@
     // dojo
 	$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
 	if ($this->dojo()->isEnabled()){
-		$this->dojo()->setLocalPath($this->baseUrl().'/js/dojo/dojo/dojo.js')->setDjConfigOption('parseOnLoad', true);
+		$this->dojo()->setDjConfigOption('parseOnLoad', true);
 		$this->dojo()->addStyleSheetModule('dijit.themes.tundra');
 		echo $this->dojo();
 	}
     
     $this->headLink()->appendStylesheet($this->baseUrl().'/css/screen.css')
     			->appendStylesheet($this->baseUrl().'/css/print.css','print')
-    //			->appendStylesheet($this->baseUrl().'/css/jquery.bettertip.css')
-    //			->appendStylesheet($this->baseUrl().'/css/thickbox.css')
     			->headLink(array('rel' => 'favicon',
                                   'href' => $this->baseUrl().'/img/favicon.ico'),
                                   'PREPEND')
@@ -31,10 +29,6 @@
     			->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => 'cocktailberater - RSS',
                                   'href' => 'http://blog.cocktailberater.de/feeds/posts/default?alt=rss'));
     echo $this->headLink();
-    //$this->headScript()->appendFile($this->baseUrl().'/js/jquery-latest.pack.js','text/javascript')
-    //			->appendFile($this->baseUrl().'/js/thickbox-compressed.js','text/javascript')
-    //			->appendFile($this->baseUrl().'/js/suche.js','text/javascript')
-    //			->appendFile($this->baseUrl().'/js/jquery.bettertip.pack.js','text/javascript');
     echo $this->headScript();
     echo $this->headStyle();
     ?>
