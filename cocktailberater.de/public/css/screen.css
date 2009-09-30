@@ -4,7 +4,7 @@ cocktailberater.de Screen Stylesheet
 version:   1.0
 date:      21/07/07
 author:    Thomas Bachmann
-email:     thobach@web.de
+email:     info@thobach.de
 
 website:   www.cocktailberater.de
 
@@ -278,14 +278,14 @@ input.text, textarea.text {
 	border: 1px solid #999999;
 }
 
-input.q,input.q2,input.small {
+input#search,input.q2,input.small {
 	background-color: white;
 	border-style: dotted;
 	border-color: #cf0060;
 	border-width: 0 0 2px 0;
 }
 
-input.q {
+input#search {
 	width: 180px;
 	font-size: 1.5em;
 }
