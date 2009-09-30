@@ -1,0 +1,8 @@
+#summary Das Portal liefert Rezepte und Wissen rund um Cocktails und Cocktailparties.
+#labels Featured,Phase-Requirements
+
+= Teilprojekt Portal =
+Das Portal besteht aus drei Komponenten:
+  * Cocktail-Rezeptdatenbank mit Suche
+  * Cocktail-Wissensdatenbank
+  * Verwaltung (Admin)
