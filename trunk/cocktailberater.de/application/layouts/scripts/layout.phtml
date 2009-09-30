@@ -15,6 +15,7 @@
 	$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
 	if ($this->dojo()->isEnabled()){
 		$this->dojo()->setDjConfigOption('parseOnLoad', true);
+		$this->dojo()->setDjConfigOption('baseUrl', $this->baseUrl());
 		$this->dojo()->addStyleSheetModule('dijit.themes.tundra');
 		echo $this->dojo();
 	}

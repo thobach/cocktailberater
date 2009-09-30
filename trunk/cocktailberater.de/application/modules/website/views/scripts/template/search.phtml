@@ -12,7 +12,6 @@ dojo.registerModulePath("custom","<?php echo $this->baseUrl(); ?>/js/custom");
 dojo.require("dojo.parser");
 dojo.require("dojox.data.QueryReadStore");
 dojo.require("dijit.form.ComboBox");
-dojo.require("dijit.form.RadioButton");
 dojo.require("custom.TestNameReadStore");
 <?php $this->headScript()->captureEnd(); 
 $options = array(
@@ -31,13 +30,8 @@ $options = array(
 </fieldset>
 </div>
 <div style="float: left; width: 408px;">
-<div style="float: left; margin-left: 10px; margin-top: 12px;"><?php echo $this->formText('search',null,$options); ?><!-- <input
-	name="q_<?php $rand = rand(); print $rand;  ?>" type="text" class="q"
-	id="q"
-	onkeyup="searchSuggest('<?php print $this->url(array('controller'=>'index','action'=>'suggest','module'=>'website'),null,true); ?>/?search=',event);document.getElementById('search_suggest').style.display='block';"
-	style="margin-left: 10px;" /> --><input type="hidden" id="search_type_value" name="search_type_value"
-	value="name" />  <!--  onmouseout="document.getElementById('search_suggest').style.display='none';"
-	onmouseover="document.getElementById('search_suggest').style.display='block';" -->
+<div style="float: left; margin-left: 10px; margin-top: 12px;"><?php echo $this->formText('search',null,$options); ?>
+	<input type="hidden" id="search_type_value" name="search_type_value" value="name" />
 <div
 	style="float: left; margin-top: -2px; display: none; background-color: transparent; border: none;"
 	id="search_suggest"
@@ -47,17 +41,20 @@ $options = array(
 	style="float: left; background-color: white; height: 58px; 137 px; margin-left: 4em;"
 	name="submit" type="image"
 	src="<?php print $this->baseUrl();?>/img/suchen-button.png"
-	value="rezept suchen" id="search" /></fieldset>
+	value="rezept suchen" id="search_button" /></fieldset>
 </div>
 <div
 	style="clear: both; width: 560px; padding-top: 14px; margin-left: 100px; text-align: left">
-<!-- Name --> <input id="search_type1" name="search_type" value="name" dojoType="dijit.form.RadioButton" 
-	checked="checked" type="radio" style="background-color: #f49ec0; vertical-align: text-top" onclick="dojo.byId('search_type_value').value=this.value;" /><label
+<!-- Name --> <input id="search_type1" name="search_type" value="name" 
+	checked="checked" type="radio" style="background-color: #f49ec0; vertical-align: text-top" 
+	onclick="dojo.byId('search_type_value').value=this.value;" /><label
 	for="search_type1">&nbsp;über Name</label> <!-- Zutat --> <input
-	id="search_type2" name="search_type" value="ingredient" type="radio" dojoType="dijit.form.RadioButton" 
-	style="margin-left: 20px; background-color: #f49ec0; vertical-align: text-top" onclick="dojo.byId('search_type_value').value=this.value;" /> <label
-	for="search_type2">&nbsp;über Zutat</label> <!-- Tag --> <input dojoType="dijit.form.RadioButton" 
-	id="search_type3" name="search_type" value="tag" type="radio"
-	style="margin-left: 20px; background-color: #f49ec0; vertical-align: text-top" onclick="dojo.byId('search_type_value').value=this.value;" /> <label
+	id="search_type2" name="search_type" value="ingredient" type="radio" 
+	style="margin-left: 20px; background-color: #f49ec0; vertical-align: text-top" 
+	onclick="dojo.byId('search_type_value').value=this.value;" /> <label
+	for="search_type2">&nbsp;über Zutat</label> <!-- Tag --> <input id="search_type3" 
+	name="search_type" value="tag" type="radio"
+	style="margin-left: 20px; background-color: #f49ec0; vertical-align: text-top" 
+	onclick="dojo.byId('search_type_value').value=this.value;" /> <label
 	for="search_type3">&nbsp;über Schlagwort / Tag</label></div>
 </form>
