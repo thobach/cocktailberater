@@ -227,7 +227,7 @@ class Website_Model_Component {
 	public static function componentsByIngredientId ( $idingredient ) {
 		
 		if(!$idingredient){
-			throw new ComponentException('Id_Missing');
+			throw new Website_Model_ComponentException('Id_Missing');
 		}
 		// load cache from registry
 		$cache = Zend_Registry::get('cache');
@@ -237,7 +237,7 @@ class Website_Model_Component {
 			$componentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','component');
 			$components = $componentTable->fetchAll ( 'ingredient=' . $idingredient ) ;
 			foreach ( $components as $component ) {
-				$componentsArray [] = CbFactory::factory('Component',$component->ingredient,$component->recipe);
+				$componentsArray [] = Website_Model_CbFactory::factory('Website_Model_Component',$component->ingredient,$component->recipe);
 			}
 			$cache->save ($componentsArray,'componentsByIngredientId'.$idingredient);
 		}

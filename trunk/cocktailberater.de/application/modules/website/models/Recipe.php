@@ -214,10 +214,10 @@ class Website_Model_Recipe {
 	
 	public static function searchByIngredient ($name){
 		// TODO: write unit test
-		$ingredients = Ingredient::listIngredients ( $name ) ;
+		$ingredients = Website_Model_Ingredient::listIngredients ( $name ) ;
 		$recipeArray = array();
 		foreach($ingredients as $ingredient){
-			$componentsArray = Component::componentsByIngredientId($ingredient->id);
+			$componentsArray = Website_Model_Component::componentsByIngredientId($ingredient->id);
 			if(is_array($componentsArray)){
 				foreach ($componentsArray as $component){
 					$recipeArray[$component->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$component->recipeId);				
@@ -229,7 +229,7 @@ class Website_Model_Recipe {
 	
 	public static function searchByTag ($name){
 		// TODO: write  unit test 
-		$tags = Tag::listTags ( $name ) ;
+		$tags = Website_Model_Tag::listTags ( $name ) ;
 		foreach($tags as $tag){
 			$recipeArray[$tag->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$tag->recipeId);				
 		}

@@ -120,16 +120,16 @@ print $recipe->instruction ;
 	onclick="document.getElementById('tag_form').style.display='block'; document.getElementById('switcha1').innerHTML='';"
 	style="cursor: pointer; color: #54616E">(hinzufügen)</span></div>
 <div class="wert"><?php
-$tags = Website_Model_Tag::tagsByRecipeId( $recipe->id, true) ;
+$tags = Website_Model_Tag::tagsByRecipeId( $recipe->id, true);
 if (is_array ( $tags )) {
 	foreach ( $tags as $tag ) {
 		?><a id="tag<?php
 		print $tag->id;
 		?>"
-	href="<?php print $this->url(array('controller'=>'index','action'=>'recipes-with-tag','tag'=>$tag->name),null,true); ?>/?width=240"
+	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipes-with-tag','tag'=>$tag->name),null,true); ?>/?width=240"
 	title="Cocktails mit Tag: <?php
 		echo $this->escape ( str_replace ( '\\', '', $tag->name ) ) ?>"
-	onclick="location.href='<?php print $this->url(array('controller'=>'index','action'=>'tag','tag'=>$tag->name),null,true); ?>'"
+	onclick="location.href='<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'tag','tag'=>$tag->name),null,true); ?>'"
 	class="betterTip"><?php
 	print $tag->name ;
 	?></a> <?php
@@ -140,7 +140,7 @@ if (is_array ( $tags )) {
 ?>
 <form id="tag_form" class="regular_form"
 	style="margin-top: 1em; display: none; margin-bottom: 0.5em;"
-	action="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$recipe->id),null,true); ?>"
+	action="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id),null,true); ?>"
 	method="post">
 <fieldset><legend>Schlagwort / Tag hinzufügen</legend> <input
 	type="text" name="newtag" class="q2"
