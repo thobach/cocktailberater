@@ -150,7 +150,7 @@ class Website_Model_Tag {
 		}
 		$tagArray = array();
 		foreach ($tags as $tag) {
-			$tagArray[] = Website_Model_CbFactory::factory('Website_Model_Tag', $tag->id);
+			$tagArray[] = Website_Model_CbFactory::factory('Website_Model_Tag', $tag['id']);
 		}
 		return $tagArray;
 	}

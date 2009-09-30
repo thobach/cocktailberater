@@ -23,11 +23,11 @@ class Website_IndexController extends Zend_Controller_Action {
 	public function searchAction () {
 		$recipes = array();
 		if($this->_getParam ( 'search_type' ) == 'name'){
-			$recipes = Website_Model_Recipe::searchByName ( $this->_getParam ( $this->_getParam ( 'query_field' ) )) ;
+			$recipes = Website_Model_Recipe::searchByName ($this->_getParam ( 'search' ) ) ;
 		} elseif($this->_getParam ( 'search_type' ) == 'ingredient'){
-			$recipes = Website_Model_Recipe::searchByIngredient ( $this->_getParam ( $this->_getParam ( 'query_field' ) )) ;
+			$recipes = Website_Model_Recipe::searchByIngredient ( $this->_getParam ( 'search' ) ) ;
 		} elseif($this->_getParam ( 'search_type' ) == 'tag'){
-			$recipes = Website_Model_Recipe::searchByTag ( $this->_getParam ( $this->_getParam ( 'query_field' ) )) ;
+			$recipes = Website_Model_Recipe::searchByTag ( $this->_getParam ( 'search' ) ) ;
 		}
 		$this->view->recipes = $recipes ;
 		if (count ( $recipes ) == 1) {
