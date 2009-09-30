@@ -4,6 +4,9 @@ defined('APPLICATION_PATH')
 	|| define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
 
 // Define application environment
+if($_ENV['HTTP_HOST']=='www-test.cocktailberater.de'){
+	putenv('APPLICATION_ENV=development');
+}
 defined('APPLICATION_ENV')
 	|| define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
