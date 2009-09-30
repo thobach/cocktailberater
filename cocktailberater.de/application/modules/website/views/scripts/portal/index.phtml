@@ -1,6 +1,8 @@
-<?php print $this->partial('template/search.phtml',array('uri' => $this->baseUrl())); ?>
+<?php print $this->partial('template/search.phtml'); ?>
+<hr style="border-bottom: 1px solid #aa1061; width: 562px; margin-left: auto; margin-right: auto;" />
+<?php print $this->partial('template/portal_nav.phtml'); ?>
 <div style="float: left;">
-<h2 style="margin-top: 0;">cocktailberater - Portal</h2>
+<h2 style="margin-top: 0.3em;">cocktailberater - Portal</h2>
 <p>Der alkoholische Drink der Woche ist:</p>
 <div style="text-align: center; border: 1px solid black; width: 100px;"><img
 	src="<?php print $this->baseUrl(); ?>/img/recipes/1.jpg"

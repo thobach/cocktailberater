@@ -202,6 +202,7 @@ a:hover {
 div#footer {
 	clear: left;
 	left: 50%;
+	padding-top: 1em;
 	margin-bottom: 0.8em;
 	position: relative;
 	text-align: left;
