@@ -1,0 +1,8 @@
+#summary Das Teilprojekt Barkeeper sorgt mit einer Software für den reibungslosen Ablauf in der Küche.
+#labels Featured,Phase-Design
+
+= Teilprojekt Barkeeper =
+Die Barkeeper Software sorgt für einen reibungslosen Ablauf in der Küche und besteht aus drei Komponenten:
+  * Bestellanzeige
+  * Abrechnung
+  * Bar-Verwaltung mit Zutatenliste, Cocktailiste und Verbrauchsberechnung
