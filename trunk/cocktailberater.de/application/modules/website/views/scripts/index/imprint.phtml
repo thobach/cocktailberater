@@ -41,5 +41,5 @@ der webseitenberater</a></div>
 <div class="attribut">PHP Version</div>
 <div class="wert"><?php print phpversion(); ?></div>
 <div class="attribut">Umgebung</div>
-<div class="wert"><?php print APPLICATION_ENV; ?> / <?php print APPLICATION_PATH; ?></div>
+<div class="wert"><?php print APPLICATION_ENV; ?> / <?php print APPLICATION_PATH; ?> / <?php print $_ENV['HTTP_HOST ']; ?></div>
 </div>
