@@ -1,6 +1,11 @@
 <?php 
 $this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
-$this->dojo()->enable();
+$this->dojo()->enable()
+->registerModulePath('custom', $this->baseUrl().'/js/custom')
+->requireModule('dojo.parser')
+->requireModule('dojox.data.QueryReadStore')
+->requireModule('dijit.form.ComboBox')
+->requireModule('custom.TestNameReadStore');
 ?>
 <div dojoType="custom.TestNameReadStore" jsId="testStore"
     url="<?php echo $this->url(array(	'action'=>'suggest',
@@ -9,15 +14,8 @@ $this->dojo()->enable();
 										'format'=>'ajax')); ?>"
     requestMethod="get"></div>
 <?php $this->headScript()->captureStart(); ?>
-// load widget and autocompletion classes 
-dojo.require("dojo.parser");
-dojo.require("dojox.data.QueryReadStore");
-dojo.require("dijit.form.ComboBox");
 // configure query
 djConfig.usePlainJson=true;
-// add custom module and load read store
-dojo.registerModulePath("custom","<?php echo $this->baseUrl(); ?>/js/custom");
-dojo.require("custom.TestNameReadStore");
 // add the possibility to submit the search by pressing the ENTER key
 function init() {
 	dojo.connect(dojo.byId("search"), 'onkeypress', function(e) {

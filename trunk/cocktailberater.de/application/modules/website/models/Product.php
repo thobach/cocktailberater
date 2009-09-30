@@ -58,7 +58,7 @@ class Website_Model_Product
 	{
 		if($this->manufacturerId!=null){
 		if(!$this->_manufacturer){
-			$this->_manufacturer = CbFactory::factory('Manufacturer',$this->manufacturerId);
+			$this->_manufacturer = Website_Model_CbFactory::factory('Website_Model_Manufacturer',$this->manufacturerId);
 		}
 		return $this->_manufacturer;
 		} else {
@@ -83,26 +83,26 @@ class Website_Model_Product
 	/**
 	 * @tested
 	 */
-	public function Product ($productId=NULL){
+	public function Website_Model_Product ($productId=NULL){
 		if(!empty($productId)){
 			$productTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','product');
 			$product = $productTable->fetchRow('id='.$productId);
 			if(!$product){
 				throw new ProductException('Id_Wrong');
 			}
-			$this->id					= $product->id;
-			$this->ingredientId			= $product->ingredient;
-			$this->name					= $product->name;
-			$this->manufacturerId		= $product->manufacturer;
-			$this->size					= $product->size;
-			$this->unit					= $product->unit;
-			$this->alcoholLevel			= $product->alcoholLevel;
-			$this->caloriesKcal			= $product->caloriesKcal;
-			$this->densityGramsPerCm3	= $product->densityGramsPerCm3;
-			$this->fruitConcentration	= $product->fruitConcentration;
-			$this->color				= $product->color;
-			$this->insertDate			= $product->insertDate;
-			$this->updateDate			= $product->updateDate;
+			$this->id					= $product['id'];
+			$this->ingredientId			= $product['ingredient'];
+			$this->name					= $product['name'];
+			$this->manufacturerId		= $product['manufacturer'];
+			$this->size					= $product['size'];
+			$this->unit					= $product['unit'];
+			$this->alcoholLevel			= $product['alcoholLevel'];
+			$this->caloriesKcal			= $product['caloriesKcal'];
+			$this->densityGramsPerCm3	= $product['densityGramsPerCm3'];
+			$this->fruitConcentration	= $product['fruitConcentration'];
+			$this->color				= $product['color'];
+			$this->insertDate			= $product['insertDate'];
+			$this->updateDate			= $product['updateDate'];
 		}
 	}
 	
@@ -114,7 +114,7 @@ class Website_Model_Product
 		$products = $productTable->fetchAll('ingredient='.$ingredient);
 		$productArray = array();
 		foreach ($products as $product){
-			$productArray[] = CbFactory::factory('Product', $product->id);
+			$productArray[] = Website_Model_CbFactory::factory('Website_Model_Product', $product['id']);
 		}
 		return $productArray;
 	}
@@ -129,7 +129,7 @@ class Website_Model_Product
 	{
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','product');
 		foreach ($table->fetchAll() as $product) {
-			$productArray[] = CbFactory::factory('Product',$product->id);
+			$productArray[] = Website_Model_CbFactory::factory('Website_Model_Product',$product['id']);
 		}
 		return $productArray;
 	}

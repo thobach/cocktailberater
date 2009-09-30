@@ -391,7 +391,7 @@ class Website_Model_Recipe {
 		$db = Zend_Db_Table::getDefaultAdapter();
 		$tags = $db->fetchAll ( 'SELECT recipe FROM tag WHERE name=\''.$tag.'\' GROUP BY recipe');
 		foreach ( $tags as $tag ) {
-			$recipeArray [] = Website_Model_CbFactory::factory('Website_Model_Recipe', $tag->recipe ) ;
+			$recipeArray [] = Website_Model_CbFactory::factory('Website_Model_Recipe', $tag['recipe'] ) ;
 		}
 		return $recipeArray ;
 	}
@@ -421,7 +421,7 @@ class Website_Model_Recipe {
 	public function listRecipe ( $idrecipe ) {
 		// TODO: write unit test
 		try {
-			return new Recipe ( $idrecipe ) ;
+			return new Website_Model_Recipe ( $idrecipe ) ;
 		} catch ( Zend_Db_Adapter_Exception $e ) {
 			// perhaps a failed login credential, or perhaps the RDBMS is not running
 			print $e ;

@@ -3,7 +3,7 @@
  * IngredientCategory class
  *
  */
-class Website_Model_IngredientCategory extends Category {
+class Website_Model_IngredientCategory extends Website_Model_Category {
 
 	/**
 	 * magic getter for all attributes
@@ -40,7 +40,7 @@ class Website_Model_IngredientCategory extends Category {
 	 * @return IngredientCategory
 	 * @tested
 	 */
-	public function IngredientCategory ( $ingredientCategoryId = NULL ) {
+	public function __construct ( $ingredientCategoryId = NULL ) {
 		if (! empty ( $ingredientCategoryId )) {
 			$ingredientCategoryTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','ingredientcategory');
 			$ingredientCategory = $ingredientCategoryTable->fetchRow ( 'id=' . $ingredientCategoryId ) ;
@@ -65,7 +65,7 @@ class Website_Model_IngredientCategory extends Category {
 		$ingredientHasIngredientCategoryTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','ingredient2ingredientcategory');
 		$categories = $ingredientHasIngredientCategoryTable->fetchAll ( 'ingredient=' . $ingredientId ) ;
 		foreach ( $categories as $category ) {
-			$ingredientCategories [] = CbFactory::factory('IngredientCategory', $category->ingredientCategory ) ;
+			$ingredientCategories [] = Website_Model_CbFactory::factory('Website_Model_IngredientCategory', $category['ingredientCategory']) ;
 		}
 		return $ingredientCategories ;
 	}
@@ -89,10 +89,10 @@ class Website_Model_IngredientCategory extends Category {
 		$ingredients = $ingredientHasIngredientCategoryTable->fetchAll ( $where ) ;
 		$ingredientsArray = array ( ) ;
 		foreach ( $ingredients as $ingredient ) {
-			$ingredientsArray [] = CbFactory::factory('Ingredient', $ingredient->ingredient ) ;
+			$ingredientsArray [] = Website_Model_CbFactory::factory('Website_Model_Ingredient', $ingredient->ingredient ) ;
 		}
 		// sort array by name
-		usort ( $ingredientsArray, array ( "Ingredient" , "cmp_obj" ) ) ;
+		usort ( $ingredientsArray, array ( "Website_Model_Ingredient" , "cmp_obj" ) ) ;
 		return $ingredientsArray ;
 	}
 

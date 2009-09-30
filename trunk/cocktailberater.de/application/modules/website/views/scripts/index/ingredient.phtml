@@ -1,5 +1,4 @@
-<?php require ("views/scripts/template/search.phtml");
-$config = Zend_Registry::get('config'); ?>
+<?php $this->partial('template/search.phtml',$this); ?>
 <h4 class="left" style="margin-left: 25px;">Zutaten-Info: <?php print $this->ingredient->name; ?></h4><br />
 <div style="margin-left: 25px; margin-top: 15px">
 <div class="attribut">Name:</div>
@@ -25,7 +24,7 @@ if(is_array($this->ingredient->getIngredientCategories())){
 ; ?></div>
 <div class="attribut">Produkte:</div>
 <div class="wert"><?php
-$products = Product::productsByIngredientId($this->ingredient->id);
+$products = Website_Model_Product::productsByIngredientId($this->ingredient->id);
 if(is_array($products)){
 	foreach ($products as $product) {
 		print $product->name.' ('.$product->getManufacturer()->name.') - '.$product->size.' '.$product->unit.'<br />';
@@ -38,7 +37,7 @@ if(is_array($this->cocktails)){
 	foreach ($this->cocktails as $cocktail) {
 		$recipes = $cocktail->getRecipes();
 		$recipe = $recipes[0];
-		require ("views/scripts/template/preview.phtml");
+		echo $this->partial('template/preview.phtml',array('recipe'=>$recipe));
 	}
 }
 ?>

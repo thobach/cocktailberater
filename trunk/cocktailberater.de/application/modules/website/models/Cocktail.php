@@ -48,20 +48,20 @@ class Website_Model_Cocktail {
 	 * @param integer $id
 	 * @return Cocktail
 	 */
-	public function Cocktail($id = NULL) {
+	public function Website_Model_Cocktail($id = NULL) {
 		// Get cocktail from DB
 		if (!empty ($id)) {
 			$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
 			$cocktail = $cocktailTable->fetchRow('id=' . $id);
 			// if cocktail does not exist
 			if(!$cocktail){
-				throw new CocktailException('Id_Wrong');
+				throw new Website_Model_CocktailException('Id_Wrong');
 			}
-			$this->id = $cocktail->id;
-			$this->name = $cocktail->name;
-			$this->insertDate = $cocktail->insertDate;
-			$this->updateDate = $cocktail->updateDate;
-		}
+			$this->id = $cocktail['id'];
+			$this->name = $cocktail['name'];
+			$this->insertDate = $cocktail['insertDate'];
+			$this->updateDate = $cocktail['updateDate'];
+		} 
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Website_Model_Cocktail {
 	 * @return booloean | int False or ID for cocktail
 	 */
 	public static function exists($name) {
-		$cocktailTable = CbFactory::factory('CocktailTable',NULL);
+		$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
 		$cocktail = $cocktailTable->fetchRow('name=\'' . $name . '\'');
 		if ($cocktail) {
 			return $cocktail->id;
@@ -92,7 +92,7 @@ class Website_Model_Cocktail {
 	static function listCocktails($search=NULL, $limit = 100, $option = 'name') {
 		// check input parameters
 		if(!is_string($search) AND !is_null($search)){
-			throw new CocktailException('Cocktail::listCocktails, first parameter "search" must be a string');
+			throw new Website_Model_CocktailException('Website_Model_Cocktail::listCocktails, first parameter "search" must be a string');
 		}
 		if(!is_numeric($limit)){
 			$limit = 100;
@@ -265,7 +265,7 @@ class Website_Model_Cocktail {
 			$cocktailArray = array();
 			if (is_array($result)) {
 				foreach ($result as $cocktail) {
-					$cocktailArray[] = Website_Model_CbFactory::factory('Website_Model_Cocktail',$cocktail->cocktail);
+					$cocktailArray[] = Website_Model_CbFactory::factory('Website_Model_Cocktail',$cocktail['cocktail']);
 				}
 			}
 			return $cocktailArray;
@@ -280,7 +280,7 @@ class Website_Model_Cocktail {
 	 * @return array String Cocktailnamen
 	 */
 	public static function listCocktailNamesIndexed($search = NULL) {
-		$tabelle = CbFactory::factory('CocktailTable',NULL);
+		$tabelle = Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
 		if ($search) {
 			$search = "name LIKE '$search%'";
 		}
@@ -297,7 +297,7 @@ class Website_Model_Cocktail {
 		$cache = Zend_Registry::get('cache');
 		// see if recipe - list is already in cache
 		if(!$recipes = $cache->load('recipesByCocktailId'.$this->id)) {
-			$recipes = Recipe::recipesByCocktailId($this->id);
+			$recipes = Website_Model_Recipe::recipesByCocktailId($this->id);
 			$cache->save($recipes,'recipesByCocktailId'.$this->id);
 		}
 		return $recipes;

@@ -76,14 +76,15 @@ class Website_Model_Ingredient {
 			if(!$ingredient){
 				throw new Website_Model_IngredientException('Id_Wrong');
 			}
+			
 			// attributes
-			$this->id					= $ingredient->id;
-			$this->name					= $ingredient->name;
-			$this->description			= $ingredient->description;
-			$this->aggregation			= $ingredient->aggregation;
-			$this->aliasName			= $ingredient->aliasName;
-			$this->insertDate			= $ingredient->insertDate;
-			$this->updateDate			= $ingredient->updateDate;
+			$this->id					= $ingredient['id'];
+			$this->name					= $ingredient['name'];
+			$this->description			= $ingredient['description'];
+			$this->aggregation			= $ingredient['aggregation'];
+			$this->aliasName			= $ingredient['aliasName'];
+			$this->insertDate			= $ingredient['insertDate'];
+			$this->updateDate			= $ingredient['updateDate'];
 		}
 	}
 
@@ -161,10 +162,10 @@ class Website_Model_Ingredient {
 			AVG (densityGramsPerCm3) AS averageDensityGramsPerCm3 
 			FROM `product` 
 			WHERE ingredient='.$this->id);
-		if(!$res->averageDensityGramsPerCm3){
+		if(!$res['averageDensityGramsPerCm3']){
 			return round(1,3);
 		} else {
-		return round($res->averageDensityGramsPerCm3,3);
+		return round($res['averageDensityGramsPerCm3'],3);
 		}
 	}
 	
@@ -215,10 +216,10 @@ class Website_Model_Ingredient {
 				FROM `product` 
 				WHERE ingredient='.$this->id.' AND caloriesKcal IS NOT null');
 		}
-		if($res->averageCaloriesKcal==null){
+		if($res['averageCaloriesKcal']==null){
 			return null;
 		} else{
-			return round($res->averageCaloriesKcal);
+			return round($res['averageCaloriesKcal']);
 		}
 	}
 	
@@ -234,10 +235,10 @@ class Website_Model_Ingredient {
 			AVG(alcoholLevel) AS averageAlcoholLevel
 			FROM `product` 
 			WHERE ingredient='.$this->id.' AND alcoholLevel IS NOT null');
-		if($res->averageAlcoholLevel==null){
+		if($res['averageAlcoholLevel']==null){
 			return null;
 		} else{
-			return round($res->averageAlcoholLevel);
+			return round($res['averageAlcoholLevel']);
 		}
 	}
 	
@@ -254,8 +255,8 @@ class Website_Model_Ingredient {
 			AVG(size) AS averageSize
 			FROM `product` 
 			WHERE unit=\''.Website_Model_Component::GRAM.'\' AND ingredient='.$this->id);
-		if($res->averageSize){
-			return round($res->averageSize);
+		if($res['averageSize']){
+			return round($res['averageSize']);
 		} else {
 			return null;
 		}
@@ -281,8 +282,8 @@ class Website_Model_Ingredient {
 			if(unit=\'l\',size,
 			if(unit=\'fl. oz\',size/1000*29.5,\'noVolume\')))) !=\'noVolume\'
 				AND ingredient='.$this->id.' AND size IS NOT null');
-		if($res->sizeInLitre){
-			return round($res->sizeInLitre,2);
+		if($res['sizeInLitre']){
+			return round($res['sizeInLitre'],2);
 		} else {
 			return null;
 		}
@@ -301,7 +302,7 @@ class Website_Model_Ingredient {
 			FROM `product` 
 			WHERE ingredient='.$this->id.' GROUP BY unit ORDER BY count(unit) DESC LIMIT 1');
 		if($res){
-			return $res->unit;
+			return $res['unit'];
 		} else {
 			null;
 		}

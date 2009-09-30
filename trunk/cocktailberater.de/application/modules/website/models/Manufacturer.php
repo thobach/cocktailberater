@@ -43,7 +43,7 @@ class Website_Model_Manufacturer {
 	 * @param integer optional $idManufacturer
 	 * @return Manufacturer
 	 */
-	public function Manufacturer ( $idManufacturer = NULL ) {
+	public function Website_Model_Manufacturer ( $idManufacturer = NULL ) {
 		if (! empty ( $idManufacturer )) {
 			$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','manufacturer');
 			$manufacturer = $table->fetchRow ( 'id=' . $idManufacturer ) ;
