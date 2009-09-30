@@ -1,4 +1,7 @@
-<?php require ("views/scripts/template/portal_nav.phtml"); ?>
+<?php print $this->partial('template/search.phtml'); ?>
+<hr style="border-bottom: 1px solid #aa1061; width: 562px; margin-left: auto; margin-right: auto;" />
+<?php print $this->partial('template/portal_nav.phtml'); ?>
+
 <div style="float: left; width: 410px;">
 <h2 style="margin-top: 0;">Portal - Nährwerte</h2>
 <p>Hinweis: Die Daten sind noch nicht alle 100% korrekt. Wir arbeiten daran ;)</p>
@@ -23,9 +26,9 @@
 					?>
 		<tr>
 			<td><?php echo $recipe->name;?></td>
-			<td><?php echo $recipe->getCaloriesKcal();?> kcal</td>
+			<td><?php echo $recipe->getCaloriesKcal();?></td>
 			<td><?php echo $recipe->isAlcoholic() ? 'ja' : 'nein';?></td>
-			<td><?php echo $recipe->getVolumeCl();?> cl</td>
+			<td><?php echo $recipe->getVolumeCl();?></td>
 		</tr>
 		<?php
 				}
@@ -41,14 +44,14 @@ $this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
 $this->dojo()->enable();
 $this->dojo()->requireModule('dojox.data.HtmlTableStore')
 		->requireModule('dojox.grid.DataGrid')
-		->addStyleSheet($this->baseUrl().'/js/dojo/dojox/grid/resources/tundraGrid.css');
+		->addStyleSheet($this->dojo()->getCdnBase().$this->dojo()->getCdnVersion().'/dojox/grid/resources/tundraGrid.css');
 
-$this->headScript()->appendScript('var layoutBooks = [
+$this->headScript()->appendScript('var layoutCocktails = [
     [
       { field: "Name", name: "Name", width: \'auto\' },
-      { field: "Kalorien", name: "Kalorien", width: \'70px\' },
+      { field: "Kalorien", name: "Kalorien (kcal)", width: \'70px\' },
       { field: "Alkoholisch", name: "Alkoholisch", width: \'85px\' },
-      { field: "Volumen", name: "Volumen", width: \'70px\' }
+      { field: "Volumen", name: "Volumen (cl)", width: \'70px\' }
     ]
   ];');
 ?>
@@ -57,11 +60,10 @@ $this->headScript()->appendScript('var layoutBooks = [
   <div id="grid"
     dojoType="dojox.grid.DataGrid"
     store="gridStore"
-    structure="layoutBooks"
+    structure="layoutCocktails"
     query="{}"
     rowsPerPage="40">
   </div>
 </div>
 
-</div>
 </div>

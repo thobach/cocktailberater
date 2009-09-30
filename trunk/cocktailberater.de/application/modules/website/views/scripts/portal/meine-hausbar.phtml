@@ -1,17 +1,20 @@
-<?php require ("views/scripts/template/portal_nav.phtml"); ?>
+<?php print $this->partial('template/search.phtml'); ?>
+<hr style="border-bottom: 1px solid #aa1061; width: 562px; margin-left: auto; margin-right: auto;" />
+<?php print $this->partial('template/portal_nav.phtml'); ?>
+
 <div style="float: left; width: 410px;">
 <?php print $this->notice($this->message); ?>
 <h2 style="margin-top: 0;">Meine Hausbar</h2>
 <p style="margin-bottom: 2em;">Bitte wählen Sie Ihre vorhanden Zutataen aus der folgenden Liste aus.</p>
 <form id="product2bar" name="product2bar" action="" method="post"><?php 
-$ingredientCategories=IngredientCategory::getIngredientCategories();
+$ingredientCategories=Website_Model_IngredientCategory::getIngredientCategories();
 foreach($ingredientCategories as $ingredientCategory){
 	print "<h3 class=\"pointer\" onclick=\"if(document.getElementById('category_$ingredientCategory->id').style.display=='none') { document.getElementById('category_$ingredientCategory->id').style.display='block'; } else { document.getElementById('category_$ingredientCategory->id').style.display='none'; }\"> <img src=\"".$this->baseUrl()."/img/next.gif\" alt=\"pfeil\" style=\"height: 1em;\" /> $ingredientCategory->name</h3>";
 	print '<div id="category_'.$ingredientCategory->id.'" style="border: 1px solid #981267; background-color: #E7E7E7; margin-top: 0.5em; padding: 1em; margin-bottom: 2em;" class="print hide">';
-	$ingredients=IngredientCategory::getIngredientsByCategory($ingredientCategory->id);
+	$ingredients=Website_Model_IngredientCategory::getIngredientsByCategory($ingredientCategory->id);
 	foreach($ingredients as $ingredient){
 		print "<h4 style=\"margin-top: 0.5em;\">$ingredient->name</h4>";
-		$products=Product::productsByIngredientId($ingredient->id);
+		$products=Website_Model_Product::productsByIngredientId($ingredient->id);
 		if (is_array($products)) {
 			foreach($products as $product){
 				if ($this->bar->hasProduct($product->id)) {
@@ -36,5 +39,3 @@ print '</div>';
 </div>
 </form>
 </div>
-</div>
-

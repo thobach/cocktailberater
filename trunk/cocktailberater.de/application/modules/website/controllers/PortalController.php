@@ -25,7 +25,7 @@ class Website_PortalController extends Zend_Controller_Action {
 	public function meineHausbarAction () {
 		//Zend_Debug::dump($this->_getAllParams());
 		//fetch all products from the current bar
-		$this->view->bar = $bar = new Bar(1);
+		$this->view->bar = $bar = new Website_Model_Bar(1);
 		$this->view->currentProducts = $bar->getProducts();
 		//Zend_Debug::dump($this->view->currentProducts);
 		//if form was posted, insert into database
@@ -70,7 +70,7 @@ class Website_PortalController extends Zend_Controller_Action {
 
 	}
 	public function nutritionAction () {
-		$this->view->cocktails = Cocktail::listCocktails('');
+		$this->view->cocktails = Website_Model_Cocktail::listCocktails('');
 		//Zend_Debug::dump($cocktails);
 	}
 	public function mixtechnikenAction () {

@@ -91,11 +91,11 @@ class Website_Model_Ingredient {
     /**
 	* static function to compare objects by ingredient name
 	*
-	* @param Ingredient $a
-	* @param Ingredient $b
+	* @param Website_Model_Ingredient $a
+	* @param Website_Model_Ingredient $b
 	* @return int
 	*/
-    public static function cmp_obj(Ingredient $a, Ingredient $b)
+    public static function cmp_obj(Website_Model_Ingredient $a, Website_Model_Ingredient $b)
     {
         $al = strtolower($a->name);
         $bl = strtolower($b->name);

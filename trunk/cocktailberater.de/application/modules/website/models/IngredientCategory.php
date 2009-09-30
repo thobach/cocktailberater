@@ -107,7 +107,7 @@ class Website_Model_IngredientCategory extends Website_Model_Category {
 		$categories = $table->fetchAll();
 		$categoriesArray = array ();
 		foreach ( $categories as $category ) {
-			$categoriesArray [] = CbFactory::factory('IngredientCategory',$category->id) ;
+			$categoriesArray [] = Website_Model_CbFactory::factory('Website_Model_IngredientCategory',$category['id']) ;
 		}
 		return $categoriesArray ;
 	}
