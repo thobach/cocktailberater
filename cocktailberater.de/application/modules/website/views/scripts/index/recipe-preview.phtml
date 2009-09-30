@@ -1,5 +1,6 @@
 <?php
 header('content-type: text/html; charset=utf-8');
+print '<div class="textLeft">';
 $components = $this->recipe->getComponents();
 if (is_array ( $components )) {
 	foreach ( $components as $component ) {
@@ -11,3 +12,4 @@ if (is_array ( $components )) {
 		print '<br />' ;
 	}
 }
+print '</div>';

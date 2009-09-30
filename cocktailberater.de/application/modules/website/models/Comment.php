@@ -72,7 +72,7 @@ class Website_Model_Comment {
 		}
 	}
 	
-	public function Comment ($commentId=NULL){
+	public function __construct ($commentId=NULL){
 		if($commentId!=NULL){
 			$commentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','comment');
 			$comment = $commentTable->fetchRow('id = '.$commentId);
@@ -94,7 +94,7 @@ class Website_Model_Comment {
 		$commentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','comment');
 		$comments = $commentTable->fetchAll('recipe = '.$recipeId);
 		foreach ($comments as $comment) {
-			$commentArray[] = Website_Model_CbFactory::destroy('Website_Model_Comment',$comment->id);
+			$commentArray[] = Website_Model_CbFactory::factory('Website_Model_Comment',$comment['id']);
 		}
 	    return $commentArray;
 	}

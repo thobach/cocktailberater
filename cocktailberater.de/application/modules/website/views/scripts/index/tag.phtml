@@ -1,11 +1,11 @@
-<?php require ("views/scripts/template/search.phtml"); ?>
+<?php echo $this->partial ('template/search.phtml'); ?>
 <h4>Cocktails mit dem Tag: <?php print $this->tag; ?></h4><br />
 <?php
 if ($this->recipes) {
-$config = Zend_Registry::get('config');?>
+?>
 <div id="ergebnisse"
 	style="clear:left;"><?php foreach ($this->recipes as $recipe){ ?>
-<?php require ("views/scripts/template/preview.phtml"); ?>
+<?php echo $this->partial ('template/preview.phtml',array('recipe'=>$recipe)); ?>
 <?php } ?>
 </div>
 <!-- div: ergebnisse -->

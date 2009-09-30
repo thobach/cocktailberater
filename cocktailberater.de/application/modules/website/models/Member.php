@@ -140,7 +140,7 @@ class Website_Model_Member {
 	 *@throws MemberException(Id_Wrong)
 	 *@tested
 	 */
-	public function Member ($id=NULL){
+	public function __construct ($id=NULL){
 		if(!empty($id)){
 			$memberTable  = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member');
 			$member = $memberTable->fetchRow('id = '.$id);

@@ -1,4 +1,6 @@
 <?php
+$this->dojo()->enable()->requireModule('dijit.Tooltip')->requireModule('dojox.image.Lightbox');
+$this->dojo()->addStylesheet($this->dojo()->getCdnBase().$this->dojo()->getCdnVersion().'/dojox/image/resources/Lightbox.css');
 $recipe = $this->recipe;
 $photos = $recipe->getPhotos();
 $videos = $recipe->getVideos();
@@ -35,12 +37,12 @@ if(!isset($gesamt)){
 	style="clear: both; margin-left: auto; margin-right: auto; width: 140px;">
 	<?php
 	if (sizeof($videos)>0) {
-		?><img src="<?php
+		?><a href="#video"><img src="<?php
 	print $this->baseUrl() ;
 	?>/img/video.png" alt="Video"
 	title="Video"
-	style="margin-right: 10px; margin-top: 4px; vertical-align: top; cursor: pointer"
-	onclick="document.getElementById('video').style.display='block'; return false;" /><?php
+	style="margin-right: 10px; margin-top: 4px; vertical-align: top;"
+	onclick="document.getElementById('video').style.display='block';" /></a><?php
 	}
 	//print_r($this->foto);
 	$i = 0 ;
@@ -48,14 +50,9 @@ if(!isset($gesamt)){
 		foreach ( $photos as $photo ) {
 			$i ++ ;
 			?><a
-	href="<?php
-	echo $this->baseUrl() .'/img/recipes/' . $photo->originalFileName ;
-	?>"
-	class="thickbox"
-	title="<?php
-	print str_replace ( '\\', '', $recipe->name ) ;
-	?>"
-	rel="gallery"><?php
+	href="<?php echo $this->baseUrl() .'/img/recipes/' . $photo->originalFileName ; ?>" 
+	dojoType="dojox.image.Lightbox" group="one" 
+	title="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"><?php
 	if ($i == 1) {
 		?><img src="<?php
 		print $this->baseUrl() ;
@@ -102,10 +99,23 @@ foreach ( $recipe->getComponents() as $component ) {
 	print ' ' ;
 	print $component->unit ;
 	print ' ' ;
-	?> <a id="zutat<?php print $component->getIngredient()->id ;?>"
-	href="<?php print $this->url(array('controller'=>'index','action'=>'ingredient-preview','id'=>$component->getIngredient()->id),null,true); ?>?width=140"
-	class="betterTip"
-	onclick="location.href='<?php print $this->url(array('controller'=>'index','action'=>'ingredient','id'=>$component->getIngredient()->id),null,true); ?>'"
+	?>
+	<?php $this->headScript()->captureStart(); ?>
+	dojo.addOnLoad(function() {
+		zutat<?php print $component->getIngredient()->id ;?>Tooltip = new dijit.Tooltip({
+            connectId: ["zutat<?php print $component->getIngredient()->id ;?>"],
+            label: "<div><img src=\"loading.gif\"> Loading...</div>"
+        });
+        dojo.xhrGet({
+	           		url: "<?php print $this->url(array('module'=>'website','controller'=>'index',
+						'action'=>'ingredient-preview','id'=>$component->getIngredient()->id),null,true); ?>",
+	           		load: function(data){ zutat<?php print $component->getIngredient()->id ;?>Tooltip.label=data;}
+	    });
+    });
+	<?php $this->headScript()->captureEnd(); ?>
+	<a id="zutat<?php print $component->getIngredient()->id ;?>"
+	href="<?php print $this->url(array('module'=>'website','controller'=>'index',
+		'action'=>'ingredient','id'=>$component->getIngredient()->id),null,true); ?>"
 	title="<?php echo $this->escape ( str_replace ( '\\', '', $component->getIngredient()->name ) ) ?>">
 	<?php print $component->getIngredient()->name ; ?></a><br />
 	<?php
@@ -123,14 +133,25 @@ print $recipe->instruction ;
 $tags = Website_Model_Tag::tagsByRecipeId( $recipe->id, true);
 if (is_array ( $tags )) {
 	foreach ( $tags as $tag ) {
-		?><a id="tag<?php
-		print $tag->id;
-		?>"
-	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipes-with-tag','tag'=>$tag->name),null,true); ?>/?width=240"
-	title="Cocktails mit Tag: <?php
-		echo $this->escape ( str_replace ( '\\', '', $tag->name ) ) ?>"
-	onclick="location.href='<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'tag','tag'=>$tag->name),null,true); ?>'"
-	class="betterTip"><?php
+		?>
+		
+	<?php $this->headScript()->captureStart(); ?>
+	dojo.addOnLoad(function() {
+		tag<?php print $tag->id ;?>Tooltip = new dijit.Tooltip({
+            connectId: ["tag<?php print $tag->id ;?>"],
+            label: "<div><img src=\"loading.gif\"> Loading...</div>"
+        });
+        dojo.xhrGet({
+	           		url: "<?php print $this->url(array('module'=>'website','controller'=>'index',
+						'action'=>'recipes-with-tag','tag'=>$tag->name),null,true); ?>",
+	           		load: function(data){ tag<?php print $tag->id ;?>Tooltip.label=data;}
+	    });
+    });
+	<?php $this->headScript()->captureEnd(); ?>
+		<a id="tag<?php print $tag->id; ?>"
+	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'tag',
+		'tag'=>$tag->name),null,true); ?>"
+	title="Cocktails mit Tag: <?php echo $this->escape ( str_replace ( '\\', '', $tag->name ) ) ?>"><?php
 	print $tag->name ;
 	?></a> <?php
 	}
@@ -412,7 +433,7 @@ $durchschnitt = $this->recipe->getRating();
 		foreach ( $this->recipe->getComments() as $comment ) {
 			print $comment->comment . ' (von: ' ;
 			if ($comment->memberId) {
-				$member = new Member ( $comment->memberId ) ;
+				$member = new Website_Model_Member ( $comment->memberId ) ;
 				print '<a href="mailto:' . $member->email . '">' . $member->firstname . ' ' . $kunde->lastname . '</a>' ;
 			} else {
 				print 'anonym' ;
@@ -425,7 +446,8 @@ $durchschnitt = $this->recipe->getRating();
 	?></span>
 <form id="kommentar_form" class="regular_form"
 	style="margin-top: 1em; display: none;"
-	action="<?php print $this->url(array('controller'=>'index','action'=>'recipe','id'=>$this->recipe->id),null,true); ?>"
+	action="<?php print $this->url(array('module'=>'website','controller'=>'index',
+		'action'=>'recipe','id'=>$this->recipe->id),null,true); ?>"
 	method="post">
 <fieldset><legend>Kommentar hinzufügen</legend> <textarea name="comment"
 	class="q2"
@@ -473,6 +495,7 @@ Video gefunden.</div>
 <div
 	style="clear: both; position: relative; height: 110px; margin-left: 25px"
 	class="left">
+<a name="video"></a>
 <div class="left icon" style="left: 270px;"><img
 	src="<?php
 	print $this->baseUrl() ;

@@ -10,12 +10,10 @@ website:   www.cocktailberater.de
 
 version history: /html/css/screen.css
 -----------------------------------------------------------------------------*/
-
-/* Import other stylesheets
+	/* Import other stylesheets
 -----------------------------------------------------------------------------*/
-/* @import url("otherstylesheet.css"); */
-
-/* Remove margin, padding and border from everything 
+	/* @import url("otherstylesheet.css"); */
+	/* Remove margin, padding and border from everything 
 -----------------------------------------------------------------------------*/
 * {
 	margin: 0;
@@ -43,52 +41,56 @@ version history: /html/css/screen.css
 	text-align: center;
 }
 
+.textLeft {
+	text-align: left;
+}
+
 .hide {
-	display: none;	
+	display: none;
 }
 
 .abstand {
-	padding: 0.2em;	
+	padding: 0.2em;
 }
 
 .abstand_links {
-	margin-left: 1em;	
+	margin-left: 1em;
 }
 
 .abstand_links_doppelt {
-	margin-left: 2em;	
+	margin-left: 2em;
 }
 
 .abstand_links_halb {
-	margin-left: 0.2em;	
+	margin-left: 0.2em;
 }
 
 .abstand_rechts {
-	margin-right: 1em;	
+	margin-right: 1em;
 }
 
 .abstand_rechts_doppelt {
-	margin-right: 2em;	
+	margin-right: 2em;
 }
 
 .abstand_rechts_halb {
-	margin-right: 0.2em;	
+	margin-right: 0.2em;
 }
 
 .abstand_oben {
-	margin-top: 1em;	
+	margin-top: 1em;
 }
 
 .abstand_oben_doppelt {
-	margin-top: 2em;	
+	margin-top: 2em;
 }
 
 .abstand_unten {
-	margin-bottom: 1em;	
+	margin-bottom: 1em;
 }
 
 .abstand_unten_doppelt {
-	margin-bottom: 2em;	
+	margin-bottom: 2em;
 }
 
 /* Set up the document
@@ -178,7 +180,7 @@ a:hover {
 
 .link {
 	text-decoration: underline;
-	color: #54616E;	
+	color: #54616E;
 }
 
 /* Header
@@ -197,14 +199,27 @@ a:hover {
 -----------------------------------------------------------------------------*/
 	/* Footer
 -----------------------------------------------------------------------------*/
-#footer {
+div#footer {
 	clear: left;
-	width: 600px;
-	height: 38px;
-	text-align: center;
-	font-size: 0.8em;
-	width: 600px;
-	padding-top: 20px;
+	left: 50%;
+	margin-bottom: 0.8em;
+	position: relative;
+	text-align: left;
+	height: 1.6em;
+}
+
+div#footer ul {
+	font-size: 1.4em;
+	position: relative;
+	left: -50%;
+}
+
+div#footer ul li {
+	clear: none;
+	float: left;
+	list-style-type: circle;
+	display: list-item;
+	margin-left: 1.8em;
 }
 
 /* Homepage
@@ -231,7 +246,6 @@ a:hover {
 -----------------------------------------------------------------------------*/
 	/* Forms
 -----------------------------------------------------------------------------*/
-
 .regular_form fieldset {
 	border: 1px solid #54616E;
 	background-color: #F2F2F2;
@@ -269,11 +283,11 @@ input.small {
 	width: 3em;
 }
 
-input.big, textarea.big {
+input.big,textarea.big {
 	width: 25em;
 }
 
-input.text, textarea.text {
+input.text,textarea.text {
 	padding: 3px;
 	border: 1px solid #999999;
 }
@@ -295,7 +309,7 @@ input.q2 {
 	font-size: 1em;
 }
 
-input.submit, #submit, #anmelden, #abmelden {
+input.submit,#submit,#anmelden,#abmelden {
 	padding-left: 20px;
 	padding-right: 20px;
 	font-size: 1.5em;
@@ -309,7 +323,7 @@ p.description {
 	font-size: 0.8em;
 	color: gray;
 	margin-top: 0.2em;
-	text-align: left;	
+	text-align: left;
 }
 
 #legende_suchen {
@@ -393,7 +407,7 @@ label.small {
 }
 
 .highlight:hover {
-	background-color: white;	
+	background-color: white;
 }
 
 .pink {
@@ -432,35 +446,31 @@ label.small {
  *	TextBox related.
  *	Everything that has an <input>
  */
-
-.dijitTextBox,
-.dijitComboBox,
-.dijitSpinner {
+.dijitTextBox,.dijitComboBox,.dijitSpinner {
 	border: solid grey 1px;
 	background-color: white;
-	width: 15em;	/* need to set default size on outer node since inner nodes say <input style="width:100%"> and <td width=100%>.  user can override */
+	width: 15em;
+	/* need to set default size on outer node since inner nodes say <input style="width:100%"> and <td width=100%>.  user can override */
 }
 
 /* Menu */
-
 .dijitMenu {
-	border:1px solid grey;
-	background-color:white;
+	border: 1px solid grey;
+	background-color: white;
 }
 
-.dijitMenuItem{
+.dijitMenuItem {
 	white-space: nowrap;
-	padding:.1em .2em;
+	padding: .1em .2em;
 	text-align: left;
 }
 
 .dijitMenuItemHover {
-	cursor:pointer;
-	cursor:hand;
-	background-color:#B5D5FF;
-	color:black;
+	cursor: pointer;
+	cursor: hand;
+	background-color: #B5D5FF;
+	color: black;
 }
-
 
 /* Tables 
 -----------------------------------------------------------------------------*/

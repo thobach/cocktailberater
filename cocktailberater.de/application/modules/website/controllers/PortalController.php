@@ -4,13 +4,7 @@
  * Class responsible for everything regarding the portal
  */
 
-class PortalController extends Zend_Controller_Action {
-
-	public function preDispatch () {
-		$config = Zend_Registry::get ( 'config' ) ;
-		$this->view->uri = $config->paths->uri ;
-		$this->view->picture_path = $config->paths->picture_path ;
-	}
+class Website_PortalController extends Zend_Controller_Action {
 
 	public function indexAction () {
 

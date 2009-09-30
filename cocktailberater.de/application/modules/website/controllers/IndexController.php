@@ -6,11 +6,6 @@
 
 class Website_IndexController extends Zend_Controller_Action {
 
-	/*
-	public function preDispatch () {
-	}
-	*/
-
 	public function indexAction () {
 		$this->view->start = true ;
 	}
@@ -39,7 +34,7 @@ class Website_IndexController extends Zend_Controller_Action {
 	}
 
 	public function tagAction () {
-		$list = Recipe::getRecipesByTag ( $this->_getParam ( 'tag' )) ;
+		$list = Website_Model_Recipe::getRecipesByTag ( $this->_getParam ( 'tag' )) ;
 		$this->view->recipes = $list ;
 		$this->view->tag = $this->_getParam ( 'tag' ) ;
 		if (count ( $liste ) == 1) {
@@ -52,7 +47,7 @@ class Website_IndexController extends Zend_Controller_Action {
 		$this->_helper->layout->disableLayout();
 
 		if ($this->_hasParam ( 'tag' )) {
-			$list = Recipe::getRecipesByTag ( $this->_getParam ( 'tag' )) ;
+			$list = Website_Model_Recipe::getRecipesByTag ( $this->_getParam ( 'tag' )) ;
 			$this->view->recipes = $list ;
 		}
 	}
@@ -251,7 +246,7 @@ class Website_IndexController extends Zend_Controller_Action {
 		// Layouts für Info-Felder deaktivieren
 		$this->_helper->layout->disableLayout();
 		if ($this->_hasParam ( 'id' )) {
-			$cocktails = new Recipe ( ) ;
+			$cocktails = new Website_Model_Recipe ( ) ;
 			$liste = $cocktails->listRecipe( $this->_getParam ( 'id' ) ) ;
 			$this->view->recipe = $liste ;
 			//$this->view->foto = $fotos ;
@@ -260,9 +255,9 @@ class Website_IndexController extends Zend_Controller_Action {
 
 	public function ingredientAction () {
 		if ($this->_hasParam ( 'id' )) {
-			$ingredient = new Ingredient ( $this->_getParam ( 'id' ) ) ;
+			$ingredient = new Website_Model_Ingredient ( $this->_getParam ( 'id' ) ) ;
 			$this->view->ingredient = $ingredient ;
-			$liste = Cocktail::listCocktails ( $this->_getParam ( 'id' ), 100, 'zutat' ) ;
+			$liste = Website_Model_Cocktail::listCocktails ( $this->_getParam ( 'id' ), 100, 'zutat' ) ;
 			$this->view->cocktails = $liste ;
 		}
 	}
@@ -271,7 +266,7 @@ class Website_IndexController extends Zend_Controller_Action {
 		// Layouts für Info-Felder deaktivieren
 		$this->_helper->layout->disableLayout();
 		if ($this->_hasParam ( 'id' )) {
-			$ingredient = new Ingredient ( $this->_getParam ( 'id' ) ) ;
+			$ingredient = new Website_Model_Ingredient ( $this->_getParam ( 'id' ) ) ;
 			$this->view->ingredient = $ingredient ;
 		}
 	}

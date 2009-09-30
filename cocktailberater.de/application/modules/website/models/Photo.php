@@ -78,8 +78,7 @@ class Website_Model_Photo {
 	}
 	
 	public function getPhotoUrl(){
-		$config = Zend_Registry::get ( 'config' ) ;
-		return $config->paths->picture_path.
+		return Zend_Controller_Front::getInstance()->getBaseUrl().'/img/'.
 		$this->getPhotoCategory()->folder.'/'.
 		$this->id.'.jpg';
 	}

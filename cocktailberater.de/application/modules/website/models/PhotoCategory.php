@@ -1,5 +1,5 @@
 <?php
-class Website_Model_PhotoCategory extends Category {
+class Website_Model_PhotoCategory extends Website_Model_Category {
 	
 	// attributes
 	private $folder;
@@ -39,13 +39,13 @@ class Website_Model_PhotoCategory extends Category {
 	
 	public static function getPhotoCategory($id)
 	{
-		if(!PhotoCategory::$_photoCategory[$id]){
-			PhotoCategory::$_photoCategory[$id] = CbFactory::factory('PhotoCategory',$id);
+		if(!Website_Model_PhotoCategory::$_photoCategory[$id]){
+			Website_Model_PhotoCategory::$_photoCategory[$id] = Website_Model_CbFactory::factory('Website_Model_PhotoCategory',$id);
 		}
-		return PhotoCategory::$_photoCategory[$id];
+		return Website_Model_PhotoCategory::$_photoCategory[$id];
 	}
 	
-	public function PhotoCategory($id = NULL)
+	public function __construct($id = NULL)
 	{
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','photocategory');
 		if(!empty($id)){
