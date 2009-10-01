@@ -13,7 +13,7 @@ echo $this->doctype()
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
-echo $this->headTitle()."\n";
+echo $this->headTitle();
 echo $this->headScript();
 echo $this->headLink();
 echo $this->headStyle();
@@ -21,5 +21,6 @@ echo $this->headStyle();
 </head>
 <body>
 <div><?php echo $this->layout()->content ?></div>
+<div>© cocktailberater 2009</div>
 </body>
 </html>
