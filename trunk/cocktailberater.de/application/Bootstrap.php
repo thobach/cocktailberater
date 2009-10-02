@@ -58,8 +58,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		}
 		$bootstrap->bootstrap('FrontController');
 		$front = $bootstrap->getResource('FrontController');
-		require_once '../library/Cb/Controller/Plugin/Layout.php';
-		$plugin = new Cb_Controller_Plugin_Layout();
+		$plugin = new Wb_Controller_Plugin_Layout();
 		$front->registerPlugin($plugin);
 	}
 }
