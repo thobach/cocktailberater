@@ -42,33 +42,44 @@ echo $this->headScript()."\n";
 ?>
 </head>
 <body class="tundra">
-<div id="distance"
-<?php if($this->layout()->getView()->start) { print ' style="height:100px"';} ?>></div>
 <div id="wrapper">
 <div id="header"><a
-	href="<?php print $this->url(array('controller'=>'index','action'=>'index','module'=>'website'),null,true); ?>"><img
-	src="<?php print $this->baseUrl(); ?>/img/banner_small.png"
-	alt="cocktailberater.de Banner" width="600" height="142" /></a></div>
+	href="<?php print $this->url(array(	'controller'=>'index',
+										'action'=>'index',
+										'module'=>'website'),null,true); ?>"><img
+	src="<?php print $this->baseUrl(); ?>/img/<?php 
+	if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index' &&
+		Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index') { 
+		?>header.png<?php 
+	} 
+	else { 
+		?>header-detail.png<?php 
+	} ?>"
+	alt="cocktailberater.de Banner" /></a></div>
 <!-- id:header -->
-<div id="homepage"><?php if($this->layout()->getView()->error) { ?>
+<div id="homepage"><?php 
+if($this->layout()->getView()->error) { ?>
 <div class="error">
 <p><?php print $this->layout()->getView()->error; ?></p>
 </div>
-<?php } ?>
-
+<?php
+} ?>
 <div id="nav"><?php echo $this->placeholder('nav') ?></div>
-
 <div id="content"><?php echo $this->layout()->content ?></div>
 </div>
 <!-- id:homepage -->
 <div id="footer">
 <ul>
 	<li><a
-		href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'index','module'=>'website'),null,true); ?>">portal</a></li>
+		href="<?php print $this->url(array(	'module'=>'website',
+											'controller'=>'portal',
+											'action'=>'index',
+											'module'=>'website'),null,true); ?>">portal</a></li>
 	<li><a
-		href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'top10','module'=>'website'),null,true); ?>">top10</a></li>
-	<li><a
-		href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'imprint','module'=>'website'),null,true); ?>"
+		href="<?php print $this->url(array(	'module'=>'website',
+											'controller'=>'index',
+											'action'=>'imprint',
+											'module'=>'website'),null,true); ?>"
 		title="Impressum"><img
 		src="<?php print $this->baseUrl(); ?>/img/adresse.png" alt="Impressum"
 		title="Impressum" height="10" /> impressum</a></li>
