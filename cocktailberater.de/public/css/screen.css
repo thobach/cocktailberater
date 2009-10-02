@@ -107,8 +107,8 @@ body {
 	text-align: left;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 1em;
+	margin-bottom: 1em;
 	background-color: #FFFFFF;
 	border: 1px solid #808080;
 }
@@ -183,16 +183,19 @@ a:hover {
 	color: #54616E;
 }
 
+hr {
+	border-bottom: 1px solid #aa1061;
+	width: 562px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /* Header
 -----------------------------------------------------------------------------*/
 #header {
 	margin-left: auto;
 	margin-right: auto;
-	border-bottom: 1px solid #808080;
-	height: 142px;
-	width: 600px;
-	height: 142px;
-	border-bottom: 1px solid #808080;
+	/*border-bottom: 1px solid #808080;*/
 }
 
 /* Navigation
@@ -201,25 +204,20 @@ a:hover {
 -----------------------------------------------------------------------------*/
 div#footer {
 	clear: left;
-	left: 50%;
-	padding-top: 1em;
+	padding-top: 2em;
 	margin-bottom: 0.8em;
-	position: relative;
 	text-align: left;
 	height: 1.6em;
 }
 
 div#footer ul {
 	font-size: 1.4em;
-	position: relative;
-	left: -50%;
 }
 
 div#footer ul li {
 	clear: none;
 	float: left;
 	list-style-type: circle;
-	display: list-item;
 	margin-left: 1.8em;
 }
 
@@ -241,6 +239,38 @@ div#footer ul li {
 	margin-right: 16px;
 	margin-top: 1.0em;
 	text-align: justify;
+}
+
+div.browse {
+	text-align: left;
+	margin-left: 3em;
+	margin-right: 3em;
+	margin-top: 3em;
+	clear: left;
+}
+
+div.browse h2 {
+	font-size: 1.5em;
+	font-weight: normal;
+}
+
+div.browse ul {
+	margin-left: 2em;
+}
+
+div.browse ul li {
+	clear: none;
+	float: left;
+	width: 33%;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	height: 3em;
+}
+
+div.browse ul li a img {
+	vertical-align: bottom;
+	margin-right: 1em;
+	float: left;
 }
 
 /* Your template
@@ -333,10 +363,6 @@ p.description {
 
 #suche_name {
 	padding: 20px;
-}
-
-.spacing100px {
-	margin-top: 70px;
 }
 
 #cocktail {
