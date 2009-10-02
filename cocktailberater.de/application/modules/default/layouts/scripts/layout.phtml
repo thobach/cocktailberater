@@ -1,0 +1,26 @@
+<?php
+/**
+ * Default Layout
+ *
+ * @author  der cocktailberater
+ * @version 1.0
+ */
+
+echo '<?xml version="1.0" encoding="UTF-8" ?>';
+echo $this->doctype()
+?>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<?php
+echo $this->headTitle();
+echo $this->headScript();
+echo $this->headLink();
+echo $this->headStyle();
+?>
+</head>
+<body>
+<div><?php echo $this->layout()->content ?></div>
+<div>© 2009 by cocktailberater</div>
+</body>
+</html>

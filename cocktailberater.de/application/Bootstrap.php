@@ -3,7 +3,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
 	/**
 	 * Initialize Cache
-	 *  
+	 *
 	 * @return void
 	 */
 	protected function _initCache(){
@@ -18,7 +18,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			'automatic_serialization' => true,
 			'caching' => $cacheEnabled
 		);
-		
+
 		$backendOptions = array(
 		    'cache_dir' => realpath(APPLICATION_PATH.'/../tmp/') // Directory where to put the cache files
 		);
@@ -27,10 +27,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		// add Cache object to registry
 		Zend_Registry::set ('cache',$cache);
 	}
-	
+
 	/**
 	 * Initialize Logger
-	 *  
+	 *
 	 * @return void
 	 */
 	protected function _initLogger(){
@@ -41,8 +41,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		} else {
 			$writer = new Zend_Log_Writer_Null();
 			$log = new Zend_Log($writer);
-			
+				
 		}
-		Zend_Registry::set('logger',$log);		
+		Zend_Registry::set('logger',$log);
+	}
+
+	/**
+	 * Initialize Plugins
+	 *
+	 * @return void
+	 */
+	protected function _initPlugins() {
+		$bootstrap = $this->getApplication();
+		if ($bootstrap instanceof Zend_Application) {
+			$bootstrap = $this;
+		}
+		$bootstrap->bootstrap('FrontController');
+		$front = $bootstrap->getResource('FrontController');
+		require_once '../library/Cb/Controller/Plugin/Layout.php';
+		$plugin = new Cb_Controller_Plugin_Layout();
+		$front->registerPlugin($plugin);
 	}
 }
