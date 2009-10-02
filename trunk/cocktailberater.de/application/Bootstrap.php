@@ -26,6 +26,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
 		// add Cache object to registry
 		Zend_Registry::set ('cache',$cache);
+		// Register the Cache object for Zend_Locale
+		Zend_Locale::setCache($cache);
 	}
 
 	/**
