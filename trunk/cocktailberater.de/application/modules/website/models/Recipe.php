@@ -203,7 +203,7 @@ class Website_Model_Recipe {
 			$limitSql = '';
 		}
 		$db = Zend_Db_Table::getDefaultAdapter();
-		$result = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \''.mysql_escape_string($name).'%\' '.$limitSql);
+		$result = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \'%'.mysql_escape_string($name).'%\' '.$limitSql);
 		//$result = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \''.mysql_escape_string($name).'%\' '.$limitSql);
 		$recipeArray = array();
 		foreach ($result as $recipe) {

@@ -19,8 +19,7 @@ version history: /html/css/screen.css
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif
-		;
+	font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif;
 }
 
 /* Styles for layout
@@ -108,9 +107,10 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 1em;
-	margin-bottom: 1em;
+	margin-bottom: 3em;
 	background-color: #FFFFFF;
 	border: 1px solid #808080;
+	padding-bottom: 1em;
 }
 
 /* Typography
@@ -123,12 +123,13 @@ h1 {
 
 h2 {
 	font-size: 2.0em; /* Equivalent to 20pt */
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
 
 h3 {
 	font-size: 1.4em; /* Equivalent to 18pt */
+	margin-top: 0.8em;
 }
 
 h4 {
@@ -188,6 +189,7 @@ hr {
 	width: 562px;
 	margin-left: auto;
 	margin-right: auto;
+	clear: both;
 }
 
 /* Header
@@ -195,28 +197,40 @@ hr {
 #header {
 	margin-left: auto;
 	margin-right: auto;
-	/*border-bottom: 1px solid #808080;*/
+	width: 600px;
+}
+
+div#header a {
+	width: 600px;
+	display: block;
+}
+
+div#header a h1 {
+	display: none;
 }
 
 /* Navigation
 -----------------------------------------------------------------------------*/
-	/* Footer
+	/* pre-header
 -----------------------------------------------------------------------------*/
-div#footer {
-	clear: left;
-	padding-top: 2em;
+div#pre-header {
+	padding-top: 0.5em;
 	margin-bottom: 0.8em;
 	text-align: left;
-	height: 1.6em;
+	height: 1em;
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+	font-size: 1em;
 }
 
-div#footer ul {
-	font-size: 1.4em;
+div#pre-header ul {
+	
 }
 
-div#footer ul li {
+div#pre-header ul li {
 	clear: none;
-	float: left;
+	float: right;
 	list-style-type: circle;
 	margin-left: 1.8em;
 }
@@ -241,9 +255,17 @@ div#footer ul li {
 	text-align: justify;
 }
 
+div.sub_nav {
+	float: left;
+	margin-right: 12px;
+	margin-top: 1em;
+	width:140px;
+	margin-left: 1em;	
+}
+
 div.browse {
 	text-align: left;
-	margin-left: 3em;
+	margin-left: 4em;
 	margin-right: 3em;
 	margin-top: 3em;
 	clear: left;
@@ -263,15 +285,78 @@ div.browse ul li {
 	float: left;
 	width: 33%;
 	margin-top: 1em;
-	margin-bottom: 1em;
+	margin-bottom: 2em;
 	height: 3em;
 }
 
 div.browse ul li a img {
-	vertical-align: bottom;
 	margin-right: 1em;
 	float: left;
 }
+
+div.browse ul li a {
+	text-decoration: underline;
+}
+
+div.content {
+	text-align: left;
+	float: left;
+	width: 410px;
+}
+
+div.content ul {
+	margin-left: 1em;
+	margin-top: 1em;
+	list-style-type: circle;
+	list-style-position: inside;
+}
+
+div.content ul.horizontal li {
+	clear: none;
+	float: left;
+	width: 43%;
+	margin-right: 1em;
+	list-style-type: none;
+	list-style-position: outside;
+	margin-top: 1em;
+	padding: 0.5em;
+}
+
+div.content ul.glas {
+	margin: 0;
+}
+
+div.content ul.glas li {
+	height: 5em;
+	border: 1px solid #54616E;
+}
+
+div.content ul.glas li img {
+	margin-right: 0.4em;
+	float: left;
+}
+
+div.content ul.noBullet{
+	list-style-type: none;	
+}
+
+div.sub_nav ul.textLeft>li:FIRST-CHILD{
+	margin-top: 0em;
+}
+
+div.sub_nav ul.textLeft>li{
+	margin-top: 1em;
+}
+
+div.sub_nav ul.textLeft>li>a {
+	font-weight: bold;
+	color: black;
+}
+
+div.sub_nav ul.textLeft>li>ul {
+	font-size: 1.35em;
+}
+
 
 /* Your template
 -----------------------------------------------------------------------------*/
@@ -323,31 +408,11 @@ input.text,textarea.text {
 	border: 1px solid #999999;
 }
 
-input#search,input.q2,input.small {
-	background-color: white;
-	border-style: dotted;
-	border-color: #cf0060;
-	border-width: 0 0 2px 0;
-}
-
-input#search {
-	width: 180px;
-	font-size: 1.5em;
-}
-
-input.q2 {
-	width: 120px;
-	font-size: 1em;
-}
-
 input.submit,#submit,#anmelden,#abmelden {
 	padding-left: 20px;
 	padding-right: 20px;
 	font-size: 1.5em;
-	background-color: #bd5585;
-	border-style: solid;
-	border-color: #cf0060;
-	border-width: 0 0 2px 0;
+	background-color: gray;
 }
 
 p.description {
@@ -355,14 +420,6 @@ p.description {
 	color: gray;
 	margin-top: 0.2em;
 	text-align: left;
-}
-
-#legende_suchen {
-	font-size: 1.5em;
-}
-
-#suche_name {
-	padding: 20px;
 }
 
 #cocktail {
@@ -376,10 +433,9 @@ p.description {
 	margin-right: auto;
 }
 
-.attribut {
+.attribut, dt {
 	clear: left;
 	float: left;
-	/*background-color: black;*/
 	color: #cf0060;
 	text-align: left;
 	margin: 2px;
@@ -387,7 +443,8 @@ p.description {
 	width: 100px;
 }
 
-.wert {
+.wert, dd {
+	clear: none;
 	float: left;
 	width: 300px;
 	text-align: justify;
@@ -419,11 +476,15 @@ label.small {
 
 .error {
 	margin-top: 2em;
+	margin-bottom: 2em;
 	width: 545px;
-	margin-left: 20px;
 	background-color: rgb(244, 225, 225);
 	border: 1px solid rgb(204, 0, 0);
-	padding: 0.2em;
+	padding: 0.4em;
+	color: rgb(204, 0, 0);
+}
+
+.notice {
 	color: rgb(204, 0, 0);
 }
 
@@ -443,61 +504,77 @@ label.small {
 
 /* Suche
 -----------------------------------------------------------------------------*/
-.suggest_link {
-	background-color: #FFFFFF;
-	padding: 2px 6px 2px 6px;
-	border-left: 1px solid black;
-	border-right: 1px solid black;
-}
-
-.suggest_link_over {
-	background-color: #3366CC;
-	padding: 2px 6px 2px 6px;
-	border: 1px solid black;
-}
-
-#search_suggest {
-	position: absolute;
-	width: 180px;
-	margin-left: 10px;
-	background-color: #FFFFFF;
-	text-align: left;
-	border: 1px solid #000000;
-	border-top: none;
-	border-bottom: none;
-	background-color: #FFFFFF;
-}
-
-/**
- *	aus dijit.css
- *	TextBox related.
- *	Everything that has an <input>
- */
-.dijitTextBox,.dijitComboBox,.dijitSpinner {
-	border: solid grey 1px;
-	background-color: white;
-	width: 15em;
-	/* need to set default size on outer node since inner nodes say <input style="width:100%"> and <td width=100%>.  user can override */
-}
-
-/* Menu */
-.dijitMenu {
-	border: 1px solid grey;
-	background-color: white;
-}
-
-.dijitMenuItem {
-	white-space: nowrap;
-	padding: .1em .2em;
+form#suche_name {
+	margin-left: 4em;
+	margin-top: 2em;
 	text-align: left;
 }
 
-.dijitMenuItemHover {
-	cursor: pointer;
-	cursor: hand;
-	background-color: #B5D5FF;
-	color: black;
+form#suche_name legend {
+	display: none;
 }
+
+form#suche_name label {
+	font-size: 1.5em;
+	float: left;
+	margin-top: 0.9em;
+}
+
+form#suche_name div.search_options label {
+	margin-top: 0;
+}
+
+form#suche_name div.search_options input {
+	margin-top: 0.4em;
+}
+
+form#suche_name .dijitTextBox,input#search {
+	width: 220px;
+	margin-left: 30px;
+	display: block;
+	float: left;
+	margin-top: 1.5em;
+}
+
+ul.dijitMenu li.dijitMenuItem {
+	font-size: 1.5em;
+}
+
+input#search {
+	border: 1px solid rgb(179, 179, 179);
+	font-size: 1.5em;
+	margin-top: 1em;
+}
+
+input#search_button {
+	background-color: white;
+	height: 58px;
+	width: 137px;
+	font-size: 0;
+	margin-left: 30px;
+}
+
+div.search_options {
+	font-size: 0.8em;
+	padding-top: 1em;
+	margin-bottom: 2em;
+	margin-left: 4em;
+}
+
+div.form {
+	clear: left;
+}
+
+textarea#message {
+	width: 300px;	
+	height: 150px;
+}
+
+dl.zend_form>dd>pre {
+	font-family: monospace;
+}
+
+input[type="radio"] { margin-right: 0.5em; } 
 
 /* Tables 
 -----------------------------------------------------------------------------*/

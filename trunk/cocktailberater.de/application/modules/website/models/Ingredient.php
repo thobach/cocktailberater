@@ -116,11 +116,13 @@ class Website_Model_Ingredient {
 	static function listIngredients ( $search , $limit = 100) {
 		$db = Zend_Db_Table::getDefaultAdapter();
 		// wird für suggest benutzt
-		$result = $db->fetchAll ( 'SELECT id
+		$result = $db->fetchAll ( 'SELECT id, name
 		FROM ingredient
 		WHERE (name LIKE ?)
+		GROUP BY name
 		ORDER BY name 
-		LIMIT ' . $limit, array ( str_replace ( '\'', '\\\'', $search ) . '%' ) ) ; // evtl. das noch davor: '%'.
+		LIMIT ' . $limit, array (str_replace ( '\'', '\\\'', $search ) . '%' ) ) ; // evtl. das noch davor: '%'.
+		// use ORDER BY name to avoid entries with same name
 		$ingredientArray = array();
 		foreach ($result as $ingredient) {
 			$ingredientArray[] = Website_Model_CbFactory::factory('Website_Model_Ingredient',$ingredient['id']);

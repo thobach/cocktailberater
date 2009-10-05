@@ -9,15 +9,31 @@ class Website_PortalController extends Zend_Controller_Action {
 	public function indexAction () {
 
 	}
+	
+	public function barkundeAction () {
+
+	}
+
+	public function hausbarAction () {
+
+	}
+	
+	public function communityAction () {
+
+	}
+	
 	public function cocktailDerWocheAction () {
 
 	}
+	
 	public function top10DrinksAction () {
 
 	}
+	
 	public function forumAction () {
 
 	}
+	
 	public function loginAction () {
 
 	}
@@ -57,35 +73,45 @@ class Website_PortalController extends Zend_Controller_Action {
 	public function meineFavoritenAction () {
 
 	}
+	
 	public function meineCocktailsAction () {
 
 	}
+	
 	public function meinCocktailbuchAction () {
 
 	}
+	
 	public function glasAction () {
 
 	}
+	
 	public function utensilienAction () {
 
 	}
+	
 	public function nutritionAction () {
 		$this->view->cocktails = Website_Model_Cocktail::listCocktails('');
 		//Zend_Debug::dump($cocktails);
 	}
+	
 	public function mixtechnikenAction () {
 
 	}
+	
 	public function grundausstattungAction () {
 
 	}
+	
 	public function zutatenAction () {
 
 	}
+	
 	public function buecherAction () {
 
 	}
-public function andereSeitenAction () {
+	
+	public function andereSeitenAction () {
 
 	}
 

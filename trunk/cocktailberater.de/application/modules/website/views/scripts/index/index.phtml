@@ -1,29 +1,30 @@
-<?php print $this->partial('template/search.phtml',array('uri' => $this->baseUrl())); ?>
-<hr class="abstand_oben_doppelt" />
+<div  class="abstand_oben_doppelt">
+	<?php print $this->partial('template/search.phtml',array('uri' => $this->baseUrl())); ?>
+</div>
 <div class="browse">
 <h2>Stöbern</h2>
 <ul>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>'1')); ?>"><img
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'alcoholic')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/alkohol-cocktails.png" />Alkoholische<br />
 	Cocktails</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>'1')); ?>"><img
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'top10')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/topcocktail.png" />Top 10<br />
 	Cocktails</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>'1')); ?>"><img
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'non-alcoholic')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/alkoholfrei.png" />Alkholfreie<br />
 	Cocktails</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>'1')); ?>"><img
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'barkunde')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/stoessel.png" />Wissen &amp;<br />Barkunde</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>'1')); ?>"><img
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'community')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/community.png" />Cocktail-<br />
 	Community</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>'1')); ?>"><img
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'imprint')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/cocktailberater.png" />Über<br /></br>
 	Cocktailberater</a></li>
 </ul>

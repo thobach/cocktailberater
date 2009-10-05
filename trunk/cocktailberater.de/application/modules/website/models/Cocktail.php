@@ -86,7 +86,8 @@ class Website_Model_Cocktail {
 	 *
 	 * @param string $search search string
 	 * @param int $limit number of results, default: 100
-	 * @param string $option options: name (default), top10, zutat2, idonly, id, tag2, tag, zutat, kategorie, volltextsuche
+	 * @param string $option options: name (default), top10, zutat2, idonly, 
+	 * 			id, tag2, tag, zutat, kategorie, volltextsuche, alcoholic, non-alcoholic
 	 * @return array Cocktail
 	 */
 	static function listCocktails($search=NULL, $limit = 100, $option = 'name') {
@@ -100,7 +101,7 @@ class Website_Model_Cocktail {
 		if($option=='' OR ($option !='name' AND $option !='top10'
 		AND $option != 'idonly' AND $option != 'id' AND $option != 'tag2' AND $option != 'tag'
 		AND $option != 'zutat' AND $option != 'kategorie'
-		AND $option != 'volltextsuche')) {
+		AND $option != 'volltextsuche' AND $option != 'alcoholic' AND $option != 'non-alcoholic')) {
 			$option = 'name';
 		}
 		// process search
@@ -261,6 +262,26 @@ class Website_Model_Cocktail {
 				$search,
 				$search
 				));
+			}
+			// alcoholic
+			if ($option == 'alcoholic') {
+				$result = $db->fetchAll('SELECT cocktail.id as cocktail
+												FROM cocktail
+												INNER JOIN recipe ON cocktail.id = recipe.cocktail
+												WHERE (recipe.isAlcoholic = 1)
+												ORDER BY cocktail.name
+												LIMIT ' . $limit, 
+				array ( $search . '%'));
+			}
+			// non-alcoholic
+			if ($option == 'non-alcoholic') {
+				$result = $db->fetchAll('SELECT cocktail.id as cocktail
+												FROM cocktail								
+												INNER JOIN recipe ON cocktail.id = recipe.cocktail
+												WHERE (recipe.isAlcoholic = 0)
+												ORDER BY cocktail.name
+												LIMIT ' . $limit, 
+				array ( $search . '%'));
 			}
 			$cocktailArray = array();
 			if (is_array($result)) {

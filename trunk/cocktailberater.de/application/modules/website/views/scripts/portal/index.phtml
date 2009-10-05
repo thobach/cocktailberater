@@ -1,16 +1,7 @@
-<?php print $this->partial('template/search.phtml'); ?>
-<hr style="border-bottom: 1px solid #aa1061; width: 562px; margin-left: auto; margin-right: auto;" />
 <?php print $this->partial('template/portal_nav.phtml'); ?>
-<div style="float: left;">
-<h2 style="margin-top: 0.3em;">cocktailberater - Portal</h2>
-<p>Der alkoholische Drink der Woche ist:</p>
-<div style="text-align: center; border: 1px solid black; width: 100px;"><img
-	src="<?php print $this->baseUrl(); ?>/img/recipes/1.jpg"
-	style="width: 100px;" /><br />
-<pre>Mojito</pre></div>
-<p>Der alkoholfreie Drink der Woche ist:</p>
-<div style="text-align: center; border: 1px solid black; width: 100px;"><img
-	src="<?php print $this->baseUrl(); ?>/img/recipes/1.jpg"
-	style="width: 100px;" /><br />
-<pre>Mojito</pre></div>
+<div class="content">
+<h2>Portal</h2>
+<?php print $this->partial('template/community.phtml'); ?>
+<?php print $this->partial('template/hausbar.phtml'); ?>
+<?php print $this->partial('template/barkunde.phtml'); ?>
 </div>

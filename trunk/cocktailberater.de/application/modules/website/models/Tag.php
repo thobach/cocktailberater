@@ -132,7 +132,7 @@ class Website_Model_Tag {
 			$uniqueSql = 'GROUP BY name ';
 		}
 		$db = Zend_Db_Table::getDefaultAdapter();
-		$tags = $db->fetchAll('SELECT id FROM tag WHERE name LIKE ? '.$uniqueSql.$limitSql, str_replace ( '\'', '\\\'', $search.'%' ));
+		$tags = $db->fetchAll('SELECT id FROM tag WHERE name LIKE ? '.$uniqueSql.$limitSql, str_replace ( '\'', '\\\'', '%'.$search.'%' ));
 		$tagArray = array();
 		foreach ($tags as $tag) {
 			$tagArray[$tag['id']] = Website_Model_CbFactory::factory('Website_Model_Tag', $tag['id']);

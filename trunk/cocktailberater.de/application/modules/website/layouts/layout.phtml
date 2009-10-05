@@ -8,7 +8,17 @@ $title = 'der cocktailberater';
 if($this->layout()->getView()->title!='') {
 	$title =  $this->layout()->getView()->title. ' - ' .$title;
 }
-echo $this->headTitle($title)."\n";
+echo $this->headTitle($title);
+// echo styles
+echo $this->headStyle()."\n";
+// dojo
+$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+if ($this->dojo()->isEnabled()){
+	$this->dojo()->setDjConfigOption('parseOnLoad', true);
+	$this->dojo()->setDjConfigOption('baseUrl', './');
+	$this->dojo()->addStyleSheetModule('dijit.themes.tundra');
+	echo $this->dojo()."\n";
+}
 // css style sheets
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/screen.css');
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/print.css','print');
@@ -27,73 +37,72 @@ $this->headLink(array('rel' => 'alternate',
                       'href' => 'http://blog.cocktailberater.de/feeds/posts/default?alt=rss'));
 // echo css, faveicon and feeds
 echo $this->headLink()."\n";
-// echo styles
-echo $this->headStyle()."\n";
-// dojo
-$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
-if ($this->dojo()->isEnabled()){
-	$this->dojo()->setDjConfigOption('parseOnLoad', true);
-	$this->dojo()->setDjConfigOption('baseUrl', './');
-	$this->dojo()->addStyleSheetModule('dijit.themes.tundra');
-	echo $this->dojo()."\n";
-}
 // echo scripts
 echo $this->headScript()."\n";
 ?>
 </head>
 <body class="tundra">
+<div id="pre-header">
+	<ul>
+		<li><a
+			href="<?php print $this->url(array(	'module'=>'website',
+												'controller'=>'index',
+												'action'=>'imprint',
+												'module'=>'website'),null,true); ?>"
+			title="Impressum"><!-- <img
+			src="<?php print $this->baseUrl(); ?>/img/adresse.png" alt="Impressum"
+			title="Impressum" height="10" />  -->impressum</a></li>
+		<li><a
+			href="<?php print $this->url(array(	'module'=>'website',
+												'controller'=>'index',
+												'action'=>'contact',
+												'module'=>'website'),null,true); ?>"
+			title="kontakt">kontakt</a></li>
+		<li><a
+			href="<?php print $this->url(array(	'module'=>'website',
+												'controller'=>'portal',
+												'action'=>'index',
+			 									'module'=>'website'),null,true); ?>">portal</a></li>
+		<!-- <li>© 2009 by <a href="http://www.thobach.de">Thomas Bachmann</a></li> -->
+		<!-- <li><a href="http://www.addthis.com/bookmark.php"
+			onclick="addthis_url   = location.href; addthis_title = document.title; return addthis_click(this);"
+			title="Diese Seiteeinem (Social)-BookmarkingServicehinzufügen"><img
+			src="http://s9.addthis.com/button1-bm.gif" width="125" height="16"
+			alt="Diese Seite einem (Social)-Bookmarking Service hinzufügen"
+			style="margin-top: 2px; vertical-align: text-bottom;" /></a></li> -->
+	</ul>
+</div><!-- id:footer -->
 <div id="wrapper">
-<div id="header"><a
-	href="<?php print $this->url(array(	'controller'=>'index',
-										'action'=>'index',
-										'module'=>'website'),null,true); ?>"><img
-	src="<?php print $this->baseUrl(); ?>/img/<?php 
-	if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index' &&
-		Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index') { 
-		?>header.png<?php 
-	} 
-	else { 
-		?>header-detail.png<?php 
-	} ?>"
-	alt="cocktailberater.de Banner" /></a></div>
-<!-- id:header -->
-<div id="homepage"><?php 
-if($this->layout()->getView()->error) { ?>
-<div class="error">
-<p><?php print $this->layout()->getView()->error; ?></p>
-</div>
-<?php
-} ?>
-<div id="nav"><?php echo $this->placeholder('nav') ?></div>
-<div id="content"><?php echo $this->layout()->content ?></div>
-</div>
-<!-- id:homepage -->
-<div id="footer">
-<ul>
-	<li><a
-		href="<?php print $this->url(array(	'module'=>'website',
-											'controller'=>'portal',
-											'action'=>'index',
-											'module'=>'website'),null,true); ?>">portal</a></li>
-	<li><a
-		href="<?php print $this->url(array(	'module'=>'website',
-											'controller'=>'index',
-											'action'=>'imprint',
-											'module'=>'website'),null,true); ?>"
-		title="Impressum"><img
-		src="<?php print $this->baseUrl(); ?>/img/adresse.png" alt="Impressum"
-		title="Impressum" height="10" /> impressum</a></li>
-	<li>© 2009 by <a href="http://www.thobach.de">Thomas Bachmann</a></li>
-	<li><a href="http://www.addthis.com/bookmark.php"
-		onclick="addthis_url   = location.href; addthis_title = document.title; return addthis_click(this);"
-		title="Diese Seiteeinem (Social)-BookmarkingServicehinzufügen"><img
-		src="http://s9.addthis.com/button1-bm.gif" width="125" height="16"
-		alt="Diese Seite einem (Social)-Bookmarking Service hinzufügen"
-		style="margin-top: 2px; vertical-align: text-bottom;" /></a></li>
-</ul>
-</div>
-<!-- id:footer --></div>
-<!-- id:wrapper -->
+<?php 
+if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index' &&	
+	Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index') { 
+	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header.png\'); height: 142px;';
+	$linkStyle = 'height: 142px;'; 
+} 
+else { 
+	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header-detail.png\'); height: 50px;';
+	$linkStyle = 'height: 50px;'; 
+}
+?>
+	<div id="header" style="<?php echo $headStyle; ?>">
+		<a href="<?php 
+		$mainPage = array('controller'=>'index','action'=>'index','module'=>'website');
+		print $this->url($mainPage,null,true); ?>" style="<?php echo $linkStyle;?>"><h1>cocktailberater</h1></a>
+	</div><!-- id:header -->
+	<div id="homepage"><?php 
+		if($this->layout()->getView()->error) {
+		?>
+		<div class="error">
+			<p><?php print $this->layout()->getView()->error; ?></p>
+		</div>
+		<?php
+		}
+		?>
+		<div id="content"><?php echo $this->layout()->content ?></div>
+	</div><!-- id:homepage -->
+	<div class="clear"></div>
+</div><!-- id:wrapper -->
+
 <!-- Google Analytics START -->
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -107,6 +116,7 @@ try {
 	
 }</script>
 <!-- Google Analytics END -->
+
 <!-- Zend_Version: <?php echo Zend_Version::VERSION; ?> -->
 </body>
 </html>
