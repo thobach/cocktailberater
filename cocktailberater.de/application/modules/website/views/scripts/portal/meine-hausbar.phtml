@@ -1,10 +1,7 @@
-<?php print $this->partial('template/search.phtml'); ?>
-<hr style="border-bottom: 1px solid #aa1061; width: 562px; margin-left: auto; margin-right: auto;" />
 <?php print $this->partial('template/portal_nav.phtml'); ?>
-
-<div style="float: left; width: 410px;">
+<div class="content">
 <?php print $this->notice($this->message); ?>
-<h2 style="margin-top: 0;">Meine Hausbar</h2>
+<h2>Meine HausBar</h2>
 <p style="margin-bottom: 2em;">Bitte wählen Sie Ihre vorhanden Zutataen aus der folgenden Liste aus.</p>
 <form id="product2bar" name="product2bar" action="" method="post"><?php 
 $ingredientCategories=Website_Model_IngredientCategory::getIngredientCategories();
