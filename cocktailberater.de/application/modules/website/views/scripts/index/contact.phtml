@@ -12,8 +12,8 @@
 treten.<br />
 Wir freuen uns auf Ihre Nachricht!</p>
 <?php if($this->form->isErrors()){ ?>
-<div class="error"><?=$this->translate('Fehler aufgetreten!');?></div>
+<div class="error"><?php echo $this->translate('Fehler aufgetreten!'); ?></div>
 <?php } ?>
-<?= $this->form ?>
-<p class="clear">(*) <?=$this->translate('Pflichtfeld') ?></p>
+<?php echo $this->form; ?>
+<p class="clear">(*) <?php echo $this->translate('Pflichtfeld'); ?></p>
 </div>

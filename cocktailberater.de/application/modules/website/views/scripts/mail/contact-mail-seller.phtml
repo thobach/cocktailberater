@@ -1,0 +1,10 @@
+<?php $this->addScriptPath('../application/modules/website/views/partials'); ?>
+Sehr geehrte Damen und Herren,
+
+soeben ist über Ihre Webseite eine Anfrage eingegangen.
+
+<?php print $this->partial('contact-mail-details.phtml', $this); ?>
+Die Kontaktperson hat folgende Daten zu sich angegeben:
+
+<?php print $this->partial('contact-mail-person.phtml', $this); ?>
+Bitte setzen Sie sich mit der Kontaktperson in Verbindung.
