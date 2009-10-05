@@ -1,0 +1,44 @@
+<?php
+if($this->contact['salutation']!=''){
+	print $this->translate('Anrede').': ';
+	print $this->contact['salutation']."\n";
+}
+if($this->contact['company']!=''){
+	print $this->translate('Firma').': ';
+	print $this->contact['company']."\n";
+}
+print $this->translate('Vorname').': ';
+print $this->contact['firstname']."\n";
+print $this->translate('Nachname').': ';
+print $this->contact['lastname']."\n";
+if($this->contact['street']!=''){
+	print $this->translate('Strasse').': ';
+	print $this->contact['street']."\n";
+}
+if($this->contact['number']!=''){
+	print $this->translate('Hausnummer').': ';
+	print $this->contact['number']."\n";
+}
+if($this->contact['zip']!=''){
+	print $this->translate('Postleitzahl').': ';
+	print $this->contact['zip']."\n";
+}
+if($this->contact['city']!=''){
+	print $this->translate('Ort').': ';
+	print $this->contact['city']."\n";
+}
+if($this->contact['phone']!=''){
+	print $this->translate('Telefonnummer').': ';
+	print $this->contact['phone']."\n";
+}
+if($this->contact['mobile']!=''){
+	print $this->translate('Mobil').': ';
+	print $this->contact['mobile']."\n";
+}
+if($this->contact['fax']!=''){
+	print $this->translate('Faxnummer').': ';
+	print $this->contact['fax']."\n";
+}
+print $this->translate('E-Mail Adresse').': ';
+print $this->contact['email']."\n\n";
+?>

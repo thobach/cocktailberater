@@ -335,26 +335,24 @@ class Website_IndexController extends Zend_Controller_Action {
 		
 	}
 	
-public function contactedAction()
-	{
+	public function contactedAction(){
 		$defaultNamespace = new Zend_Session_Namespace('Default');
-		$form    = $this->_getGuestbookForm();
+		$form    = $this->_getContactForm();
 		$request = $this->getRequest();
 
 		if ($request->isPost()) {
 			if ($form->isValid($request->getPost())) {
 				// send email
 				$formValues = $form->getValues();
-				//$config = Initializer::getConfig();
 				// get config
 				$config = $this->getFrontController()->getParam('bootstrap')->getOptions();
 
-				/*$configMail = array(
-					'auth' => 'login',
-					'username' => $config->mail->username,
-					'password' => $config->mail->password);
-					$transport = new Zend_Mail_Transport_Smtp($config->mail->smtp_server, $configMail);
-					Zend_Mail::setDefaultTransport($transport);*/
+				$configMail = array(
+					'auth' =>  $config['mail']['auth'],
+					'username' => $config['mail']['username'],
+					'password' => $config['mail']['password']);
+				$transport = new Zend_Mail_Transport_Smtp($config['mail']['smtp_server'], $configMail);
+				Zend_Mail::setDefaultTransport($transport);
 
 				$textView = new Zend_View();
 				$textView->setScriptPath($this->view->getScriptPaths());
@@ -364,15 +362,16 @@ public function contactedAction()
 					$customerMail = new Zend_Mail('utf-8');
 					$customerMail->setBodyText($textView->render('mail/contact-mail-customer.phtml'));
 					$customerMail->setFrom($config['mail']['defaultsender'],$config['mail']['defaultsendername']);
-					$customerMail->setSubject($textView->translate('Ihre Kontaktanfrage bei vwa-bachelorball.de'));
+					$customerMail->setSubject($textView->translate('Ihre Kontaktanfrage bei cocktailberater.de.de'));
 					$customerMail->addTo($formValues['email']);
 					$customerMail->send();
 				}
 
 				$sellerMail = new Zend_Mail('utf-8');
 				$sellerMail->setBodyText($textView->render('mail/contact-mail-seller.phtml'));
+				$sellerMail->setReplyTo($formValues['email'],$formValues['firstname'].' '.$formValues['lastname']);
 				$sellerMail->setFrom($config['mail']['defaultsender'],$config['mail']['defaultsendername']);
-				$sellerMail->setSubject('Neue Kontaktanfrage über vwa-bachelorball.de');
+				$sellerMail->setSubject('Neue Kontaktanfrage über cocktailberater.de');
 				$sellerMail->addTo($config['mail']['defaultrecipient'],$config['mail']['defaultrecipientname']);
 				$sellerMail->send();
 			} else {
@@ -385,7 +384,7 @@ public function contactedAction()
 	public function contactAction()
 	{
 		$defaultNamespace = new Zend_Session_Namespace('Default');
-		$form    = $this->_getGuestbookForm();
+		$form    = $this->_getContactForm();
 		$request = $this->getRequest();
 
 		if ($this->getRequest()->isPost()) {
@@ -405,7 +404,7 @@ public function contactedAction()
 	 * @return Form_Contact
 	 */
 
-	protected function _getGuestbookForm()
+	protected function _getContactForm()
 	{
 		$form = new Website_Form_Contact();
 		$form->setAction($this->_helper->url('contact'));
