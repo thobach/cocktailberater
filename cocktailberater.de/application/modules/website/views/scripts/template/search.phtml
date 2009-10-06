@@ -37,8 +37,8 @@ print $this->url($searchLink,null,true); ?>">
 	<label for="search">Cocktail:</label>
 	<!-- text input w/ autocompletion -->
 	<?php 
-	$autoCompletetionInputOptions = array('dojoType'=>array('dijit.form.ComboBox'),'store'=>'testStore','autoComplete'=>'false','hasDownArrow'=>'false'); 
-	echo $this->formText('search',null,$autoCompletetionInputOptions);
+		$autoCompletetionInputOptions = array('dojoType'=>array('dijit.form.ComboBox'),'store'=>'testStore','autoComplete'=>'false','hasDownArrow'=>'false'); 
+		echo $this->formText('search',null,$autoCompletetionInputOptions);
 	?>
 	<input type="submit" style="background-image: url('<?php print $this->baseUrl();?>/img/suchen-button.png');" value="Suchen" id="search_button" />
 	<!-- search options -->
