@@ -102,7 +102,7 @@ foreach ( $recipe->getComponents() as $component ) {
 	dojo.addOnLoad(function() {
 		zutat<?php print $component->getIngredient()->id ;?>Tooltip = new dijit.Tooltip({
             connectId: ["zutat<?php print $component->getIngredient()->id ;?>"],
-            label: "<div><img src=\"loading.gif\"> Loading...</div>"
+            label: "<div><img src=\"<?php echo $this->baseUrl(); ?>/img/loading2.gif\"> Loading...</div>"
         });
         dojo.xhrGet({
 	           		url: "<?php print $this->url(array('module'=>'website','controller'=>'index',

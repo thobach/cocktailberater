@@ -48,7 +48,7 @@ class Wb_Decorator_HtmlTag extends Zend_Tag_Cloud_Decorator_HtmlTag
 dojo.addOnLoad(function() { 
 	tag<?php print $tag->getTitle() ;?>Tooltip = new dijit.Tooltip({
 		connectId: ["tag<?php print $tag->getTitle() ;?>"], 
-		label: "<div><img src=\"loading.gif\"> Loading...</div>" });
+		label: "<div><img src=\"<?php echo $this->_view->baseUrl(); ?>/img/loading2.gif\"> Loading...</div>" });
 	dojo.xhrGet({ 
 		url: "<?php print $this->_view->url(array('module'=>'website','controller'=>'index','action'=>'recipes-with-tag','tag'=>$tag->getTitle()),null,true); ?>", 
 		load: function(data){ 
