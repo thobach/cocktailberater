@@ -48,13 +48,18 @@ class Wb_Decorator_HtmlTag extends Zend_Tag_Cloud_Decorator_HtmlTag
 dojo.addOnLoad(function() { 
 	tag<?php print $tag->getTitle() ;?>Tooltip = new dijit.Tooltip({
 		connectId: ["tag<?php print $tag->getTitle() ;?>"], 
-		label: "<div><img src=\"<?php echo $this->_view->baseUrl(); ?>/img/loading2.gif\"> Loading...</div>" });
-	dojo.xhrGet({ 
-		url: "<?php print $this->_view->url(array('module'=>'website','controller'=>'index','action'=>'recipes-with-tag','tag'=>$tag->getTitle()),null,true); ?>", 
-		load: function(data){ 
-			tag<?php print $tag->getTitle() ;?>Tooltip.label=data;
-		} 
-	}); 
+		label: "<?php $list = Website_Model_Recipe::getRecipesByTag ( $tag->getTitle()); ?>
+<h2 class=\"pink\" style=\"font-size: 1.2em; margin:0;\">Rezepte mit dem Tag &quot;<?php echo $tag->getTitle(); ?>&quot;:</h2><ul style=\"text-align:left\"><?php
+foreach ($list as $key => $recipe) {
+	$photos = $recipe->getPhotos();
+	?><li style=\"width: 15em; padding: 0.2em; line-height: 2em;\"><?php 
+	?><p><img style=\"height: 1.5em; float: left; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" src=\"<?php print $this->_view->baseUrl();
+			if(isset($photos[0]) && $photos[0]->id){
+				print '/img/recipes/'.$this->_view->escape($photos[0]->fileName);
+			} else { 
+				print '/img/wikilogo.png';
+			} ?>\" /><?php echo $this->_view->escape(str_replace('\\','',$recipe->name)) ?></p><?php 
+	?></li><?php } ?></ul>" });
 });
 <?php $this->_view->headScript()->captureEnd();
 			$tagHtml = sprintf('<a href="%s" %s id="tag%s" rel="tag"><span>this recipe is tagged %s times with: </span>%s</a>', htmlSpecialChars($tag->getParam('url')), $attribute,$tag->getTitle(), $tag->getWeight(), $tag->getTitle());

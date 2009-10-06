@@ -102,13 +102,30 @@ foreach ( $recipe->getComponents() as $component ) {
 	dojo.addOnLoad(function() {
 		zutat<?php print $component->getIngredient()->id ;?>Tooltip = new dijit.Tooltip({
             connectId: ["zutat<?php print $component->getIngredient()->id ;?>"],
-            label: "<div><img src=\"<?php echo $this->baseUrl(); ?>/img/loading2.gif\"> Loading...</div>"
+            label: "<?php
+$alcoholLevel = $component->getIngredient()->getAverageAlcoholLevel();
+$calories = $component->getIngredient()->getAverageCaloriesKcal();
+$categories = $component->getIngredient()->getIngredientCategories();
+$products = $component->getIngredient()->getProducts();
+?><div style=\"text-align:left;\"><?php
+if($alcoholLevel){ ?><span class=\"pink\">Alkoholgehalt:</span><?php print $alcoholLevel; ?> %<br /><?php }
+if($calories) { ?><span class=\"pink\">Kalorien:</span><?php print $calories; ?> kcal<br /><?php } 
+if ($categories) {?><span class=\"pink\">Kategorie(n):</span><?php
+if(is_array($categories)){
+	foreach ($categories as $category) {
+		print $category->name.'<br />';
+	}
+}
+}
+if($products) { ?><span class=\"pink\">Produkte:</span><?php
+if(is_array($products)){
+	foreach ($products as $product) {
+		print $product->name.' ('.$product->getManufacturer()->name.') - '.$product->size.' '.$product->unit.'<br />';
+	}
+}
+}
+?></div>"
         });
-        dojo.xhrGet({
-	           		url: "<?php print $this->url(array('module'=>'website','controller'=>'index',
-						'action'=>'ingredient-preview','id'=>$component->getIngredient()->id),null,true); ?>",
-	           		load: function(data){ zutat<?php print $component->getIngredient()->id ;?>Tooltip.label=data;}
-	    });
     });
 	<?php $this->headScript()->captureEnd(); ?>
 	<a id="zutat<?php print $component->getIngredient()->id ;?>"
@@ -134,34 +151,6 @@ $decorator = new Wb_Decorator_HtmlTag();
 $decorator->setView($this);
 $tagCloud->setTagDecorator($decorator);
 echo $tagCloud;
-/*$tags = Website_Model_Tag::tagsByRecipeId( $recipe->id, true);
-if (is_array ( $tags )) {
-	foreach ( $tags as $tag ) {
-		?>
-		
-	<?php $this->headScript()->captureStart(); ?>
-	dojo.addOnLoad(function() {
-		tag<?php print $tag->name ;?>Tooltip = new dijit.Tooltip({
-            connectId: ["tag<?php print $tag->name ;?>"],
-            label: "<div><img src=\"loading.gif\"> Loading...</div>"
-        });
-        dojo.xhrGet({
-	           		url: "<?php print $this->url(array('module'=>'website','controller'=>'index',
-						'action'=>'recipes-with-tag','tag'=>$tag->name),null,true); ?>",
-	           		load: function(data){ tag<?php print $tag->name ;?>Tooltip.label=data;}
-	    });
-    });
-	<?php $this->headScript()->captureEnd(); ?>
-		<a id="tag<?php print $tag->id; ?>"
-	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'tag',
-		'tag'=>$tag->name),null,true); ?>"
-	title="Cocktails mit Tag: <?php echo $this->escape ( str_replace ( '\\', '', $tag->name ) ) ?>"><?php
-	print $tag->name ;
-	?></a> <?php
-	}
-} else {
-	print 'keine Tags vorhanden' ;
-}*/
 ?>
 <?php
 // dojo helper
