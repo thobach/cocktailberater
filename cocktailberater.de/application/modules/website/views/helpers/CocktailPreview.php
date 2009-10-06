@@ -25,7 +25,12 @@ class Zend_View_Helper_CocktailPreview extends Zend_View_Helper_Abstract
 		           		url: "<?php print $this->view->url(array('module'=>'website','controller'=>'index',
 								'action'=>'recipe-preview','cocktail'=>$recipe->name,
 								'id'=>$recipe->id),null,true); ?>",
-		           		load: function(data){ recipe<?php print $recipe->id ;?>Tooltip.label=data;}
+		           		load: function(data){ 
+		           			recipe<?php print $recipe->id ;?>Tooltip.label=data;
+		           		},
+						error: function (error) {
+							console.error('Error: ', error);
+						}
 		    });
 	    });
 		<?php $this->view->headScript()->captureEnd(); ?>
