@@ -19,19 +19,20 @@ class Zend_View_Helper_CocktailPreview extends Zend_View_Helper_Abstract
 		dojo.addOnLoad(function() {
 			recipe<?php print $recipe->id ;?>Tooltip = new dijit.Tooltip({
 	            connectId: ["recipe<?php print $recipe->id ;?>"],
-	            label: "<div><img src=\"loading.gif\"> Loading...</div>"
+	            label: "<div class=\"textLeft\"><?php
+$components = $recipe->getComponents();
+if (is_array ( $components )) {
+	foreach ( $components as $component ) {
+		print $component->amount ;
+		print ' ' ;
+		print $component->unit;
+		print ' ' ;
+		print $component->getIngredient()->name ;
+		print '<br />' ;
+	}
+}
+?></div>"
 	        });
-	        dojo.xhrGet({
-		           		url: "<?php print $this->view->url(array('module'=>'website','controller'=>'index',
-								'action'=>'recipe-preview','cocktail'=>$recipe->name,
-								'id'=>$recipe->id),null,true); ?>",
-		           		load: function(data){ 
-		           			recipe<?php print $recipe->id ;?>Tooltip.label=data;
-		           		},
-						error: function (error) {
-							console.error('Error: ', error);
-						}
-		    });
 	    });
 		<?php $this->view->headScript()->captureEnd(); ?>
 <div id="cocktail" style="width: 100px; height: 150px"><a
