@@ -59,6 +59,7 @@ class Website_IndexController extends Zend_Controller_Action {
 		if ($this->_hasParam ( 'tag' )) {
 			$list = Website_Model_Recipe::getRecipesByTag ( $this->_getParam ( 'tag' )) ;
 			$this->view->recipes = $list ;
+			$this->view->tag = $this->_getParam ( 'tag' ) ;
 		}
 	}
 

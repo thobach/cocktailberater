@@ -125,24 +125,30 @@ print $recipe->instruction ;
 ?></div>
 <div class="attribut">Schlagworte / Tags:<br />
 <span id="switcha1"
-	onclick="document.getElementById('tag_form').style.display='block'; document.getElementById('switcha1').innerHTML='';"
+	onclick="document.getElementById('tag_form').style.display='block'; document.getElementById('switcha1').innerHTML=''; dojo.byId('newtag').focus();"
 	style="cursor: pointer; color: #54616E">(hinzufügen)</span></div>
 <div class="wert"><?php
-$tags = Website_Model_Tag::tagsByRecipeId( $recipe->id, true);
+$tagCloud =  Website_Model_Tag::getRecipeTagCloud($recipe->id);
+require_once(APPLICATION_PATH.'/Wb/Decorator/HtmlTag.php');
+$decorator = new Wb_Decorator_HtmlTag();
+$decorator->setView($this);
+$tagCloud->setTagDecorator($decorator);
+echo $tagCloud;
+/*$tags = Website_Model_Tag::tagsByRecipeId( $recipe->id, true);
 if (is_array ( $tags )) {
 	foreach ( $tags as $tag ) {
 		?>
 		
 	<?php $this->headScript()->captureStart(); ?>
 	dojo.addOnLoad(function() {
-		tag<?php print $tag->id ;?>Tooltip = new dijit.Tooltip({
-            connectId: ["tag<?php print $tag->id ;?>"],
+		tag<?php print $tag->name ;?>Tooltip = new dijit.Tooltip({
+            connectId: ["tag<?php print $tag->name ;?>"],
             label: "<div><img src=\"loading.gif\"> Loading...</div>"
         });
         dojo.xhrGet({
 	           		url: "<?php print $this->url(array('module'=>'website','controller'=>'index',
 						'action'=>'recipes-with-tag','tag'=>$tag->name),null,true); ?>",
-	           		load: function(data){ tag<?php print $tag->id ;?>Tooltip.label=data;}
+	           		load: function(data){ tag<?php print $tag->name ;?>Tooltip.label=data;}
 	    });
     });
 	<?php $this->headScript()->captureEnd(); ?>
@@ -155,19 +161,50 @@ if (is_array ( $tags )) {
 	}
 } else {
 	print 'keine Tags vorhanden' ;
-}
+}*/
 ?>
-<form id="tag_form" class="regular_form"
-	style="margin-top: 1em; display: none; margin-bottom: 0.5em;"
-	action="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id),null,true); ?>"
-	method="post">
-<fieldset><legend>Schlagwort / Tag hinzufügen</legend> <input
-	type="text" name="newtag" class="q2"
-	style="width: 210px; height: 1.6em; float: left; color: #cf0060; font-size: 1.1em;" />
-<input name="recipe" value="<?php print $recipe->id; ?>" type="hidden" />
-<input type="submit" class="submit"
-	style="background-color: white; float: right;" value="Taggen"
-	name="submit" /></fieldset>
+<?php
+// dojo helper
+$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+// enable dojo with custom module (readStore), parser, and comboBox
+$this->dojo()->enable()
+->registerModulePath('custom', $this->baseUrl().'/js/custom')
+->requireModule('dojo.parser')
+->requireModule('dojox.data.QueryReadStore')
+->requireModule('dijit.form.ComboBox')
+->requireModule('custom.TagReadStore');
+// define url for autoCompletion
+$autoCompletionUrl = array('action'=>'suggest','controller'=>'index','module'=>'website','format'=>'ajax');
+?>
+<div dojoType="custom.TagReadStore" jsId="tagStore" url="<?php echo $this->url($autoCompletionUrl); ?>"
+	requestMethod="get"></div>
+<?php $this->headScript()->captureStart(); ?>
+// configure query
+djConfig.usePlainJson=true;
+// add the possibility to submit the search by pressing the ENTER key 
+function initTag() {
+	dojo.connect(dojo.byId("newtag"), 'onkeypress', function(e) { 
+		if (e.keyCode == dojo.keys.ENTER) { 
+			dojo.byId('tag_form').submit(); 
+		} 
+	});
+}
+dojo.addOnLoad(initTag);
+<?php $this->headScript()->captureEnd(); ?>
+<form id="tag_form" class="regular_form hide abstand_oben abstand_unten" method="post"
+	action="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id),null,true); ?>">
+	<fieldset>
+		<legend>Schlagwort / Tag hinzufügen</legend>
+		<label for="newtag">Tag:</label>
+		<!-- text input w/ autocompletion -->
+		<?php 
+			$autoCompletetionInputOptions = array('dojoType'=>array('dijit.form.ComboBox'),'store'=>'tagStore','autoComplete'=>'false','hasDownArrow'=>'false'); 
+			echo $this->formText('newtag',null,$autoCompletetionInputOptions);
+		?>
+		<input name="recipe" value="<?php print $recipe->id; ?>" type="hidden" />
+		<input type="submit" class="small-button" value="hinzufügen"
+			style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png');" />
+	</fieldset>
 </form>
 </div>
 <div class="attribut">Bewertung:</div>

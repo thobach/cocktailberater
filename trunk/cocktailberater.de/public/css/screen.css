@@ -357,6 +357,18 @@ div.sub_nav ul.textLeft>li>ul {
 	font-size: 1.35em;
 }
 
+ul.Zend_Tag_Cloud li {
+	display: inline;
+		
+}
+
+ul.Zend_Tag_Cloud li span {
+	display: none;	
+}
+
+ul.Zend_Tag_Cloud li a {
+}
+
 
 /* Your template
 -----------------------------------------------------------------------------*/
@@ -392,11 +404,14 @@ div.sub_nav ul.textLeft>li>ul {
 
 #achtung {
 	border: 1px solid red;
-	color: red;
 }
 
 input.small {
 	width: 3em;
+}
+
+input.medium {
+	width: 6em;
 }
 
 input.big,textarea.big {
@@ -413,6 +428,32 @@ input.submit,#submit,#anmelden,#abmelden {
 	padding-right: 20px;
 	font-size: 1.5em;
 	background-color: gray;
+}
+
+input.medium-button {
+	font-size: 1.5em;
+	text-align: center;
+	color: white;
+	width:137px;
+	height:32px;
+}
+
+input.small-button {
+	font-size: 1em;
+	text-align: center;
+	color: white;
+	width:94px;
+	height:22px;
+}
+
+form#tag_form .dijitTextBox, input#newtag {
+	border: 1px solid rgb(179, 179, 179);
+	font-size: 1.2em;
+	width: 6em;
+}
+
+form#tag_form label {
+	font-size: 1.2em;		
 }
 
 p.description {
@@ -528,7 +569,7 @@ form#suche_name div.search_options input {
 	margin-top: 0.4em;
 }
 
-form#suche_name .dijitTextBox,input#search {
+form#suche_name .dijitTextBox, input#search {
 	width: 220px;
 	margin-left: 30px;
 	display: block;

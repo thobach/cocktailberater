@@ -1,5 +1,5 @@
 <?php
-class Website_Model_Tag {
+class Website_Model_Tag implements Zend_Tag_Taggable {
 
 	// attributes
 	private $id;
@@ -31,6 +31,10 @@ class Website_Model_Tag {
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
 		}
 	}
+	
+	public function getParam($name) {
+		return $this->__get($name);
+	}
 
 	/**
 	 * Magic Setter Function, is accessed when setting an attribute
@@ -44,6 +48,10 @@ class Website_Model_Tag {
 		} else {
 			throw new Exception ( 'Class \''.get_class($this).'\' does not provide property: ' . $name . '.' ) ;
 		}
+	}
+	
+	public function setParam($name,$value) {
+		return $this->__set($name,$value);
 	}
 	
 	/**
@@ -109,6 +117,15 @@ class Website_Model_Tag {
 		}
 	}
 	
+	
+	public function getWeight(){
+		return $this->getCountForRecipe();
+	}
+	
+	public function getTitle(){
+		return $this->name;
+	}
+	
 	public function getCountForRecipe(){
 		$db = Zend_Db_Table::getDefaultAdapter();
 		$result = $db->fetchRow ( 'SELECT count(id) as count FROM tag WHERE recipe='.$this->recipeId.' AND name=\''.$this->name.'\' GROUP BY recipe AND name');
@@ -138,6 +155,30 @@ class Website_Model_Tag {
 			$tagArray[$tag['id']] = Website_Model_CbFactory::factory('Website_Model_Tag', $tag['id']);
 		}
 		return ($tagArray) ;
+	}
+	
+	/**
+	 * returns a Zend_Tag_Cloud with all tags of a recipe
+	 *
+	 * @param int $recipeId
+	 * @return Zend_Tag_Cloud tag cloud
+	 */
+	static function getRecipeTagCloud ( $recipeId) {
+		$db = Zend_Db_Table::getDefaultAdapter();
+		$tags = $db->fetchAll ( 'SELECT name, count(name) as weight FROM tag WHERE recipe='.$recipeId.' GROUP BY name');
+		
+		$list = new Zend_Tag_ItemList();
+		$view = new Zend_View();
+		foreach ($tags as $tag) {
+			$list[] = new Zend_Tag_Item(array('title' => $tag['name'], 'weight' => $tag['weight'], 
+				'params'=>array('id'=>'test','url' => $view->url(array('module'=>'website','controller'=>'index',
+						'action'=>'tag','tag'=>$tag['name']),null,true))));
+		}
+		// Spread absolute values on the items
+		$list->spreadWeightValues(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+		$cloud = new Zend_Tag_Cloud();
+		$cloud->setItemList($list);
+		return ($cloud) ;
 	}
 
 	public static function tagsByRecipeId($id,$unique=false){
