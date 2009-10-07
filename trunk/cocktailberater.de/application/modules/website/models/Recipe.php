@@ -196,16 +196,42 @@ class Website_Model_Recipe {
 
 	}
 	
+	/**
+	 * Returns all recipes where the recipe title contains the given string.
+	 * 
+	 * @param $name search string
+	 * @param $limit maximal number of recipes
+	 * @todo write unit test
+	 * @return Website_Model_Recipe[] array with matching recipes
+	 */
 	public static function searchByName ($name,$limit=null){
-		// TODO: write unit test
+		// if search string was empty, immediately return
+		if($name==''){
+			return array();
+		}
+		// modfiy sql search if limit was given
 		if($limit){
-			$limitSql = ' LIMIT '.$limit;
+			$limitSql = ' LIMIT '.((int) $limit);
 		} else {
 			$limitSql = '';
 		}
 		$db = Zend_Db_Table::getDefaultAdapter();
-		$result = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \'%'.mysql_escape_string($name).'%\' '.$limitSql);
-		//$result = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \''.mysql_escape_string($name).'%\' '.$limitSql);
+		// look for perfect match
+		$result = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \''.mysql_escape_string($name).'%\' GROUP BY name ORDER BY name '.$limitSql);
+		// if perfect match has not reached the maximum limit, continue with fuzzy search
+		if($limit && count($result)<$limit){
+			$ids = '';
+			if(count($result)!=0){
+				foreach($result as $recipe){
+					$ids[] = '\''.$recipe['id'].'\'';
+				}
+				$ids = ' AND id NOT IN ('.implode(',',$ids).') ';
+			}
+			// also include recipes where the given search string is contained somewhere in the title
+			$result2 = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \'%'.mysql_escape_string($name).'%\' '.$ids.
+				' GROUP BY name LIMIT '.($limit-count($result)));
+			$result = array_merge($result,$result2);
+		}
 		$recipeArray = array();
 		foreach ($result as $recipe) {
 			$recipeArray[] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipe['id']);				
