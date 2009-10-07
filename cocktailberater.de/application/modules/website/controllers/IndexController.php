@@ -13,26 +13,32 @@ class Website_IndexController extends Zend_Controller_Action {
 	public function top10Action () {
 		$list = Website_Model_Cocktail::listCocktails ( NULL, 10, 'top10' ) ;
 		$this->view->cocktails = $list ;
+		$this->view->title = 'Top 10 Cocktail Rezepte';
 	}
 	
 	public function alcoholicAction () {
 		$list = Website_Model_Cocktail::listCocktails ( NULL, NULL, 'alcoholic' ) ;
 		$this->view->cocktails = $list ;
+		$this->view->title = 'alkoholische Cocktail Rezepte';
 	}
 	
 	public function nonAlcoholicAction () {
 		$list = Website_Model_Cocktail::listCocktails ( NULL, NULL, 'non-alcoholic' ) ;
 		$this->view->cocktails = $list ;
+		$this->view->title = 'alkoholfreie Cocktail Rezepte';
 	}
 
 	public function searchAction () {
 		$recipes = array();
 		if($this->_getParam ( 'search_type' ) == 'name'){
 			$recipes = Website_Model_Recipe::searchByName ($this->_getParam ( 'search' ) ) ;
+			$this->view->title = 'Cocktail Rezepte mit dem Namen "' . $this->_getParam ( 'search' ).'"';
 		} elseif($this->_getParam ( 'search_type' ) == 'ingredient'){
 			$recipes = Website_Model_Recipe::searchByIngredient ( $this->_getParam ( 'search' ) ) ;
+			$this->view->title = 'Cocktail Rezepte mit der Zutat "' . $this->_getParam ( 'search' ).'"';
 		} elseif($this->_getParam ( 'search_type' ) == 'tag'){
 			$recipes = Website_Model_Recipe::searchByTag ( $this->_getParam ( 'search' ) ) ;
+			$this->view->title = 'Cocktail Rezepte mit dem Tag/Schlagwort "' . $this->_getParam ( 'search' ).'"';
 		}
 		$this->view->recipes = $recipes ;
 		if (count ( $recipes ) == 1) {
@@ -167,7 +173,7 @@ class Website_IndexController extends Zend_Controller_Action {
 		$search = str_replace('*',null,$this->_getParam ( 'search' ));
 		if ($this->_getParam ( 'search_type' ) == 'name' || !$this->_hasParam ( 'search_type' )) {
 			$this->suggestions = Website_Model_Recipe::searchByName ( $search, 6 ) ;
-			// Zend_Debug::dump($this->suggestions);
+			//Zend_Debug::dump($this->suggestions);
 		} elseif ($this->_getParam ( 'search_type' ) == 'ingredient') {
 			$this->suggestions = Website_Model_Ingredient::listIngredients ($search, 6 ) ;
 		} elseif ($this->_getParam ( 'search_type' ) == 'tag') {
