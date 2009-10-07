@@ -110,19 +110,15 @@ class Website_Model_Cocktail {
 			$db = Zend_Db_Table::getDefaultAdapter();
 			// top10
 			if ($option == 'top10') {
-				//print 'top10'; exit;
 				$result = $db->fetchAll('
-					SELECT
-						*,
-						ratingsSum / ratingsCount AS average
-					FROM
-						recipe
-					GROUP BY
-						recipe.id
-					ORDER BY
-						average DESC
-					LIMIT 10'); // cocktail  NATURAL JOIN NATURAL JOIN 				photo2recipe 			NATURAL JOIN  				photo
-				//Zend_Debug::dump($result);
+					SELECT cocktail, average
+					FROM (
+						SELECT cocktail, ratingsSum / ratingsCount AS average
+						FROM recipe
+					) AS temp
+					GROUP BY cocktail
+					ORDER BY average DESC 
+					LIMIT 10');
 			}
 			// Name
 			// wird u.a. für suggest benutzt
