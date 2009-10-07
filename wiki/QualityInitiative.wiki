@@ -1,4 +1,9 @@
 #summary Qualitätssicherung der Cocktailrezepte
+#labels Featured
 
 = Cocktails =
   * Swimming Pool
+  * TODO Zombie
+  * Pina Colada
+  * Caipi
+  * Mojito
