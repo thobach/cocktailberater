@@ -2,8 +2,8 @@
 #labels Featured
 
 = Cocktails =
-  * Swimming Pool
+  * DONE Swimming Pool
   * TODO Zombie
-  * Pina Colada
-  * Caipi
-  * Mojito
+  * TODO Pina Colada
+  * TODO Caipi
+  * TODO Mojito
