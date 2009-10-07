@@ -4,16 +4,10 @@ $this->dojo()->addStylesheet($this->dojo()->getCdnBase().$this->dojo()->getCdnVe
 $recipe = $this->recipe;
 $photos = $recipe->getPhotos();
 $videos = $recipe->getVideos();
-if(!isset($count)){
-	$count = 0;
-}
-if(!isset($gesamt)){
-	$gesamt = 1;
-}
+$alternatives = $this->alternatives;
+$gesamt = count($alternatives);
 ?>
-<div
-	id="rezept_<?php print $count; ?>" <?php if($count!=0){ ?>
-	style="display: none;" <?php } ?>>
+<div>
 <div style="float: right;"><img style="<?php 
 	if(isset($photos[0]) && $photos[0]->fileName) {  ?>width: 160px<?php } 
 	else { ?>margin-top: 1em; <?php }?>"
@@ -42,7 +36,6 @@ if(!isset($gesamt)){
 	style="margin-right: 10px; margin-top: 4px; vertical-align: top;"
 	onclick="document.getElementById('video').style.display='block';" /></a><?php
 	}
-	//print_r($this->foto);
 	$i = 0 ;
 	if(is_array($photos)){
 		foreach ( $photos as $photo ) {
@@ -60,24 +53,8 @@ if(!isset($gesamt)){
 	}
 	?></a><?php
 		}
-	} else { ?> keine Galerie <?php  }
-	/* try
-	 {
-		$flickr = new Zend_Service_Flickr('f9726af417e035136717b20f41a2c3ac');
-		$results = $flickr->tagSearch($this->cocktail->cocktail_name.',cocktail',array('tag_mode'=>'all','sort'=>'interestingness-desc'));
-		foreach ($results as $result) {
-		echo '<a href="'.$result->Medium->uri.'" target="_blank" class="thickbox" rel="gallery"></a> ';
-		#print_r($result);
-		}
-		}
-		catch (Zend_Service_Exception $e)
-		{
-		print '<div><br />Flicker ist nicht verfügbar!</div>';
-		} */
-	?> <?php if($gesamt!=1) { ?> <br />
-<a href="#"
-	onclick="document.getElementById('rezept_<?php print $count; ?>').style.display='none'; document.getElementById('rezept_<?php if($gesamt != $count+1) { print $count+1; } else { print '0'; } ?>').style.display='block';">weitere
-Rezeptvarianten &gt;</a> <?php } ?></div>
+	}
+	?></div>
 </div>
 <!-- class="right" -->
 <div style="margin-left: 25px; margin-top: 15px">
@@ -86,13 +63,14 @@ Rezeptvarianten &gt;</a> <?php } ?></div>
 print str_replace ( '\\', '', $recipe->name ) ;
 ?></div>
 <?php if($recipe->description){?><div class="attribut">Beschreibung:</div>
-<div class="wert"><?php
-print $recipe->description ;
-?></div><?php } ?>
+<div class="wert"><p><?php
+print str_replace("\n",'</p><p>',$recipe->description);
+?></p></div><?php } ?>
 <div class="attribut">Zutaten:</div>
-<div class="wert"><?php
+<div class="wert"><ul><?php
 //Zend_Debug::dump($rezept); exit;
 foreach ( $recipe->getComponents() as $component ) {
+	print '<li>';
 	print $component->amount ;
 	print ' ' ;
 	print $component->unit ;
@@ -132,14 +110,14 @@ if(is_array($products)){
 	href="<?php print $this->url(array('module'=>'website','controller'=>'index',
 		'action'=>'ingredient','id'=>$component->getIngredient()->id),null,true); ?>"
 	title="<?php echo $this->escape ( str_replace ( '\\', '', $component->getIngredient()->name ) ) ?>">
-	<?php print $component->getIngredient()->name ; ?></a><br />
+	<?php print $component->getIngredient()->name ; ?></a></li>
 	<?php
 } // foreach
-?></div>
+?></ul></div>
 <div class="attribut">Anweisung:</div>
-<div class="wert"><?php
-print $recipe->instruction ;
-?></div>
+<div class="wert"><p><?php
+print str_replace("\n",'</p><p>',$recipe->instruction);
+?></p></div>
 <div class="attribut">Schlagworte / Tags:<br />
 <span id="switcha1"
 	onclick="document.getElementById('tag_form').style.display='block'; document.getElementById('switcha1').innerHTML=''; dojo.byId('newtag').focus();"
@@ -486,6 +464,18 @@ $durchschnitt = $this->recipe->getRating();
 	print $recipe->source;
 } else {
 	?>-keine angegeben-<?php } ?></div>
+<?php if($gesamt>1) { ?>
+	<div class="attribut">Rezept- alternativen:</div>
+	<div class="wert">
+	<ul class="nolist">
+	<?php
+	foreach ($alternatives as $alternative) { ?>
+		<li><?php $this->cocktailPreview($alternative); ?></li>
+	<?php 
+	} ?>
+	</ul>
+	</div>
+	<?php } ?>
 </div>
 <!-- class=left -->
 <div id="video" style="display: none;"><?php

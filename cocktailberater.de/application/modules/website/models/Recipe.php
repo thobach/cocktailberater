@@ -179,7 +179,8 @@ class Website_Model_Recipe {
 			$this->workMin = $recipe->workMin ;
 			$this->difficulty = $recipe->difficulty ;
 			$this->isOriginal = $recipe->isOriginal ;
-			$this->isAlcoholic = $this->isAlcoholic();
+			//$this->isAlcoholic = $this->isAlcoholic();
+			$this->isAlcoholic = $recipe->isAlcoholic;
 			$this->alcoholLevel = $this->getAlcoholLevel();
 			$this->caloriesKcal = $this->getCaloriesKcal();
 			$this->volumeCl = $this->getVolumeCl();

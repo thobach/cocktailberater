@@ -357,19 +357,6 @@ div.sub_nav ul.textLeft>li>ul {
 	font-size: 1.35em;
 }
 
-ul.Zend_Tag_Cloud li {
-	display: inline;
-		
-}
-
-ul.Zend_Tag_Cloud li span {
-	display: none;	
-}
-
-ul.Zend_Tag_Cloud li a {
-}
-
-
 /* Your template
 -----------------------------------------------------------------------------*/
 	/* Forms
@@ -465,7 +452,8 @@ p.description {
 
 #cocktail {
 	float: left;
-	padding: 5px;
+	padding-right: 1em;
+	padding-bottom: 1em;
 }
 
 #ergebnisse {
@@ -484,6 +472,12 @@ p.description {
 	width: 100px;
 }
 
+div.wert p {
+	font-size: 1em;
+	text-align: left;
+	margin-bottom: 0.4em;
+}
+
 .wert, dd {
 	clear: none;
 	float: left;
@@ -491,6 +485,28 @@ p.description {
 	text-align: justify;
 	margin: 2px;
 	padding: 1px;
+}
+
+div.wert ul li {
+	clear: both;
+}
+
+div.wert ul.nolist li {
+	clear: none;
+	float: left;
+}
+
+div.wert ul.Zend_Tag_Cloud li {
+	display: inline;
+	float: none;
+	clear: both;
+}
+
+div.wert ul.Zend_Tag_Cloud li span {
+	display: none;	
+}
+
+div.wert ul.Zend_Tag_Cloud li a {
 }
 
 label {

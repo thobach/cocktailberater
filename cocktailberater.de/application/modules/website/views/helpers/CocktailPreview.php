@@ -50,10 +50,17 @@ if (is_array ( $components )) {
 	src="<?php print $this->view->baseUrl(); ?>/img/info.png" align="top" /></a><br />
 <a
 	href="<?php print $this->view->url(array('module'=>'website','controller'=>'index','action'=>'recipe','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>">
-	<?php if(isset($mode) && $mode=='top10') {
+	<?php 
+	if(isset($mode) && $mode=='top10') {
 		print '#'.$top.' - ';
 	}
 	echo $this->view->escape(str_replace('\\','',$recipe->name));
+	if($recipe->isAlcoholic==0){
+			echo ' (alkoholfrei)';
+	}
+	if($recipe->isOriginal==1){
+		echo ' (original)';
+	}
 	if(isset($mode) && $mode=='top10') {
 		//print ' - Bewertung: '.number_format($cocktail->bewertungs_summe/$cocktail->bewertungs_anzahl,2,',',NULL);
 	}
