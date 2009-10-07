@@ -10,9 +10,10 @@ class Zend_View_Helper_CocktailPreview extends Zend_View_Helper_Abstract
 	 * prints a preview of a cocktail used by search etc
 	 *
 	 * @param 	Website_Model_Recipe	recipe
+	 * @param	int						top 10 position or null
 	 * @return 	string 					html content
 	 */
-	public function cocktailPreview(Website_Model_Recipe $recipe) {
+	public function cocktailPreview(Website_Model_Recipe $recipe,$top10Position=null) {
 		$this->view->dojo()->enable()->requireModule('dijit.Tooltip');
 		$photos = Website_Model_Photo::photosByRecipeId($recipe->id); ?>
 		<?php $this->view->headScript()->captureStart(); ?>
@@ -51,8 +52,8 @@ if (is_array ( $components )) {
 <a
 	href="<?php print $this->view->url(array('module'=>'website','controller'=>'index','action'=>'recipe','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>">
 	<?php 
-	if(isset($mode) && $mode=='top10') {
-		print '#'.$top.' - ';
+	if($top10Position) {
+		print '#'.$top10Position.' - ';
 	}
 	echo $this->view->escape(str_replace('\\','',$recipe->name));
 	if($recipe->isAlcoholic==0){

@@ -434,7 +434,7 @@ class Website_Model_Recipe {
 		// TODO: write unit test
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe');
 		try {
-			$recipes = $table->fetchAll ( 'cocktail=' . $idcocktail ) ; }
+			$recipes = $table->fetchAll ( 'cocktail=' . $idcocktail , '(ratingsSum / ratingsCount) DESC') ; }
 			catch (Exception $e) {
 				throw new Website_Model_RecipeException('Id_Wrong');
 			}
