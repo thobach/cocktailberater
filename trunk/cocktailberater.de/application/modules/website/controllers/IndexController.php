@@ -248,8 +248,11 @@ class Website_IndexController extends Zend_Controller_Action {
 				$comment->ip = $_SERVER [ 'REMOTE_ADDR' ];
 				$comment->save();
 			}
-			$this->view->recipe = new Website_Model_Recipe ( $this->_getParam ( 'id' ) ) ;
-			$this->view->title = 'Rezept(e) von ' . $this->view->recipe->name ;
+			$recipe = new Website_Model_Recipe ( $this->_getParam ( 'id' ) ) ;
+			$this->view->recipe = $recipe;
+			$cocktail = new Website_Model_Cocktail($recipe->cocktailId);
+			$this->view->alternatives = $cocktail->getRecipes();
+			$this->view->title = $this->view->recipe->name.' Cocktail Rezepte' ;
 		}
 	}
 
