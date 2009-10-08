@@ -217,18 +217,18 @@ class Website_Model_Recipe {
 		}
 		$db = Zend_Db_Table::getDefaultAdapter();
 		// look for perfect match
-		$result = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \''.mysql_escape_string($name).'%\' GROUP BY name ORDER BY name '.$limitSql);
+		$result = $db->fetchAll ( 'SELECT id,name FROM recipe WHERE name LIKE \''.mysql_escape_string($name).'%\' GROUP BY name ORDER BY name '.$limitSql);
 		// if perfect match has not reached the maximum limit, continue with fuzzy search
 		if($limit && count($result)<$limit){
-			$ids = '';
+			$names = '';
 			if(count($result)!=0){
 				foreach($result as $recipe){
-					$ids[] = '\''.$recipe['id'].'\'';
+					$names[] = '\''.$recipe['name'].'\'';
 				}
-				$ids = ' AND id NOT IN ('.implode(',',$ids).') ';
+				$names = ' AND name NOT IN ('.implode(',',$names).') ';
 			}
 			// also include recipes where the given search string is contained somewhere in the title
-			$result2 = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \'%'.mysql_escape_string($name).'%\' '.$ids.
+			$result2 = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \'%'.mysql_escape_string($name).'%\' '.$names.
 				' GROUP BY name LIMIT '.($limit-count($result)));
 			$result = array_merge($result,$result2);
 		}

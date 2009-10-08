@@ -40,7 +40,7 @@ class Website_Model_MysqlTable extends Zend_Db_Table_Abstract
 	}
 
 	public static function getEnumValues($tablename,$field) {
-		$db = Zend_Registry::get('db');
+		$db = Zend_Db_Table::getDefaultAdapter();
 		$row = $db->fetchAll("SHOW COLUMNS FROM `".$tablename."` LIKE '".$field."'");
 
 		$erg = $row[0]->Type;

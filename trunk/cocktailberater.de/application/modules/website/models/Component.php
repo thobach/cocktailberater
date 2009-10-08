@@ -251,7 +251,7 @@ class Website_Model_Component {
 	 */
 	public static function getUnits()
 	{
-		return MysqlTable::getEnumValues('component','unit');
+		return Website_Model_MysqlTable::getEnumValues('component','unit');
 	}
 
 	/**

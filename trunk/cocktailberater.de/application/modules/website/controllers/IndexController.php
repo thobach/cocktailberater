@@ -99,15 +99,15 @@ class Website_IndexController extends Zend_Controller_Action {
 		 * If form has been submitted, spit all data :-)
 		 */
 		if ($this->_hasParam ( 'einsenden' )) {
-			if ($id = Cocktail::exists ( $this->_getParam ( 'cocktail_name' ) )) {
+			if ($id = Website_Model_Cocktail::exists ( $this->_getParam ( 'cocktail_name' ) )) {
 				// load existing cocktail (add new recipe later)
-				$cocktail = new Cocktail ( $id ) ;
+				$cocktail = new Website_Model_Cocktail ( $id ) ;
 			} else {
-				$cocktail = new Cocktail ( ) ;
+				$cocktail = new Website_Model_Cocktail ( ) ;
 				$cocktail->name = $this->_getParam ( 'cocktail_name' ) ;
 				$cocktail->save();
 			}
-			$rezept = new Recipe ( ) ;
+			$rezept = new Website_Model_Recipe ( ) ;
 			$rezept->cocktailId = $cocktail->id;
 			$rezept->name = $this->_getParam ( 'cocktail_name' ) ;
 			$rezept->save(); // save already to get ID
@@ -133,7 +133,7 @@ class Website_IndexController extends Zend_Controller_Action {
 				// für alle 10 möglichen Zutaten pro Kategorie und Rezept
 				for ( $div = 1 ; $div <= 10 ; $div ++ ) {
 					if ($this->_getParam ( 'idzutat_zut_kat_' . $kat . '_feld_' . $div ) != '' && $this->_getParam ( 'menge_zut_kat_' . $kat . '_feld_' . $div ) != '') {
-						$component = new Component ( ) ;
+						$component = new Website_Model_Component ( ) ;
 						$component->recipeId = $rezept->id ;
 						$component->ingredientId = $this->_getParam ( 'idzutat_zut_kat_' . $kat . '_feld_' . $div ) ;
 						$component->amount = $this->_getParam ( 'menge_zut_kat_' . $kat . '_feld_' . $div ) ;
@@ -169,6 +169,14 @@ class Website_IndexController extends Zend_Controller_Action {
 
 
 	public function suggestAction () {
+		// only for AJAX HTTP Get calls, otherwise forward to main page
+		if ('ajax' != $this->_getParam('format', false)) {
+            return $this->_helper->redirector('index');
+        }
+        if ($this->getRequest()->isPost()) {
+            return $this->_helper->redirector('index');
+        }
+        // get suggestions for the given search type
 		$this->suggestions = array();
 		$search = str_replace('*',null,$this->_getParam ( 'search' ));
 		if ($this->_getParam ( 'search_type' ) == 'name' || !$this->_hasParam ( 'search_type' )) {
@@ -179,19 +187,12 @@ class Website_IndexController extends Zend_Controller_Action {
 		} elseif ($this->_getParam ( 'search_type' ) == 'tag') {
 			$this->suggestions = Website_Model_Tag::listTags ( $search,6,true) ;
 		}
-		//$this->view->search_type = $this->_getParam ( 'search_type' ) ;
-		
-		if ('ajax' != $this->_getParam('format', false)) {
-            return $this->_helper->redirector('index');
-        }
-        if ($this->getRequest()->isPost()) {
-            return $this->_helper->redirector('index');
-        }
-        
+        // filter only names of the matches
         $matches = array();
         foreach ($this->suggestions as $suggestion) {
         	$matches[] = $suggestion->name;
         }
+        // return as json for dojo
         $this->_helper->autoCompleteDojo($matches);
 	}
 
