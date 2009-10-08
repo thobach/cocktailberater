@@ -118,10 +118,10 @@ class Website_Model_Ingredient {
 		// wird für suggest benutzt
 		$result = $db->fetchAll ( 'SELECT id, name
 		FROM ingredient
-		WHERE (name LIKE ?)
+		WHERE (name LIKE ? OR aliasName LIKE ?)
 		GROUP BY name
 		ORDER BY name 
-		LIMIT ' . $limit, array (str_replace ( '\'', '\\\'', $search ) . '%' ) ) ; // evtl. das noch davor: '%'.
+		LIMIT ' . $limit, array (str_replace ( '\'', '\\\'', $search ) . '%', str_replace ( '\'', '\\\'', $search ) . '%' ) ) ; // evtl. das noch davor: '%'.
 		// use ORDER BY name to avoid entries with same name
 		$ingredientArray = array();
 		foreach ($result as $ingredient) {

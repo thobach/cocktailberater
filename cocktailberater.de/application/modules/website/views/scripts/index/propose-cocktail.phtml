@@ -107,10 +107,10 @@ function mehrZutaten(idzutaten_kategorie) {
 	<fieldset id="zutaten_mengen">
 		<legend>Zutaten &amp; Mengenangaben</legend>	
 		<?php 
-		$units =  Component::getUnits();
-		foreach (IngredientCategory::getIngredientCategories() as $category){
+		$units =  Website_Model_Component::getUnits();
+		foreach (Website_Model_IngredientCategory::getIngredientCategories() as $category){
 		    $feld=0;
-			$zutaten = IngredientCategory::getIngredientsByCategory($category->id); ?>
+			$zutaten = Website_Model_IngredientCategory::getIngredientsByCategory($category->id); ?>
 		<fieldset id="<?php print $category->name; ?>">
 			<legend><?php print $category->name; ?></legend>
 			<input type="hidden" name="anzahlZutatKateg<?php print $category->id; ?>" id="anzahlZutatKateg<?php print $category->id; ?>" value="2" />
@@ -161,16 +161,16 @@ function mehrZutaten(idzutaten_kategorie) {
 		<div class="wert" style="width: 420px;">
 			<label for="schwierigkeits_grad_anfaenger">
 				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_anfaenger" value="Anfänger" class="abstand_rechts" />
-				<img src="<?php print $this->baseUrl() ; ?>img/leicht.png" alt="Schwierigkeitsgrad Anfänger" align="absmiddle" />
+				<img src="<?php print $this->baseUrl() ; ?>/img/leicht.png" alt="Schwierigkeitsgrad Anfänger" align="absmiddle" />
 				Anfänger
 			</label>
 			<label for="schwierigkeits_grad_fortgeschritten" class="abstand_links_doppelt">
 				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_fortgeschritten" value="Anfänger" class="abstand_rechts" />
-				<img src="<?php print $this->baseUrl() ; ?>img/mittel.png" alt="Schwierigkeitsgrad Fortgeschritten" align="absmiddle" /> Fortgeschritten
+				<img src="<?php print $this->baseUrl() ; ?>/img/mittel.png" alt="Schwierigkeitsgrad Fortgeschritten" align="absmiddle" /> Fortgeschritten
 			</label>
 			<label for="schwierigkeits_grad_profi" class="abstand_links_doppelt">
 				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_profi" value="Anfänger" class="abstand_rechts" />
-				<img src="<?php print $this->baseUrl() ; ?>img/schwer.png" alt="Schwierigkeitsgrad Profi" align="absmiddle" /> Profi
+				<img src="<?php print $this->baseUrl() ; ?>/img/schwer.png" alt="Schwierigkeitsgrad Profi" align="absmiddle" /> Profi
 			</label>
 			<p class="description">Der Schwierigkeitsgrad richtet sich nach dem Können. Ein Cuba Libre ist etwas für "Anfänger", ein B52 ist eher etwas für "Profis", da hier die Likörschichten getrennt sein müssen.</p>
 		</div>
@@ -180,7 +180,7 @@ function mehrZutaten(idzutaten_kategorie) {
 		<div class="wert" style="width: 420px;">
 			<?php
 			$i=2;
-			foreach (RecipeCategory::getRecipeCategories() as $recipeCategory) { $i++; ?>
+			foreach (Website_Model_RecipeCategory::getRecipeCategories() as $recipeCategory) { $i++; ?>
 			<label for="<?php print $kategorieid; ?>" class="small left<?php if($i%3==0) { print ' clear'; } ?>">
 				<input type="checkbox" name="kategorien[]" id="idcocktail_kategorie_<?php print $recipeCategory->id; ?>" value="<?php print $recipeCategory->id; ?>" class="abstand_rechts_halb" />
 				<?php print $recipeCategory->name; ?>
@@ -205,10 +205,10 @@ function mehrZutaten(idzutaten_kategorie) {
 	</fieldset>
 	<fieldset id="glas">
 		<legend>Glas</legend>
-		<?php foreach (Glass::listGlasses() as $glass) { ?>
+		<?php foreach (Website_Model_Glass::listGlasses() as $glass) { ?>
 		<label for="idglas<?php print $glass->id ?>" style="width: 32%; height: 5em;" class="left highlight abstand">
 			<input type="radio" name="idglas" id="idglas<?php print $glass->id ?>" value="<?php print $glass->id ?>" class="left clear abstand_rechts abstand_oben_doppelt" />
-			<img src="<?php $config = Zend_Registry::get('config'); print $config->paths->glas_picture_path.$glass->getPhoto()->fileName ?>" alt="<?php print $glass->getPhoto()->name ?>" class="left abstand_rechts"  />
+			<img src="<?php print $this->baseUrl().'/img/glasses/'.$glass->getPhoto()->fileName ?>" alt="<?php print $glass->getPhoto()->name ?>" class="left abstand_rechts"  />
 			<?php print $glass->name ?> (<?php print $glass->volumeMl ?> cl)
 		</label>
 		<?php } ?>

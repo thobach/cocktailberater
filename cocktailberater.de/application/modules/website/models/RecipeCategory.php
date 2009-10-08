@@ -1,5 +1,5 @@
 <?php
-class Website_Model_RecipeCategory extends Category {
+class Website_Model_RecipeCategory extends Website_Model_Category {
 
 
 	/**
@@ -30,7 +30,7 @@ class Website_Model_RecipeCategory extends Category {
 		}
 	}
 
-	public function RecipeCategory($id = NULL)
+	public function __construct($id = NULL)
 	{
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipecategory');
 		if(!empty($id)){
@@ -54,7 +54,7 @@ class Website_Model_RecipeCategory extends Category {
 			$recipes = $recipe2categoryTable->fetchAll('recipe='.$id);
 			if(count($recipes) > 0 ){
 				foreach ($recipes as $recipe) {
-					$recipesArray[] = CbFactory::factory('RecipeCategory', $recipe->recipeCategory);
+					$recipesArray[] = Website_Model_CbFactory::factory('RecipeCategory', $recipe->recipeCategory);
 				}
 			}
 			$cache->save($recipesArray,'categoryByRecipeId'.$id);
@@ -70,10 +70,10 @@ class Website_Model_RecipeCategory extends Category {
 	 * @return array RecipeCategory
 	 */
 	public static function getRecipeCategories () {
-		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'glass');
+		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipecategory');
 		$categories = $recipeTable->fetchAll ( NULL, 'name' ) ;
 		foreach ( $categories as $category ) {
-			$categoryArray [] = new RecipeCategory ( $category->id ) ;
+			$categoryArray [] = new Website_Model_RecipeCategory ( $category['id'] ) ;
 		}
 		return $categoryArray ;
 	}
