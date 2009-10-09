@@ -430,6 +430,11 @@ $durchschnitt = $this->recipe->getRating();
 	print $this->recipe->ratingsCount.' - Ø ' . number_format ( $this->recipe->getRating(), 2, ',', '' ) ;
 
 	?>)</div>
+<div class="attribut">Rezeptquelle:</div>
+<div class="wert"><?php if($recipe->source) {
+	print $recipe->source;
+} else {
+	?>-keine angegeben-<?php } ?></div>	
 	<?php $this->headScript()->captureStart(); ?>
 // hide all comments
 function hideComments() {
@@ -438,7 +443,7 @@ function hideComments() {
 	dojo.byId('switchc1').style.display='block';
 	dojo.byId('switchb1').style.display='block';
 	dojo.byId('switchb1').innerHTML='(einfügen)';
-	dojo.byId('switchc1').innerHTML='<?php $amountOfComments = count($this->recipe->getComments()); echo $amountOfComments; ?> Kommentare anzeigen';
+	dojo.byId('switchc1').innerHTML='<?php $amountOfComments = count($this->recipe->getComments()); echo $amountOfComments; ?> Kommentar(e) anzeigen';
 }
 // show all comments and new comment form 
 function showComments() {
@@ -512,11 +517,6 @@ if(!(location.hash=='#comment-insert' || location.hash=='#comments')){
 	name="submit" /><?php } ?></fieldset>
 </form>
 </div>
-<div class="attribut">Quelle:</div>
-<div class="wert"><?php if($recipe->source) {
-	print $recipe->source;
-} else {
-	?>-keine angegeben-<?php } ?></div>
 <?php if($gesamt>1) { ?>
 	<div class="attribut">Rezept- alternativen:</div>
 	<div class="wert">
