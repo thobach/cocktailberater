@@ -179,6 +179,11 @@ a:hover {
 	text-decoration: none;
 }
 
+a.nolink:hover {
+	color: #CF0060;
+}
+
+
 .link {
 	text-decoration: underline;
 	color: #54616E;
@@ -462,6 +467,18 @@ p.description {
 	margin-right: auto;
 }
 
+textarea#comment {
+	width: 305px;
+	height: 100px;
+	margin-left: 3px;
+	margin-top: 0.5em;
+	font-size: 1.1em;
+}
+
+div#recaptcha_widget_div{
+	clear: left;	
+}
+
 .attribut, dt {
 	clear: left;
 	float: left;
@@ -531,18 +548,39 @@ label.small {
 	width: 100px;
 }
 
+.error, .notice, .success {
+	padding:.8em;
+	border:2px solid #ddd;
+}
+
 .error {
-	margin-top: 2em;
-	margin-bottom: 2em;
-	width: 545px;
-	background-color: rgb(244, 225, 225);
-	border: 1px solid rgb(204, 0, 0);
-	padding: 0.4em;
-	color: rgb(204, 0, 0);
+	background:#FBE3E4;
+	color:#8a1f11;
+	border-color:#FBC2C4;
 }
 
 .notice {
-	color: rgb(204, 0, 0);
+	background:#FFF6BF;
+	color:#514721;
+	border-color:#FFD324;
+}
+
+.success {
+	background:#E6EFC2;
+	color:#264409;
+	border-color:#C6D880;
+}
+
+.error a {
+	color:#8a1f11;
+}
+
+.notice a {
+	color:#514721;
+}
+
+.success a {
+	color:#264409;
 }
 
 #box {
