@@ -434,6 +434,7 @@ $durchschnitt = $this->recipe->getRating();
 // hide all comments
 function hideComments() {
 	dojo.byId('commentList').style.display='none';
+	dojo.byId('comment_form').style.display='none';
 	dojo.byId('switchc1').style.display='block';
 	dojo.byId('switchb1').style.display='block';
 	dojo.byId('switchb1').innerHTML='(einfügen)';
