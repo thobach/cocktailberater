@@ -89,15 +89,7 @@ else {
 		$mainPage = array('controller'=>'index','action'=>'index','module'=>'website');
 		print $this->url($mainPage,null,true); ?>" style="<?php echo $linkStyle;?>"><h1>cocktailberater</h1></a>
 	</div><!-- id:header -->
-	<div id="homepage"><?php 
-		if($this->layout()->getView()->error) {
-		?>
-		<div class="error">
-			<p><?php print $this->layout()->getView()->error; ?></p>
-		</div>
-		<?php
-		}
-		?>
+	<div id="homepage">
 		<div id="content"><?php echo $this->layout()->content ?></div>
 	</div><!-- id:homepage -->
 	<div class="clear"></div>

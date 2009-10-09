@@ -24,7 +24,14 @@ function init() {
 			dojo.byId('suche_name').submit(); 
 		} 
 	});
+	<?php
+	// only focus the search bar at the start page
+	if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index'
+		&& Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index') { ?>
 	dojo.byId("search").focus();
+	<?php 
+	}
+	?>
 }
 dojo.addOnLoad(init);
 <?php $this->headScript()->captureEnd(); ?>
