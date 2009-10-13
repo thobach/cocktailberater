@@ -1,0 +1,4 @@
+#summary data base know how
+
+  * http://video.google.com/videoplay?docid=2524524540025172110 - MySQL Performance Tuning
+  * SET FOREIGN_KEY_CHECKS=0;
