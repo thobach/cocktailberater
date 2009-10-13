@@ -1,5 +1,85 @@
 #summary Dies ist die Übersichtsseite des Wikis.
 #labels Featured
+== vorläufige Meilensteine==
+  * M1 - 1.6.2008 - [API] für Bestellclient und Küchenclient fertig
+  * M2 - 1.7.2008 - [Bestellclient Bestell]- und [Kuechenclient Küchenclient] einsatzbereit, [Webseite] online
+  * M3 - 31.12.2008 - [Portal] online
 
-= Inhalt =
-* [Todos]
+==Todos==
+=== alle ===
+  * [CB_Team_Absprache_Nr_4 CB Team Absprache Nr. 4] am 16.9.08
+  * [CB_Team_Absprache_Nr_3 CB Team Absprache Nr. 3] am 7.5.08
+
+=== Caro ===
+  * Benutzeroberfläche unter Gebrauchstauglichkeits-Aspekten gestalten
+  * [API Programmschnittstellen] drüber schaun
+  * [CorporateDesign Corporate Design] erstellen
+  * [Cocktailkarte] erstellen / gestalten
+
+=== Tobse ===
+  * [API Programmschnittstellen] drüber schaun
+  * [Architektur] definieren & beschreiben
+  * [Bestellclient Bestell]- und [Kuechenclient Küchenclient]
+
+=== Pat ===
+  * [API]s reviewen
+  * [Bestellclient Bestell]- und [Kuechenclient Küchenclient]
+  
+=== Nic ===
+  * [API]s definieren
+  * [API]s reviewen
+  * [API]s programmieren & testen
+  
+=== Thomas  ===
+  * ZendFramework 1.8.2 Migration
+  * [API]s definieren
+  * [API]s reviewen
+  * [API]s programmieren & testen
+  * [Architektur] definieren & beschreiben
+  * [Datenbank] designen
+
+=== Markus ===
+  * [Statusanzeige]
+
+==Protokolle==
+  * [CB_Team_Absprache_1 CB Team Absprache #1] vom 8.4.2008
+  * [CB_Team_Absprache_Nr_2 CB Team Absprache Nr. 2] vom 5.5.2008
+
+==Architektur==
+  * Erläuterung der übergreifenden [Architektur]
+  * [API]
+  * [Bestellclient]
+  * [Kuechenclient Küchenclient]
+  * [Webseite]
+  * [Portal]
+
+== Kontakt zu anderen Unternehmen ==
+[Zusammenarbeit_mit_Externen Zusammenarbeit mit Externen]
+
+== Sonstiges ==
+[Userstorys User-Storys]
+
+[Cocktailberater_Rezepte Einzufügende Cocktail Rezepte]
+
+[Cocktailberater_Zutaten Einzufügende Zutaten]
+
+[Cocktailzutaten]
+
+[UeberCocktailberater Über Cocktailberater]
+
+[Cocktailkategorien]
+
+[Flex-Showcase]
+
+[Cocktail-Fotos]
+
+[Barkunde]
+
+[Team]
+
+== Wichtige Links zum Projekt ==
+
+  * Zend Framework Doku: http://framework.zend.com/manual/de
+  * Icons für alle tools: http://www.iconarchive.com/category/application/toolbar-2-icons-by-ruby-software.html
+
+Zustandsdiagramm für <strike>Bestellung als auch </strike> Posten: http://www.cocktailberater.de/documentation/zustandsDiagrammBestellung.PNG
