@@ -1,0 +1,28 @@
+Pat
+Überlegen, wo ein Fehlerlogging sinn macht und einbauen.  
+	-> ist das noch aktuell ??? ja. Console.Error.writeline("muh") bei auftreten eines Fehlers
+
+Icons für Alkfrei/Alk im Suchergebnis 
+	-> warten auf Thomas
+
+Schrift im "Bestell-Erfolg" größer und länger eingeblendet 
+	-> wird durch Aufruf von clearMsg durch Control (-> Tobse) geschlossen
+
+
+
+
+
+Tobse
+Erneutes Cocktailladen in regelmäßig abständen bei Änderungen
+Server URL Konfigurierbar
+Für den User die Rechnung aktualisieren bei erzeugen und bestellen
+
+generell
+CL angaben
+kCal angaben
+%Alk angaben
+Euro angaben
+Rechnung
+
+Problem diskutieren:
+Logout? Automatisch nach zeit? nach bestellen? Security Probleme befürchtet
