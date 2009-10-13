@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas initialize="{c.controlLogin=this;currentState = 'State1';}" xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+		 <![CDATA[
+		 import mx.controls.*;
+		 private var c:Control = Control.getInstace();
+		 
+		 	public function showAlert(s:String):void
+		{
+			Alert.show(s);
+		}
+		
+		public function showBars(bars:XMLList):void 
+		{
+			currentState = "State2";
+			barlist.dataProvider = bars.@name;
+			
+		}
+		
+		
+		
+		 ]]>		
+		
+	</mx:Script>
+		<mx:states>
+			<mx:State name="State1">
+				<mx:SetProperty target="{v1}" name="visible" value="true"/>
+				<mx:SetProperty target="{v2}" name="visible" value="false"/>
+			</mx:State>
+			<mx:State name="State2">				
+				<mx:SetProperty target="{v1}" name="visible" value="false"/>
+				<mx:SetProperty target="{v2}" name="visible" value="true"/>
+			</mx:State>
+		</mx:states>
+	<mx:VBox id="v1">
+		<mx:TextInput id="usernamefield" />
+		<mx:TextInput id="passwordfield" />
+		<mx:Button id="loginbutton" label="Login" click="{c.startLogin(usernamefield.text,passwordfield.text);}" />
+		
+	</mx:VBox>
+	<mx:VBox id="v2">
+		<mx:List id="barlist" />
+		<mx:Button id="barbutton" label="Eintreten" click="{c.barChosen(barlist.selectedIndex);}" />
+	</mx:VBox>
+</mx:Canvas>
