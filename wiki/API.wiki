@@ -1,0 +1,139 @@
+#labels API,Phase-Support
+#API Design and Specification
+
+Die [API] nutzt den [Application_Server Application Server].
+
+== Allgemeines zur API ==
+Der Cocktailberater bietet am Application Server eine Schnittstelle, die von verschiedenen Clients genutzt wird.
+
+Die Kommunikation zum Application Server wird immer vom Client angestoßen. Jede Anfrage muss zu einer Antwort führen, die entweder Nutzdaten, oder eine Erfogs-/Misserfolgsmeldung beinhaltet. Der Server kann keine Events aussenden. Die Clients müssen gegebenfalls im Polling-Modus arbeiten. 
+
+Der Application Server wird über http auf Port 80 angesprochen. Es wird ein php Script mit der HTTP-GET Methode aufgerufen. Dem Script werden Parameter übergeben.
+
+Der Server liefert als Antwort eine Datei vom Typ text/xml zurück.
+
+  * API-Sprache: Englisch
+   * alle API-Namen sind Englisch, da cb international gehen will
+   * Die Clients werden erstmal auf Deutsch sein, bis das Projekt international geht, wird es noch eine Weile dauern.
+   * Die Anfragen können in jeder beliebigen Sprache lauten. Wenn ich z.B. nach Zutaten in Deutschland suche, und Zitronensaft angebe, dann bekomme ich auch Ergebnisse mit lemon-juice.
+  * Fehlermeldungen sind standardmäßig in Deutsch, bei Angabe der Sprache (Parameter: /language/eng) kann sie aber auch übersetzt werden.
+
+  * allgemein Anlehnung an die [http://www.flickr.com/services/api/ Flickr API]
+
+  * sich wiederholende Phrasen
+   * get-all: Suchen nach Cocktails / Kategorien / Usern / Tags (wenn nichts angegeben, werden alle ausgegeben)
+    * z.B.: http://api.cocktailberater.de/services/rest/cocktail-get-all/name/Caipirinha
+   * get: eine bestimmte Bestellung, Cocktail / etc. anhand der 'ID' zurückgeben
+    * z.B.: http://api.cocktailberater.de/services/rest/cocktail-get/idcocktail/1
+
+*Aufbau der GET Anfragen:*
+
+  * Wurzel: http://api.cocktailberater.de/services/rest
+
+/xxxx
+
+anschließend können zusätzliche Parameter angehängt werden:
+
+/xxx/parameter1/wert1/paramter2/wert2
+
+Es soll eine Möglichkeit geben, alle API-Aufrufe mit Ausführungszeit zu protokollieren. Hauptsächlich für Statistik-  und Optimierungszwecke. Zusätzlich wird ein SLA was die Antwortzeit angeht festgeschrieben. Bei einer Verletzung soll eine E-Mail versendet werden.
+
+  * in der XML-Datei dürfen keine HTML-Tags stehen
+
+  * TODO:
+   * nur die Cocktails anzeigen, welche auch erstellt werden können (anhand des Inventars)
+   * Aufnahme der zugeordneten Cocktailbars in /api/getKunden
+   * Volltextsuche noch unschärfer gestalten
+
+==API-Explorer==
+Der API-Explorer dient dem komfortablen Testen der API.
+
+  * todo...
+
+==API-Methoden==
+=== Namensräume ===
+cb-category
+  * [cb-category-get] (maybe coming soon)
+  * [cb-category-get-all]
+  * [cb-category-add] (maybe coming soon)
+  * [cb-category-update] (maybe coming soon)
+  * [cb-category-remove] (maybe coming soon)
+cb-cocktail
+  * [cb-cocktail-get]
+  * [cb-cocktail-get-all]
+  * [cb-cocktail-add] (maybe coming soon)
+  * [cb-cocktail-update] (maybe coming soon)
+  * [cb-cocktail-remove] (maybe coming soon)
+[cb-cocktail-party]
+  * [cb-cocktail-party-get]
+  * [cb-cocktail-party-get-all]
+  * [cb-cocktail-party-add]
+  * [cb-cocktail-party-update] (maybe coming soon)
+  * [cb-cocktail-party-remove] (maybe coming soon)
+[cb-ingredient]
+  * [cb-ingredient-get] (maybe coming soon)
+  * [cb-ingredient-get-all]
+  * [cb-ingredient-add] (maybe coming soon)
+  * [cb-ingredient-remove] (maybe coming soon)
+  * [cb-ingredient-update] (maybe coming soon)
+[cb-member]
+  * [cb-member-get]
+  * [cb-member-get-all] (maybe coming soon)
+  * [cb-member-add]
+  * [cb-member-update] (maybe coming soon)
+  * [cb-member-remove] (maybe coming soon)
+  * [cb-member-checkout]
+  * [cb-member-password-reset]
+  * [cb-member-photo-upload] (maybe coming soon)
+[cb-menue]
+  * [cb-menue-get]
+  * [cb-menue-get-all] (maybe coming soon)
+  * [cb-menue-add]
+  * [cb-menue-update] (maybe coming soon)
+  * [cb-menue-remove] (maybe coming soon)
+  * [cb-menue-recipe-add]
+  * [cb-menue-recipe-remove]
+  * [cb-menue-recipe-price-set]
+[cb-order]
+  * [cb-order-get]
+  * [cb-order-get-all]
+  * [cb-order-add]
+  * [cb-order-update]
+  * [cb-order-remove] (aka cancel)
+  * [cb-order-move]
+  * [cb-order-complete]
+[cb-product]
+  * [cb-product-get] (maybe coming soon)
+  * [cb-product-get-all] (maybe coming soon)
+  * [cb-product-add] (maybe coming soon)
+  * [cb-product-update] (maybe coming soon)
+  * [cb-product-remove] (maybe coming soon)
+[cb-recipe]
+  * [cb-recipe-get] (maybe coming soon)
+  * [cb-recipe-get-all] (maybe coming soon)
+  * [cb-recipe-add] (maybe coming soon)
+  * [cb-recipe-update] (maybe coming soon)
+  * [cb-recipe-remove] (maybe coming soon)
+cb-test
+  * [cb-test-echo]
+
+=== Fehlermeldungen ===
+Fehlermeldungen haben immer folgendes Format:
+{{{
+<?xml version="1.0" encoding="utf-8" ?>
+ <rsp stat="fail">
+   <err code="1001" msg="The database is currently not available" />
+</rsp>
+}}}
+
+Übersetzungen der Fehlercodes können wie folgt abgerufen werden:
+  * Anfrage: http://www.cocktailberater.de/api/error-code-translate/code/1001/language/de
+  * Beispielantwort bei Erfolg:
+{{{
+<?xml version="1.0" encoding="utf-8" ?>
+ <rsp stat="ok">
+   <err code="1001" msg="Die Datenbank ist zur Zeit nicht verfügbar." />
+ </rsp>
+}}}
+
+Übersicht aller [Fehlercodes]
