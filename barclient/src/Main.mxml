@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<mx:Application initialize="{c.controlMain=this;}" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:MyComp="*">
+	<mx:Style source="myStyle.css"/>
+	<mx:Script>
+		 <![CDATA[
+		
+		 private var c:Control = Control.getInstace();
+		
+		 public function switchViewStack(stack:String):void {
+			 if (stack == "tabs") {
+				 topViewStack.selectedIndex = 1;
+			 }
+			 
+		 }
+		 ]]>		
+	</mx:Script>
+	<mx:ViewStack width="100%" height="100%" id="topViewStack" selectedIndex="0">
+		<MyComp:ControlLogin />
+		<mx:TabNavigator>
+			<MyComp:ControlOrders label="Bar" />
+			<MyComp:ControlKasse label="Kasse" />
+		</mx:TabNavigator>
+	</mx:ViewStack>
+</mx:Application>
