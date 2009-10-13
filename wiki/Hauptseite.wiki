@@ -1,5 +1,7 @@
 #summary Dies ist die Übersichtsseite des Wikis.
 #labels Featured
+#sidebar TableOfContents
+
 == vorläufige Meilensteine==
   * M1 - 1.6.2008 - [API] für Bestellclient und Küchenclient fertig
   * M2 - 1.7.2008 - [Bestellclient Bestell]- und [Kuechenclient Küchenclient] einsatzbereit, [Webseite] online
