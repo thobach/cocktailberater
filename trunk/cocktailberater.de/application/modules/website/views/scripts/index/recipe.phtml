@@ -74,7 +74,7 @@ if(!$recipe->isAlcoholic){
 print str_replace("\n",'</p><p>',$recipe->description);
 ?></p></div><?php } ?>
 <div class="attribut">Zutaten:</div>
-<div class="wert"><ul><?php
+<div class="wert"><p><strong>Cocktail</strong></p><ul><?php
 //Zend_Debug::dump($rezept); exit;
 foreach ( $recipe->getComponents() as $component ) {
 	print '<li>';
@@ -120,7 +120,7 @@ if(is_array($products)){
 	<?php print $component->getIngredient()->name ; ?></a></li>
 	<?php
 } // foreach
-?></ul></div>
+?></ul><p class="abstand_oben"><strong>Dekoration</strong></p><ul><li>Früchte nach Belieben.</li></ul></div>
 <div class="attribut">Anweisung:</div>
 <div class="wert"><p><?php
 print str_replace("\n",'</p><p>',$recipe->instruction);
@@ -567,7 +567,7 @@ Video gefunden.</div>
 	src="<?php
 	print $this->baseUrl() ;
 	?>/img/zeit.png" alt="Zeitaufwand"
-	title="Zeitaufwand" style="vertical-align: top" /><br />
+	title="Zeitaufwand" /><br />
 	<?php
 	print $recipe->workMin;
 	?> min</div>
@@ -576,20 +576,20 @@ Video gefunden.</div>
 	print $this->baseUrl() ;
 	?>/img/<?php
 	if ($recipe->difficulty == Website_Model_Recipe::BEGINNER) {
-		print "leicht.png" ;
+		print "/difficulty/beginnner.png" ;
 		$difficultyMessage = 'Anfänger';
 	}
 	else if ($recipe->difficulty == Website_Model_Recipe::ADVANCED) {
-		print "mittel.png" ;
+		print "/difficulty/advanced.png" ;
 		$difficultyMessage = 'Fortgeschritten';
 	}
 	else if ($recipe->difficulty == Website_Model_Recipe::PROFI) {
-		print "schwer.png" ;
+		print "/difficulty/professional.png" ;
 		$difficultyMessage = 'Profi';
 	} else {
 		// TODO: Bild erstellen, welches ausdrückt, dass es keine Information dazu gibt...
-		print "leicht.png" ;
-		$difficultyMessage = 'n/a';
+		print "/difficulty/unknown.png" ;
+		$difficultyMessage = 'nicht eingestuft';
 	}
 	?>"
 	alt="Schwierigkeitsgrad <?php
@@ -615,15 +615,15 @@ Video gefunden.</div>
 	<?php
 	print $recipe->getGlass()->name ;
 	?></div>
-<div class="left icon" style="left: 360px; vertical-align: top"><img
+<div class="left icon" style="left: 360px;"><img
 	src="<?php
 	print $this->baseUrl() ;
-	?>/img/menschen.png" alt="Kalorien"
+	?>/img/calories.png" alt="Kalorien"
 	title="Kalorien" /><br />
 	<?php
 	print $recipe->getCaloriesKcal();
 	?> kcal</div>
-<div class="left icon" style="left: 450px; vertical-align: top"><img
+<div class="left icon" style="left: 450px;"><img
 	src="<?php
 	print $this->baseUrl() ;
 	?>/img/prozent.png" alt="Alkoholgehalt"
@@ -635,7 +635,7 @@ Video gefunden.</div>
 	src="<?php
 	print $this->baseUrl() ;
 	?>/img/volumen.png" alt="Volumen"
-	title="Volumen" style="vertical-align: middle;" /><br />
+	title="Volumen" /><br />
 	<?php
 	print $recipe->getVolumeCl() ;
 	?> cl</div>
