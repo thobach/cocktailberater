@@ -1,0 +1,73 @@
+#summary protocol of the second team meeting
+
+  * Termin: Montag, 5. Mai 2008 ab 10 Uhr
+  * Teilnehmer: Taba, Tobse (bei Thomas), Nic (Skype)
+  * Typ: vor Ort bei Thomas / Skype Konferenz
+==Agenda==
+  # aktueller Stand
+   # Architektur
+   # Datenbank
+   # Testserver
+   # API
+   # Clients
+   # Webseite
+   # Corporate Design (Logo)
+   # ...
+  # Erinnerung: Absprache mit Werner am Dienstag
+  # Ergebnis Pair-Programming (Nic)
+  # Maillingliste: entwickler@cocktailberater.de (Thomas)
+  # weiteres Vorgehen
+
+==Protokoll==
+  * Architektur:
+   *  API Schlüssel in Datei ablegen, daran Datenbank knüpfen
+  * Datenbank
+   *  aktuelles Schema ist da, mit InnoDB ist die referenzielle Integrität weitgehend sichergestellt (Lösch- und Updateweitergabe klappt aber nicht über n:m Beziehnung)
+  * Test-Server
+   *  SVN Commit <s>ermöglichen</s> geht
+  * API
+   *  erstmal programmieren, dann per API-Explorer testen und im Wiki die Input-Parameter & Beispielanfragen beschreiben
+  * Clients
+   *  Küchen & Bestellclient
+    * Visual Studio als IDE
+   *  Statusanzeige
+    * Markus + Tobias (Pair Programming) 
+    * in PHP / ZendFramework
+    * an API gekoppelt
+    * gut dokumentiert als Beispiel zum nachprogrammieren / erweitern für Externe
+  * API Explorer
+   *  Nic überlegt sich die Umsetzung
+  * Website
+   *  offline, da Dateiumstrukturierung
+  * Corporate Design (Logo)
+   *  Logo und Schriftzug Nr. 1, aber dunkleres Lila (wie im header jetzt)
+  * Links:
+   *  Klassendiagramm: http://wiki.cocktailberater.de/index.php?title=Application_Server
+   *  ER-Diagramm: http://wiki.cocktailberater.de/index.php?title=Application_Server
+
+
+  * Idee eines Softwareverteilungs-Prozesses:
+  # SVN Update um mit letzter Version zu arbeiten
+  # Test schreiben, welcher die neue Funktion testet
+  # Funktion schreiben
+  # lokal testen mit verschiedenen Datenbanken, wenn nicht erfolgreich, dann zu 3.
+  # SVN Update um Konflikte aufzuspüren, wenn Konflikt, dann lösen
+  # SVN Commit
+  # Deployment auf Test über Deploymentskript
+  # Integrationstest auf Test mit verschiedenen Datenbanken, wenn erfolglos, zu 3.
+  # Deployment auf Stage, Test mit verschiedenen Datenbanken, wenn erfolglos, dann zu 3.
+  # Deployment auf Life, Test, wenn erfolglos, letzte Version zurückspielen
+
+-Testen mit verschiedenen Datenständen-
+Schleife mit allen Datenbanken für Tests durchlaufen
+
+  * Application Server mit PHPUnit testen
+  * API mit HTTPUnit testen
+  * Webseite mit ??? (Screenshotservice) testen
+  * Küchenclient mit .Net Unittests testen
+  * Bestellclient mit .Net Unittests testen
+  * Warteanzeige mit PHPUnit testen
+
+== Entscheidung Logo mit Schriftzug ==
+
+http://wiki.cocktailberater.de/images/c/c9/Logo.png
