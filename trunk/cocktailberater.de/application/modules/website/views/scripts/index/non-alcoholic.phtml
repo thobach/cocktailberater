@@ -4,6 +4,6 @@
 <?php 
 foreach ($this->cocktails as $cocktail){
 	$recipes = $cocktail->getRecipes();
-	echo $this->partial ("template/preview.phtml",array('recipe'=>$recipes[0]));
+	echo $this->cocktailPreview ($recipes[0]);
 }
 ?></div>
