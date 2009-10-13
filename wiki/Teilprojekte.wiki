@@ -1,0 +1,8 @@
+#summary a list of sub-projects
+#labels Project-Management
+
+= Teilprojekte =
+== Server & Web Portal ==
+== Statusanzeige für Bestellungen ==
+== Bar- und Bestellclient in C#/.Net ==
+== Barclient in Flex/Flash ==
