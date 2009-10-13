@@ -1,0 +1,7 @@
+#summary One-sentence summary of this page.
+
+=ohloh Statistiken=
+<wiki:gadget url="http://www.ohloh.net/p/385175/widgets/project_languages.xml" height="180" width="320" border="0" />
+<wiki:gadget url="http://www.ohloh.net/p/385175/widgets/project_factoids.xml" height="155" width="320" border="0" />
+<wiki:gadget url="http://www.ohloh.net/p/385175/widgets/project_cocomo.xml" height="220" width="300" border="0" />
+<wiki:gadget url="http://www.ohloh.net/p/385175/widgets/project_basic_stats.xml" height="220" width="300" border="0" />
