@@ -1,0 +1,13 @@
+#summary protocoll of team meeting number 3
+
+  * Termin: Mittwoch, 7. Mai 2008 ab 9 Uhr
+  * Essen: jeder bringt mit was er essen und trinken will
+ !!ACHTUNG!! Pat hat keinen Ofen / Pizzagrill
+  * Teilnehmer: Pat, Tobse, Nic, Taba, Markus
+  * Typ: Skype / vor Ort bei Pat
+==Agenda==
+  # Programmieren
+  # Schaffen
+  # Essen
+  # Schaffen
+==Protokoll==
