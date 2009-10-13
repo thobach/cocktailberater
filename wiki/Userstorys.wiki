@@ -1,0 +1,8 @@
+#summary list of all user stories
+
+== Allgemeines  - Was sind User-Storys==
+[http://de.wikipedia.org/wiki/User-Story User-Storys] für eine Software beschreiben, wer, was tun kann. Gemäß dem Format:''„Als x kann ich y tun, um z zu erreichen.“''
+==User-Storys==
+  * [Bestellclient#User-Storys Bestellclient]
+  * [Kuechenclient#User-Storys Küchenclient]
+  * [Webseite#User-Storys Webseite]
