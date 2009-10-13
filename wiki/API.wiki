@@ -52,70 +52,70 @@ Der API-Explorer dient dem komfortablen Testen der API.
 
 ==API-Methoden==
 === Namensräume ===
-cb-category
-  * [cb-category-get] (maybe coming soon)
-  * [cb-category-get-all]
-  * [cb-category-add] (maybe coming soon)
-  * [cb-category-update] (maybe coming soon)
-  * [cb-category-remove] (maybe coming soon)
-cb-cocktail
-  * [cb-cocktail-get]
-  * [cb-cocktail-get-all]
-  * [cb-cocktail-add] (maybe coming soon)
-  * [cb-cocktail-update] (maybe coming soon)
-  * [cb-cocktail-remove] (maybe coming soon)
-[cb-cocktail-party]
-  * [cb-cocktail-party-get]
-  * [cb-cocktail-party-get-all]
-  * [cb-cocktail-party-add]
-  * [cb-cocktail-party-update] (maybe coming soon)
-  * [cb-cocktail-party-remove] (maybe coming soon)
-[cb-ingredient]
-  * [cb-ingredient-get] (maybe coming soon)
-  * [cb-ingredient-get-all]
-  * [cb-ingredient-add] (maybe coming soon)
-  * [cb-ingredient-remove] (maybe coming soon)
-  * [cb-ingredient-update] (maybe coming soon)
-[cb-member]
-  * [cb-member-get]
-  * [cb-member-get-all] (maybe coming soon)
-  * [cb-member-add]
-  * [cb-member-update] (maybe coming soon)
-  * [cb-member-remove] (maybe coming soon)
-  * [cb-member-checkout]
-  * [cb-member-password-reset]
-  * [cb-member-photo-upload] (maybe coming soon)
-[cb-menue]
-  * [cb-menue-get]
-  * [cb-menue-get-all] (maybe coming soon)
-  * [cb-menue-add]
-  * [cb-menue-update] (maybe coming soon)
-  * [cb-menue-remove] (maybe coming soon)
-  * [cb-menue-recipe-add]
-  * [cb-menue-recipe-remove]
-  * [cb-menue-recipe-price-set]
-[cb-order]
-  * [cb-order-get]
-  * [cb-order-get-all]
-  * [cb-order-add]
-  * [cb-order-update]
-  * [cb-order-remove] (aka cancel)
-  * [cb-order-move]
-  * [cb-order-complete]
-[cb-product]
-  * [cb-product-get] (maybe coming soon)
-  * [cb-product-get-all] (maybe coming soon)
-  * [cb-product-add] (maybe coming soon)
-  * [cb-product-update] (maybe coming soon)
-  * [cb-product-remove] (maybe coming soon)
-[cb-recipe]
-  * [cb-recipe-get] (maybe coming soon)
-  * [cb-recipe-get-all] (maybe coming soon)
-  * [cb-recipe-add] (maybe coming soon)
-  * [cb-recipe-update] (maybe coming soon)
-  * [cb-recipe-remove] (maybe coming soon)
-cb-test
-  * [cb-test-echo]
+[cb_category cb-category]
+  * [cb_category_get cb-category-get] (maybe coming soon)
+  * [cb_category_get_all cb-category-get-all]
+  * [cb_category_add cb-category-add] (maybe coming soon)
+  * [cb_category_update cb-category-update] (maybe coming soon)
+  * [cb_category_remove cb-category-remove] (maybe coming soon)
+[cb_cocktail cb-cocktail]
+  * [cb_cocktail_get cb-cocktail-get]
+  * [cb_cocktail_get_all cb-cocktail-get-all]
+  * [cb_cocktail_add cb-cocktail-add] (maybe coming soon)
+  * [cb_cocktail_update cb-cocktail-update] (maybe coming soon)
+  * [cb_cocktail_remove cb-cocktail-remove] (maybe coming soon)
+[cb_cocktail_party cb-cocktail-party]
+  * [cb_cocktail_party_get cb-cocktail-party-get]
+  * [cb_cocktail_party_get_all cb-cocktail-party-get-all]
+  * [cb_cocktail_party_add cb-cocktail-party-add]
+  * [cb_cocktail_party_update cb-cocktail-party-update] (maybe coming soon)
+  * [cb_cocktail_party_remove cb-cocktail-party-remove] (maybe coming soon)
+[cb_ingredient cb-ingredient]
+  * [cb_ingredient_get cb-ingredient-get] (maybe coming soon)
+  * [cb_ingredient_get_all cb-ingredient-get-all]
+  * [cb_ingredient_add cb-ingredient-add] (maybe coming soon)
+  * [cb_ingredient_remove cb-ingredient-remove] (maybe coming soon)
+  * [cb_ingredient_update cb-ingredient-update] (maybe coming soon)
+[cb_member cb-member]
+  * [cb_member_get cb-member-get]
+  * [cb_member_get_all cb-member-get-all] (maybe coming soon)
+  * [cb_member_add cb-member-add]
+  * [cb_member_update cb-member-update] (maybe coming soon)
+  * [cb_member_remove cb-member-remove] (maybe coming soon)
+  * [cb_member_checkout cb-member-checkout]
+  * [cb_member_password_reset cb-member-password-reset]
+  * [cb_member_photo_upload cb-member-photo-upload] (maybe coming soon)
+[cb_menue cb-menue]
+  * [cb_menue_get cb-menue-get]
+  * [cb_menue_get_all cb-menue-get-all] (maybe coming soon)
+  * [cb_menue_add cb-menue-add]
+  * [cb_menue_update cb-menue-update] (maybe coming soon)
+  * [cb_menue_remove cb-menue-remove] (maybe coming soon)
+  * [cb_menue_recipe_add cb-menue-recipe-add]
+  * [cb_menue_recipe_remove cb-menue-recipe-remove]
+  * [cb_menue_recipe_price_set cb-menue-recipe-price-set]
+[cb_order cb-order]
+  * [cb_order_get cb-order-get]
+  * [cb_order_get_all cb-order-get-all]
+  * [cb_order_add cb-order-add]
+  * [cb_order_update cb-order-update]
+  * [cb_order_remove cb-order-remove] (aka cancel)
+  * [cb_order_move cb-order-move]
+  * [cb_order_complete cb-order-complete]
+[cb_product cb-product]
+  * [cb_product_get cb-product-get] (maybe coming soon)
+  * [cb_product_get_all cb-product-get-all] (maybe coming soon)
+  * [cb_product_add cb-product-add] (maybe coming soon)
+  * [cb_product_update cb-product-update] (maybe coming soon)
+  * [cb_product_remove cb-product-remove] (maybe coming soon)
+[cb_recipe cb-recipe]
+  * [cb_recipe_get cb-recipe-get] (maybe coming soon)
+  * [cb_recipe_get_all cb-recipe-get-all] (maybe coming soon)
+  * [cb_recipe_add cb-recipe-add] (maybe coming soon)
+  * [cb_recipe_update cb-recipe-update] (maybe coming soon)
+  * [cb_recipe_remove cb-recipe-remove] (maybe coming soon)
+[cb_test cb-test]
+  * [cb_test_echo cb-test-echo]
 
 === Fehlermeldungen ===
 Fehlermeldungen haben immer folgendes Format:
