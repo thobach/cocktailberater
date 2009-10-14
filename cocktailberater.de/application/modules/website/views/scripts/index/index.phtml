@@ -1,5 +1,10 @@
-<div  class="abstand_oben_doppelt">
-	<?php print $this->partial('template/search.phtml',array('uri' => $this->baseUrl())); ?>
+<?php
+// setting meta keywords
+$this->headMeta()->appendName('keywords', 'cocktail, rezept, cocktails, rezepte, cocktailrezepte, cocktailrezept, alkoholisch, alkoholfrei, top10, cocktailberater');
+// setting meta description
+$this->headMeta()->appendName('description', 'Datenbank mit Rezepten für alkoholfreie und alkoholische Cocktails');
+?>
+<div class="abstand_oben_doppelt"><?php print $this->partial('template/search.phtml',array('uri' => $this->baseUrl())); ?>
 </div>
 <div class="browse">
 <h2>Stöbern</h2>
@@ -18,7 +23,8 @@
 	Cocktails</a></li>
 	<li><a
 		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'barkunde')); ?>"><img
-		src="<?php echo $this->baseUrl(); ?>/img/stoessel.png" />Wissen &amp;<br />Barkunde</a></li>
+		src="<?php echo $this->baseUrl(); ?>/img/stoessel.png" />Wissen &amp;<br />
+	Barkunde</a></li>
 	<li><a
 		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'community')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/community.png" />Cocktail-<br />
