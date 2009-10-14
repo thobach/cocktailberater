@@ -8,7 +8,7 @@
 #RewriteCond %{REQUEST_FILENAME} -d
 #RewriteRule ^.*$ - [NC,L]
 ##RewriteRule ^.*$ /cocktail/html/index.php [NC,L]
-#RewriteRule !\.(js|ico|gif|jpg|png|css|pdf)$ index.php
+#RewriteRule !\.(js|ico|gif|jpg|png|css|pdf|txt)$ index.php
 
 SetEnv APPLICATION_ENV development
 
