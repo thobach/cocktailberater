@@ -10,6 +10,10 @@ RewriteEngine On
 # needed for domainfactory server
 #RewriteBase / 
 
+# deny access to svn folders
+RewriteRule ^(.*/)?\.svn/ - [F,L]
+ErrorDocument 403 "Access Forbidden"
+
 # configure bootstrapping application
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
@@ -18,7 +22,3 @@ RewriteCond %{REQUEST_FILENAME} -d
 # bootstrap application
 RewriteRule ^.*$ - [NC,L]
 RewriteRule ^.*$ index.php [NC,L]
-
-# deny access to svn folders
-RewriteRule ^(.*/)?\.svn/ - [F,L]
-ErrorDocument 403 "Access Forbidden"
