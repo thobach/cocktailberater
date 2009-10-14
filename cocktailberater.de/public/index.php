@@ -1,4 +1,9 @@
 <?php
+// forward requests without www to www.cocktailberater.de 
+if($_ENV['HTTP_HOST']=='cocktailberater.de'){
+	header("Location: http://www.cocktailberater.de/",TRUE,301);
+}
+
 // Define path to application directory
 defined('APPLICATION_PATH')
 	|| define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
