@@ -6,7 +6,10 @@ defined('APPLICATION_PATH')
 // Define application environment
 if($_ENV['HTTP_HOST']=='www-test.cocktailberater.de'){
 	putenv('APPLICATION_ENV=testing');
+} else if($_ENV['HTTP_HOST']=='www-stage.cocktailberater.de'){
+	putenv('APPLICATION_ENV=staging');
 }
+
 defined('APPLICATION_ENV')
 	|| define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
