@@ -10,6 +10,9 @@ if($_ENV['HTTP_HOST']=='www-test.cocktailberater.de'){
 defined('APPLICATION_ENV')
 	|| define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
+defined('APPLICATION_VERSION')
+	|| define('APPLICATION_VERSION', '0.8');
+	
 // Ensure library/ is on include_path
 set_include_path(
 	implode(PATH_SEPARATOR, array(

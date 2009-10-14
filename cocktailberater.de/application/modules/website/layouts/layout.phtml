@@ -9,6 +9,20 @@ if($this->layout()->getView()->title!='') {
 	$title =  $this->layout()->getView()->title. ' vom cocktailberater';
 }
 echo $this->headTitle($title);
+// meta
+// setting content type and character set
+$this->headMeta()->appendHttpEquiv('Content-Type',
+                                   'text/html; charset=UTF-8')
+                 ->appendHttpEquiv('Content-Language', 'de');
+// setting meta keywords
+$this->headMeta()->setName('keywords', 'cocktail, rezept, cocktails, rezepte, cocktailrezepte, cocktailrezept, alkoholisch, alkoholfrei, top10, cocktailberater');
+// setting meta description
+$this->headMeta()->setName('description', 'Datenbank mit Rezepten für alkoholfreie und alkoholische Cocktails');
+// setting meta generator
+$this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
+// setting meta robots
+$this->headMeta()->setName('robots', 'index,follow');
+echo $this->headMeta();
 // echo styles
 echo $this->headStyle()."\n";
 // dojo
@@ -23,7 +37,7 @@ if ($this->dojo()->isEnabled()){
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/screen.css');
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/print.css','print');
 // faveicon
-$this->headLink(array('rel' => 'favicon',
+$this->headLink(array('rel' => 'shortcut icon',
                       'href' => $this->baseUrl().'/img/favicon.ico'),
                       'PREPEND');
 // feed (rss & atom)
