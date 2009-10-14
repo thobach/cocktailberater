@@ -7,6 +7,15 @@ $photos = $recipe->getPhotos();
 $videos = $recipe->getVideos();
 $alternatives = $this->alternatives;
 $gesamt = count($alternatives);
+// ingredient list
+foreach ( $recipe->getComponents() as $component ) {
+	$ingredientList[] = $component->amount.' '.$component->unit.' '.$component->getIngredient()->name;
+	$ingredientList2[] = $component->getIngredient()->name;
+}
+// setting meta keywords
+$this->headMeta()->appendName('keywords', $recipe->name.', '.implode($ingredientList2,', ').', cocktail, rezept, cocktails, rezepte, cocktailrezepte, cocktailrezept, cocktailberater');
+// setting meta description
+$this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' Cocktails besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Anweisung, Fotos, Videos und Kommentaren hier.');
 ?>
 <div>
 <div style="float: right;"><img style="<?php 

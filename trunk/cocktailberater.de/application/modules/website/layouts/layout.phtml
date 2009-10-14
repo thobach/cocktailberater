@@ -14,10 +14,6 @@ echo $this->headTitle($title);
 $this->headMeta()->appendHttpEquiv('Content-Type',
                                    'text/html; charset=UTF-8')
                  ->appendHttpEquiv('Content-Language', 'de');
-// setting meta keywords
-$this->headMeta()->setName('keywords', 'cocktail, rezept, cocktails, rezepte, cocktailrezepte, cocktailrezept, alkoholisch, alkoholfrei, top10, cocktailberater');
-// setting meta description
-$this->headMeta()->setName('description', 'Datenbank mit Rezepten für alkoholfreie und alkoholische Cocktails');
 // setting meta generator
 $this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
 // setting meta robots
