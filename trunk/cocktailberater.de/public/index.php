@@ -3,6 +3,9 @@
 defined('APPLICATION_PATH')
 	|| define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
 
+defined('SVN_REVISION')
+	|| define('SVN_REVISION', exec('svnversion'));
+	
 // Define application environment
 if($_ENV['HTTP_HOST']=='www-test.cocktailberater.de'){
 	putenv('APPLICATION_ENV=testing');
