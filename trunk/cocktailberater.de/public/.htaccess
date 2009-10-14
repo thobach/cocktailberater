@@ -15,10 +15,10 @@ RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 
-# deny access to svn folders
-RewriteRule ^(.*/)?\.svn/ - [F,L]
-ErrorDocument 403 "Access Forbidden"
-
 # bootstrap application
 RewriteRule ^.*$ - [NC,L]
 RewriteRule ^.*$ index.php [NC,L]
+
+# deny access to svn folders
+RewriteRule ^(.*/)?\.svn/ - [F,L]
+ErrorDocument 403 "Access Forbidden"
