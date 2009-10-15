@@ -1,0 +1,15 @@
+<?php
+header('content-type: text/html; charset=utf-8');
+print '<div class="textLeft">';
+$components = $this->recipe->getComponents();
+if (is_array ( $components )) {
+	foreach ( $components as $component ) {
+		print $component->amount ;
+		print ' ' ;
+		print $component->unit;
+		print ' ' ;
+		print $component->getIngredient()->name ;
+		print '<br />' ;
+	}
+}
+print '</div>';

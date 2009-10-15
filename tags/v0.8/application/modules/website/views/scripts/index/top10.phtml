@@ -1,0 +1,10 @@
+<?php echo $this->partial ("template/search.phtml"); ?>
+<h1> Top 10 Cocktails </h1>
+<div id="ergebnisse" style="clear:left;">
+<?php 
+foreach ($this->cocktails as $cocktail){
+	$recipes = $cocktail->getRecipes();
+	$this->cocktailPreview($recipes[0],++$i);
+}
+?>
+</div>

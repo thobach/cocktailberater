@@ -1,0 +1,31 @@
+<div id="hinweis"><?=$this->message; ?></div>
+
+<form class="regular_form" style="width:38em; margin-left: 2em;" method="post">
+	<fieldset>
+		<legend>Zutateninformationen</legend>
+		<label class="attribut" for="name">Name</label>
+		<input class="q2 wert" name="name" id="name" value="<?=$this->name;?>"/>
+		<label class="attribut" for="ingredient_category">Kategorie</label>
+		<select class="q2 wert" style="width:auto" name="ingredient_category" id="ingredient_category">
+		<?php foreach($this->ingredientcategories as $ingredientcategory){ ?>
+			<option value="<?php print $ingredientcategory->id; ?>"><?php print $ingredientcategory->name; ?></option>
+		<?php } ?>
+		</select>
+		<label class="attribut" for="alias">Alias</label>
+		<input class="q2 wert" name="alias" id="alias" value="<?=$this->alias;?>"/>
+		<label class="attribut" for="aggregation">Aggregatzustand</label>
+		<select class="q2 wert" style="width:auto" name="aggregation" id="aggregation">
+			<option value="liquid" selected="selected">flüssig</option>
+			<option value="solid">fest</option>
+			<option value="gas">gasförmig</option>
+			<option value="gel">gelförmig</option>
+		</select>
+		<label class="attribut" for="additional_information">Zusatz-informationen</label>
+		<div class="wert"><textarea id="additional_information" class="text wert" name="additional_information" ><?=$this->additional_information;?></textarea>(z.B. das Standardprodukt für diese Zutat)</div>
+		<label class="attribut" for="additional_information">Optionen</label>
+		<div class="wert">
+			<input class="q2 wert submit" style="float: left" type="submit" name="reset" value="&nbsp;&nbsp;&nbsp;Reset"/>
+			<input class="q2 wert submit" style="float: right" type="submit" name="save_ingredient" value="Speichern"/>
+		</div>
+	</fieldset>
+</form>

@@ -1,0 +1,14 @@
+<?php echo $this->partial ('template/search.phtml'); ?>
+<h4>Cocktails mit dem Tag: <?php print $this->tag; ?></h4><br />
+<?php
+if ($this->recipes) {
+?>
+<div id="ergebnisse"
+	style="clear:left;"><?php foreach ($this->recipes as $recipe){ ?>
+<?php echo $this->partial ('template/preview.phtml',array('recipe'=>$recipe)); ?>
+<?php } ?>
+</div>
+<!-- div: ergebnisse -->
+<?php } else { ?>
+<p>Bitte geben Sie einen Suchbegriff ein.</p>
+<?php } ?>

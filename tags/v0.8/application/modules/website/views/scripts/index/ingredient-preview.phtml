@@ -1,0 +1,38 @@
+<?php
+header('content-type: text/html; charset=utf-8'); 
+$alcoholLevel = $this->ingredient->getAverageAlcoholLevel();
+$calories = $this->ingredient->getAverageCaloriesKcal();
+$categories = $this->ingredient->getIngredientCategories();
+$products = $this->ingredient->getProducts();
+?>
+<div style="text-align:left;">
+<?php
+if($alcoholLevel){ ?>
+<span class="pink">Alkoholgehalt:</span>
+<?php print $alcoholLevel; ?>
+ %
+<br /><?php }
+if($calories) { ?>
+<span class="pink">Kalorien:</span>
+<?php print $calories; ?>
+ kcal
+<br /><?php } 
+if ($categories) {?>
+<span class="pink">Kategorie(n):</span>
+<?php
+if(is_array($categories)){
+	foreach ($categories as $category) {
+		print $category->name.'<br />';
+	}
+}
+}
+if($products) { ?>
+<span class="pink">Produkte:</span>
+<?php
+if(is_array($products)){
+	foreach ($products as $product) {
+		print $product->name.' ('.$product->getManufacturer()->name.') - '.$product->size.' '.$product->unit.'<br />';
+	}
+}
+}
+?></div>

@@ -1,0 +1,25 @@
+<div id="regular_form" style="margin-top: 1em;">
+<form action="<?php print $this->baseUrl(); ?>index/newsletter-subscribe" method="post">
+<fieldset><legend>Newsletter-Anmeldung</legend> <?php echo $this->hinweis1; ?>
+<div class="attribut"><label>E-Mail-Adresse:</label></div>
+<div class="wert"><?php
+echo $this->formText('email','',array('size' => 32, 'class' => 'text'));
+?> (*)<br />
+z.B.: max.mustermann@mustermann.de</div>
+<div class="attribut"><label>Vorname:</label></div>
+<div class="wert"><?php 
+echo $this->formText('vorname', '', array('size' => 32, 'class' => 'text'))
+?></div>
+<label class="attribut">Nachname:</label>
+<div class="wert"><?php 
+echo $this->formText('nachname', '', array('size' => 32, 'class' => 'text'))
+?></div>
+<label class="attribut"></label>
+<div class="wert"><?php 
+echo $this->formSubmit('anmelden', 'Anmelden', array())
+?><br />
+<br />
+(*) Pflichtfeld</div>
+</fieldset>
+</form>
+</div>

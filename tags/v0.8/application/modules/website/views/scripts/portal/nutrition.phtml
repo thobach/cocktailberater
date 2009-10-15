@@ -1,0 +1,66 @@
+<?php print $this->partial('template/portal_nav.phtml'); ?>
+<div class="content">
+<h2>Barkunde - Nährwerte</h2>
+<p>Hinweis: Die Daten sind noch nicht alle 100% korrekt. Wir arbeiten daran ;)</p>
+<table class="table" id="nutritionData" style="display: none;">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Kalorien</th>
+			<th>Alkoholisch</th>
+			<th>Volumen</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php
+	$count = 0;
+	if(is_array($this->cocktails)){
+		foreach ($this->cocktails as $cocktail){
+			$recipes = $cocktail->getRecipes();
+			if(is_array($recipes)){
+				foreach ($recipes as $recipe){
+					$count++;
+					?>
+		<tr>
+			<td><?php echo $recipe->name;?></td>
+			<td><?php echo $recipe->getCaloriesKcal();?></td>
+			<td><?php echo $recipe->isAlcoholic() ? 'ja' : 'nein';?></td>
+			<td><?php echo $recipe->getVolumeCl();?></td>
+		</tr>
+		<?php
+				}
+			}
+		}
+	}
+	?>
+	</tbody>
+</table>
+
+<?php 
+$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+$this->dojo()->enable();
+$this->dojo()->requireModule('dojox.data.HtmlTableStore')
+		->requireModule('dojox.grid.DataGrid')
+		->addStyleSheet($this->dojo()->getCdnBase().$this->dojo()->getCdnVersion().'/dojox/grid/resources/tundraGrid.css');
+
+$this->headScript()->appendScript('var layoutCocktails = [
+    [
+      { field: "Name", name: "Name", width: \'auto\' },
+      { field: "Kalorien", name: "Kalorien (kcal)", width: \'70px\' },
+      { field: "Alkoholisch", name: "Alkoholisch", width: \'85px\' },
+      { field: "Volumen", name: "Volumen (cl)", width: \'70px\' }
+    ]
+  ];');
+?>
+<div dojoType="dojox.data.HtmlTableStore" tableId="nutritionData" jsId="gridStore"></div>
+<div style="width: 410px; height: <?php echo (23*($count)+20); ?>px;">
+  <div id="grid"
+    dojoType="dojox.grid.DataGrid"
+    store="gridStore"
+    structure="layoutCocktails"
+    query="{}"
+    rowsPerPage="40">
+  </div>
+</div>
+
+</div>

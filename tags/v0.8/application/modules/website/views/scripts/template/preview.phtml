@@ -1,0 +1,43 @@
+<?php
+$this->dojo()->enable()->requireModule('dijit.Tooltip');
+$photos = Website_Model_Photo::photosByRecipeId($this->recipe->id); ?>
+<?php $this->headScript()->captureStart(); ?>
+	dojo.addOnLoad(function() {
+		recipe<?php print $this->recipe->id ;?>Tooltip = new dijit.Tooltip({
+            connectId: ["recipe<?php print $this->recipe->id ;?>"],
+            label: "<div><img src=\"loading.gif\"> Loading...</div>"
+        });
+        dojo.xhrGet({
+	           		url: "<?php print $this->url(array('module'=>'website','controller'=>'index',
+							'action'=>'recipe-preview','cocktail'=>$this->recipe->name,
+							'id'=>$this->recipe->id),null,true); ?>",
+	           		load: function(data){ recipe<?php print $this->recipe->id ;?>Tooltip.label=data;}
+	    });
+    });
+	<?php $this->headScript()->captureEnd(); ?>
+<div id="cocktail" style="width: 100px; height: 150px"><a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'index','action'=>'recipe',
+		'cocktail'=>$this->recipe->name,'id'=>$this->recipe->id),null,true); ?>"><img
+	style="height: 100px;" src="<?php print $this->baseUrl();
+	if(isset($photos[0]) && $photos[0]->id){
+		print '/img/recipes/'.$this->escape($photos[0]->fileName);
+	} else { 
+		print '/img/wikilogo.png';
+	} ?>" /></a><a
+	id="recipe<?php print $this->recipe->id; ?>"
+	href="<?php print $this->url(array('module'=>'website','controller'=>'index',
+		'action'=>'recipe','cocktail'=>$this->recipe->name,'id'=>$this->recipe->id),null,true); ?>"
+	title="<?php echo $this->escape(str_replace('\\','',$this->recipe->name)) ?>"><img
+	src="<?php print $this->baseUrl(); ?>/img/info.png" align="top" /></a><br />
+<a
+	href="<?php print $this->url(array('module'=>'website','controller'=>'index',
+		'action'=>'recipe','cocktail'=>$this->recipe->name,'id'=>$this->recipe->id),null,true); ?>">
+<?php if(isset($mode) && $mode=='top10') {
+	print '#'.$top.' - ';
+}
+echo $this->escape(str_replace('\\','',$this->recipe->name));
+if(isset($mode) && $mode=='top10') {
+	//print ' - Bewertung: '.number_format($cocktail->bewertungs_summe/$cocktail->bewertungs_anzahl,2,',',NULL);
+}
+?></a></div>

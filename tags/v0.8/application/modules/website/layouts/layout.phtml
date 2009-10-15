@@ -1,0 +1,135 @@
+<?php echo $this->doctype('HTML5') ?>
+<html>
+<head>
+<meta charset="utf-8" />
+<?php
+// title
+$title = 'Cocktail Rezepte vom cocktailberater';
+if($this->layout()->getView()->title!='') {
+	$title =  $this->layout()->getView()->title. ' vom cocktailberater';
+}
+echo $this->headTitle($title);
+// meta
+// setting content type and character set
+$this->headMeta()->appendHttpEquiv('Content-Type',
+                                   'text/html; charset=UTF-8')
+                 ->appendHttpEquiv('Content-Language', 'de');
+// setting meta generator
+$this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
+// setting meta robots
+$this->headMeta()->setName('robots', 'index,follow');
+echo $this->headMeta();
+// echo styles
+echo $this->headStyle()."\n";
+// dojo
+$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+if ($this->dojo()->isEnabled()){
+	$this->dojo()->setDjConfigOption('parseOnLoad', true);
+	$this->dojo()->setDjConfigOption('baseUrl', './');
+	$this->dojo()->addStyleSheetModule('dijit.themes.tundra');
+	echo $this->dojo()."\n";
+}
+// css style sheets
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/screen.css');
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/print.css','print');
+// faveicon
+$this->headLink(array('rel' => 'shortcut icon',
+                      'href' => $this->baseUrl().'/img/favicon.ico'),
+                      'PREPEND');
+// feed (rss & atom)
+$this->headLink(array('rel' => 'alternate',
+					  'type' => 'application/atom+xml',
+					  'title' => 'cocktailberater - Atom',
+                      'href' => 'http://blog.cocktailberater.de/feeds/posts/default'));
+$this->headLink(array('rel' => 'alternate',
+					  'type' => 'application/rss+xml',
+					  'title' => 'cocktailberater - RSS',
+                      'href' => 'http://blog.cocktailberater.de/feeds/posts/default?alt=rss'));
+// echo css, faveicon and feeds
+echo $this->headLink()."\n";
+// echo scripts
+echo $this->headScript()."\n";
+?>
+</head>
+<body class="tundra">
+<div id="pre-header">
+	<ul>
+		<li><a
+			href="<?php print $this->url(array(	'module'=>'website',
+												'controller'=>'index',
+												'action'=>'imprint',
+												'module'=>'website'),null,true); ?>"
+			title="Impressum"><!-- <img
+			src="<?php print $this->baseUrl(); ?>/img/adresse.png" alt="Impressum"
+			title="Impressum" height="10" />  -->impressum</a></li>
+		<li><a
+			href="<?php print $this->url(array(	'module'=>'website',
+												'controller'=>'index',
+												'action'=>'contact',
+												'module'=>'website'),null,true); ?>"
+			title="kontakt">kontakt</a></li>
+		<li><a
+			href="<?php print $this->url(array(	'module'=>'website',
+												'controller'=>'portal',
+												'action'=>'index',
+			 									'module'=>'website'),null,true); ?>">portal</a></li>
+		<!-- <li>© 2009 by <a href="http://www.thobach.de">Thomas Bachmann</a></li> -->
+		<!-- <li><a href="http://www.addthis.com/bookmark.php"
+			onclick="addthis_url   = location.href; addthis_title = document.title; return addthis_click(this);"
+			title="Diese Seiteeinem (Social)-BookmarkingServicehinzufügen"><img
+			src="http://s9.addthis.com/button1-bm.gif" width="125" height="16"
+			alt="Diese Seite einem (Social)-Bookmarking Service hinzufügen"
+			style="margin-top: 2px; vertical-align: text-bottom;" /></a></li> -->
+	</ul>
+</div><!-- id:footer -->
+<div id="wrapper">
+<?php 
+if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index' &&	
+	Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index') { 
+	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header.png\'); height: 142px;';
+	$linkStyle = 'height: 142px;'; 
+} 
+else { 
+	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header-detail.png\'); height: 50px;';
+	$linkStyle = 'height: 50px;'; 
+}
+?>
+	<div id="header" style="<?php echo $headStyle; ?>">
+		<a href="<?php 
+		$mainPage = array('controller'=>'index','action'=>'index','module'=>'website');
+		print $this->url($mainPage,null,true); ?>" style="<?php echo $linkStyle;?>"><h1>cocktailberater</h1></a>
+	</div><!-- id:header -->
+	<div id="homepage">
+		<div id="content"><?php echo $this->layout()->content ?></div>
+	</div><!-- id:homepage -->
+	<div class="clear"></div>
+</div><!-- id:wrapper -->
+
+<!-- Google Analytics START -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-7324992-1");
+	pageTracker._trackPageview();
+} catch(err) {
+	
+}</script>
+<!-- Google Analytics END -->
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.thobach.de/" : "http://stats.thobach.de/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://stats.thobach.de/piwik.php?idsite=4" style="border:0" alt=""/></p></noscript>
+<!-- End Piwik Tag -->
+<!-- Zend_Version: <?php echo Zend_Version::VERSION; ?> -->
+</body>
+</html>

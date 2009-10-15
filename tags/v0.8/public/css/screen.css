@@ -1,0 +1,697 @@
+/*
+cocktailberater.de Screen Stylesheet
+
+version:   1.0
+date:      21/07/07
+author:    Thomas Bachmann
+email:     info@thobach.de
+
+website:   www.cocktailberater.de
+
+version history: /html/css/screen.css
+-----------------------------------------------------------------------------*/
+	/* Import other stylesheets
+-----------------------------------------------------------------------------*/
+	/* @import url("otherstylesheet.css"); */
+	/* Remove margin, padding and border from everything 
+-----------------------------------------------------------------------------*/
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif;
+}
+
+/* Styles for layout
+-----------------------------------------------------------------------------*/
+.clear {
+	clear: both;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
+
+.center {
+	text-align: center;
+}
+
+.textLeft {
+	text-align: left;
+}
+
+.hide {
+	display: none;
+}
+
+.abstand {
+	padding: 0.2em;
+}
+
+.abstand_links {
+	margin-left: 1em;
+}
+
+.abstand_links_doppelt {
+	margin-left: 2em;
+}
+
+.abstand_links_halb {
+	margin-left: 0.2em;
+}
+
+.abstand_rechts {
+	margin-right: 1em;
+}
+
+.abstand_rechts_doppelt {
+	margin-right: 2em;
+}
+
+.abstand_rechts_halb {
+	margin-right: 0.2em;
+}
+
+.abstand_oben {
+	margin-top: 1em;
+}
+
+.abstand_oben_doppelt {
+	margin-top: 2em;
+}
+
+.abstand_unten {
+	margin-bottom: 1em;
+}
+
+.abstand_unten_doppelt {
+	margin-bottom: 2em;
+}
+
+/* Set up the document
+-----------------------------------------------------------------------------*/
+body {
+	font: 62.5%/ 1.5 "Lucida Grande", "Lucida Sans", Tahoma, Verdana,
+		sans-serif;
+	color: #000000;
+	text-align: center;
+}
+
+#wrapper {
+	width: 600px; /* Set page width here - you can also use percentage */
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 1em;
+	margin-bottom: 3em;
+	background-color: #FFFFFF;
+	border: 1px solid #808080;
+	padding-bottom: 1em;
+}
+
+/* Typography
+-----------------------------------------------------------------------------*/
+h1 {
+	font-size: 2.2em; /* Equivalent to 22pt */
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+h2 {
+	font-size: 2.0em; /* Equivalent to 20pt */
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+h3 {
+	font-size: 1.4em; /* Equivalent to 18pt */
+	margin-top: 0.8em;
+}
+
+h4 {
+	font-size: 1.2em; /* Equivalent to 18pt */
+}
+
+h5 {
+	font-size: 1.4em; /* Equivalent to 14pt */
+}
+
+p,q,cite {
+	font-size: 1.2em; /* Equivalent to 12pt */
+}
+
+ul,ol,dl {
+	list-style: none;
+	font-size: 1.2em; /* Equivalent to 12pt */
+}
+
+ul li,dd,dt {
+	font-size: 0.9em; /* Equivalent to 12pt */
+	clear: both;
+}
+
+ul ul li {
+	font-size: 0.7em;
+	font-weight: normal;
+}
+
+a:link {
+	color: #54616E;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #54616E;
+	text-decoration: none;
+}
+
+a:active {
+	color: #54616E;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #000000;
+	text-decoration: none;
+}
+
+a.nolink:hover {
+	color: #CF0060;
+}
+
+
+.link {
+	text-decoration: underline;
+	color: #54616E;
+}
+
+hr {
+	border-bottom: 1px solid #aa1061;
+	width: 562px;
+	margin-left: auto;
+	margin-right: auto;
+	clear: both;
+}
+
+/* Header
+-----------------------------------------------------------------------------*/
+#header {
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+}
+
+div#header a {
+	width: 600px;
+	display: block;
+}
+
+div#header a h1 {
+	display: none;
+}
+
+/* Navigation
+-----------------------------------------------------------------------------*/
+	/* pre-header
+-----------------------------------------------------------------------------*/
+div#pre-header {
+	padding-top: 0.5em;
+	margin-bottom: 0.8em;
+	text-align: left;
+	height: 1em;
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+	font-size: 1em;
+}
+
+div#pre-header ul {
+	
+}
+
+div#pre-header ul li {
+	clear: none;
+	float: right;
+	list-style-type: circle;
+	margin-left: 1.8em;
+}
+
+/* Homepage
+-----------------------------------------------------------------------------*/
+#homepage {
+	clear: left;
+	width: 600px;
+	text-align: center;
+	font-size: 1.2em;
+}
+
+#wiki {
+	text-align: justify;
+}
+
+#spacing-left {
+	margin-left: 16px;
+	margin-right: 16px;
+	margin-top: 1.0em;
+	text-align: justify;
+}
+
+div.sub_nav {
+	float: left;
+	margin-right: 12px;
+	margin-top: 1em;
+	width:140px;
+	margin-left: 1em;	
+}
+
+div.browse {
+	text-align: left;
+	margin-left: 4em;
+	margin-right: 3em;
+	margin-top: 3em;
+	clear: left;
+}
+
+div.browse h2 {
+	font-size: 1.5em;
+	font-weight: normal;
+}
+
+div.browse ul {
+	margin-left: 2em;
+}
+
+div.browse ul li {
+	clear: none;
+	float: left;
+	width: 33%;
+	margin-top: 1em;
+	margin-bottom: 2em;
+	height: 3em;
+}
+
+div.browse ul li a img {
+	margin-right: 1em;
+	float: left;
+}
+
+div.browse ul li a {
+	text-decoration: underline;
+}
+
+div.content {
+	text-align: left;
+	float: left;
+	width: 410px;
+}
+
+div.content ul {
+	margin-left: 1em;
+	margin-top: 1em;
+	list-style-type: circle;
+	list-style-position: inside;
+}
+
+div.content ul.horizontal li {
+	clear: none;
+	float: left;
+	width: 43%;
+	margin-right: 1em;
+	list-style-type: none;
+	list-style-position: outside;
+	margin-top: 1em;
+	padding: 0.5em;
+}
+
+div.content ul.glas {
+	margin: 0;
+}
+
+div.content ul.glas li {
+	height: 5em;
+	border: 1px solid #54616E;
+}
+
+div.content ul.glas li img {
+	margin-right: 0.4em;
+	float: left;
+}
+
+div.content ul.noBullet{
+	list-style-type: none;	
+}
+
+div.sub_nav ul.textLeft>li:FIRST-CHILD{
+	margin-top: 0em;
+}
+
+div.sub_nav ul.textLeft>li{
+	margin-top: 1em;
+}
+
+div.sub_nav ul.textLeft>li>a {
+	font-weight: bold;
+	color: black;
+}
+
+div.sub_nav ul.textLeft>li>ul {
+	font-size: 1.35em;
+}
+
+/* Your template
+-----------------------------------------------------------------------------*/
+	/* Forms
+-----------------------------------------------------------------------------*/
+.regular_form fieldset {
+	border: 1px solid #54616E;
+	background-color: #F2F2F2;
+	padding: 1em;
+	margin-bottom: 1em;
+}
+
+.regular_form legend {
+	border: 1px solid #999999;
+	background-color: #D6D6D6;
+	margin-left: 1em;
+	padding: 0.3em;
+	font-weight: bold;
+}
+
+#hinweis,#achtung {
+	background-color: white;
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+	padding: 0.3em;
+	font-weight: bold;
+}
+
+#hinweis {
+	border: 1px solid blue;
+	color: blue;
+}
+
+#achtung {
+	border: 1px solid red;
+}
+
+input.small {
+	width: 3em;
+}
+
+input.medium {
+	width: 6em;
+}
+
+input.big,textarea.big {
+	width: 25em;
+}
+
+input.text,textarea.text {
+	padding: 3px;
+	border: 1px solid #999999;
+}
+
+input.submit,#submit,#anmelden,#abmelden {
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: 1.5em;
+	background-color: gray;
+}
+
+input.medium-button {
+	font-size: 1.5em;
+	text-align: center;
+	color: white;
+	width:137px;
+	height:32px;
+}
+
+input.small-button {
+	font-size: 1em;
+	text-align: center;
+	color: white;
+	width:94px;
+	height:22px;
+}
+
+form#tag_form .dijitTextBox, input#newtag {
+	border: 1px solid rgb(179, 179, 179);
+	font-size: 1.2em;
+	width: 6em;
+}
+
+form#tag_form label {
+	font-size: 1.2em;		
+}
+
+p.description {
+	font-size: 0.8em;
+	color: gray;
+	margin-top: 0.2em;
+	text-align: left;
+}
+
+#cocktail {
+	float: left;
+	padding-right: 1em;
+	padding-bottom: 1em;
+}
+
+#ergebnisse {
+	width: 450px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+textarea#comment {
+	width: 305px;
+	height: 100px;
+	margin-left: 3px;
+	margin-top: 0.5em;
+	font-size: 1.1em;
+}
+
+div#recaptcha_widget_div{
+	clear: left;	
+}
+
+.attribut, dt {
+	clear: left;
+	float: left;
+	color: #cf0060;
+	text-align: left;
+	margin: 2px;
+	padding: 1px;
+	width: 100px;
+}
+
+div.wert p {
+	font-size: 1em;
+	text-align: left;
+	margin-bottom: 0.4em;
+}
+
+.wert, dd {
+	clear: none;
+	float: left;
+	width: 300px;
+	text-align: justify;
+	margin: 2px;
+	padding: 1px;
+}
+
+div.wert ul li {
+	clear: both;
+}
+
+div.wert ul.nolist li {
+	clear: none;
+	float: left;
+}
+
+div.wert ul.Zend_Tag_Cloud li {
+	display: inline;
+	float: none;
+	clear: both;
+}
+
+div.wert ul.Zend_Tag_Cloud li span {
+	display: none;	
+}
+
+div.wert ul.Zend_Tag_Cloud li a {
+}
+
+label {
+	text-align: left;
+}
+
+label.small {
+	width: 10em;
+}
+
+#pointer {
+	cursor: pointer;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.icon {
+	position: absolute;
+	bottom: 0;
+	width: 100px;
+}
+
+.error, .notice, .success {
+	padding:.8em;
+	border:2px solid #ddd;
+}
+
+.error {
+	background:#FBE3E4;
+	color:#8a1f11;
+	border-color:#FBC2C4;
+}
+
+.notice {
+	background:#FFF6BF;
+	color:#514721;
+	border-color:#FFD324;
+}
+
+.success {
+	background:#E6EFC2;
+	color:#264409;
+	border-color:#C6D880;
+}
+
+.error a {
+	color:#8a1f11;
+}
+
+.notice a {
+	color:#514721;
+}
+
+.success a {
+	color:#264409;
+}
+
+#box {
+	padding: 5px;
+	border: 1px solid black;
+	margin: 5px;
+}
+
+.highlight:hover {
+	background-color: white;
+}
+
+.pink {
+	color: #cf0060;
+}
+
+/* Suche
+-----------------------------------------------------------------------------*/
+form#suche_name {
+	margin-left: 4em;
+	margin-top: 2em;
+	text-align: left;
+}
+
+form#suche_name legend {
+	display: none;
+}
+
+form#suche_name label {
+	font-size: 1.5em;
+	float: left;
+	margin-top: 0.9em;
+}
+
+form#suche_name div.search_options label {
+	margin-top: 0;
+}
+
+form#suche_name div.search_options input {
+	margin-top: 0.4em;
+}
+
+form#suche_name .dijitTextBox, input#search {
+	width: 220px;
+	margin-left: 30px;
+	display: block;
+	float: left;
+	margin-top: 1.5em;
+}
+
+ul.dijitMenu li.dijitMenuItem {
+	font-size: 1.5em;
+}
+
+input#search {
+	border: 1px solid rgb(179, 179, 179);
+	font-size: 1.5em;
+	margin-top: 1em;
+}
+
+input#search_button {
+	background-color: white;
+	height: 58px;
+	width: 137px;
+	font-size: 0;
+	margin-left: 30px;
+}
+
+div.search_options {
+	font-size: 0.8em;
+	padding-top: 1em;
+	margin-bottom: 2em;
+	margin-left: 4em;
+}
+
+div.form {
+	clear: left;
+}
+
+textarea#message {
+	width: 300px;	
+	height: 150px;
+}
+
+dl.zend_form>dd>pre {
+	font-family: monospace;
+}
+
+input[type="radio"] { margin-right: 0.5em; } 
+
+/* Tables 
+-----------------------------------------------------------------------------*/
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+td {
+	text-align: left;
+	font-weight: normal;
+}
+
+table.table {
+	padding: 0.1em;
+}
+
+table.table thead {
+	background-color: #CF0060;
+}
+
+table.table td,table.table th {
+	border: 1px solid black;
+	padding: 0.2em;
+}

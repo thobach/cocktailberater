@@ -1,0 +1,65 @@
+<!-- search begin -->
+<?php
+// dojo helper
+$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+// enable dojo with custom module (readStore), parser, and comboBox
+$this->dojo()->enable()
+->registerModulePath('custom', $this->baseUrl().'/js/custom')
+->requireModule('dojo.parser')
+->requireModule('dojox.data.QueryReadStore')
+->requireModule('dijit.form.ComboBox')
+->requireModule('custom.TestNameReadStore');
+// define url for autoCompletion
+$autoCompletionUrl = array('action'=>'suggest','controller'=>'index','module'=>'website','format'=>'ajax');
+?>
+<div dojoType="custom.TestNameReadStore" jsId="testStore" url="<?php echo $this->url($autoCompletionUrl); ?>"
+	requestMethod="get"></div>
+<?php $this->headScript()->captureStart(); ?>
+// configure query
+djConfig.usePlainJson=true;
+// add the possibility to submit the search by pressing the ENTER key 
+function init() {
+	dojo.connect(dojo.byId("search"), 'onkeypress', function(e) { 
+		if (e.keyCode == dojo.keys.ENTER) { 
+			dojo.byId('suche_name').submit(); 
+		} 
+	});
+	<?php
+	// only focus the search bar at the start page
+	if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index'
+		&& Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index') { ?>
+	dojo.byId("search").focus();
+	<?php 
+	}
+	?>
+}
+dojo.addOnLoad(init);
+<?php $this->headScript()->captureEnd(); ?>
+<form method="post" id="suche_name"	action="<?php 
+$searchLink = array('controller'=>'index', 'action'=>'search','module'=>'website');
+print $this->url($searchLink,null,true); ?>">
+<fieldset>
+	<!-- cocktail -->
+	<legend>Rezepte:</legend>
+	<label for="search">Cocktail:</label>
+	<!-- text input w/ autocompletion -->
+	<?php 
+		$autoCompletetionInputOptions = array('dojoType'=>array('dijit.form.ComboBox'),'store'=>'testStore','autoComplete'=>'false','hasDownArrow'=>'false'); 
+		echo $this->formText('search',null,$autoCompletetionInputOptions);
+	?>
+	<input type="submit" style="background-image: url('<?php print $this->baseUrl();?>/img/suchen-button.png');" value="Suchen" id="search_button" />
+	<!-- search options -->
+	<div class="search_options">
+		<!-- Name --> <input id="search_type1" name="search_type" value="name" checked="checked" type="radio" class="left" onclick="dojo.byId('search_type_value').value=this.value;" />
+		<label for="search_type1">&nbsp;über Name</label> 
+		<!-- Zutat --> <input id="search_type2" name="search_type" value="ingredient" type="radio" style="margin-left: 3em;" class="left" onclick="dojo.byId('search_type_value').value=this.value;" /> 
+		<label for="search_type2">&nbsp;über Zutat</label> 
+		<!-- Tag --> <input id="search_type3" name="search_type" value="tag" type="radio" style="margin-left: 3em;" class="left" onclick="dojo.byId('search_type_value').value=this.value;" /> 
+		<label for="search_type3">&nbsp;über Schlagwort / Tag</label>
+		<!-- needed in TestNameReadStore.js for selection of name, tag or ingredient -->
+		<input type="hidden" id="search_type_value" name="search_type_value" value="name" />
+	</div>
+</fieldset>
+</form>
+<!-- search end -->
+<hr class="abstand_oben_doppelt abstand_unten_doppelt">
