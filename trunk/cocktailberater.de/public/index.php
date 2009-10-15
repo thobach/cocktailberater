@@ -1,7 +1,7 @@
 <?php
 // forward requests without www to www.cocktailberater.de 
 if($_ENV['HTTP_HOST']=='cocktailberater.de'){
-	header("Location: http://www.cocktailberater.de/",TRUE,301);
+	header("Location: http://www.cocktailberater.de/".$_ENV['REQUEST_URI'],TRUE,301);
 }
 
 // Define path to application directory
