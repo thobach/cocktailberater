@@ -2,6 +2,8 @@
 
 Darstellung von Statistiken: http://code.google.com/apis/chart/
 
+[http://stats.thobach.de/index.php?module=Widgetize&action=iframe&moduleToWidgetize=VisitsSummary&actionToWidgetize=index&idSite=4&period=week&date=2009-10-16&disableLink=1 letzte Besucher]
+
 =seitwert.de =
 
 Seitwert: http://www.seitwert.de/?url=www.cocktailberater.de
