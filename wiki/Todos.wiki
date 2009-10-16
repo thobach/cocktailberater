@@ -1,7 +1,13 @@
 #summary Tasks and things to do
 #labels Phase-Requirements,Featured
 
-Die hier dargestelltne Aufgaben sollten demnächst erledigt werden. Wer hat Lust sich zu beteiligen?
+Die hier dargestellten Aufgaben sollten demnächst erledigt werden. Wer hat Lust sich zu beteiligen?
+
+Für den nächsten Meilenstein (Version 0.9) ist geplant:
+  * mehr Rezepte mit Bildern und Videos
+  * Datenbank-Deployment und Backup Strategie
+  * API Bugfixing
+  * einfacher Bestell- und Küchenclient auf AJAX-Basis
 
 = Aufgaben =
   * Wikistruktur überlegen und anlegen
