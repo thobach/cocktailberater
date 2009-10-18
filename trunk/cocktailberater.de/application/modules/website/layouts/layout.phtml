@@ -1,4 +1,9 @@
-<?php echo $this->doctype('HTML5') ?>
+<?php 
+// for JS-fallback
+$currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('show');
+// HTML 5 header
+echo $this->doctype('HTML5'); 
+?>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -23,12 +28,16 @@ echo $this->headMeta();
 echo $this->headStyle()."\n";
 // dojo
 $this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
-if ($this->dojo()->isEnabled()){
-	$this->dojo()->setDjConfigOption('parseOnLoad', true);
-	$this->dojo()->setDjConfigOption('baseUrl', './');
-	$this->dojo()->addStyleSheetModule('dijit.themes.tundra');
-	echo $this->dojo()."\n";
-}
+$this->dojo()->enable();
+$this->dojo()->setDjConfigOption('parseOnLoad', true);
+$this->dojo()->setDjConfigOption('baseUrl', './');
+$this->dojo()->addStyleSheetModule('dijit.themes.tundra');
+// for dropdown boxes in at the top
+$this->dojo()->requireModule('dijit.Dialog');
+$this->dojo()->requireModule('dijit.form.FilteringSelect');
+$this->dojo()->requireModule('dijit.form.Button');
+// end for dropdown boxes
+echo $this->dojo()."\n";
 // css style sheets
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/screen.css');
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/print.css','print');
@@ -47,48 +56,160 @@ $this->headLink(array('rel' => 'alternate',
                       'href' => 'http://blog.cocktailberater.de/feeds/posts/default?alt=rss'));
 // echo css, faveicon and feeds
 echo $this->headLink()."\n";
+// toggeling dialogs
+$this->headScript()->captureStart(); ?>
+
+// prevent from hiding immidiately after showing dialog 
+// (body -> onclick is called after every click anywhere) 
+var hideDialog;
+
+// show dialog
+function showDialog(dialog){
+	// remove non-JS borders and paddings
+	dojo.query('ul.noJS').removeClass('noJS');
+	// hide active dialog
+	if(dojo.byId(dialog).style.display == 'block') { 
+		dojo.byId(dialog).style.display = 'none';
+	} 
+	// show only activated dialog
+	else {
+		// hide all dialogs
+		dojo.query('div.dijitTooltipDialog', document).forEach( 
+			function(selectTag) {
+				selectTag.style.display = 'none';
+			}
+		);
+		// show activated dialog
+		dojo.byId(dialog).style.display = 'block';
+	}
+	// don't hide all dialogs immidiately
+	hideDialog = false;
+	// don't call the url in a -> href
+	return false;
+}
+
+// hide all dialogs (body -> onclick)
+function hideDialogs(){
+	// only hide all dialogs if NOT clicked on any link
+	if(hideDialog){
+		dojo.query('div.dijitTooltipDialog', document).forEach( 
+			function(selectTag) {
+				selectTag.style.display = 'none';
+			}
+		);
+		
+	}
+	// next time the user clicks anywhere BUT the link hide all dialogs
+	hideDialog = true;
+}
+<?php $this->headScript()->captureEnd();
 // echo scripts
 echo $this->headScript()."\n";
 ?>
 </head>
-<body class="tundra">
+<body class="tundra" onclick="hideDialogs();">
+<!-- begin: top links -->
 <div id="pre-header">
 	<ul>
-		<li><a
-			href="<?php print $this->url(array(	'module'=>'website',
-												'controller'=>'index',
-												'action'=>'imprint',
-												'module'=>'website'),null,true); ?>"
-			title="Impressum"><!-- <img
-			src="<?php print $this->baseUrl(); ?>/img/adresse.png" alt="Impressum"
-			title="Impressum" height="10" />  -->impressum</a></li>
-		<li><a
-			href="<?php print $this->url(array(	'module'=>'website',
-												'controller'=>'index',
-												'action'=>'contact',
-												'module'=>'website'),null,true); ?>"
-			title="kontakt">kontakt</a></li>
-		<li><a
-			href="<?php print $this->url(array(	'module'=>'website',
-												'controller'=>'portal',
-												'action'=>'index',
-			 									'module'=>'website'),null,true); ?>">portal</a></li>
-		<!-- <li>© 2009 by <a href="http://www.thobach.de">Thomas Bachmann</a></li> -->
-		<!-- <li><a href="http://www.addthis.com/bookmark.php"
-			onclick="addthis_url   = location.href; addthis_title = document.title; return addthis_click(this);"
-			title="Diese Seiteeinem (Social)-BookmarkingServicehinzufügen"><img
-			src="http://s9.addthis.com/button1-bm.gif" width="125" height="16"
-			alt="Diese Seite einem (Social)-Bookmarking Service hinzufügen"
-			style="margin-top: 2px; vertical-align: text-bottom;" /></a></li> -->
+		<!-- kontakt -->
+		<li>
+			<a href="<?php if($currentShow=='contact') { $show = 'none'; } else { $show = 'contact'; } echo $this->url(array('show'=>$show)); ?>" 
+				onclick="return showDialog('tooltipDlg3');">kontakt <img src="<?php print $this->baseUrl(); ?>/img/down.png" alt="Pfeil nach unten" /></a>
+			<div dojoType="dijit.TooltipDialog" id="tooltipDlg3"
+				style="<?php if($currentShow!='contact') { ?>display: none;<?php } ?> position: absolute; margin-left: -13em;">
+			    <ul class="noJS">
+			    	<li><a href="<?php print $this->url(array(
+							'module'=>'website',
+							'controller'=>'index',
+							'action'=>'imprint'),null,true); ?>">impressum</a></li>
+					<li><a href="<?php print $this->url(array(
+							'module'=>'website',
+							'controller'=>'index',
+							'action'=>'contact'),null,true); ?>">kontakt</a></li>
+					<li><a href="http://www.thobach.de">thomas bachmann (entwickler)</a></li>
+					<li><a href="http://www.carolinebock.de">caroline bock (designer)</a></li>
+				</ul>
+			</div>
+		</li>
+		<!-- lesezeichen oder weitersagen -->
+		<li>
+			<a href="<?php if($currentShow=='bookmark') { $show = 'none'; } else { $show = 'bookmark'; } echo $this->url(array('show'=>$show)); ?>" 
+				onclick="return showDialog('tooltipDlg0');">lesezeichen oder weitersagen <img src="<?php print $this->baseUrl(); ?>/img/down.png" 
+				alt="Pfeil nach unten" /></a>
+			<div dojoType="dijit.TooltipDialog" id="tooltipDlg0" 	
+				style="<?php if($currentShow!='bookmark') { ?>display: none;<?php } ?> position: absolute; margin-left: 0.8em;">
+		    	<ul class="noJS">
+		    		<li>
+			    		<!-- AddThis Button BEGIN -->
+						<div class="addthis_toolbox addthis_default_style">
+							<a class="addthis_button_facebook"></a>
+							<a class="addthis_button_email"></a>
+							<a class="addthis_button_favorites"></a>
+							<a class="addthis_button_print"></a>
+							<span class="addthis_separator">|</span>
+							<a href="http://www.addthis.com/bookmark.php?v=250&amp;pub=thobach" class="addthis_button_expanded">More</a>
+						</div>
+						<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=thobach"></script>
+						<!-- AddThis Button END -->
+		    		</li>
+		    	</ul>
+			</div>
+		</li>
+		<!-- cocktailberater auf -->
+		<li>
+			<a href="<?php if($currentShow=='partner') { $show = 'none'; } else { $show = 'partner'; } echo $this->url(array('show'=>$show)); ?>" 
+				onclick="return showDialog('tooltipDlg1');">cocktailberater auf... <img src="<?php print $this->baseUrl(); ?>/img/down.png" 
+				alt="Pfeil nach unten" /></a>
+			<div dojoType="dijit.TooltipDialog" id="tooltipDlg1" 	
+				style="<?php if($currentShow!='partner') { ?>display: none;<?php } ?> position: absolute; margin-left: 3.5em;">
+			    <ul class="noJS">
+			    	<li><a href="http://www.facebook.com/pages/cocktailberater/132058865565">facebook</a></li>
+					<li><a href="http://twitter.com/cocktailberater">twitter</a></li>
+					<li><a href="http://ohloh.net/p/cocktailberater">ohloh</a></li>
+					<li><a href="http://code.google.com/p/cocktailberater/">google code</a></li>
+			    </ul>
+			</div>
+		</li>
+		<!-- projekte -->
+		<li>
+			<a href="<?php if($currentShow=='projects') { $show = 'none'; } else { $show = 'projects'; } echo $this->url(array('show'=>$show)); ?>" 
+				onclick="return showDialog('tooltipDlg2');">projekte <img src="<?php print $this->baseUrl(); ?>/img/down.png" 
+				alt="Pfeil nach unten" /></a>
+			<div dojoType="dijit.TooltipDialog" id="tooltipDlg2" 
+				style="<?php if($currentShow!='projects') { ?>display: none;<?php } ?> position: absolute; margin-left: -5em;">
+		    	<ul class="noJS">
+		    		<li><a href="<?php print $this->url(array(
+						'module'=>'website',
+						'controller'=>'index',
+						'action'=>'index'),null,true); ?>">rezeptdatenbank</a></li>
+		    		<li><a href="http://blog.cocktailberater.de">entwickler blog</a></li>
+		    		<li><a href="<?php print $this->url(array(
+						'module'=>'website',
+						'controller'=>'portal',
+						'action'=>'barkunde'),null,true); ?>">barkunde</a></li>
+					<li><a href="<?php print $this->url(array(
+						'module'=>'website',
+						'controller'=>'portal',
+						'action'=>'hausbar'),null,true); ?>">hausbar</a></li>
+					<li><a href="<?php print $this->url(array(
+						'module'=>'website',
+						'controller'=>'portal',
+						'action'=>'community'),null,true); ?>">community</a></li>
+		    	</ul>
+			</div>
+		</li>
 	</ul>
-</div><!-- id:footer -->
+</div>
+<!-- end: top links -->
 <div id="wrapper">
-<?php 
+<?php
+// show full header only start page 
 if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index' &&	
 	Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index') { 
 	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header.png\'); height: 142px;';
 	$linkStyle = 'height: 142px;'; 
-} 
+}
+// show small header on all other pages
 else { 
 	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header-detail.png\'); height: 50px;';
 	$linkStyle = 'height: 50px;'; 
@@ -130,6 +251,5 @@ piwikTracker.enableLinkTracking();
 } catch( err ) {}
 </script><noscript><p><img src="http://stats.thobach.de/piwik.php?idsite=4" style="border:0" alt=""/></p></noscript>
 <!-- End Piwik Tag -->
-<!-- Zend_Version: <?php echo Zend_Version::VERSION; ?> -->
 </body>
 </html>
