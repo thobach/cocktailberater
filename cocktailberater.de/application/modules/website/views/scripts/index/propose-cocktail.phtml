@@ -23,32 +23,44 @@ function mehrZutaten(idzutaten_kategorie) {
 			<label for="cocktail_name">Cocktailname:</label>
 		</div>
 		<div class="wert">
-			<?php // setup our data store: ?>
-			<div dojoType="custom.TestNameReadStore" jsId="testStore"
-			    url="<?= $this->baseUrl(); ?>rezepte/autocomplete/format/ajax" requestMethod="get"></div>
-			<?php // render our form: ?>
-			<?= $this->form ?>
+			<?php			
+			// dojo helper
+			$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+			// enable dojo with custom module (readStore), parser, and comboBox
+			$this->dojo()->enable()->registerModulePath('custom', $this->baseUrl().'/js/custom')
+			->requireModule('dojo.parser')
+			->requireModule('dojox.data.QueryReadStore')
+			->requireModule('dijit.form.ComboBox')
+			->requireModule('custom.CocktailReadStore');
 			
-			<?php // setup Dojo-related CSS to load in HTML head: ?>
-			<?php $this->headStyle()->captureStart() ?>
-			@import "<?= $this->baseUrl(); ?>js/dojo-release-1.0.2/dijit/themes/tundra/tundra.css";
-			@import "<?= $this->baseUrl(); ?>js/dojo-release-1.0.2/dojo/resources/dojo.css";
-			<?php $this->headStyle()->captureEnd(); ?>
+			// define url for autoCompletion
+			$autoCompletionUrl = array('action'=>'suggest','controller'=>'index','module'=>'website','format'=>'ajax');
+			?>
+			<div dojoType="custom.CocktailReadStore" jsId="testStore" url="<?php echo $this->url($autoCompletionUrl); ?>"
+				requestMethod="get"></div>
+			<!-- text input w/ autocompletion -->
+			<?php 
+				$autoCompletetionInputOptions = array(
+					'dojoType'		=> array('dijit.form.ComboBox'),
+					'store'			=> 'testStore',
+					'autoComplete'	=> 'false',
+					'hasDownArrow'	=> 'false'); 
+				echo $this->formText('cocktail_name',null,$autoCompletetionInputOptions);
+			?>
+			<?php $this->headScript()->captureStart(); ?>
 			
-			<?php // setup javascript to load in HTML head, including all required Dojo
-			   // libraries: ?>
-			<?php $this->headScript()
-			        ->setAllowArbitraryAttributes(true)
-			        ->appendFile($this->baseUrl() . 'js/dojo-release-1.0.2/dojo/dojo.js', 
-			            'text/javascript', 
-			            array('djConfig' => 'parseOnLoad: true'))
-			        ->captureStart() ?>
+			// configure query
 			djConfig.usePlainJson=true;
-			dojo.registerModulePath("custom","../custom");
-			dojo.require("dojo.parser");
-			dojo.require("dojox.data.QueryReadStore");
-			dojo.require("dijit.form.ComboBox");
-			dojo.require("custom.TestNameReadStore");
+			
+			// add the possibility to submit the search by pressing the ENTER key 
+			function init() {
+				dojo.connect(dojo.byId("cocktail_name"), 'onkeypress', function(e) { 
+					if (e.keyCode == dojo.keys.ENTER) { 
+						dojo.byId('suche_name').submit(); 
+					} 
+				});
+			}
+			dojo.addOnLoad(init);
 
 			// Beim Ändern des Inhalts im Inputfeld 'cocktail_name' soll überprüft 
 			// werden, ob es den Cocktail schon gibt. Wenn ja, das Feld Beschreibung 
@@ -96,12 +108,21 @@ function mehrZutaten(idzutaten_kategorie) {
 			<p class="description">(z.B.: Sex on the Beach)</p>
 		</div>
 		<div class="attribut">
-			<label for="cocktail_beschreibung">Kurz- beschreibung:</label>
+			<label for="cocktail_beschreibung">Kurz- <span id="description"><img src="<?php print $this->baseUrl(); ?>/img/info.png" align="top" /> beschreibung:</label>
+			<?php 
+				$this->dojo()->enable()->requireModule('dijit.Tooltip');
+				$this->headScript()->captureStart(); ?>
+				dojo.addOnLoad(function() {
+					descriptionTooltip = new dijit.Tooltip({
+		            	connectId: ["description"],
+		            	label: "<div class=\"textLeft\" style=\"width: 20em;\">Herkunft, Namensursprung, Kurzbezeichnungen, z.B.: ein fruchtiger, mäßig süßer Longdrink aus den USA</div>"
+		        	});
+		    	});
+			<?php $this->headScript()->captureEnd(); ?>
 		</div>
 		<div class="wert">
 			<textarea name="cocktail_beschreibung" id="cocktail_beschreibung" class="text" rows="8" cols="40"></textarea>
 			<p id="hinweis_cocktail_existiert" class="hide">Der Cocktail existiert schon in der Datenbank. Sie können aber eine neue Rezeptvariante vorschalgen.</p>
-			<p class="description">(Herkunft, Namensursprung, Kurzbezeichnungen, z.B.: ein fruchtiger, mäßig süßer Longdrink aus den USA)</p>
 		</div>
 	</fieldset>
 	<fieldset id="zutaten_mengen">
@@ -156,23 +177,38 @@ function mehrZutaten(idzutaten_kategorie) {
 			<p class="description">(z.B.: 3 Min.)</p>
 		</div>
 		<div class="attribut">
-			<label for="schwierigkeits_grad">Schwierigkeits- grad:</label>
+			<label for="schwierigkeits_grad">Schwierigkeits- grad: 
+				<span id="help_difficulty"><img src="<?php print $this->baseUrl(); ?>/img/info.png" align="top" /></span>
+			</label>
+			<?php 
+				$this->dojo()->enable()->requireModule('dijit.Tooltip');
+				$this->headScript()->captureStart(); ?>
+				dojo.addOnLoad(function() {
+					helpDifficultyTooltip = new dijit.Tooltip({
+		            	connectId: ["help_difficulty"],
+		            	label: "<div class=\"textLeft\" style=\"width: 20em;\">Der Schwierigkeitsgrad richtet sich nach dem Können. Ein Cuba Libre ist etwas für \"Anfänger\", ein B52 ist eher etwas für \"Profis\", da hier die Likörschichten getrennt sein müssen.</div>"
+		        	});
+		    	});
+			<?php $this->headScript()->captureEnd(); ?>
 		</div>
 		<div class="wert" style="width: 420px;">
-			<label for="schwierigkeits_grad_anfaenger">
+			<label for="schwierigkeits_grad_anfaenger" class="clear left" style="width: 40%">
 				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_anfaenger" value="Anfänger" class="abstand_rechts" />
-				<img src="<?php print $this->baseUrl() ; ?>/img/leicht.png" alt="Schwierigkeitsgrad Anfänger" align="absmiddle" />
+				<img src="<?php print $this->baseUrl() ; ?>/img/difficulty/beginner.png" alt="Schwierigkeitsgrad Anfänger" align="absmiddle" style="height: 30px" />
 				Anfänger
 			</label>
-			<label for="schwierigkeits_grad_fortgeschritten" class="abstand_links_doppelt">
+			<label for="schwierigkeits_grad_fortgeschritten" class="abstand_links_doppelt left" style="width: 40%">
 				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_fortgeschritten" value="Anfänger" class="abstand_rechts" />
-				<img src="<?php print $this->baseUrl() ; ?>/img/mittel.png" alt="Schwierigkeitsgrad Fortgeschritten" align="absmiddle" /> Fortgeschritten
+				<img src="<?php print $this->baseUrl() ; ?>/img/difficulty/advanced.png" alt="Schwierigkeitsgrad Fortgeschritten" align="absmiddle" style="height: 30px" /> Fortgeschritten
 			</label>
-			<label for="schwierigkeits_grad_profi" class="abstand_links_doppelt">
+			<label for="schwierigkeits_grad_profi" class="clear left abstand_oben" style="width: 40%">
 				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_profi" value="Anfänger" class="abstand_rechts" />
-				<img src="<?php print $this->baseUrl() ; ?>/img/schwer.png" alt="Schwierigkeitsgrad Profi" align="absmiddle" /> Profi
+				<img src="<?php print $this->baseUrl() ; ?>/img/difficulty/professional.png" alt="Schwierigkeitsgrad Profi" align="absmiddle" style="height: 30px" /> Profi
 			</label>
-			<p class="description">Der Schwierigkeitsgrad richtet sich nach dem Können. Ein Cuba Libre ist etwas für "Anfänger", ein B52 ist eher etwas für "Profis", da hier die Likörschichten getrennt sein müssen.</p>
+			<label for="schwierigkeits_grad_unknown" class="abstand_links_doppelt abstand_oben abstand_unten left" style="width: 40%">
+				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_unknown" value="unknown" class="abstand_rechts" />
+				<img src="<?php print $this->baseUrl() ; ?>/img/difficulty/unknown.png" alt="Schwierigkeitsgrad Unbekannt" align="absmiddle" style="height: 30px" /> Unbekannt
+			</label>
 		</div>
 		<div class="attribut">
 			<label for="kategorien">Kategorien:</label>

@@ -84,17 +84,6 @@ class Website_IndexController extends Zend_Controller_Action {
 	}
 
 	public function proposeCocktailAction () {
-		// Input box for cocktail name with AutoCompletion
-		$array = array ( 	'filters' => array ( 'StringTrim' ) ,
-	                        'dojoType' => array ( 'dijit.form.ComboBox' ) ,
-	                        'store' => 'testStore' ,
-	                        'autoComplete' => 'false' ,
-	                        'hasDownArrow' => 'false' ,
-	                        'onChange' => 'cocktailexists'  );
-		$form = new Zend_Form_Element_Text('cocktail_name',$array);
-		// Pass Inputfeld on to View
-		$this->view->form = $form;
-
 		/*
 		 * If form has been submitted, spit all data :-)
 		 */
