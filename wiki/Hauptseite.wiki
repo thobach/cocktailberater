@@ -3,9 +3,8 @@
 #sidebar TableOfContents
 
 == vorläufige Meilensteine==
-  * M1 - 1.6.2008 - [API] für Bestellclient und Küchenclient fertig
-  * M2 - 1.7.2008 - [Bestellclient Bestell]- und [Kuechenclient Küchenclient] einsatzbereit, [Webseite] online
-  * M3 - 31.12.2008 - [Portal] online
+  * [Todos Version 0.9]
+  * [Todos Version 1.0]
 
 ==Todos==
 === alle ===
