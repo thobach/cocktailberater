@@ -9,6 +9,12 @@ Für den nächsten Meilenstein (Version 0.9) ist geplant:
   * API Bugfixing
   * einfacher Bestell- und Küchenclient auf AJAX-Basis
 
+Für den übernächsten Meilenstein (Version 1.0) ist geplant:
+  * 100 qualitativ hochwertige Rezepte mit Vielfalt an Zutaten, Produkte, Läden und Preisen
+  * ausführliche BarKunde
+  * eigene HausBar
+  * Community
+
 = Aufgaben =
   * Wikistruktur überlegen und anlegen
   * altes Wiki migrieren (90% done, Bilder fehlen)
