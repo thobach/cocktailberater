@@ -6,45 +6,11 @@
   * [Todos Version 0.9]
   * [Todos Version 1.0]
 
-==Todos==
-=== alle ===
-  * [CB_Team_Absprache_Nr_4 CB Team Absprache Nr. 4] am 16.9.08
-  * [CB_Team_Absprache_Nr_3 CB Team Absprache Nr. 3] am 7.5.08
-
-=== Caro ===
-  * Benutzeroberfläche unter Gebrauchstauglichkeits-Aspekten gestalten
-  * [API Programmschnittstellen] drüber schaun
-  * [CorporateDesign Corporate Design] erstellen
-  * [Cocktailkarte] erstellen / gestalten
-
-=== Tobse ===
-  * [API Programmschnittstellen] drüber schaun
-  * [Architektur] definieren & beschreiben
-  * [Bestellclient Bestell]- und [Kuechenclient Küchenclient]
-
-=== Pat ===
-  * [API]s reviewen
-  * [Bestellclient Bestell]- und [Kuechenclient Küchenclient]
-  
-=== Nic ===
-  * [API]s definieren
-  * [API]s reviewen
-  * [API]s programmieren & testen
-  
-=== Thomas  ===
-  * ZendFramework 1.8.2 Migration
-  * [API]s definieren
-  * [API]s reviewen
-  * [API]s programmieren & testen
-  * [Architektur] definieren & beschreiben
-  * [Datenbank] designen
-
-=== Markus ===
-  * [Statusanzeige]
-
 ==Protokolle==
   * [CB_Team_Absprache_1 CB Team Absprache #1] vom 8.4.2008
   * [CB_Team_Absprache_Nr_2 CB Team Absprache Nr. 2] vom 5.5.2008
+  * [CB_Team_Absprache_Nr_4 CB Team Absprache Nr. 4] vom 16.9.08
+  * [CB_Team_Absprache_Nr_3 CB Team Absprache Nr. 3] vom 7.5.08
 
 ==Architektur==
   * Erläuterung der übergreifenden [Architektur]
