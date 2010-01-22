@@ -1,0 +1,6 @@
+#summary Anleitung zur Installation des Cockailberaters
+#labels Phase-Deploy
+
+= Installationsschritte =
+ # SVN Checkout
+ # tmp-Verzeichnos auf chmod 777 setzen
