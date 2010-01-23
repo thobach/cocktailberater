@@ -3,16 +3,27 @@
 <div style="margin-left: 25px; margin-top: 15px">
 <div class="attribut">Name:</div>
 <div class="wert"><?php print $this->ingredient->name; ?></div>
+<?php if($this->ingredient->description) {?>
 <div class="attribut">Beschreibung:</div>
 <div class="wert"><?php print $this->ingredient->description; ?></div>
+<?php } ?>
+<?php if($this->ingredient->getAverageAlcoholLevel()) {?>
 <div class="attribut">Alkoholgehalt:</div>
 <div class="wert"><?php print $this->ingredient->getAverageAlcoholLevel(); ?> %</div>
+<?php } ?>
+<?php if($this->ingredient->getAverageCaloriesKcal()) {?>
 <div class="attribut">Kalorien:</div>
-<div class="wert"><?php print $this->ingredient->getAverageCaloriesKcal(); ?> kcal / 100g bzw. 100 ml</div>
+<div class="wert"><?php print round($this->ingredient->getAverageCaloriesKcal()/10); ?> kcal / 100g bzw. 100 ml</div>
+<?php } ?>
+<?php if($this->ingredient->getMostUsedUnit()) {?>
 <div class="attribut">Einheit:</div>
 <div class="wert"><?php print $this->ingredient->getMostUsedUnit(); ?></div>
+<?php } ?>
+<?php if($this->ingredient->getAverageWeightGram()) {?>
 <div class="attribut">Gewicht pro Einheit:</div>
 <div class="wert"><?php print $this->ingredient->getAverageWeightGram(); ?> kg</div>
+<?php } ?>
+<?php if($this->ingredient->getIngredientCategories()) {?>
 <div class="attribut">Kategorien:</div>
 <div class="wert"><?php
 if(is_array($this->ingredient->getIngredientCategories())){
@@ -22,15 +33,22 @@ if(is_array($this->ingredient->getIngredientCategories())){
 	}
 }
 ; ?></div>
+<?php } ?>
+<?php $products = Website_Model_Product::productsByIngredientId($this->ingredient->id);
+if($products) { ?>
 <div class="attribut">Produkte:</div>
 <div class="wert"><?php
 $products = Website_Model_Product::productsByIngredientId($this->ingredient->id);
 if(is_array($products)){
+	print '<ul style="font-size: 0.9em; list-style-type: circle; margin-left: 2em;">';
 	foreach ($products as $product) {
-		print $product->name.' ('.$product->getManufacturer()->name.') - '.$product->size.' '.$product->unit.'<br />';
+		print '<li>'.$product->name.' ('.$product->getManufacturer()->name.') - '.str_replace('.',',',round($product->size,2)).' '.$product->unit.'</li>';
 	}
+	print '</ul>';
 }
 ?></div>
+<?php } ?>
+<?php if($this->cocktails) {?>
 <div class="attribut">Cocktails mit <?php print $this->ingredient->name; ?>:</div>
 <div class="wert"><?php
 if(is_array($this->cocktails)){
@@ -42,3 +60,4 @@ if(is_array($this->cocktails)){
 }
 ?>
 </div>
+<?php }

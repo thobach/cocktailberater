@@ -1,6 +1,5 @@
 <?php
-class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
-{
+class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
 	/**
 	 * Initialize Cache
@@ -44,7 +43,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		} else {
 			$writer = new Zend_Log_Writer_Null();
 			$log = new Zend_Log($writer);
-				
+
 		}
 		Zend_Registry::set('logger',$log);
 	}

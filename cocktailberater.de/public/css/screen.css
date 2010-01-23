@@ -516,7 +516,7 @@ div.wert p {
 .wert, dd {
 	clear: none;
 	float: left;
-	width: 300px;
+	width: 24em;
 	text-align: justify;
 	margin: 2px;
 	padding: 1px;
