@@ -19,7 +19,7 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 ?>
 <div>
 <div style="float: right;"><img style="<?php 
-	if(isset($photos[0]) && $photos[0]->fileName) {  ?>width: 160px<?php } 
+	if(isset($photos[0]) && $photos[0]->fileName) {  ?>width: 160px; margin-right: 1em;<?php } 
 	else { ?>margin-top: 1em; <?php }?>"
 	src="<?php
 	if(isset($photos[0]) && $photos[0]->fileName) { 
@@ -36,7 +36,7 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 	?>"
 	style="margin-bottom: 20px;" />
 <div
-	style="clear: both; margin-left: auto; margin-right: auto; width: 140px;">
+	style="clear: both; margin-left: auto; margin-right: auto; width: 140px; padding-right: 2em;">
 	<?php
 	if (sizeof($videos)>0) {
 		?><a href="#video"><img src="<?php
@@ -74,7 +74,7 @@ print str_replace ( '\\', '', $recipe->name ) ;
 if($recipe->isOriginal){
 	print  ' (original)';
 }
-if(!$recipe->isAlcoholic){
+if(!$recipe->isAlcoholic()){
 	print  ' (alkoholfrei)';
 }
 ?></div>
@@ -84,7 +84,6 @@ print str_replace("\n",'</p><p>',$recipe->description);
 ?></p></div><?php } ?>
 <div class="attribut">Zutaten:</div>
 <div class="wert"><p><strong>Cocktail</strong></p><ul><?php
-//Zend_Debug::dump($rezept); exit;
 foreach ( $recipe->getComponents() as $component ) {
 	print '<li>';
 	print $component->amount ;
@@ -103,20 +102,26 @@ $categories = $component->getIngredient()->getIngredientCategories();
 $products = $component->getIngredient()->getProducts();
 ?><div style=\"text-align:left;\"><?php
 if($alcoholLevel){ ?><span class=\"pink\">Alkoholgehalt:</span> <?php print $alcoholLevel; ?> %<br /><?php }
-if($calories) { ?><span class=\"pink\">Kalorien:</span> <?php print $calories; ?> kcal<br /><?php } 
-if ($categories) {?><span class=\"pink\">Kategorie(n):</span> <?php
-if(is_array($categories)){
-	foreach ($categories as $category) {
-		print $category->name.'<br />';
+if($calories) { ?><span class=\"pink\">Kalorien:</span> <?php print round($calories/10); ?> kcal pro 100 ml<br /><?php } 
+if($categories) {?><span class=\"pink\">Kategorie(n):</span> <?php
+	if(is_array($categories)){
+		foreach ($categories as $category) {
+			print $category->name.'<br />';
+		}
 	}
 }
-}
-if($products) { ?><span class=\"pink\">Produkte:</span> <?php
-if(is_array($products)){
-	foreach ($products as $product) {
-		print $product->name.' ('.$product->getManufacturer()->name.') - '.$product->size.' '.$product->unit.'<br />';
+if($products) { ?><span class=\"pink\">Produkte:</span><?php
+	if(is_array($products)){
+		print '<ul style=\"font-size: 0.9em; list-style-type: circle; margin-left: 2em;\">';
+		foreach ($products as $product) {
+			print '<li>' . $product->name .' ('.$product->getManufacturer()->name.') - ' .
+			str_replace('.', ',', round ( $product->size, 2 )) . ' ' . $product->unit . '</li>';
+		}
+		print "</ul>";
 	}
 }
+if(!($alcoholLevel || $calories || $categories || $products)){
+	print 'Leider sind noch keine<br />Informationen zu dieser<br />Zutat vorhanden, wir<br />arbeiten daran ;)';
 }
 ?></div>"
         });
@@ -624,21 +629,53 @@ Video gefunden.</div>
 	<?php
 	print $recipe->getGlass()->name ;
 	?></div>
-<div class="left icon" style="left: 360px;"><img
+	<?php $this->headScript()->captureStart(); ?>
+	dojo.addOnLoad(function() {
+		caloriesInfoTooltip = new dijit.Tooltip({
+			connectId: ["caloriesInfo"],
+			label: "<?php
+				$calories = $recipe->getCaloriesKcal();
+				$components = $recipe->getComponents();
+				$caloriesComplete = true;
+				if(is_array($components)){
+					foreach ($components as $component) {
+						if(!$component->getCaloriesKcal()){
+							$caloriesComplete = false;
+						}
+						$caloriesList .= '<li>'.$component->amount.' '.$component->unit.' '.$component->getIngredient()->name . ': ' .
+							($component->getCaloriesKcal() ? round($component->getCaloriesKcal()).' kcal' : ' k.a. ').'</li>';
+					}
+				}
+				?><div style=\"text-align:left;\"><?php 
+				?><span class=\"pink\">Gesamtkalorien:</span> <?php
+				if(!$caloriesComplete){
+					print 'über ';
+				}
+				print $calories; ?> kcal<br /><?php
+				?><span class=\"pink\">Kalorienaufteilung:</span><ul style=\"font-size: 0.9em; list-style-type: circle; margin-left: 2em;\"><?php
+					print $caloriesList;
+				?></ul></div>"
+        });
+    });
+	<?php $this->headScript()->captureEnd(); ?>
+<div class="left icon" style="left: 360px;" id="caloriesInfo"><img
 	src="<?php
 	print $this->baseUrl() ;
 	?>/img/calories.png" alt="Kalorien"
 	title="Kalorien" /><br />
 	<?php
-	print $recipe->getCaloriesKcal();
-	?> kcal</div>
+	if(!$caloriesComplete){
+		print 'über ';
+	}
+	print '<nobr>'.$recipe->getCaloriesKcal();
+	?> kcal</nobr></div>
 <div class="left icon" style="left: 450px;"><img
 	src="<?php
 	print $this->baseUrl() ;
 	?>/img/prozent.png" alt="Alkoholgehalt"
 	title="Alkoholgehalt" /><br />
 	<?php
-	print $recipe->getAlcoholLevel();
+	print round($recipe->getAlcoholLevel());
 	?> % Alkohol</div>
 <div class="left icon" style="left: 90px;"><img
 	src="<?php

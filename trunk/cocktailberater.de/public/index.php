@@ -39,5 +39,4 @@ require_once 'Zend/Application.php';
 $application = new Zend_Application(
 	APPLICATION_ENV,
 	APPLICATION_PATH . '/modules/default/config/application.ini');
-
 $application->bootstrap()->run();

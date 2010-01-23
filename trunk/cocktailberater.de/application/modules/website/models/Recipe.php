@@ -341,8 +341,8 @@ class Website_Model_Recipe {
 				$alcoholLevelSql = $db->fetchRow ( 'SELECT AVG(alcoholLevel) AS averageAlcoholLevel 
 				FROM `product` 
 				WHERE ingredient='.$component->ingredientId);
-				if($alcoholLevelSql->averageAlcoholLevel!="NULL"){
-					$alcoholLevel += $alcoholLevelSql->averageAlcoholLevel / 100 * $component->amount ;
+				if($alcoholLevelSql['averageAlcoholLevel']!="NULL"){
+					$alcoholLevel += $alcoholLevelSql['averageAlcoholLevel'] / 100 * $component->amount ;
 					//var_dump($alcoholLevel);
 				}
 				$volume += $component->amount;

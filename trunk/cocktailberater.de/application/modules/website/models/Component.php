@@ -45,7 +45,7 @@ class Website_Model_Component {
 	/**
 	 * resolve Association and return an object of Ingredient
 	 *
-	 * @return Ingredient
+	 * @return Website_Model_Ingredient
 	 */
 	public function getIngredient()
 	{
@@ -118,19 +118,19 @@ class Website_Model_Component {
 	1 cm³ = 1 ml
 	*/
 		// TODO: umrechnungn prüfen
-		if($this->unit==Component::LITRE){ // l -> l
+		if($this->unit==Website_Model_Component::LITRE){ // l -> l
 			return $this->amount;
-		} elseif($this->unit==Component::CENTILITRE){ // 100 cl -> 1 l
+		} elseif($this->unit==Website_Model_Component::CENTILITRE){ // 100 cl -> 1 l
 			return ($this->amount/100);
-		} elseif($this->unit==Component::MILLILITRE){ // 1000 ml -> 1 l
+		} elseif($this->unit==Website_Model_Component::MILLILITRE){ // 1000 ml -> 1 l
 			return ($this->amount/1000);
-		} elseif($this->unit==Component::GRAM){ // 1 g / density [g/cm³] / 1000 -> 1 l
+		} elseif($this->unit==Website_Model_Component::GRAM){ // 1 g / density [g/cm³] / 1000 -> 1 l
 			$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
 			return (($this->amount/$density)/1000);
-		} elseif($this->unit==Component::KILOGRAM){ // 1 kg / density [g/cm³] -> 1 l 
+		} elseif($this->unit==Website_Model_Component::KILOGRAM){ // 1 kg / density [g/cm³] -> 1 l 
 			$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
 			return ($this->amount/$density);
-		} elseif($this->unit==Component::PIECE){
+		} elseif($this->unit==Website_Model_Component::PIECE){
 			// piece is only possible in component, not in product 
 			// and works only with solid ingredients that are measured in weight (g/kg)
 			$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
@@ -138,19 +138,19 @@ class Website_Model_Component {
 			$unitMostUsed = $this->getIngredient()->getMostUsedUnit();
 			//print "unit: $unitMostUsed weight: $weight density: $density";
 			if($density!=null && $weight!=null && $unitMostUsed!=null){
-				if($unitMostUsed == Component::KILOGRAM){
+				if($unitMostUsed == Website_Model_Component::KILOGRAM){
 					$weight = $weight;
-				} elseif($unitMostUsed == Component::GRAM){
+				} elseif($unitMostUsed == Website_Model_Component::GRAM){
 					$weight = $weight/1000;
-				} elseif($unitMostUsed == Component::PIECE){
+				} elseif($unitMostUsed == Website_Model_Component::PIECE){
 					// avgWeight*avgDensity
 					$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
 					$weight = $this->getIngredient()->getAverageWeightGram()/1000;
-				} elseif($unitMostUsed == Component::MILLILITRE 
-					|| $unitMostUsed == Component::CENTILITRE 
-					|| $unitMostUsed == Component::LITRE 
-					|| $unitMostUsed == Component::TEASPOON 
-					|| $unitMostUsed == Component::FLUID_OUNCE){
+				} elseif($unitMostUsed == Website_Model_Component::MILLILITRE 
+					|| $unitMostUsed == Website_Model_Component::CENTILITRE 
+					|| $unitMostUsed == Website_Model_Component::LITRE 
+					|| $unitMostUsed == Website_Model_Component::TEASPOON 
+					|| $unitMostUsed == Website_Model_Component::FLUID_OUNCE){
 					// all volume measures
 					$volume = $this->getIngredient()->getAverageVolumeLitre();
 					return ($this->amount*$volume);
@@ -159,14 +159,31 @@ class Website_Model_Component {
 			} else {
 				return null;
 			}
-		} elseif($this->unit==Component::TEASPOON){
+		} elseif($this->unit==Website_Model_Component::TEASPOON){
 			return ($this->amount/200);
-		} elseif($this->unit==Component::FLUID_OUNCE){
+		} elseif($this->unit==Website_Model_Component::FLUID_OUNCE){
 			// Durchschnittswert der verschiedenen Unzen ~ 29ml
 			return round($this->amount/34.5,4);
 		} else{
 			// TODO: exception prüfen und übersetzen
 			throw new ComponentException("Provided_Unit_Not_Found");
+		}
+	}
+	
+	/**
+	 * Returns the calories in kcal of a component (correct amount etc. already calculated)
+	 * 
+	 * @return integer
+	 */
+	public function getCaloriesKcal (){
+		if($this->getIngredient()->getAverageCaloriesKcal($this->unit)!=null){
+			if($this->unit!='Stück'){
+				return $this->getIngredient()->getAverageCaloriesKcal($this->unit)*$this->getAmountInLiter();
+			} else {
+				return $this->getIngredient()->getAverageCaloriesKcal($this->unit);
+			}	
+		} else {
+			return null;
 		}
 	}
 	
