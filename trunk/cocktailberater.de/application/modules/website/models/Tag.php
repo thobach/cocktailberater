@@ -80,7 +80,7 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 		return $this->_recipe;
 	}
 	
-	public function __construct ( $idtag = NULL , $name = NULL ) {
+	public function __construct ( $idtag = NULL , $name = NULL, $recipeId = NULL ) {
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','tag');
 		try {
 			// get existing tag
@@ -93,20 +93,13 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 				$this->recipeId = $tag->recipe;
 				$this->memberId = $tag->member;
 				$this->count = $this->getCountForRecipe();
-			} elseif ($name != '' && empty ( $idtag )) {
-				// create new tag
-				// check if name / tag already exists
-				if ($idtag = $this->existsTag ( $name )) {
-					$this->Tag ( $idtag ) ;
-					// print 'tag existiert' ;
-				} else // else -> create new tag
-				{
-					$idtag = $this->createTag ( $name ) ;
-					$this->Tag ( $idtag ) ;
-					// print 'tag erstellt' ;
-				}
-			} else {
-				// print 'keine ahnung was ich machen soll' ;
+			} 
+			// create new tag, no need to check for duplicates, since they are wanted (no counting)
+			elseif ($name != '' && $recipeId != '' && empty ( $idtag )) {
+				$this->name = $name ;
+				$this->recipeId = $recipeId;
+				// TODO: save memberId
+				$this->save();
 			}
 		} catch ( Zend_Db_Adapter_Exception $e ) {
 			// perhaps a failed login credential, or perhaps the RDBMS is not running
@@ -116,7 +109,6 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 			print $e ;
 		}
 	}
-	
 	
 	public function getWeight(){
 		return $this->getCountForRecipe();
@@ -211,7 +203,7 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 	/**
 	 * saves the object persistent into the databse
 	 *
-	 * @return mixed at update true, at insert int (recipeId)
+	 * @return mixed at update true, at insert int (tagId)
 	 */
 	public function save () {
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','tag');

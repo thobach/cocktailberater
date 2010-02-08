@@ -42,14 +42,10 @@ class Website_Model_MysqlTable extends Zend_Db_Table_Abstract
 	public static function getEnumValues($tablename,$field) {
 		$db = Zend_Db_Table::getDefaultAdapter();
 		$row = $db->fetchAll("SHOW COLUMNS FROM `".$tablename."` LIKE '".$field."'");
-
-		$erg = $row[0]->Type;
-		//echo $erg."<br>";
-
+		$erg = $row[0]['Type'];
 		$regex = "/'(.*?)'/";
 		preg_match_all( $regex , $erg, $enum_array );
 		$enum_fields = $enum_array[1];
-		//var_dump($enum_fields);
 		return( $enum_fields );
 	}
 

@@ -9,7 +9,7 @@ class Website_Model_Recipe {
 	const BEGINNER 	= 'beginner';
 	const ADVANCED 	= 'advanced';
 	const PROFI 	= 'profi';
-	
+
 	// attributes
 	private $id;
 	private $name;
@@ -61,7 +61,7 @@ class Website_Model_Recipe {
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
 		}
 	}
-	
+
 	/**
 	 * Magic Setter Function, is accessed when setting an attribute
 	 *
@@ -126,7 +126,7 @@ class Website_Model_Recipe {
 		}
 		return self::$_recipes[$id];
 	}
-	
+
 	public function getRating(){
 		// TODO: write unit test
 		return round(@($this->ratingsSum/$this->ratingsCount),2);
@@ -195,10 +195,10 @@ class Website_Model_Recipe {
 		}
 
 	}
-	
+
 	/**
 	 * Returns all recipes where the recipe title contains the given string.
-	 * 
+	 *
 	 * @param $name search string
 	 * @param $limit maximal number of recipes
 	 * @todo write unit test
@@ -234,11 +234,11 @@ class Website_Model_Recipe {
 		}
 		$recipeArray = array();
 		foreach ($result as $recipe) {
-			$recipeArray[] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipe['id']);				
+			$recipeArray[] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipe['id']);
 		}
 		return $recipeArray;
 	}
-	
+
 	public static function searchByIngredient ($name){
 		// TODO: write unit test
 		$ingredients = Website_Model_Ingredient::listIngredients ( $name ) ;
@@ -247,70 +247,39 @@ class Website_Model_Recipe {
 			$componentsArray = Website_Model_Component::componentsByIngredientId($ingredient->id);
 			if(is_array($componentsArray)){
 				foreach ($componentsArray as $component){
-					$recipeArray[$component->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$component->recipeId);				
+					$recipeArray[$component->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$component->recipeId);
 				}
 			}
 		}
 		return $recipeArray;
 	}
-	
+
 	public static function searchByTag ($name){
-		// TODO: write  unit test 
+		// TODO: write  unit test
 		$tags = Website_Model_Tag::listTags ( $name ) ;
 		foreach($tags as $tag){
-			$recipeArray[$tag->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$tag->recipeId);				
+			$recipeArray[$tag->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$tag->recipeId);
 		}
 		return $recipeArray;
 	}
 
 	public function getCaloriesKcal (){
-		// TODO: write unit test
-		$components = $this->getComponents();
+		if(!$this->caloriesKcal){
+			// TODO: write unit test
+			$components = $this->getComponents();
 
-		// log to debug
-		$logger = Zend_Registry::get('logger');
+			// log to debug
+			$logger = Zend_Registry::get('logger');
 
-		$totalCaloriesKcal = 0;
-		if (is_array ( $components )) {
-			foreach ( $components as $component ) {
-				if($component->unit == Website_Model_Component::CENTILITRE){
-					$caloriesKcal = $component->getIngredient()->getAverageCaloriesKcal() / 100 * $component->amount;
-					$logger->log('RECIPE:getCaloriesKcal '.$component->getIngredient()->name.', amount: '.$component->amount.', unit: '.$component->unit.', kcal: '.$caloriesKcal.', my: '.$component->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
-					$totalCaloriesKcal += $caloriesKcal;
-				} elseif($component->unit == Website_Model_Component::MILLILITRE){
-					$caloriesKcal = $component->getIngredient()->getAverageCaloriesKcal() / 1000 * $component->amount;
-					$logger->log('RECIPE:getCaloriesKcal '.$component->getIngredient()->name.', amount: '.$component->amount.', unit: '.$component->unit.', kcal: '.$caloriesKcal.', my: '.$component->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
-					$totalCaloriesKcal += $caloriesKcal;
-				} elseif($component->unit == Website_Model_Component::LITRE){
-					$caloriesKcal = $component->getIngredient()->getAverageCaloriesKcal() * $component->amount;
-					$logger->log('RECIPE:getCaloriesKcal '.$component->getIngredient()->name.', amount: '.$component->amount.', unit: '.$component->unit.', kcal: '.$caloriesKcal.', my: '.$component->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
-					$totalCaloriesKcal += $caloriesKcal;
-				} elseif($component->unit == Website_Model_Component::GRAM){
-					// TODO:
-					throw new Zend_Exception('Recipes with Component::GRAM cannot be converted right now!');
-					$logger->log('RECIPE:getCaloriesKcal '.$component->getIngredient()->name.', amount: '.$component->amount.', unit: '.$component->unit.', kcal: '.$caloriesKcal.', my: '.$component->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
-				} elseif($component->unit == Website_Model_Component::KILOGRAM){
-					// TODO:
-					throw new Zend_Exception('Recipes with Component::KILOGRAM cannot be converted right now!');
-					$logger->log('RECIPE:getCaloriesKcal '.$component->getIngredient()->name.', amount: '.$component->amount.', unit: '.$component->unit.', kcal: '.$caloriesKcal.', my: '.$component->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
-				} elseif($component->unit == Website_Model_Component::PIECE){
-					$caloriesKcal = $component->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::PIECE) * $component->amount;
-					$logger->log('RECIPE:getCaloriesKcal '.$component->getIngredient()->name.', amount: '.$component->amount.', unit: '.$component->unit.', kcal: '.$caloriesKcal.', my: '.$component->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
-					$totalCaloriesKcal += $caloriesKcal;
-				} elseif($component->unit == Website_Model_Component::TEASPOON){
-					$caloriesKcal = $component->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::TEASPOON) * $component->amount;
-					$logger->log('RECIPE:getCaloriesKcal '.$component->getIngredient()->name.', amount: '.$component->amount.', unit: '.$component->unit.', kcal: '.$caloriesKcal.', my: '.$component->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
-					$totalCaloriesKcal += $caloriesKcal;
-				} elseif($component->unit == Website_Model_Component::FLUID_OUNCE){
-					// TODO:
-					$logger->log('RECIPE:getCaloriesKcal '.$component->getIngredient()->name.', amount: '.$component->amount.', unit: '.$component->unit.', kcal: '.$caloriesKcal.', my: '.$component->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
-				} else {
-					// TODO: Exception hinzufügen und übersetzen
-					throw new Website_Model_RecipeException('UnsupportedUnit');
+			$totalCaloriesKcal = 0;
+			if (is_array ( $components )) {
+				foreach ( $components as $component ) {
+					$totalCaloriesKcal += $component->getCaloriesKcal();
 				}
 			}
+			$this->caloriesKcal = round($totalCaloriesKcal,0);
 		}
-		return round($totalCaloriesKcal,0);
+		return $this->caloriesKcal;
 	}
 
 	public function getVolumeCl()
@@ -338,7 +307,7 @@ class Website_Model_Recipe {
 		if (is_array ( $components )) {
 			foreach($components as $component){
 				$db = Zend_Db_Table::getDefaultAdapter();
-				$alcoholLevelSql = $db->fetchRow ( 'SELECT AVG(alcoholLevel) AS averageAlcoholLevel 
+				$alcoholLevelSql = $db->fetchRow ( 'SELECT AVG(alcoholLevel) AS averageAlcoholLevel
 				FROM `product` 
 				WHERE ingredient='.$component->ingredientId);
 				if($alcoholLevelSql['averageAlcoholLevel']!="NULL"){
@@ -386,13 +355,13 @@ class Website_Model_Recipe {
 		}
 		return $this->_components;
 	}
-	
-	public function addComponent(Component $component)
+
+	public function addComponent(Website_Model_Component $component)
 	{
 		// TODO: write unit test
 		$this->_components[] = $component;
 	}
-	
+
 	public function addRecipeCategory ($recipeCategoryId){
 		// TODO: write unit test
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe2recipecategory');
@@ -400,7 +369,7 @@ class Website_Model_Recipe {
 		$data['recipeCategory'] = $recipeCategoryId;
 		$table->insert($data);
 	}
-	
+
 	public function getComments()
 	{
 		// TODO: write unit test
@@ -412,7 +381,7 @@ class Website_Model_Recipe {
 		// TODO: write unit test
 		return Website_Model_Tag::tagsByRecipeId ($this->id);
 	}
-	
+
 	public static function getRecipesByTag($tag){
 		// TODO: write unit test
 		$db = Zend_Db_Table::getDefaultAdapter();
@@ -598,12 +567,12 @@ class Website_Model_Recipe {
 			$table->update ( $this->dataBaseRepresentation (), 'id = ' . $this->id ) ;
 			// update components
 			/*$components = $this->getComponents();
-			if(is_array($components)){
+			 if(is_array($components)){
 				foreach ($components as $component) {
-					$component->recipe = $this->id;
-					$component->save();
+				$component->recipe = $this->id;
+				$component->save();
 				}
-			}*/
+				}*/
 			$return = true ;
 		} else {
 			// insert new recipe
@@ -611,23 +580,23 @@ class Website_Model_Recipe {
 			// insert components for recipe
 			/*if(is_array($this->_components)){
 				foreach ($this->_components as $component) {
-					$component->recipeId = $this->id;
-					$component->save();
+				$component->recipeId = $this->id;
+				$component->save();
 				}
-			} else {
+				} else {
 				print 'no components!';
-			}*/
+				}*/
 			$return = $this->id ;
 		}
 		// abhängige Objekte speichern
 		//$this->photos->save();
 		//$this->videos->save();
-		
+
 		//$this->tags->save();
 		// Erfolg zurückgeben
 		return $return ;
 	}
-	
+
 	/**
 	 *
 	 * @tested
@@ -635,16 +604,16 @@ class Website_Model_Recipe {
 	public function delete (){
 		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe');
 		/*$components = $this->getComponents();
-		if(is_array($components)){
+		 if(is_array($components)){
 			foreach ($components as $component){
-				$component->delete();
+			$component->delete();
 			}
-		}*/
+			}*/
 		$recipeTable->delete('id='.$this->id);
 		CbFactory::destroy('Recipe',$this->id);
 		unset($this);
 	}
-	
+
 
 	/**
 	 * gibt ein Array zurück um die Daten in eine table zu speichern
@@ -660,6 +629,7 @@ class Website_Model_Recipe {
 		$array [ 'source' ] = $this->source ;
 		$array [ 'workMin' ] = $this->workMin ;
 		$array [ 'difficulty' ] = $this->difficulty ;
+		$array [ 'description' ] = $this->description ;
 		$array [ 'isOriginal' ] = $this->isOriginal ;
 		$array [ 'isAlcoholic' ] = $this->isAlcoholic ;
 		$array [ 'ratingsSum' ] = $this->ratingsSum ;
