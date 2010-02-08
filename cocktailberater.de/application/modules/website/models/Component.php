@@ -10,6 +10,7 @@ class Website_Model_Component {
 	private $unit;
 	private $ingredientId;
 	private $recipeId;
+	private $caloriesKcal;
 
 	// associations
 	private $_ingredient;
@@ -24,10 +25,10 @@ class Website_Model_Component {
 	const PIECE = 'Stück';
 	const TEASPOON = 'TL';
 	const FLUID_OUNCE = 'fl. oz';
-	
+
 	// supporting variables
 	private static $_recipes;
-	
+
 	/**
 	 * magic getter for all attributes
 	 *
@@ -54,7 +55,7 @@ class Website_Model_Component {
 		}
 		return $this->_ingredient;
 	}
-	
+
 	/**
 	 * resolve Association and return an object of Recipe
 	 *
@@ -67,7 +68,7 @@ class Website_Model_Component {
 		}
 		return $this->_recipe;
 	}
-	
+
 	/**
 	 * Magic Setter Function, is accessed when setting an attribute
 	 *
@@ -81,7 +82,7 @@ class Website_Model_Component {
 			throw new Exception ( 'Class \''.get_class($this).'\' does not provide property: ' . $name . '.' ) ;
 		}
 	}
-	
+
 	/**
 	 * Component constructor returns a Component object by an IngredientId and RecipeId, or an empty one
 	 *
@@ -106,17 +107,17 @@ class Website_Model_Component {
 			throw new Website_Model_ComponentException('Id_Missing');
 		}
 	}
-		
+
 	public function getAmountInLiter (){
-	/*
-	1 kg = 1000 g
-	1 l = 100 cl
-	1 l = 1000 ml
-	1 piece -> weight of whole ingredient
-	1 tsp = 5 ml
-	1 fl. oz. (fluid ounce) = 29 ml
-	1 cm³ = 1 ml
-	*/
+		/*
+		 1 kg = 1000 g
+		 1 l = 100 cl
+		 1 l = 1000 ml
+		 1 piece -> weight of whole ingredient
+		 1 tsp = 5 ml
+		 1 fl. oz. (fluid ounce) = 29 ml
+		 1 cm³ = 1 ml
+		 */
 		// TODO: umrechnungn prüfen
 		if($this->unit==Website_Model_Component::LITRE){ // l -> l
 			return $this->amount;
@@ -127,11 +128,11 @@ class Website_Model_Component {
 		} elseif($this->unit==Website_Model_Component::GRAM){ // 1 g / density [g/cm³] / 1000 -> 1 l
 			$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
 			return (($this->amount/$density)/1000);
-		} elseif($this->unit==Website_Model_Component::KILOGRAM){ // 1 kg / density [g/cm³] -> 1 l 
+		} elseif($this->unit==Website_Model_Component::KILOGRAM){ // 1 kg / density [g/cm³] -> 1 l
 			$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
 			return ($this->amount/$density);
 		} elseif($this->unit==Website_Model_Component::PIECE){
-			// piece is only possible in component, not in product 
+			// piece is only possible in component, not in product
 			// and works only with solid ingredients that are measured in weight (g/kg)
 			$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
 			$weight = $this->getIngredient()->getAverageWeightGram();
@@ -146,11 +147,11 @@ class Website_Model_Component {
 					// avgWeight*avgDensity
 					$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
 					$weight = $this->getIngredient()->getAverageWeightGram()/1000;
-				} elseif($unitMostUsed == Website_Model_Component::MILLILITRE 
-					|| $unitMostUsed == Website_Model_Component::CENTILITRE 
-					|| $unitMostUsed == Website_Model_Component::LITRE 
-					|| $unitMostUsed == Website_Model_Component::TEASPOON 
-					|| $unitMostUsed == Website_Model_Component::FLUID_OUNCE){
+				} elseif($unitMostUsed == Website_Model_Component::MILLILITRE
+				|| $unitMostUsed == Website_Model_Component::CENTILITRE
+				|| $unitMostUsed == Website_Model_Component::LITRE
+				|| $unitMostUsed == Website_Model_Component::TEASPOON
+				|| $unitMostUsed == Website_Model_Component::FLUID_OUNCE){
 					// all volume measures
 					$volume = $this->getIngredient()->getAverageVolumeLitre();
 					return ($this->amount*$volume);
@@ -169,24 +170,52 @@ class Website_Model_Component {
 			throw new ComponentException("Provided_Unit_Not_Found");
 		}
 	}
-	
+
 	/**
 	 * Returns the calories in kcal of a component (correct amount etc. already calculated)
-	 * 
+	 *
 	 * @return integer
 	 */
 	public function getCaloriesKcal (){
-		if($this->getIngredient()->getAverageCaloriesKcal($this->unit)!=null){
-			if($this->unit!='Stück'){
-				return $this->getIngredient()->getAverageCaloriesKcal($this->unit)*$this->getAmountInLiter();
+		if(!$this->caloriesKcal){
+			// log to debug
+			$logger = Zend_Registry::get('logger');
+
+			if($this->unit == Website_Model_Component::CENTILITRE){
+				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal() / 100 * $this->amount;
+				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+			} elseif($this->unit == Website_Model_Component::MILLILITRE){
+				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal() / 1000 * $this->amount;
+				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+			} elseif($this->unit == Website_Model_Component::LITRE){
+				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal() * $this->amount;
+				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+			} elseif($this->unit == Website_Model_Component::GRAM){
+				// TODO:
+				throw new Zend_Exception('Recipes with Component::GRAM cannot be converted right now!');
+				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+			} elseif($this->unit == Website_Model_Component::KILOGRAM){
+				// TODO:
+				throw new Zend_Exception('Recipes with Component::KILOGRAM cannot be converted right now!');
+				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+			} elseif($this->unit == Website_Model_Component::PIECE){
+				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::PIECE) * $this->amount;
+				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+			} elseif($this->unit == Website_Model_Component::TEASPOON){
+				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::TEASPOON) * $this->amount;
+				// print $this->amount.' TL ' .$this->getIngredient()->name.' teaspoon hit: '.$caloriesKcal.' <br />';
+				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+			} elseif($this->unit == Website_Model_Component::FLUID_OUNCE){
+				// TODO:
+				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} else {
-				return $this->getIngredient()->getAverageCaloriesKcal($this->unit);
-			}	
-		} else {
-			return null;
+				// TODO: Exception hinzuf√ºgen und √ºbersetzen
+				throw new Website_Model_RecipeException('UnsupportedUnit');
+			}
 		}
+		return $this->caloriesKcal;
 	}
-	
+
 	/**
 	 * checks whether a Component exists
 	 *
@@ -215,7 +244,7 @@ class Website_Model_Component {
 	 * @return array Component
 	 */
 	public static function componentsByRecipeId ( $idrecipe ) {
-		
+
 		if(!$idrecipe){
 			throw new Website_Model_ComponentException('Id_Missing');
 		}
@@ -224,7 +253,7 @@ class Website_Model_Component {
 
 		// see if getAll - list is already in cache
 		if(!$componentsArray = $cache->load('componentsByRecipeId'.$idrecipe)) {
-			
+
 			$componentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','component');
 			$components = $componentTable->fetchAll ( 'recipe=' . $idrecipe ) ;
 			foreach ( $components as $component ) {
@@ -232,9 +261,9 @@ class Website_Model_Component {
 			}
 			$cache->save ($componentsArray,'componentsByRecipeId'.$idrecipe);
 		}
-		return $componentsArray ;	
+		return $componentsArray ;
 	}
-	
+
 	/**
 	 * returns all Recipes as Component objects by a IngredientId
 	 *
@@ -242,7 +271,7 @@ class Website_Model_Component {
 	 * @return array Component
 	 */
 	public static function componentsByIngredientId ( $idingredient ) {
-		
+
 		if(!$idingredient){
 			throw new Website_Model_ComponentException('Id_Missing');
 		}
@@ -258,7 +287,7 @@ class Website_Model_Component {
 			}
 			$cache->save ($componentsArray,'componentsByIngredientId'.$idingredient);
 		}
-		return $componentsArray ;	
+		return $componentsArray ;
 	}
 
 	/**
@@ -288,14 +317,14 @@ class Website_Model_Component {
 	}
 
 	/**
-	 * saves an object persistent into a database 
+	 * saves an object persistent into a database
 	 *
 	 * @return (boolean | array) if update => true, if insert => recipe and ingredient id as array
 	 */
 	public function save () {
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','component');
 		//if (Component::exists($this->recipeId, $this->ingredientId)) {
-		if (Component::exists($this->recipeId, $this->ingredientId)) {
+		if (Website_Model_Component::exists($this->recipeId, $this->ingredientId)) {
 			// Update
 			$table->update ( $this->dataBaseRepresentation (), 'recipe = ' . $this->recipeId . ' AND ingredient = ' . $this->ingredientId ) ;
 			$return = true ;
@@ -304,12 +333,12 @@ class Website_Model_Component {
 			// Insert als neues Rezept
 			$return = $idArray = $table->insert ( $data ) ;
 			$this->recipeId = $idArray['recipe'];
-			$this->ingredientId = $idArray['ingredient']; 
+			$this->ingredientId = $idArray['ingredient'];
 		}
 		// Erfolg zurückgeben
 		return $return ;
 	}
-	
+
 	public function delete (){
 		$componentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'component');
 		$componentTable->delete('ingredient='.$this->ingredientId.' AND recipe='.$this->recipeId);

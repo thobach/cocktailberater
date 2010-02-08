@@ -106,6 +106,7 @@ class Website_IndexController extends Zend_Controller_Action {
 			$rezept->name = $this->_getParam ( 'cocktail_name' ) ;
 			$rezept->description = $this->_getParam ( 'cocktail_beschreibung' ) ;
 			$rezept->instruction = $this->_getParam ( 'rezept_anweisung' ) ;
+			$rezept->source = $this->_getParam ( 'quelle' ) ;
 			$rezept->isOriginal = '1' ;
 			$rezept->isAlcoholic = '1' ;
 			// append recipe categories
@@ -113,6 +114,31 @@ class Website_IndexController extends Zend_Controller_Action {
 				foreach ( $this->_getParam ( 'kategorien' ) as $categoryId ) {
 					$rezept->addRecipeCategory($categoryId);
 				}
+			}
+			// append tags
+			// since it is a new recipe, no need to check if tags exist
+			if ($this->_hasParam ( 'tags' )) {
+				// remove spaces
+				$tags = preg_replace('/\s\s*/', '', $this->_getParam ( 'tags' ));
+				// get array 
+				$tags = explode(',',$tags);
+				// add all tags
+				foreach($tags as $tag){
+					$tag = new Website_Model_Tag (null,$tag, $rezept->id);
+					// TODO: retrieve member ID when inserting tags
+					// $tag->memberId = $this->_getParam ( 'member' );
+				}
+			}
+			// append video
+			if ($this->_hasParam ( 'videourl' )) {
+				// TODO: check video url format, is it youtube link etc.?
+				$video = new Website_Model_Video ();
+				$video->recipeId = $rezept->id;
+				$video->name = $this->_getParam ( 'video_name' );
+				$video->description = $this->_getParam ( 'video_beschreibung' );
+				$video->url = $this->_getParam ( 'videourl' );
+				// TODO: add insert and update date
+				$video->save();
 			}
 			$rezeptoren = array ( ) ;
 			// anzahl der Zutaten
@@ -133,19 +159,6 @@ class Website_IndexController extends Zend_Controller_Action {
 
 				}
 			}
-			//Zend_Debug::dump ( $rezeptoren ) ;
-			//Zend_Debug::dump ( $this->_getAllParams () ) ;
-			// Zutaten dem Rezept anfügen
-			//$rezept->rezeptoren = $rezeptoren ;
-			// dem Cocktail das Rezeptobjekt übergeben
-			// array_push ( $cocktail->rezepte, $rezept ) ;
-			//$neueRezepte = $cocktail->getRecipes();
-			//$neueRezepte[] = $rezept;
-			//$cocktail->rezepte = $neueRezepte;
-			//Zend_Debug::dump ( $cocktail->rezepte ) ;
-			// keine Cocktail-Kommentare in diesem Stadium
-			//print 'cocktail save: ' . $cocktail->save () . '<br />' ;
-			//exit () ;
 			$rezept->save();
 			$this->_forward('propose-cocktail-submitted');
 		}
@@ -218,11 +231,9 @@ class Website_IndexController extends Zend_Controller_Action {
 		if ($this->_hasParam ( 'id' )) {
 			// Taggen
 			if ($this->_hasParam ( 'newtag' )) {
-				$tag = new Website_Model_Tag () ;
-				$tag->name = $this->_getParam ( 'newtag' );
-				$tag->recipeId = $this->_getParam ( 'recipe' );
-				$tag->memberId = $this->_getParam ( 'member' );
-				$tag->save();
+				$tag = new Website_Model_Tag (null, $this->_getParam ( 'newtag' ), $this->_getParam ( 'recipe' )) ;
+				// TODO: memberID setzen
+				//$tag->memberId = $this->_getParam ( 'member' );
 			}
 			// Bewerten
 			if ($this->_hasParam ( 'rating' )) {

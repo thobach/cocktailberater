@@ -9,7 +9,7 @@ function mehrZutaten(idzutaten_kategorie) {
   else
   {
   	alert ('Es können maximal 10 Zutaten einer Kategorie zu einem Cocktail gehören.');
-  } 
+  }
 }
 //-->
 </script>
@@ -136,7 +136,7 @@ function mehrZutaten(idzutaten_kategorie) {
 			<legend><?php print $category->name; ?></legend>
 			<input type="hidden" name="anzahlZutatKateg<?php print $category->id; ?>" id="anzahlZutatKateg<?php print $category->id; ?>" value="2" />
 			<?php for($i=1;$i<11;$i++){ ?>
-			<div id="zut_kat_<?php print $category->id; ?>_div_<?php print $i; ?>"<?php if($i!=1) { ?> style="display:none;"<?php } ?>>
+			<div id="zut_kat_<?php print $category->id; ?>_div_<?php print $i; ?>"<?php if($i!=1) { ?> style="display:none;"<?php } ?>>
 				<input type="text" 
 					name="menge_zut_kat_<?php print $category->id; ?>_feld_<?php $feld++; print $feld; ?>" 
 					id="menge_zut_kat_<?php print $category->id; ?>_feld_<?php print $feld; ?>" 
@@ -193,16 +193,16 @@ function mehrZutaten(idzutaten_kategorie) {
 		</div>
 		<div class="wert" style="width: 420px;">
 			<label for="schwierigkeits_grad_anfaenger" class="clear left" style="width: 40%">
-				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_anfaenger" value="Anfänger" class="abstand_rechts" />
+				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_anfaenger" value="beginner" class="abstand_rechts" />
 				<img src="<?php print $this->baseUrl() ; ?>/img/difficulty/beginner.png" alt="Schwierigkeitsgrad Anfänger" align="absmiddle" style="height: 30px" />
 				Anfänger
 			</label>
 			<label for="schwierigkeits_grad_fortgeschritten" class="abstand_links_doppelt left" style="width: 40%">
-				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_fortgeschritten" value="Anfänger" class="abstand_rechts" />
+				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_fortgeschritten" value="advanced" class="abstand_rechts" />
 				<img src="<?php print $this->baseUrl() ; ?>/img/difficulty/advanced.png" alt="Schwierigkeitsgrad Fortgeschritten" align="absmiddle" style="height: 30px" /> Fortgeschritten
 			</label>
 			<label for="schwierigkeits_grad_profi" class="clear left abstand_oben" style="width: 40%">
-				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_profi" value="Anfänger" class="abstand_rechts" />
+				<input type="radio" name="schwierigkeits_grad" id="schwierigkeits_grad_profi" value="profi" class="abstand_rechts" />
 				<img src="<?php print $this->baseUrl() ; ?>/img/difficulty/professional.png" alt="Schwierigkeitsgrad Profi" align="absmiddle" style="height: 30px" /> Profi
 			</label>
 			<label for="schwierigkeits_grad_unknown" class="abstand_links_doppelt abstand_oben abstand_unten left" style="width: 40%">

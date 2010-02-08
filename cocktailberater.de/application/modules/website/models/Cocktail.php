@@ -48,7 +48,7 @@ class Website_Model_Cocktail {
 	 * @param integer $id
 	 * @return Cocktail
 	 */
-	public function Website_Model_Cocktail($id = NULL) {
+	public function __construct($id = NULL) {
 		// Get cocktail from DB
 		if (!empty ($id)) {
 			$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
@@ -327,7 +327,7 @@ class Website_Model_Cocktail {
 	 * @param Cocktail $b
 	 * @return int
 	 */
-	public static function compareObject(Cocktail $a, Cocktail $b) {
+	public static function compareObject(Website_Model_Cocktail $a, Website_Model_Cocktail $b) {
 		$al = strtolower($a->name);
 		$bl = strtolower($b->name);
 		if ($al == $bl) {
@@ -359,9 +359,9 @@ class Website_Model_Cocktail {
 	}
 
 	public function delete (){
-		$orderTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'cocktail');
+		$orderTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable', 'cocktail');
 		$orderTable->delete('id='.$this->id);
-		CbFactory::destroy('Cocktail',$this->id);
+		Website_Model_CbFactory::destroy('Cocktail',$this->id);
 		unset($this);
 	}
 	
@@ -371,21 +371,21 @@ class Website_Model_Cocktail {
 	 * @return boolean|int on opdate true, on insert int (cocktailId)
 	 */
 	public function save() {
-		$cocktailTable = CbFactory::factory('CocktailTable',NULL);
-		$cocktailIdExists = Cocktail :: exists($this->name);
+		$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
+		$cocktailIdExists = Website_Model_Cocktail :: exists($this->name);
 		if ($this->id) {
 			$cocktailTable->update($this->dataBaseRepresentation(), 'id = ' . $this->id);
 			$return = true;
-		} elseif (Cocktail :: exists($this->name)) { // Insert als neues Rezept
+		} elseif (Website_Model_Cocktail :: exists($this->name)) { // Insert als neues Rezept
 			// da die Cocktailbeschreibung nicht verloren gehen soll -> InfoMail
 			// TODO: Problem -> zu diesem Zeitpunkt wurde die Cocktailbeschreibung schon überschrieben
-			$infomail = CbFactory::factory('InfoMail',NULL);
+			$infomail = Website_Model_CbFactory::factory('InfoMail',NULL);
 			$infomail->subject = 'Beschreibung für neues Rezept';
 			$infomail->message = 'Ein neues Rezept für den Cocktail "' . $this->name . '" mit der ID ' . $cocktailIdExists . ' wurde soeben eingetragen.' . "\n\n" .
 			'Die Beschreibung lautet:' . "\n\n" .
 			// TODO: Kommentar entfernen
 			// $infomail->send();
-			$this->Cocktail($cocktailIdExists);
+			$this->__construct($cocktailIdExists);
 			//Zend_Debug::dump($this);
 			$return = $this->id;
 		} else {

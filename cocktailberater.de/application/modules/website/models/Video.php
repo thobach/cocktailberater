@@ -9,12 +9,12 @@ class Website_Model_Video
 	private $recipeId;
 	private $insertDate;
 	private $updateDate;
-	
+
 	// associations
 	private $_recipe;
-	
+
 	// private $table;
-	
+
 
 	/**
 	 * magic getter for all attributes
@@ -29,7 +29,7 @@ class Website_Model_Video
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
 		}
 	}
-	
+
 	/**
 	 * Magic Setter Function, is accessed when setting an attribute
 	 *
@@ -43,7 +43,7 @@ class Website_Model_Video
 			throw new Exception ( 'Class \''.get_class($this).'\' does not provide property: ' . $name . '.' ) ;
 		}
 	}
-	
+
 	/**
 	 * resolve Association and return an object of Recipe
 	 *
@@ -56,18 +56,20 @@ class Website_Model_Video
 		}
 		return $this->_recipe;
 	}
-	
+
 	public function __construct($idvideo=NULL)
 	{
-		$table 				= Website_Model_CbFactory::factory('Website_Model_MysqlTable','video');
-		$video 				= $table->fetchRow('id='.$idvideo);
-		$this->id			= $video->id;
-		$this->name			= $video->name;
-		$this->description	= $video->description;
-		$this->url			= $video->url;
-		$this->insertDate 	= new Zend_Date($video->insertDate,Website_Model_DateFormat::MYSQLTIMESTAMP);
-		$this->updateDate 	= new Zend_Date($video->updateDate,Website_Model_DateFormat::MYSQLTIMESTAMP);
-		$this->recipeId 	= $video->recipe;
+		if($idvideo){
+			$table 				= Website_Model_CbFactory::factory('Website_Model_MysqlTable','video');
+			$video 				= $table->fetchRow('id='.$idvideo);
+			$this->id			= $video->id;
+			$this->name			= $video->name;
+			$this->description	= $video->description;
+			$this->url			= $video->url;
+			$this->insertDate 	= new Zend_Date($video->insertDate,Website_Model_DateFormat::MYSQLTIMESTAMP);
+			$this->updateDate 	= new Zend_Date($video->updateDate,Website_Model_DateFormat::MYSQLTIMESTAMP);
+			$this->recipeId 	= $video->recipe;
+		}
 	}
 	static function videosByRecipeId($id){
 		$videoTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','video');
@@ -78,8 +80,8 @@ class Website_Model_Video
 		}
 		return $videoArray;
 	}
-	
-	
+
+
 	public function save (){
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'video');
 		if (!$this->id) {
@@ -91,14 +93,14 @@ class Website_Model_Video
 			$table->update($this->databaseRepresentation(),'id='.$this->id);
 		}
 	}
-	
+
 	public function delete (){
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'video');
 		$table->delete('id='.$this->id);
 		Website_Model_CbFactory::destroy('Website_Model_Video',$this->id);
 		unset($this);
 	}
-	
+
 	/**
 	 * returns an array to save the object in a database
 	 *
@@ -111,15 +113,15 @@ class Website_Model_Video
 		$array['url'] 			= $this->url;
 		return $array;
 	}
-	
+
 	public function toXml ($xml,$ast){
 		$video = $xml->createElement('video');
 		$video->setAttribute('id',$this->id);
-		
+
 		//$recipe = $xml->createElement('recipe');
 		//$this->getVideo()->toXml($this->xml, $recipe);
 		//$video->appendChild($recipe);
-		
+
 		$video->setAttribute('name',$this->name);
 		$video->setAttribute('description',$this->description);
 		$video->setAttribute('url',$this->url);
