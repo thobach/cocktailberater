@@ -39,6 +39,12 @@ class Website_IndexController extends Zend_Controller_Action {
 		} elseif($this->_getParam ( 'search_type' ) == 'tag'){
 			$recipes = Website_Model_Recipe::searchByTag ( $this->_getParam ( 'search' ) ) ;
 			$this->view->title = 'Cocktail Rezepte mit dem Tag/Schlagwort "' . $this->_getParam ( 'search' ).'"';
+		} elseif($this->_getParam ( 'search_type' ) == 'difficulty'){
+			$recipes = Website_Model_Recipe::searchByDifficulty ( $this->_getParam ( 'search' ) ) ;
+			$this->view->title = 'Cocktail Rezepte der Schwierigkeit "' . $this->_getParam ( 'search' ).'"';
+		} elseif($this->_getParam ( 'filter' ) == 'with-image'){
+			$recipes = Website_Model_Recipe::searchByName (null,null,'with-image') ;
+			$this->view->title = 'Cocktail Rezepte mit Bildern';
 		}
 		$this->view->recipes = $recipes ;
 		if (count ( $recipes ) == 1) {

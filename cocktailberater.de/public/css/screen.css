@@ -300,20 +300,21 @@ div.browse h2 {
 }
 
 div.browse ul {
-	margin-left: 2em;
+	margin-left: 0em;
 }
 
 div.browse ul li {
 	clear: none;
 	float: left;
-	width: 33%;
+	width: 30%;
 	margin-top: 1em;
 	margin-bottom: 2em;
 	height: 3em;
+	margin-left: 1.3em;
 }
 
 div.browse ul li a img {
-	margin-right: 1em;
+	margin-right: 0.6em;
 	float: left;
 }
 

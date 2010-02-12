@@ -200,13 +200,15 @@ class Website_Model_Recipe {
 	 * Returns all recipes where the recipe title contains the given string.
 	 *
 	 * @param $name search string
-	 * @param $limit maximal number of recipes
+	 * @param $limit maximal number of recipes (nullable)
+	 * @param $filter array with filters (nullable)
 	 * @todo write unit test
+	 * @todo implement filter array
 	 * @return Website_Model_Recipe[] array with matching recipes
 	 */
-	public static function searchByName ($name,$limit=null){
+	public static function searchByName ($name,$limit=null,$filter=null){
 		// if search string was empty, immediately return
-		if($name==''){
+		if($name=='' && $filter==null){
 			return array();
 		}
 		// modfiy sql search if limit was given
@@ -216,8 +218,24 @@ class Website_Model_Recipe {
 			$limitSql = '';
 		}
 		$db = Zend_Db_Table::getDefaultAdapter();
+		
+		// evaluate filter
+		$validFilters = array('with-image');
+		if(is_array($filter)){
+			foreach ($filter as $singleFilter){
+				if(in_array($singleFilter,$validFilters)){
+					// TODO
+				}
+			}
+		} else if (in_array($filter,$validFilters)) {
+			if($filter=='with-image'){
+				
+				$fromSQL .= ', photo2recipe';
+				$whereSQL .= ' AND recipe.id=photo2recipe.recipe ';
+			}
+		}
 		// look for perfect match
-		$result = $db->fetchAll ( 'SELECT id,name FROM recipe WHERE name LIKE \''.mysql_escape_string($name).'%\' GROUP BY name ORDER BY name '.$limitSql);
+		$result = $db->fetchAll ( 'SELECT id,name FROM recipe'.$fromSQL.' WHERE name LIKE \''.mysql_escape_string($name).'%\''.$whereSQL.' GROUP BY name ORDER BY name '.$limitSql);
 		// if perfect match has not reached the maximum limit, continue with fuzzy search
 		if($limit && count($result)<$limit){
 			$names = '';
@@ -228,8 +246,7 @@ class Website_Model_Recipe {
 				$names = ' AND name NOT IN ('.implode(',',$names).') ';
 			}
 			// also include recipes where the given search string is contained somewhere in the title
-			$result2 = $db->fetchAll ( 'SELECT id FROM recipe WHERE name LIKE \'%'.mysql_escape_string($name).'%\' '.$names.
-				' GROUP BY name LIMIT '.($limit-count($result)));
+			$result2 = $db->fetchAll ( 'SELECT id FROM recipe'.$fromSQL.' WHERE name LIKE \'%'.mysql_escape_string($name).'%\' '.$names.$whereSQL.' GROUP BY name LIMIT '.($limit-count($result)));
 			$result = array_merge($result,$result2);
 		}
 		$recipeArray = array();
@@ -259,6 +276,28 @@ class Website_Model_Recipe {
 		$tags = Website_Model_Tag::listTags ( $name ) ;
 		foreach($tags as $tag){
 			$recipeArray[$tag->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$tag->recipeId);
+		}
+		return $recipeArray;
+	}
+
+	/**
+	 * Searches for recipes with certain difficulty, ordered by rating
+	 * 
+	 * @todo: write unit test
+	 * @param String $difficulty
+	 * @return Website_Model_Recipe[] array with unique recipes (id as key)
+	 */
+	public static function searchByDifficulty ($difficulty){
+		$recipeArray = array();
+		// check if valid difficulty
+		$difficulties = array ('profi','advanced','beginner');
+		if(in_array($difficulty,$difficulties)){
+			$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe');
+			// search for recipes with certain difficulty, order by rating
+			$recipes = $recipeTable->fetchAll ( 'difficulty=\'' . $difficulty .'\'', '(ratingsSum / ratingsCount) DESC');
+			foreach($recipes as $recipe){
+				$recipeArray[$recipe['id']] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipe->id);
+			}
 		}
 		return $recipeArray;
 	}
