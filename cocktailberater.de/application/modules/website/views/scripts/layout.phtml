@@ -198,6 +198,12 @@ echo $this->headScript()."\n";
 		    	</ul>
 			</div>
 		</li>
+		<?php if($this->xmlLink) { ?>
+		<!-- XML API -->
+		<li>
+			<a href="<?php print $this->xmlLink['href']; ?>">XML</a>
+		</li>
+		<?php } ?>
 	</ul>
 </div>
 <!-- end: top links -->
@@ -240,6 +246,7 @@ try {
 }</script>
 <!-- Google Analytics END -->
 */ ?>
+<?php if(APPLICATION_ENV=='production') {?>
 <!-- Piwik -->
 <script type="text/javascript">
 var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.thobach.de/" : "http://stats.thobach.de/");
@@ -252,5 +259,6 @@ piwikTracker.enableLinkTracking();
 } catch( err ) {}
 </script><noscript><p><img src="http://stats.thobach.de/piwik.php?idsite=4" style="border:0" alt=""/></p></noscript>
 <!-- End Piwik Tag -->
+<?php } ?>
 </body>
 </html>
