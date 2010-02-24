@@ -1,10 +1,10 @@
 <?php
 
-
 /**
  * Class responsible for forwarding to wiki
+ *
+ * @deprecated
  */
-
 class Api_IndexController extends Zend_Controller_Action {
 
 	public function preDispatch() {

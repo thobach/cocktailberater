@@ -217,10 +217,13 @@ class Website_Model_Recipe {
 		} else {
 			$limitSql = '';
 		}
+		
+		$orderBySql = 'name';
+		
 		$db = Zend_Db_Table::getDefaultAdapter();
 		
 		// evaluate filter
-		$validFilters = array('with-image');
+		$validFilters = array('with-image','alcoholic','non-alcoholic','top10');
 		if(is_array($filter)){
 			foreach ($filter as $singleFilter){
 				if(in_array($singleFilter,$validFilters)){
@@ -229,13 +232,19 @@ class Website_Model_Recipe {
 			}
 		} else if (in_array($filter,$validFilters)) {
 			if($filter=='with-image'){
-				
 				$fromSQL .= ', photo2recipe';
 				$whereSQL .= ' AND recipe.id=photo2recipe.recipe ';
+			} elseif($filter=='alcoholic'){
+				$whereSQL .= ' AND recipe.isAlcoholic=1 ';
+			} elseif($filter=='non-alcoholic'){
+				$whereSQL .= ' AND recipe.isAlcoholic=0 ';
+			} elseif($filter=='top10'){
+				$orderBySql = '(ratingsSum/ratingsCount) desc';
+				$limitSql = ' LIMIT 10';
 			}
 		}
 		// look for perfect match
-		$result = $db->fetchAll ( 'SELECT id,name FROM recipe'.$fromSQL.' WHERE name LIKE \''.mysql_escape_string($name).'%\''.$whereSQL.' GROUP BY name ORDER BY name '.$limitSql);
+		$result = $db->fetchAll ( 'SELECT id,name FROM recipe'.$fromSQL.' WHERE name LIKE \''.mysql_escape_string($name).'%\''.$whereSQL.' GROUP BY name ORDER BY  '.$orderBySql.' '.$limitSql);
 		// if perfect match has not reached the maximum limit, continue with fuzzy search
 		if($limit && count($result)<$limit){
 			$names = '';
@@ -434,7 +443,7 @@ class Website_Model_Recipe {
 	private function getCategories()
 	{
 		// TODO: write unit test
-		return RecipeCategory::categoryByRecipeId ($this->id);
+		return Website_Model_RecipeCategory::categoryByRecipeId ($this->id);
 
 	}
 
@@ -520,7 +529,15 @@ class Website_Model_Recipe {
 			print $e ;
 		}
 	}
-	public function toXml ( $xml , $ast ) {
+	
+	/**
+	 * Appends its XML representation to the DOMNode of the DOMDocument
+	 * 
+	 * @param DOMDocument $xml
+	 * @param DOMNode $ast
+	 * @return void
+	 */
+	public function toXml (DOMDocument $xml ,DOMNode  $ast ) {
 		// TODO: write unit test
 		$recipe = $xml->createElement ( 'recipe' ) ;
 		$recipe->setAttribute ( 'id', $this->id ) ;

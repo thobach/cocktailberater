@@ -1,0 +1,16 @@
+<?php
+echo $this->partial ('template/search.phtml');
+if ($this->recipes) { ?>
+<div id="ergebnisse" style="clear: left;"><?php
+foreach ($this->recipes as $recipe){
+	if($this->top10){
+		echo $this->cocktailPreview ($recipe,++$i);
+	} else {
+		echo $this->cocktailPreview ($recipe);
+	}
+}
+?></div>
+<!-- div: ergebnisse -->
+<?php } else { ?>
+<p>Bitte geben Sie einen Suchbegriff ein.</p>
+<?php } ?>

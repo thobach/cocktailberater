@@ -266,8 +266,7 @@ class Website_Model_Cocktail {
 												INNER JOIN recipe ON cocktail.id = recipe.cocktail
 												WHERE (recipe.isAlcoholic = 1)
 												ORDER BY cocktail.name
-												LIMIT ' . $limit, 
-				array ( $search . '%'));
+												LIMIT ' . $limit);
 			}
 			// non-alcoholic
 			if ($option == 'non-alcoholic') {
@@ -276,8 +275,7 @@ class Website_Model_Cocktail {
 												INNER JOIN recipe ON cocktail.id = recipe.cocktail
 												WHERE (recipe.isAlcoholic = 0)
 												ORDER BY cocktail.name
-												LIMIT ' . $limit, 
-				array ( $search . '%'));
+												LIMIT ' . $limit);
 			}
 			$cocktailArray = array();
 			if (is_array($result)) {

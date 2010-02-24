@@ -64,4 +64,23 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$plugin = new Wb_Controller_Plugin_Layout();
 		$front->registerPlugin($plugin);
 	}
+
+	/**
+	 * Initialze Routes
+	 *
+	 * @return void
+	 */
+	public function _initRouter() {
+		$front     = Zend_Controller_Front::getInstance();
+		$restRoute = new Zend_Rest_Route($front, array(), array(
+		    'website' => array(	'bar','cocktail','comment','component','glass',
+		    					'ingredient','ingredientCategory',
+		    					'manufacturer','member','menue','order','party',
+		    					'photo','photoCategory','product','rating',
+		    					'recipe','recipeCategory','tag','video')
+		));
+		$front->getRouter()->addRoute('rest', $restRoute);
+		// Returns the router resource to bootstrap resource registry
+		return $router;
+	}
 }

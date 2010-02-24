@@ -10,31 +10,33 @@ $this->headMeta()->appendName('description', 'Datenbank mit Rezepten für alkoho
 <h2>Stöbern</h2>
 <ul>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'alcoholic')); ?>" title="Cocktails mit Alkohol"><img
+		href="<?php echo $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'alcoholic')); ?>"
+		title="Cocktails mit Alkohol"><img
 		src="<?php echo $this->baseUrl(); ?>/img/alkohol-cocktails.png" />Alkoholische<br />
 	Cocktailrezepte</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'top10')); ?>"><img
+		href="<?php echo $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'top10')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/topcocktail.png" />Top 10<br />
 	Cocktailrezepte</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'non-alcoholic')); ?>" title="Cocktails ohne Alkohol"><img
+		href="<?php echo $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'non-alcoholic')); ?>"
+		title="Cocktails ohne Alkohol"><img
 		src="<?php echo $this->baseUrl(); ?>/img/alkoholfrei.png" />Alkholfreie<br />
 	Cocktailrezepte</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'search','search_type'=>'difficulty','search'=>'beginner')); ?>"><img
+		href="<?php echo $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'difficulty','search'=>'beginner')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/anfaenger3.png" />Einfache<br />
 	Cocktailrezepte</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'search','search_type'=>'ingredient','search'=>'vodka')); ?>"><img
+		href="<?php echo $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'ingredient','search'=>'vodka')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/vodka.png" />Cocktailrezepte<br />
 	mit Vodka</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'search','search_type'=>'ingredient','search'=>'rum')); ?>"><img
+		href="<?php echo $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'ingredient','search'=>'rum')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/rum.png" />Cocktailrezepte<br />
 	mit Rum</a></li>
 	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'index','action'=>'search','filter'=>'with-image')); ?>"><img
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe','search_type'=>'image')); ?>"><img
 		src="<?php echo $this->baseUrl(); ?>/img/galerie2.png" />Cocktailrezepte<br />
 	mit Bildern</a></li>
 	<li><a

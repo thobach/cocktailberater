@@ -111,54 +111,65 @@ echo $this->headScript()."\n";
 <!-- begin: top links -->
 <div id="pre-header">
 	<ul>
+		<!-- social bookmarking & RSS -->
+		<li style="margin-left: 1em;"><a href="http://del.icio.us/post?url=http://www.cocktailberater.de<?php echo $this->url(); ?>&title=<?php echo urlencode($title); ?>"><img 
+			src="<?php print $this->baseUrl(); ?>/img/social-media/delicious_16x16_gray.png" 
+			onmouseover="this.src='<?php print $this->baseUrl(); ?>/img/social-media/delicious_16x16.png';" 
+			onmouseout="this.src='<?php print $this->baseUrl(); ?>/img/social-media/delicious_16x16_gray.png';" 
+			alt="Bookmark auf delicious" /></a></li>
+		<li style="margin-left: 1em;"><a href="http://digg.com/submit?phase=2&url=http://www.cocktailberater.de<?php echo $this->url(); ?>&title=<?php echo urlencode($title); ?>"><img 
+			src="<?php print $this->baseUrl(); ?>/img/social-media/digg_16x16_gray.png" 
+			onmouseover="this.src='<?php print $this->baseUrl(); ?>/img/social-media/digg_16x16.png';" 
+			onmouseout="this.src='<?php print $this->baseUrl(); ?>/img/social-media/digg_16x16_gray.png';" 
+			alt="Bookmark auf digg" /></a></li>
+		<li style="margin-left: 1em;"><a href="http://www.stumbleupon.com/submit?url=http://www.cocktailberater.de<?php echo $this->url(); ?>&title=<?php echo urlencode($title); ?>"><img 
+			src="<?php print $this->baseUrl(); ?>/img/social-media/stumbleupon_16x16_gray.png" 
+			onmouseover="this.src='<?php print $this->baseUrl(); ?>/img/social-media/stumbleupon_16x16.png';" 
+			onmouseout="this.src='<?php print $this->baseUrl(); ?>/img/social-media/stumbleupon_16x16_gray.png';" 
+			alt="Bookmark auf stumbleupon" /></a></li>
+		<li style="margin-left: 1em;"><a href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&t=<?php echo urlencode($title); ?>"><img 
+			src="<?php print $this->baseUrl(); ?>/img/social-media/facebook_16_gray.png" 
+			onmouseover="this.src='<?php print $this->baseUrl(); ?>/img/social-media/facebook_16.png';" 
+			onmouseout="this.src='<?php print $this->baseUrl(); ?>/img/social-media/facebook_16_gray.png';" 
+			alt="Bookmark auf facebook" /></a></li>
+		<li style="margin-left: 1em;"><a href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>"><img 
+			src="<?php print $this->baseUrl(); ?>/img/social-media/twitter_16_gray.png" 
+			onmouseover="this.src='<?php print $this->baseUrl(); ?>/img/social-media/twitter_16.png';" 
+			onmouseout="this.src='<?php print $this->baseUrl(); ?>/img/social-media/twitter_16_gray.png';" 
+			alt="Bookmark auf twitter" /></a></li>
+		<li><a href="?format=rss"><img 
+			src="<?php print $this->baseUrl(); ?>/img/social-media/rss_16x16_gray.png" 
+			onmouseover="this.src='<?php print $this->baseUrl(); ?>/img/social-media/rss_16x16.png';" 
+			onmouseout="this.src='<?php print $this->baseUrl(); ?>/img/social-media/rss_16x16_gray.png';" 
+			alt="Seite abonnieren" /></a></li>
 		<!-- kontakt -->
 		<li>
-			<a href="<?php if($currentShow=='contact') { $show = 'none'; } else { $show = 'contact'; } echo $this->url(array('show'=>$show)); ?>" 
-				onclick="return showDialog('tooltipDlg3');">kontakt <img src="<?php print $this->baseUrl(); ?>/img/down.png" alt="Pfeil nach unten" /></a>
+			<a href="<?php if($currentShow=='contact') { $show = 'none'; } 
+				else { $show = 'contact'; } echo $this->url(array('show'=>$show)); ?>" 
+				onclick="return showDialog('tooltipDlg3');">kontakt 
+			<img src="<?php print $this->baseUrl(); ?>/img/down.png" alt="Pfeil nach unten" /></a>
 			<div dojoType="dijit.TooltipDialog" id="tooltipDlg3"
 				style="<?php if($currentShow!='contact') { ?>display: none;<?php } ?> position: absolute; margin-left: -13em;">
 			    <ul class="noJS">
 			    	<li><a href="<?php print $this->url(array(
 							'module'=>'website',
-							'controller'=>'index',
+							'controller'=>'portal',
 							'action'=>'imprint'),null,true); ?>">impressum</a></li>
 					<li><a href="<?php print $this->url(array(
 							'module'=>'website',
-							'controller'=>'index',
+							'controller'=>'portal',
 							'action'=>'contact'),null,true); ?>">kontakt</a></li>
 					<li><a href="http://www.thobach.de">thomas bachmann (entwickler)</a></li>
 					<li><a href="http://www.carolinebock.de">caroline bock (designer)</a></li>
 				</ul>
 			</div>
 		</li>
-		<!-- lesezeichen oder weitersagen -->
-		<li>
-			<a href="<?php if($currentShow=='bookmark') { $show = 'none'; } else { $show = 'bookmark'; } echo $this->url(array('show'=>$show)); ?>" 
-				onclick="return showDialog('tooltipDlg0');">lesezeichen oder weitersagen <img src="<?php print $this->baseUrl(); ?>/img/down.png" 
-				alt="Pfeil nach unten" /></a>
-			<div dojoType="dijit.TooltipDialog" id="tooltipDlg0" 	
-				style="<?php if($currentShow!='bookmark') { ?>display: none;<?php } ?> position: absolute; margin-left: 0.8em;">
-		    	<ul class="noJS">
-		    		<li>
-			    		<!-- AddThis Button BEGIN -->
-						<div class="addthis_toolbox addthis_default_style">
-							<a class="addthis_button_facebook"></a>
-							<a class="addthis_button_email"></a>
-							<a class="addthis_button_favorites"></a>
-							<a class="addthis_button_print"></a>
-							<span class="addthis_separator">|</span>
-							<a href="http://www.addthis.com/bookmark.php?v=250&amp;pub=thobach" class="addthis_button_expanded">More</a>
-						</div>
-						<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=thobach"></script>
-						<!-- AddThis Button END -->
-		    		</li>
-		    	</ul>
-			</div>
-		</li>
 		<!-- cocktailberater auf -->
 		<li>
-			<a href="<?php if($currentShow=='partner') { $show = 'none'; } else { $show = 'partner'; } echo $this->url(array('show'=>$show)); ?>" 
-				onclick="return showDialog('tooltipDlg1');">cocktailberater auf... <img src="<?php print $this->baseUrl(); ?>/img/down.png" 
+			<a href="<?php if($currentShow=='partner') { $show = 'none'; } 
+				else { $show = 'partner'; } echo $this->url(array('show'=>$show)); ?>" 
+				onclick="return showDialog('tooltipDlg1');">cocktailberater auf... 
+			<img src="<?php print $this->baseUrl(); ?>/img/down.png" 
 				alt="Pfeil nach unten" /></a>
 			<div dojoType="dijit.TooltipDialog" id="tooltipDlg1" 	
 				style="<?php if($currentShow!='partner') { ?>display: none;<?php } ?> position: absolute; margin-left: 3.5em;">
@@ -198,12 +209,23 @@ echo $this->headScript()."\n";
 		    	</ul>
 			</div>
 		</li>
-		<?php if($this->xmlLink) { ?>
-		<!-- XML API -->
+		<!-- API -->
 		<li>
-			<a href="<?php print $this->xmlLink['href']; ?>">XML</a>
+			<a href="<?php if($currentShow=='api') { $show = 'none'; } else { $show = 'api'; } ?>?show=<?php echo $show; ?>" 
+				onclick="return showDialog('tooltipDlg4');">api <img src="<?php print $this->baseUrl(); ?>/img/down.png" 
+				alt="Pfeil nach unten" /></a>
+			<div dojoType="dijit.TooltipDialog" id="tooltipDlg4" 
+				style="<?php if($currentShow!='api') { ?>display: none;<?php } ?> position: absolute; margin-left: -7em;">
+		    	<ul class="noJS">
+		    		<li>Seiteninhalt als:</li>
+		    		<li><a href="?format=xml">XML</a></li>
+		    		<li><a href="?format=json">JSON</a></li>
+		    		<li><a href="?format=atom">Atom</a></li>
+		    		<li><a href="?format=rss">RSS</a></li>
+		    		<li><a href="?format=pdf">PDF</a></li>
+		    	</ul>
+			</div>
 		</li>
-		<?php } ?>
 	</ul>
 </div>
 <!-- end: top links -->

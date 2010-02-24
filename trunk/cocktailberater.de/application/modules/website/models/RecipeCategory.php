@@ -54,7 +54,7 @@ class Website_Model_RecipeCategory extends Website_Model_Category {
 			$recipes = $recipe2categoryTable->fetchAll('recipe='.$id);
 			if(count($recipes) > 0 ){
 				foreach ($recipes as $recipe) {
-					$recipesArray[] = Website_Model_CbFactory::factory('RecipeCategory', $recipe->recipeCategory);
+					$recipesArray[] = Website_Model_CbFactory::factory('Website_Model_RecipeCategory', $recipe->recipeCategory);
 				}
 			}
 			$cache->save($recipesArray,'categoryByRecipeId'.$id);

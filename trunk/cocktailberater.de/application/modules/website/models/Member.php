@@ -120,7 +120,7 @@ class Website_Model_Member {
 	 * does not exist
 	 *
 	 * @param String $email
-	 * @return booloean | int False or member object
+	 * @return Website_Model_Member if member exists, booloean otherwise
 	 * @tested
 	 */
 	public static function getMemberByEmail($email){
@@ -237,19 +237,18 @@ class Website_Model_Member {
 	 *
 	 * @param string $passwordHash (md5 with prefix)
 	 * @return boolean true = authentification successful, false = failed
-	 * @throws MemberException
+	 * @throws boolean false if password is invalid, true otherwise
 	 * @tested
 	 */
 	public function authenticate ( $passwordHash ) {
 		if ($this->passwordHash == $passwordHash)	{
-			$this->hashCode = md5('9z1rhf�asf'.rand(20,2));
+			$this->hashCode = md5('9z1rhfxasf'.rand(20,2));
 			$date = Zend_Date::now();
 			$date->add('24:00:00', Zend_Date::TIMES);
 			$this->hashExpiryDate = $date->toString(Website_Model_DateFormat::MYSQLTIMESTAMP);
 			$this->save();
 			return true;
 		} else {
-			throw new MemberException('Password_Invalid');
 			return false;
 		}
 	}
@@ -313,8 +312,8 @@ class Website_Model_Member {
 		$member->setAttribute('lastname', $this->lastname);
 		$member->setAttribute('birthday', $this->birthday);
 		$member->setAttribute('email', $this->email);
-		$member->setAttribute('hashCode', $this->hashCode);
-		$member->setAttribute('hashExpiryDate', $this->hashExpiryDate);
+		//$member->setAttribute('hashCode', $this->hashCode);
+		//$member->setAttribute('hashExpiryDate', $this->hashExpiryDate);
 		$member->setAttribute('apiKey', $this->apiKey);
 		$member->setAttribute('email', $this->email);
 		$member->setAttribute('insertDate', $this->insertDate);

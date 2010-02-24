@@ -1,10 +1,10 @@
 <?php
-class ApiError {
+class Api_Model_ApiError {
 	private $code;
 	private $message;
 	private $details;
 	
-	public function ApiError ($code, Exception $e, DOMElement $rsp, DOMDocument $xml, $msg = NULL){
+	public function __construct ($code, Exception $e, DOMElement $rsp, DOMDocument $xml, $msg = NULL){
 		$this->code = $code;
 		$this->message = $e->getMessage();
 		$this->details = $e;

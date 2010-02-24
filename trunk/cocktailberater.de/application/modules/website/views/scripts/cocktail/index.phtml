@@ -1,0 +1,12 @@
+<?php echo $this->partial ("template/search.phtml"); ?>
+<h1>Cocktails</h1>
+<div id="ergebnisse" style="clear: left;">
+<ul>
+<?php 
+foreach ($this->cocktails as $cocktail){
+	$count = count($cocktail->getRecipes());
+	print '<li><a href="'.$this->url().'/'.$cocktail->id.'">'.$cocktail->name.'</a> ('.$count.' Rezept'.($count>1 ? 'e' : '').')</li>';
+}
+?>
+</ul>
+</div>
