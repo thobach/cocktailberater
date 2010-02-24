@@ -3,8 +3,9 @@
 
 /**
  * Class responsible for everything regarding recipes and the REST API
+ * 
+ * @deprecated now using different representations in the website controllers
  */
-
 class Api_RecipeController extends Zend_Controller_Action {
 
 	private $xml; // xml dom document

@@ -1,0 +1,23 @@
+<?php
+// create a dom object
+$this->xml = new DOMDocument("1.0");
+// create root element 'rsp'
+$this->rsp = $this->xml->createElement("rsp");
+// add the 'rsp' element to the xml document
+$this->xml->appendChild($this->rsp);
+
+$recipesXML = $this->xml->createElement('recipes');
+if(is_array($this->recipes)){
+	foreach ($this->recipes as $recipe){
+		$recipe->toXml($this->xml,$recipesXML);
+	}
+}
+// set count for recipe element according to number of recipes found
+$recipesXML->setAttribute('count',count($this->recipes));
+// add the '$recipes' element to the 'rsp' element
+$this->rsp->appendChild($recipesXML);
+// set status for root element 'rsp' to 'ok'
+$this->rsp->setAttribute('status','ok');
+
+// save and display tree
+print $this->xml->saveXML();

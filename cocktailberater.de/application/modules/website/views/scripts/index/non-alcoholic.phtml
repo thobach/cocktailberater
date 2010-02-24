@@ -1,9 +1,0 @@
-<?php echo $this->partial ("template/search.phtml"); ?>
-<h1>Alkoholfreie Cocktails</h1><div id="ergebnisse"
-	style="clear:left;">
-<?php 
-foreach ($this->cocktails as $cocktail){
-	$recipes = $cocktail->getRecipes();
-	echo $this->cocktailPreview ($recipes[0]);
-}
-?></div>

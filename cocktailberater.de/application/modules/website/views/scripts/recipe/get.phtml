@@ -128,8 +128,8 @@ if(!($alcoholLevel || $calories || $categories || $products)){
     });
 	<?php $this->headScript()->captureEnd(); ?>
 	<a id="zutat<?php print $component->getIngredient()->id ;?>"
-	href="<?php print $this->url(array('module'=>'website','controller'=>'index',
-		'action'=>'ingredient','id'=>$component->getIngredient()->id),null,true); ?>"
+	href="<?php print $this->url(array('module'=>'website','controller'=>'ingredient',
+		'id'=>$component->getIngredient()->id),null,true); ?>"
 	title="<?php echo $this->escape ( str_replace ( '\\', '', $component->getIngredient()->name ) ) ?>">
 	<?php print $component->getIngredient()->name ; ?></a></li>
 	<?php
@@ -162,7 +162,7 @@ $this->dojo()->enable()
 ->requireModule('dijit.form.ComboBox')
 ->requireModule('custom.TagReadStore');
 // define url for autoCompletion
-$autoCompletionUrl = array('action'=>'suggest','controller'=>'index','module'=>'website','format'=>'ajax');
+$autoCompletionUrl = array('action'=>'index','controller'=>'recipe','module'=>'website','format'=>'ajax','index'=>'index');
 ?>
 <div dojoType="custom.TagReadStore" jsId="tagStore" url="<?php echo $this->url($autoCompletionUrl); ?>"
 	requestMethod="get"></div>
@@ -180,7 +180,7 @@ function initTag() {
 dojo.addOnLoad(initTag);
 <?php $this->headScript()->captureEnd(); ?>
 <form id="tag_form" class="regular_form hide abstand_oben abstand_unten" method="post"
-	action="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id),null,true); ?>">
+	action="<?php print $this->url(array('module'=>'website','controller'=>'tag'),null,true); ?>">
 	<fieldset>
 		<legend>Schlagwort / Tag hinzufügen</legend>
 		<label for="newtag">Dein Tag:</label>
@@ -198,252 +198,33 @@ dojo.addOnLoad(initTag);
 <div class="attribut">Bewertung:</div>
 <div class="wert"><?php
 $durchschnitt = $this->recipe->getRating();
-?> <a
-	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>1),null,true); ?>"
-	title="geschmackssache" style="clear: both; float: left;"><img
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 1) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>"
-	alt="geschmackssache" id="bewertung1"
-	style="width: 18px; height: 18px;"
-	onmouseover="this.src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'"
-	onmouseout="this.src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 1) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>'" /></a> <a
-	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>2),null,true); ?>"
-	title="ganz ok" style="float: left;"><img
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 2) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>"
-	alt="ganz ok" id="bewertung2" style="width: 18px; height: 18px;"
-	onmouseover="this.src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'; 
-	document.getElementById('bewertung1').src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'"
-	onmouseout="this.src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 2) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>'; 
-	document.getElementById('bewertung1').src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 1) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>'" /></a> <a
-	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>3),null,true); ?>"
-	title="gut" style="float: left;"><img
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 3) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>"
-	alt="gut" id="bewertung3" style="width: 18px; height: 18px;"
-	onmouseover="this.src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'; 
-	document.getElementById('bewertung1').src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'; 
-	document.getElementById('bewertung2').src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'; "
-	onmouseout="this.src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 3) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>'; 
-	document.getElementById('bewertung1').src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 2) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>'; 
-	document.getElementById('bewertung2').src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 1) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>'" /></a> <a
-	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>4),null,true); ?>"
-	title="sehr gut" style="float: left;"><img
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 4) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>"
-	alt="sehr gut" id="bewertung4" style="width: 18px; height: 18px;"
-	onmouseover="this.src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'; 
-	document.getElementById('bewertung1').src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'; 
-	document.getElementById('bewertung2').src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png';
-	document.getElementById('bewertung3').src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'; "
-	onmouseout="this.src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 4) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>'; 
-	document.getElementById('bewertung1').src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 3) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>'; 
-	document.getElementById('bewertung2').src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 2) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>';
-	document.getElementById('bewertung3').src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 1) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>';" /></a> <a
-	href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'recipe','id'=>$recipe->id,'rating'=>5),null,true); ?>"
-	title="absoluter Favorit" style="float: left;"><img
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 5) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>"
-	alt="absoluter Favorit" id="bewertung5"
-	style="width: 18px; height: 18px;"
-	onmouseover="this.src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'; 
-	document.getElementById('bewertung1').src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'; 
-	document.getElementById('bewertung2').src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png';
-	document.getElementById('bewertung3').src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png';
-	document.getElementById('bewertung4').src='<?php
-	print $this->baseUrl() ;
-	?>/img/1_stars_pink.png'; "
-	onmouseout="this.src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 5) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>'; 
-	document.getElementById('bewertung1').src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 1) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>'; 
-	document.getElementById('bewertung2').src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 2) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>';
-	document.getElementById('bewertung3').src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 3) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>';
-	document.getElementById('bewertung4').src='<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
-	if ($durchschnitt >= 4) {
-		print '1_stars.png' ;
-	} else {
-		print 'not_yet_rated_1.png' ;
-	}
-	?>';" /></a> &nbsp;(Anzahl Stimmen: <?php
-	print $this->recipe->ratingsCount.' - Ø ' . number_format ( $this->recipe->getRating(), 2, ',', '' ) ;
-
-	?>)</div>
+?><?php if($this->rating_error) { ?>
+		<p class="error"><?php print $this->rating_error; ?></p>
+	<?php }
+	if($this->rating_success) { ?>
+		<p class="success"><?php print $this->rating_success; ?></p>
+	<?php } ?><form action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>" method="post">
+	<?php for($rating = 1; $rating <= 5; $rating++){
+	?><input name="rating" value="<?php echo $rating; ?>" type="image" id="rating<?php echo $rating; ?>" 
+		src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" 
+		onmouseover="this.src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
+			for($rating2=1; $rating2 <= $rating; $rating2++){ 
+				echo "document.getElementById('rating$rating2').src='{$this->baseUrl()}/img/1_stars_pink.png';";
+			}
+		?>"
+		onmouseout="this.src='<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
+			for($rating2=1; $rating2 <= $rating; $rating2++){ 
+				if($durchschnitt >= $rating2){
+					echo "document.getElementById('rating$rating2').src='{$this->baseUrl()}/img/1_stars.png';";
+				} else {
+					echo "document.getElementById('rating$rating2').src='{$this->baseUrl()}/img/not_yet_rated_1.png';";
+				}
+			}
+		?>" /><?php } ?>
+	<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
+	&nbsp;(Anzahl Stimmen: <?php print $this->recipe->ratingsCount.' - Ø ' . 
+		number_format ( $this->recipe->getRating(), 2, ',', '' ) ; ?>)
+</form></div>
 <div class="attribut">Rezeptquelle:</div>
 <div class="wert"><?php if($recipe->source) {
 	print $recipe->source;
@@ -497,20 +278,19 @@ if(!(location.hash=='#comment-insert' || location.hash=='#comments')){
 	?></ul>
 <form id="comment_form" class="regular_form"
 	style="margin-top: 1em;"
-	action="<?php print $this->url(array('module'=>'website','controller'=>'index',
-		'action'=>'recipe','id'=>$this->recipe->id),null,true); ?>#comment-insert"
+	action="<?php print $this->url(array('module'=>'website','controller'=>'comment'),null,true); ?>#comment-insert"
 	method="post">
 <fieldset>
 	<legend><a name="comment-insert">Kommentar hinzufügen</a></legend>
-	<?php if($this->error) { ?>
-		<p class="error"><?php print $this->error; ?></p>
+	<?php if($this->comment_error) { ?>
+		<p class="error"><?php print $this->comment_error; ?></p>
 	<?php }
-	if($this->success) { ?>
-		<p class="success"><?php print $this->success; ?></p>
+	if($this->comment_success) { ?>
+		<p class="success"><?php print $this->comment_success; ?></p>
 	<?php } 
-	if(!$this->success) { ?>
+	if(!$this->comment_success) { ?>
 	<label for="comment" class="clear pink left">Dein Kommentar (reiner Text):</label>  
-	<textarea name="comment" id="comment" class="clear text pink left abstand_unten"><?php if($this->error) { print $_POST['comment']; } ?></textarea>
+	<textarea name="comment" id="comment" class="clear text pink left abstand_unten"><?php if($this->comment_error) { print $_POST['comment']; } ?></textarea>
 	<?php 
 	$captcha = new Zend_Captcha_ReCaptcha(array(
 	    'name' => 'captcha',
@@ -525,7 +305,7 @@ if(!(location.hash=='#comment-insert' || location.hash=='#comments')){
 	));
 	$captcha->getService()->setOption('lang','de');
 	echo $captcha->render($this);
-?>
+?><input type="hidden" name="recipe" value="<?php echo $this->recipe->id; ?>" />
 <input type="submit" class="right clear small-button"
 	style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png'); margin-top: 0.5em; margin-right: 3px;" value="abschicken"
 	name="submit" /><?php } ?></fieldset>

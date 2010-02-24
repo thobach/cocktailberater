@@ -38,7 +38,7 @@ if (is_array ( $components )) {
 		<?php $this->view->headScript()->captureEnd(); ?>
 <div id="cocktail" style="width: 100px; height: 150px"><a
 	href="<?php print $this->view->url(
-	array('module'=>'website','controller'=>'index','action'=>'recipe','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>"><img
+	array('module'=>'website','controller'=>'recipe','action'=>'get','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>"><img
 	style="height: 100px;"
 	src="<?php print $this->view->baseUrl();
 	if(isset($photos[0]) && $photos[0]->id){
@@ -46,11 +46,11 @@ if (is_array ( $components )) {
 	} else { 
 		print '/img/wikilogo.png';
 	} ?>" /></a><a id="recipe<?php print $recipe->id; ?>"
-	href="<?php print $this->view->url(array('module'=>'website','controller'=>'index','action'=>'recipe','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>"
+	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>"
 	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>"><img
 	src="<?php print $this->view->baseUrl(); ?>/img/info.png" align="top" /></a><br />
 <a
-	href="<?php print $this->view->url(array('module'=>'website','controller'=>'index','action'=>'recipe','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>">
+	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>">
 	<?php 
 	if($top10Position) {
 		print '#'.$top10Position.' - ';

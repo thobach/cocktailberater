@@ -10,7 +10,7 @@ $this->dojo()->enable()
 ->requireModule('dijit.form.ComboBox')
 ->requireModule('custom.TestNameReadStore');
 // define url for autoCompletion
-$autoCompletionUrl = array('action'=>'suggest','controller'=>'index','module'=>'website','format'=>'ajax');
+$autoCompletionUrl = array('module'=>'website','controller'=>'recipe','action'=>'index');
 ?>
 <div dojoType="custom.TestNameReadStore" jsId="testStore" url="<?php echo $this->url($autoCompletionUrl); ?>"
 	requestMethod="get"></div>
@@ -36,7 +36,7 @@ function init() {
 dojo.addOnLoad(init);
 <?php $this->headScript()->captureEnd(); ?>
 <form method="post" id="suche_name"	action="<?php 
-$searchLink = array('controller'=>'index', 'action'=>'search','module'=>'website');
+$searchLink = array('module'=>'website','controller'=>'recipe','action'=>'index');
 print $this->url($searchLink,null,true); ?>">
 <fieldset>
 	<!-- cocktail -->

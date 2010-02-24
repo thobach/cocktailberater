@@ -114,6 +114,86 @@ class Website_PortalController extends Zend_Controller_Action {
 	public function andereSeitenAction () {
 
 	}
+	
+	// Impressum
+	public function imprintAction () {
+	}
+
+	public function contactedAction(){
+		$defaultNamespace = new Zend_Session_Namespace('Default');
+		$form    = $this->_getContactForm();
+		$request = $this->getRequest();
+
+		if ($request->isPost()) {
+			if ($form->isValid($request->getPost())) {
+				// send email
+				$formValues = $form->getValues();
+				// get config
+				$config = $this->getFrontController()->getParam('bootstrap')->getOptions();
+
+				$configMail = array(
+					'auth' =>  $config['mail']['auth'],
+					'username' => $config['mail']['username'],
+					'password' => $config['mail']['password']);
+				$transport = new Zend_Mail_Transport_Smtp($config['mail']['smtp_server'], $configMail);
+				Zend_Mail::setDefaultTransport($transport);
+
+				$textView = new Zend_View();
+				$textView->setScriptPath($this->view->getScriptPaths());
+				$textView->contact = $formValues;
+
+				if($formValues['getCopy']=='1'){
+					$customerMail = new Zend_Mail('utf-8');
+					$customerMail->setBodyText($textView->render('mail/contact-mail-customer.phtml'));
+					$customerMail->setFrom($config['mail']['defaultsender'],$config['mail']['defaultsendername']);
+					$customerMail->setSubject($textView->translate('Ihre Kontaktanfrage bei cocktailberater.de.de'));
+					$customerMail->addTo($formValues['email']);
+					$customerMail->send();
+				}
+
+				$sellerMail = new Zend_Mail('utf-8');
+				$sellerMail->setBodyText($textView->render('mail/contact-mail-seller.phtml'));
+				$sellerMail->setReplyTo($formValues['email'],$formValues['firstname'].' '.$formValues['lastname']);
+				$sellerMail->setFrom($config['mail']['defaultsender'],$config['mail']['defaultsendername']);
+				$sellerMail->setSubject('Neue Kontaktanfrage über cocktailberater.de');
+				$sellerMail->addTo($config['mail']['defaultrecipient'],$config['mail']['defaultrecipientname']);
+				$sellerMail->send();
+			} else {
+				// error -> back to contact form
+				return $this->_forward('contact');
+			}
+		}
+	}
+
+	public function contactAction()
+	{
+		$defaultNamespace = new Zend_Session_Namespace('Default');
+		$form    = $this->_getContactForm();
+		$request = $this->getRequest();
+
+		if ($this->getRequest()->isPost()) {
+			if ($form->isValid($request->getPost())) {
+				return $this->_forward('contacted');
+			}
+		}
+
+		$this->view->form = $form;
+		$formErrors = $this->view->getHelper('formErrors');
+		$formErrors->setElementStart('<div class="notice" style="margin-top: 1em;">')
+		->setElementSeparator('<br />')
+		->setElementEnd('</div>');
+	}
+
+	/**
+	 * @return Form_Contact
+	 */
+
+	protected function _getContactForm()
+	{
+		$form = new Website_Form_Contact();
+		$form->setAction($this->_helper->url('contact'));
+		return $form;
+	}
 
 }
 

@@ -34,7 +34,7 @@ function mehrZutaten(idzutaten_kategorie) {
 			->requireModule('custom.CocktailReadStore');
 			
 			// define url for autoCompletion
-			$autoCompletionUrl = array('action'=>'suggest','controller'=>'index','module'=>'website','format'=>'ajax');
+			$autoCompletionUrl = array('action'=>'index','controller'=>'recipe','module'=>'website','format'=>'ajax');
 			?>
 			<div dojoType="custom.CocktailReadStore" jsId="testStore" url="<?php echo $this->url($autoCompletionUrl); ?>"
 				requestMethod="get"></div>

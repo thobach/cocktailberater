@@ -143,15 +143,14 @@ class Website_Model_Photo {
 		return $array;
 	}
 	
-	public function toXml ( $xml , $ast ) {
-		
-		$config = Zend_Registry::get('config');
-//		print_r ($config);
+	public function toXml ( $xml , $ast ) {	
+		$config = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOptions();
 		$photo = $xml->createElement ( 'photo' ) ;
 		$photo->setAttribute ( 'id', $this->id ) ;
 		$photo->setAttribute ( 'name', $this->name ) ;
 		$photo->setAttribute ( 'description', $this->description ) ;
-		$photo->setAttribute ( 'url', 'http://'.$_SERVER[SERVER_NAME].$config->paths->picture_path.$this->getPhotoCategory()->folder.'/'.$this->fileName ) ;
+		// TODO: let it work for localhost
+		$photo->setAttribute ( 'url', 'http://'.$_SERVER[SERVER_NAME].'/img/'.$this->getPhotoCategory()->folder.'/'.$this->fileName ) ;
 		$photo->setAttribute ( 'originalFileName', $this->originalFileName ) ;
 		$photo->setAttribute ( 'photoCategory', $this->photoCategoryId ) ;
 		$ast->appendchild ( $photo ) ;
