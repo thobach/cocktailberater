@@ -9,7 +9,7 @@ require_once(APPLICATION_PATH.'/Wb/Controller/RestController.php');
 class Website_MemberController extends Wb_Controller_RestController {
 
 	public function indexAction() {
-		if($this->_hasParam('email') && $this->_hasParam('passwordHash')){
+		if($this->_hasParam('email') && $this->_hasParam('password')){
 			$this->_forward('auth');
 		} else {
 			$list = Website_Model_Member::listMembers();
@@ -20,12 +20,15 @@ class Website_MemberController extends Wb_Controller_RestController {
 
 	public function authAction(){
 		$email = $this->_getParam('email');
-		$passwordHash = $this->_getParam('passwordHash');
+		$password = $this->_getParam('password');
+		// @todo: extract to config file
+		$passwordHash = md5($password);
 		$member = Website_Model_Member::getMemberByEmail($email);
-		if($member){
-			$this->view->auth = $member->authenticate($passwordHash);
+		$auth = $member->authenticate($passwordHash);
+		if($auth){
+			$this->view->member = $member;
 		} else {
-			$this->view->auth = false;
+			$this->view->member = null;
 		}
 		$contextSwitch = $this->_helper->getHelper('contextSwitch');
 		$contextSwitch->addActionContext('auth', true)->initContext();

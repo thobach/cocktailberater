@@ -39,7 +39,7 @@ class Website_Model_Menu {
 	/**
 	 * @tested
 	 */
-	public function Menu ($id=NULL){
+	public function __construct ($id=NULL){
 		if(!empty($id)){
 			$menuTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'menu');
 			$menu = $menuTable->fetchRow('id='.$id);
@@ -83,7 +83,7 @@ class Website_Model_Menu {
 	{
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','menu');
 		foreach ($table->fetchAll() as $menu) {
-			$menuArray[] = CbFactory::factory('Menu',$menu->id);
+			$menuArray[] = Website_Model_CbFactory::factory('Website_Model_Menu',$menu->id);
 		}
 		return $menuArray;
 	}

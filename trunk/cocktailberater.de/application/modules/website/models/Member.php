@@ -303,7 +303,7 @@ class Website_Model_Member {
 	 * @param XmlElement $branch
 	 * @tested
 	 */
-	public function toXml($xml, $branch) {
+	public function toXml($xml, $branch,$withHash = false) {
 		$member = $xml->createElement('member');
 		$branch->appendChild($member);
 		$member->setAttribute('id', $this->id);
@@ -312,8 +312,10 @@ class Website_Model_Member {
 		$member->setAttribute('lastname', $this->lastname);
 		$member->setAttribute('birthday', $this->birthday);
 		$member->setAttribute('email', $this->email);
-		//$member->setAttribute('hashCode', $this->hashCode);
-		//$member->setAttribute('hashExpiryDate', $this->hashExpiryDate);
+		if($withHash){
+			$member->setAttribute('hashCode', $this->hashCode);
+			$member->setAttribute('hashExpiryDate', $this->hashExpiryDate);
+		}
 		$member->setAttribute('apiKey', $this->apiKey);
 		$member->setAttribute('email', $this->email);
 		$member->setAttribute('insertDate', $this->insertDate);

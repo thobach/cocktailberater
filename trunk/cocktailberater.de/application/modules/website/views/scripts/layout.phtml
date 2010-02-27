@@ -235,18 +235,22 @@ echo $this->headScript()."\n";
 if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index' &&	
 	Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index') { 
 	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header.png\'); height: 142px;';
-	$linkStyle = 'height: 142px;'; 
+	$linkStyle = 'height: 142px;';
+	$homeStyle = '';
+	$homeStyleHover = '';
 }
 // show small header on all other pages
 else { 
 	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header-detail.png\'); height: 50px;';
 	$linkStyle = 'height: 50px;'; 
+	$homeStyle = '<div id="home_hover" style="position: relative; background: url(\''.$this->baseUrl().'/img/home.png'.'\') no-repeat; height: 40px; left: 270px; top: 6px; display: none;">&nbsp;</div>';
+	$homeStyleHover = ' onmouseover="document.getElementById(\'home_hover\').style.display=\'block\';"  onmouseout="document.getElementById(\'home_hover\').style.display=\'none\';"';
 }
 ?>
-	<div id="header" style="<?php echo $headStyle; ?>">
+	<div id="header" style="<?php echo $headStyle; ?>"<?php print $homeStyleHover; ?>>
 		<a href="<?php 
 		$mainPage = array('controller'=>'index','action'=>'index','module'=>'website');
-		print $this->url($mainPage,null,true); ?>" style="<?php echo $linkStyle;?>"><h1>cocktailberater</h1></a>
+		print $this->url($mainPage,null,true); ?>" style="<?php echo $linkStyle;?>"><h1>cocktailberater</h1><?php print $homeStyle; ?></a>
 	</div><!-- id:header -->
 	<div id="homepage">
 		<div id="content"><?php echo $this->layout()->content ?></div>
