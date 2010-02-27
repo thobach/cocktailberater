@@ -27,6 +27,7 @@ abstract class Wb_Controller_RestController extends Zend_Rest_Controller {
 				'headers'	=> array('Content-Type' => 'application/pdf')));
 		}
 		$contextSwitch->addActionContext('index', true)->initContext();
+		$contextSwitch->addActionContext('get', true)->initContext();
 	}
 
 	public function postDispatch(){

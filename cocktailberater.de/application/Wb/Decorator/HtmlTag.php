@@ -46,8 +46,8 @@ class Wb_Decorator_HtmlTag extends Zend_Tag_Cloud_Decorator_HtmlTag
 
 			$this->_view->headScript()->captureStart(); ?>
 dojo.addOnLoad(function() { 
-	tag<?php print str_replace('-','_',$tag->getTitle()) ;?>Tooltip = new dijit.Tooltip({
-		connectId: ["tag<?php print str_replace('-','_',$tag->getTitle()) ;?>"], 
+	tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>Tooltip = new dijit.Tooltip({
+		connectId: ["tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>"], 
 		label: "<?php $list = Website_Model_Recipe::getRecipesByTag ( $tag->getTitle()); ?>
 <h2 class=\"pink\" style=\"font-size: 1.2em; margin:0;\">Rezepte mit dem Tag &quot;<?php echo $tag->getTitle(); ?>&quot;:</h2><ul style=\"text-align:left\"><?php
 foreach ($list as $key => $recipe) {
@@ -62,7 +62,7 @@ foreach ($list as $key => $recipe) {
 	?></li><?php } ?></ul>" });
 });
 <?php $this->_view->headScript()->captureEnd();
-			$tagHtml = sprintf('<a href="%s" %s id="tag%s" rel="tag"><span>Dieses Rezept wurde %s mal mit dem Schlagwort </span>%s<span> versehen.</span></a>', htmlSpecialChars($tag->getParam('url')), $attribute,str_replace('-','_',$tag->getTitle()), $tag->getWeight(), $tag->getTitle());
+			$tagHtml = sprintf('<a href="%s" %s id="tag%s" rel="tag"><span>Dieses Rezept wurde %s mal mit dem Schlagwort </span>%s<span> versehen.</span></a>', htmlSpecialChars($tag->getParam('url')), $attribute,str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()), $tag->getWeight(), $tag->getTitle());
 
 			foreach ($this->getHtmlTags() as $key => $data) {
 				if (is_array($data)) {
