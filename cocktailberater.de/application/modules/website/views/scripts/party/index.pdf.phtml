@@ -1,0 +1,9 @@
+<?php
+$pdf = new Zend_Pdf();
+$pdf->pages[0] = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
+$font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
+$pdf->pages[0]->setFont($font, 12);
+foreach($this->partys as $party){
+	$pdf->pages[0]->drawText($party->name, 72, 800-24*++$i);
+}
+print $pdf->render();
