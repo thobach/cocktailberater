@@ -5,7 +5,7 @@ class Website_Model_DateFormat {
 
 	public static function isValidMysqlTimestamp($mysqlTimestamp)
 	{
-		$erg = ereg("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",$mysqlTimestamp);
+		$erg = preg_match("/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/",$mysqlTimestamp);
 		if($erg){
 			return true;
 		} else {

@@ -96,6 +96,24 @@ class Website_Model_Member {
 			return false;
 		}
 	}
+	
+	/**
+	 * checks whether member is logged in
+	 *
+	 * @param String $id
+	 * @param String $hashCode
+	 * @return booloean
+	 * @todo: write unit test
+	 */
+	public static function loggedIn($id,$hashCode) {
+		$memberTable  = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member');
+		$member = $memberTable->fetchRow('id = '.$id.' AND hashCode = \''.$hashCode.'\' AND hashExpiryDate>= \''.date(Website_Model_DateFormat::PHPDATE2MYSQLTIMESTAMP).'\'');
+		if ($member) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * checks whether email exists in DB

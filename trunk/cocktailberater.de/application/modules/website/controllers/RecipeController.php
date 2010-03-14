@@ -7,16 +7,6 @@
  */
 require_once(APPLICATION_PATH.'/Wb/Controller/RestController.php');
 class Website_RecipeController extends Wb_Controller_RestController {
-
-	public function init() {
-		$contextSwitch = $this->_helper->getHelper('contextSwitch');
-		if(!$contextSwitch->hasContext('ajax')){
-			$contextSwitch->removeContext('ajax');
-			$contextSwitch->addContext('ajax',array(
-				'suffix'	=> 'ajax',
-				'headers'	=> array('Content-Type' => 'text/html')));
-		}
-	}
 	
 	public function indexAction() {
 		// auto-suggest for search
@@ -98,7 +88,7 @@ class Website_RecipeController extends Wb_Controller_RestController {
 		try {
 			if($this->_getParam('id')=='' OR $this->_getParam('id')==0){
 				// if the id parameter is missing, throw exception
-				throw new RecipeException('Id_Missing');
+				throw new Website_Model_RecipeException('Id_Missing');
 			} else {			
 				$recipe = new Website_Model_Recipe ( $this->_getParam ( 'id' ) ) ;
 				// XML representation

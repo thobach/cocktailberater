@@ -5,8 +5,7 @@ $this->xml = new DOMDocument("1.0");
 $this->rsp = $this->xml->createElement("rsp");
 // add the 'rsp' element to the xml document
 $this->xml->appendChild($this->rsp);
-// add the 'menue' element to the 'rsp' element
-$this->menue->toXml($this->xml,$this->rsp);
+$this->recipe->toXml($this->xml,$this->rsp);
 // set status for root element 'rsp' to 'ok'
 $this->rsp->setAttribute('status','ok');
 
