@@ -6,16 +6,16 @@ $this->rsp = $this->xml->createElement("rsp");
 // add the 'rsp' element to the xml document
 $this->xml->appendChild($this->rsp);
 
-$partysXML = $this->xml->createElement('partys');
-if(is_array($this->partys)){
-	foreach ($this->partys as $party){
-		$party->toXml($this->xml,$partysXML);
+$ordersXML = $this->xml->createElement('orders');
+if(is_array($this->orders)){
+	foreach ($this->orders as $order){
+		$order->toXml($this->xml,$ordersXML);
 	}
 }
 // set count for recipe element according to number of recipes found
-$partysXML->setAttribute('count',count($this->partys));
+$ordersXML->setAttribute('count',count($this->orders));
 // add the '$recipes' element to the 'rsp' element
-$this->rsp->appendChild($partysXML);
+$this->rsp->appendChild($ordersXML);
 // set status for root element 'rsp' to 'ok'
 $this->rsp->setAttribute('status','ok');
 

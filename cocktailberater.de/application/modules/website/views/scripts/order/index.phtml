@@ -1,0 +1,11 @@
+<?php echo $this->partial ("template/search.phtml"); ?>
+<h1>Orders</h1>
+<div id="ergebnisse" style="clear: left;">
+<ul>
+<?php 
+foreach ($this->orders as $order){
+	print '<li><a href="'.$this->url().'/'.$order->id.'">'.$order->getRecipe()->name.'</a></li>';
+}
+?>
+</ul>
+</div>

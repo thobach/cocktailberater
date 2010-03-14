@@ -26,8 +26,16 @@ abstract class Wb_Controller_RestController extends Zend_Rest_Controller {
 				'suffix'	=> 'pdf',
 				'headers'	=> array('Content-Type' => 'application/pdf')));
 		}
+		if(!$contextSwitch->hasContext('ajax')){
+			$contextSwitch->addContext('ajax',array(
+				'suffix'	=> 'ajax',
+				'headers'	=> array('Content-Type' => 'text/html')));
+		}
 		$contextSwitch->addActionContext('index', true)->initContext();
 		$contextSwitch->addActionContext('get', true)->initContext();
+		$contextSwitch->addActionContext('post', true)->initContext();
+		$contextSwitch->addActionContext('put', true)->initContext();
+		$contextSwitch->addActionContext('delete', true)->initContext();
 	}
 
 	public function postDispatch(){
@@ -43,10 +51,6 @@ abstract class Wb_Controller_RestController extends Zend_Rest_Controller {
 	}
 
 	public function postAction() {
-		$this->_forward('index');
-	}
-
-	public function editAction() {
 		$this->_forward('index');
 	}
 

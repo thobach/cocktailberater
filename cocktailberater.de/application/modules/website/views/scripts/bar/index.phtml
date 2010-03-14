@@ -1,10 +1,10 @@
 <?php echo $this->partial ("template/search.phtml"); ?>
-<h1>Bars</h1>
+<h1>Partys</h1>
 <div id="ergebnisse" style="clear: left;">
 <ul>
 <?php 
-foreach ($this->bars as $bar){
-	print '<li><a href="'.$this->url().'/'.$bar->id.'">'.$bar->name.'</a></li>';
+foreach ($this->partys as $party){
+	print '<li><a href="'.$this->url().'/'.$party->id.'">'.$party->name.'</a></li>';
 }
 ?>
 </ul>

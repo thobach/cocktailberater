@@ -1,11 +1,11 @@
 <?php
-foreach ($this->partys as $party){
+foreach ($this->orders as $order){
 	$entries[] = array(
-		'title'       => $party->name,
+		'title'       => $order->getRecipe()->name,
 		'link'        => $this->url(array(
-			'id'		=>$party->id,
+			'id'		=>$order->id,
 			'format'	=>$this->format)),
-		'description' => $party->name,
+		'description' => $order->getRecipe()->name.' ordered by '.$order->getMember()->lastname,
 	);
 
 }

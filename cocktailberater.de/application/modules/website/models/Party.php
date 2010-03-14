@@ -92,7 +92,7 @@ class Website_Model_Party {
 	{
 		// TODO: write unit test
 		if(!$this->_menu){
-			$this->_menu = CbFactory::factory('Menu',$this->menuId);
+			$this->_menu = Website_Model_CbFactory::factory('Website_Model_Menu',$this->menuId);
 		}
 		return $this->_menu;
 	}
@@ -107,7 +107,7 @@ class Website_Model_Party {
 	{
 		// TODO: write unit test
 		// TODO: mit menu und recipe2menue arbeiten
-		return Cocktail::listCocktails();
+		return Website_Model_Cocktail::listCocktails();
 	}
 
 	/**
@@ -131,7 +131,7 @@ class Website_Model_Party {
 	 *
 	 *@tested
 	 */
-	public function Party($id=NULL)
+	public function __construct($id=NULL)
 	{
 		if(!empty($id)){
 			$partyTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','party');
@@ -167,14 +167,14 @@ class Website_Model_Party {
 
 		// hostId must be an integer if given
 		if($hostId!=NULL AND $hostId<=0){
-			throw new PartyException('HostID must be an integer');
+			throw new Website_Model_PartyException('HostID must be an integer');
 		} elseif($hostId!=NULL) {
 			$select->where('host=?',$hostId);
 		}
 
 		// memberId must be an integer if given
 		if($barId!=NULL AND $barId<=0){
-			throw new PartyException('BarId must be an integer');
+			throw new Website_Model_PartyException('BarId must be an integer');
 		} elseif($barId!=NULL) {
 			$select->where('bar=?',$barId);
 		}
@@ -184,7 +184,7 @@ class Website_Model_Party {
 		$partys = $stmt->fetchAll();
 
 		foreach ($partys as $party){
-			$partyArray[] = CbFactory::factory('Party',$party->id);
+			$partyArray[] = Website_Model_CbFactory::factory('Website_Model_Party',$party['id']);
 		}
 		return $partyArray;
 	}
@@ -225,7 +225,7 @@ class Website_Model_Party {
 				$partyTable->update($this->databaseRepresentation(),'id='.$this->id);
 			}
 		} else {
-			throw new PartyException('Required_Arguments_Missing');
+			throw new Website_Model_PartyException('Required_Arguments_Missing');
 		}
 	}
 

@@ -86,15 +86,15 @@ class Website_Model_Order {
 	 */
 	public function __set($name, $value) {
 		// check date to be the right format
-		if(($name == 'orderDate' || $name == 'completedDate' || $name == 'paidDate' || $name == 'updateDate') && !DateFormat::isValidMysqlTimestamp($value) && $value != NULL){
-			throw new OrderException('Wrong_Date_Format');
+		if(($name == 'orderDate' || $name == 'completedDate' || $name == 'paidDate' || $name == 'updateDate') && !Website_Model_DateFormat::isValidMysqlTimestamp($value) && $value != NULL){
+			throw new Website_Model_OrderException('Wrong_Date_Format');
 		}
 		if(($name == 'orderDate' || $name == 'completedDate' || $name == 'paidDate' || $name == 'updateDate') && $value=='0000-00-00 00:00:00'){
-			throw new OrderException('Invalid_Date');
+			throw new Website_Model_OrderException('Invalid_Date');
 		}
 		// check status to be one of the predefined
-		if($name == 'status' && $value != Order::ORDERED && $value != Order::PAID && $value != Order::CANCELED && $value != Order::COMPLETED){
-			throw new OrderException('Wrong_Order_Status');
+		if($name == 'status' && $value != Website_Model_Order::ORDERED && $value != Website_Model_Order::PAID && $value != Website_Model_Order::CANCELED && $value != Website_Model_Order::COMPLETED){
+			throw new Website_Model_OrderException('Wrong_Order_Status');
 		}
 		if (property_exists ( get_class($this), $name )) {
 			$this->$name = $value ;
@@ -107,7 +107,7 @@ class Website_Model_Order {
 	 *
 	 *@tested
 	 */
-	public function Order ($id=NULL){
+	public function __construct ($id=NULL){
 		// TODO: one cocktail costs 2 Euro
 		$this->price = 2;
 		if(!empty($id)){
@@ -196,29 +196,34 @@ class Website_Model_Order {
 		if($status == '') {
 			// ignore
 		}
-		elseif($status!=Order::ORDERED AND $status!=Order::PAID AND $status!=Order::CANCELED AND $status!=Order::COMPLETED){
-			throw new OrderException('Wrong_Order_Status');
+		elseif($status!=Website_Model_Order::ORDERED AND $status!=Website_Model_Order::PAID AND $status!=Website_Model_Order::CANCELED AND $status!=Website_Model_Order::COMPLETED){
+			throw new Website_Model_OrderException('Wrong_Order_Status');
 		} elseif($status!=NULL) {
 			$select->where('status=?',$status);
 		}
 
-
 		$stmt = $orderTable->getAdapter()->query($select);
 		$orders = $stmt->fetchAll();
-
+		
 		foreach ($orders as $order){
-			$orderArray[] = CbFactory::factory('Order',$order->id);
+			$orderArray[] = Website_Model_CbFactory::factory('Website_Model_Order',$order['id']);
 		}
+		
 		return $orderArray;
 	}
 
+
 	/**
-	 *
-	 *@tested
+	 * tries to save the order if all data is given and correct (user must be logged in -> hashCode)
+	 * 
+	 * @param String $hashCode
+	 * @return unknown_type nothing
+	 * @throws Website_Model_OrderException if arguments are missing or user is not logged in (hashCode)
+	 * @todo: write unit test with hashCode
 	 */
-	public function save (){
+	public function save ($hashCode){
 		// check if all required attributes are filled
-		if($this->memberId && $this->orderDate && $this->partyId && $this->recipeId && $this->status){
+		if($this->orderDate && $this->partyId && $this->recipeId && $this->status && Website_Model_Member::loggedIn($this->memberId,$hashCode)){
 			// get mysql table
 			$orderTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'order');
 			// insert a new order
@@ -232,7 +237,7 @@ class Website_Model_Order {
 				$orderTable->update($this->databaseRepresentation(),array ('id'=>$this->id));
 			}
 		} else {
-			throw new OrderException('Required_Arguments_Missing');
+			throw new Website_Model_OrderException('Required_Arguments_Missing');
 		}
 	}
 

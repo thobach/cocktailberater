@@ -1,0 +1,9 @@
+<?php echo $this->partial ("template/search.phtml"); ?>
+<h1>Order</h1>
+<div id="ergebnisse" style="clear: left;">
+<ul>
+<?php 
+	print '<h2>'.$this->order->getRecipe()->name.'</h2>';
+?>
+</ul>
+</div>
