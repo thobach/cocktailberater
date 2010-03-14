@@ -1,11 +1,11 @@
 <?php
-foreach ($this->partys as $party){
+foreach ($this->bars as $bar){
 	$entries[] = array(
-		'title'       => $party->name,
+		'title'       => $bar->name,
 		'link'        => $this->url(array(
-			'id'		=>$party->id,
+			'id'		=>$bar->id,
 			'format'	=>$this->format)),
-		'description' => $party->name,
+		'description' => $bar->name,
 	);
 
 }
