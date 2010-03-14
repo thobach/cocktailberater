@@ -20,4 +20,11 @@ public interface BarServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	void getRecipes(AsyncCallback<HashMap<Integer, String>> asyncCallback);
+
+	void orderRecipe(Integer recipeId, Integer partyId,
+			AsyncCallback<Boolean> callback);
+
+	void getPartys(Integer barId,
+			AsyncCallback<HashMap<Integer, String>> callback);
+
 }
