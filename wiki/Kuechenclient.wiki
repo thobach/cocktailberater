@@ -1,5 +1,7 @@
 # summary sub-project kitchen client
 
+[http://creately.com/app?diagID=g6thx0ci2 http://create.ly/g6thx0ci2?nonsense=pic.png]
+
 DEMO in Flex http://thobach.dyndns.org/barclient/
 SVN: svn://thobach.dyndns.org/barclient
 
