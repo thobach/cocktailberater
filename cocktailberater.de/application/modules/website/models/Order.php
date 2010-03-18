@@ -57,11 +57,13 @@ class Website_Model_Order {
 	/**
 	 * getter for association party
 	 * @tested
+	 * 
+	 * @return Website_Model_Party
 	 */
 	public function getParty()
 	{
 		if(!$this->_party){
-			$this->_party = CbFactory::factory('Party',$this->partyId);
+			$this->_party = Website_Model_CbFactory::factory('Website_Model_Party',$this->partyId);
 		}
 		return $this->_party;
 	}
@@ -114,7 +116,7 @@ class Website_Model_Order {
 			$orderTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','order');
 			$order = $orderTable->fetchRow('id='.$id);
 			if (!$order->id) {
-				throw new OrderException('Id_Wrong');
+				throw new Website_Model_OrderException('Id_Wrong');
 			}
 			// load attributes
 			$this->id = $order->id;
@@ -180,14 +182,14 @@ class Website_Model_Order {
 
 		// partyId must be an integer if given
 		if($partyId!=NULL AND $partyId<=0){
-			throw new OrderException('PartyID must be an integer');
+			throw new Website_Model_OrderException('PartyID must be an integer');
 		} elseif($partyId!=NULL) {
 			$select->where('party=?',$partyId);
 		}
 
 		// memberId must be an integer if given
 		if($memberId!=NULL AND $memberId<=0){
-			throw new OrderException('MemberId must be an integer');
+			throw new Website_Model_OrderException('MemberId must be an integer');
 		} elseif($memberId!=NULL) {
 			$select->where('member=?',$memberId);
 		}
@@ -201,29 +203,34 @@ class Website_Model_Order {
 		} elseif($status!=NULL) {
 			$select->where('status=?',$status);
 		}
-
+		$select->order('updateDate DESC');
 		$stmt = $orderTable->getAdapter()->query($select);
 		$orders = $stmt->fetchAll();
-		
+
 		foreach ($orders as $order){
 			$orderArray[] = Website_Model_CbFactory::factory('Website_Model_Order',$order['id']);
 		}
-		
+
 		return $orderArray;
 	}
 
 
 	/**
 	 * tries to save the order if all data is given and correct (user must be logged in -> hashCode)
-	 * 
+	 *
 	 * @param String $hashCode
 	 * @return unknown_type nothing
 	 * @throws Website_Model_OrderException if arguments are missing or user is not logged in (hashCode)
 	 * @todo: write unit test with hashCode
 	 */
 	public function save ($hashCode){
+		// check if the hashCode is valid and belongs to a guest or host
+		if(!(Website_Model_Member::loggedIn($this->memberId,$hashCode) || 
+			Website_Model_Member::loggedIn($this->getParty()->getHost()->id,$hashCode))){
+			throw new Website_Model_MemberException('Not_Authorized');
+		} 
 		// check if all required attributes are filled
-		if($this->orderDate && $this->partyId && $this->recipeId && $this->status && Website_Model_Member::loggedIn($this->memberId,$hashCode)){
+		elseif($this->orderDate && $this->partyId && $this->recipeId && $this->status){
 			// get mysql table
 			$orderTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'order');
 			// insert a new order
@@ -234,7 +241,7 @@ class Website_Model_Order {
 			// update an existing order
 			else{
 				// update the order
-				$orderTable->update($this->databaseRepresentation(),array ('id'=>$this->id));
+				$orderTable->update($this->databaseRepresentation(), 'id='.$this->id);
 			}
 		} else {
 			throw new Website_Model_OrderException('Required_Arguments_Missing');
@@ -267,7 +274,7 @@ class Website_Model_Order {
 		if($this->paidDate){
 			$array['paidDate'] = $this->paidDate;
 		}
-		$array['updateDate'] = $this->updateDate;
+		// $array['updateDate'] = $this->updateDate;
 		$array['member'] = $this->memberId;
 		$array['party'] = $this->partyId;
 		$array['recipe'] = $this->recipeId;

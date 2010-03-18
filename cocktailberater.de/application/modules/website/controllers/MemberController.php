@@ -18,6 +18,11 @@ class Website_MemberController extends Wb_Controller_RestController {
 		}
 	}
 
+	public function getAction() {
+		$this->view->member = Website_Model_CbFactory::factory("Website_Model_Member",$this->_getParam('id'));
+		$this->view->title = 'Member';
+	}
+
 	public function authAction(){
 		$email = $this->_getParam('email');
 		$password = $this->_getParam('password');

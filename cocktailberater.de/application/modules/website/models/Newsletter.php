@@ -46,7 +46,7 @@ class Website_Model_Newsletter
 	 * @return Newsletter
 	 * @tested
 	 */
-	public function Newsletter ($id=NULL){
+	public function __construct ($id=NULL){
 		if(!empty($id)){
 			$newsletterTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','newsletter');
 			$newsletter = $newsletterTable->fetchRow('id='.$id);

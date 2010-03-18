@@ -72,13 +72,13 @@ class Website_Model_Rating {
 	 * @param integer optional $idRating
 	 * @return Rating
 	 */
-	public function Rating ( $idRating = NULL ) {
+	public function __construct ( $idRating = NULL ) {
 		if (! empty ( $idRating )) {
 			$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','rating');
 			$rating = $table->fetchRow ( 'id=' . $idRating ) ;
 			// if rating does not exist
 			if(!$rating){
-				throw new RatingException('Id_Wrong');
+				throw new Website_Model_RatingException('Id_Wrong');
 			}
 			$this->id 			= $manufacturer->id ;
 			$this->memberId 	= $manufacturer->member;
