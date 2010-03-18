@@ -1,0 +1,31 @@
+/** Add css rules here for your application. */
+.container {
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+}
+
+.smallContainer {
+	margin-left: auto;
+	margin-right: auto;
+	width: 160px;
+}
+
+.mediumContainer {
+	margin-left: auto;
+	margin-right: auto;
+	width: 220px;
+}
+
+.required {
+	font-weight: bold;
+	color: red;
+}
+
+h1 {
+	font-size: 2em;
+	font-weight: bold;
+	color: #777777;
+	margin: 20px 0px 10px;
+	text-align: center;
+}
