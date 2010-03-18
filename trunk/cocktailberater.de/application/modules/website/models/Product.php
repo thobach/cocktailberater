@@ -83,7 +83,7 @@ class Website_Model_Product
 	/**
 	 * @tested
 	 */
-	public function Website_Model_Product ($productId=NULL){
+	public function __construct ($productId=NULL){
 		if(!empty($productId)){
 			$productTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','product');
 			$product = $productTable->fetchRow('id='.$productId);

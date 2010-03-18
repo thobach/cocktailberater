@@ -60,7 +60,7 @@ class Website_Model_Party {
 	/**
 	 * resolve Association and return an object of Member
 	 *
-	 * @return Member
+	 * @return Website_Model_Member
 	 */
 	public function getHost()
 	{

@@ -6,7 +6,7 @@
  *
  */
 abstract class Wb_Controller_RestController extends Zend_Rest_Controller {
-
+	
 	public function init() {
 		$contextSwitch = $this->_helper->getHelper('contextSwitch');
 		$contextSwitch->setAutoJsonSerialization(false);
