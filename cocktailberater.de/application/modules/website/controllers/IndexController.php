@@ -11,37 +11,60 @@ class Website_IndexController extends Zend_Controller_Action {
 	private $config; // config data from xml file
 	private $error; // boolean - if error, don't do postDispatch
 
-	public function __call($method, $args) {
-		// if __call is called, the action was not found, therefore throw Exception
-		throw new Zend_Controller_Action_Exception('Action not found');
-	}
-
 	public function indexAction () {
 		$this->view->start = true ;
 	}
 
-	public function newsletterAction () {
+	// @todo: remove in December 2010
+	public function recipeAction(){
+		$this->_redirect($this->view->url(array(
+							'module'=>'website',
+							'controller'=>'recipe',
+							'action'=>'get',
+							'id'=>$this->_getParam('id')),'rest',true));
 	}
 
-	public function newsletterSubscribeAction () {
-		$newsletter = new Newsletter ( ) ;
-		$this->view->hinweis1 = $newsletter->anmelden ( $this->_getParam ( 'email' ), $this->_getParam ( 'vorname' ), $this->_getParam ( 'nachname' ) ) ;
+	// @todo: remove in December 2010
+	public function top10Action(){
+		$this->_redirect($this->view->url(array(
+							'module'=>'website',
+							'controller'=>'recipe',
+							'action'=>'index',
+							'search_type'=>'top10'),null,true));
 	}
 
-	public function newsletterUnsubscribeAction () {
-		$newsletter = new Newsletter ( ) ;
-		$this->view->hinweis2 = $newsletter->abmelden ( $this->_getParam ( 'email' ) ) ;
-
+	// @todo: remove in December 2010
+	public function alcoholicAction(){
+		$this->_redirect($this->view->url(array(
+							'module'=>'website',
+							'controller'=>'recipe',
+							'action'=>'index',
+							'search_type'=>'alcoholic'),null,true));
 	}
 
-	public function newsletterSubscribeConfirmationAction () {
-		$newsletter = new Newsletter ( ) ;
-		$this->view->hinweis2 = $newsletter->anmeldungBestaetigen ( $this->_getParam ( 'email' ) ) ;
+	// @todo: remove in December 2010
+	public function nonAlcoholicAction(){
+		$this->_redirect($this->view->url(array(
+							'module'=>'website',
+							'controller'=>'recipe',
+							'action'=>'index',
+							'search_type'=>'non-alcoholic'),null,true));
 	}
 
-	public function newsletterUnsubscribeConfirmationAction () {
-		$newsletter = new Newsletter ( ) ;
-		$this->view->hinweis2 = $newsletter->abmeldungBestaetigen ( $this->_getParam ( 'email' ) ) ;
+	// @todo: remove in December 2010
+	public function imprintAction(){
+		$this->_redirect($this->view->url(array(
+							'module'=>'website',
+							'controller'=>'portal',
+							'action'=>'imprint'),null,true));
+	}
+
+	// @todo: remove in December 2010
+	public function contactAction(){
+		$this->_redirect($this->view->url(array(
+							'module'=>'website',
+							'controller'=>'portal',
+							'action'=>'contact'),null,true));
 	}
 
 

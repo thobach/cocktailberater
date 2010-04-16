@@ -1,5 +1,5 @@
 <?php
-class Website_Model_PartyException extends CocktailberaterException {
+class Website_Model_PartyException extends Website_Model_CocktailberaterException {
 
 }
 ?>

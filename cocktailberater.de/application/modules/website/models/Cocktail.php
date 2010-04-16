@@ -348,8 +348,10 @@ class Website_Model_Cocktail {
 		$cocktail->setAttribute('insertDate', $this->insertDate);
 		$cocktail->setAttribute('updateDate', $this->updateDate);
 		$recipes = $xml->createElement('recipes');
+		
 		$cocktail->appendChild($recipes);
 		if (is_array($_recipes = $this->getRecipes())) {
+			$recipes->setAttribute('count',count($_recipes));
 			foreach ($_recipes as $_recipe) {
 				$_recipe->toXml($xml, $recipes);
 			}

@@ -1,0 +1,20 @@
+<rsp status="error"
+	message="<?php echo $this->exception->getMessage() ?>">
+<?php if ('testing' == APPLICATION_ENV || 'development' == APPLICATION_ENV || 'thobamac' == APPLICATION_ENV){ ?>
+<exception>
+<message>
+<?php echo $this->exception->getMessage() ?>
+</message>
+<stacktrace>
+<?php echo $this->exception->getTraceAsString() ?>
+</stacktrace>
+<request>
+<?php foreach ($this->request->getParams() as $key => $val){ ?>
+<<?php echo $key ?>>
+<?php echo $val ?>
+</<?php echo $key ?>>
+<?php } ?>
+</request>
+</exception>
+<?php } ?>
+</rsp>

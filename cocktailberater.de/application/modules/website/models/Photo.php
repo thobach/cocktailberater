@@ -144,7 +144,6 @@ class Website_Model_Photo {
 	}
 	
 	public function toXml ( $xml , $ast ) {	
-		$config = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOptions();
 		$photo = $xml->createElement ( 'photo' ) ;
 		$photo->setAttribute ( 'id', $this->id ) ;
 		$photo->setAttribute ( 'name', $this->name ) ;

@@ -1,0 +1,17 @@
+<?php
+// create a dom object
+$this->xml = new DOMDocument("1.0");
+// create root element 'rsp'
+$this->rsp = $this->xml->createElement("rsp");
+// add the 'rsp' element to the xml document
+$this->xml->appendChild($this->rsp);
+if($this->rating){
+	$this->rating->toXml($this->xml,$this->rsp);
+	// set status for root element 'rsp' to 'ok'
+	$this->rsp->setAttribute('status','ok');
+} else {
+	$this->rsp->setAttribute('status','error');
+	$this->rsp->setAttribute('msg',$this->error);
+}
+// save and display tree
+print $this->xml->saveXML();

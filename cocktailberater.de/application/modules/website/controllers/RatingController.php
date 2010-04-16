@@ -7,20 +7,24 @@
  */
 require_once(APPLICATION_PATH.'/Wb/Controller/RestController.php');
 class Website_RatingController extends Wb_Controller_RestController {
-	
+
 	public function indexAction() {
-		
+
 	}
 
 	public function getAction(){
-		
+		if($this->_getParam('id')){
+			$this->view->rating = Website_Model_CbFactory::factory('Website_Model_Rating',$this->_getParam('id'));
+		} else {
+			$this->view->error = "ALREADY_VOTED";
+		}
 	}
-	
+
 	public function postAction(){
 		// wenn ein Cocktail angegeben wurde
 		if($this->_getParam('recipe')=='' OR $this->_getParam('recipe')==0){
 			// if the id parameter is missing, throw exception
-			throw new RecipeException('Id_Missing');
+			throw new Website_Model_RecipeException('Id_Missing');
 		} else {
 			// Bewerten
 			if ($this->_hasParam ( 'rating' )) {
@@ -29,12 +33,10 @@ class Website_RatingController extends Wb_Controller_RestController {
 				$rating->recipeId = $this->_getParam('recipe');
 				$rating->mark = $this->_getParam('rating');
 				$rating->ip = $_SERVER [ 'REMOTE_ADDR' ];
-				if(!$rating->save()){
-					$this->view->rating_error = 'Du hast schon abgestimmt!';
-				} else {
-					$this->view->rating_success = 'Deine Stimme wurde gezählt!';
-				}
-				$this->_forward('get','recipe','website',array('id'=>$this->_getParam('recipe')));
+				$rating->save();
+				$this->_forward('get','rating','website',array('id'=>$rating->id));
+			} else {
+				throw new Website_Model_RatingException('Value_Missing');
 			}
 		}
 	}

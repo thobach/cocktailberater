@@ -3,7 +3,9 @@
 <div id="ergebnisse" style="clear: left;">
 <ul>
 <?php 
-	print '<h2>'.$this->order->getRecipe()->name.'</h2>';
+if($this->order){
+	print '<h2>'.$this->order->getRecipe()->name.' für '.$this->order->getMember()->firstname.' '.$this->order->getMember()->lastname.'</h2>';
+}
 ?>
 </ul>
 </div>

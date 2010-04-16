@@ -14,6 +14,9 @@ class Api_ErrorController extends Zend_Controller_Action
 	private $errorMsg;
 
 	public function preDispatch() {
+		$log = Zend_Registry::get('logger');
+    	$log->log('bin im api error controller gelandet',Zend_Log::CRIT);
+		
 		// do not automatically create a view object
 		$this->_helper->viewRenderer->setNoRender();
 		// disable layouts for this controller
@@ -56,7 +59,6 @@ class Api_ErrorController extends Zend_Controller_Action
 			$errorArray = $errors->error->toArray();
 			$this->errorMsg = $errorArray[0][german];
 		}
-		 
 		 
 		// create new ApiError Object
 		new Api_Model_ApiError(get_class($this->_getParam('error')),$this->_getParam('error'),$this->rsp1,$this->xml1,$this->errorMsg);

@@ -30,7 +30,7 @@ class Website_Model_Glass {
 	/**
 	 * resolve Association and return an object of Photo
 	 *
-	 * @return Photo
+	 * @return Website_Model_Photo
 	 */
 	public function getPhoto()
 	{
@@ -132,7 +132,6 @@ class Website_Model_Glass {
 	 * @param XmlElement $branch
 	 */
 	public function toXml ( $xml , $ast ) {
-
 		$glass = $xml->createElement ( 'glass' ) ;
 		$glass->setAttribute ( 'id', $this->id ) ;
 		$this->getPhoto()->toXml ( $xml, $glass ) ;
@@ -140,7 +139,6 @@ class Website_Model_Glass {
 		$glass->setAttribute ( 'description', $this->description) ;
 		$glass->setAttribute ( 'volumeMl', $this->volumeMl) ;
 		$ast->appendchild ( $glass ) ;
-
 	}
 }
 ?>

@@ -37,20 +37,21 @@ if (is_array ( $components )) {
 	    });
 		<?php $this->view->headScript()->captureEnd(); ?>
 <div id="cocktail" style="width: 100px; height: 150px"><a
-	href="<?php print $this->view->url(
-	array('module'=>'website','controller'=>'recipe','action'=>'get','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>"><img
+	href="<?php $uniqueName = rawurlencode(str_replace(array(' '),array('_'),$recipe->name));
+	print $this->view->url(
+	array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>"><img
 	style="height: 100px;"
 	src="<?php print $this->view->baseUrl();
 	if(isset($photos[0]) && $photos[0]->id){
 		print '/img/recipes/'.$this->view->escape($photos[0]->fileName);
 	} else { 
-		print '/img/wikilogo.png';
+		print '/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
 	} ?>" /></a><a id="recipe<?php print $recipe->id; ?>"
-	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>"
+	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>"
 	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>"><img
-	src="<?php print $this->view->baseUrl(); ?>/img/info.png" align="top" /></a><br />
+	src="<?php print $this->view->baseUrl(); ?>/img/info.png" align="top" height="17" width="20" /></a><br />
 <a
-	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','cocktail'=>$recipe->name,'id'=>$recipe->id),null,true); ?>">
+	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>">
 	<?php 
 	if($top10Position) {
 		print '#'.$top10Position.' - ';

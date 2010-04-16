@@ -245,7 +245,7 @@ function mehrZutaten(idzutaten_kategorie) {
 		<label for="idglas<?php print $glass->id ?>" style="width: 32%; height: 5em;" class="left highlight abstand">
 			<input type="radio" name="idglas" id="idglas<?php print $glass->id ?>" value="<?php print $glass->id ?>" class="left clear abstand_rechts abstand_oben_doppelt" />
 			<img src="<?php print $this->baseUrl().'/img/glasses/'.$glass->getPhoto()->fileName ?>" alt="<?php print $glass->getPhoto()->name ?>" class="left abstand_rechts"  />
-			<?php print $glass->name ?> (<?php print $glass->volumeMl ?> cl)
+			<?php print $glass->name ?> <nobr>(<?php print $glass->volumeMl ?> cl)</nobr>
 		</label>
 		<?php } ?>
 	</fieldset>

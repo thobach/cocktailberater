@@ -1,0 +1,30 @@
+<?php
+try {
+	if('testing' == APPLICATION_ENV || 'development' == APPLICATION_ENV || 'thobamac' == APPLICATION_ENV) {
+		$description = "Stacktrace:<br />".nl2br($this->exception->getTraceAsString())."<br /><br />Request:".nl2br(print_r($this->request->getParams(),true))."";
+	} else {
+		$description = "";
+	}
+
+	// Create the RSS array
+	$rss = array(
+	'title'   => 'cocktailberater',
+	'link'    => 'http://www.cocktailberater.de',
+	'charset' => 'UTF-8',
+	'entries' => array(
+		array(
+			'title'       => 'Error: '.$this->exception->getMessage(),
+			'link'        => $this->url(),
+			'description' => $description)
+		)
+	);
+
+	// Import the array
+	$feed = Zend_Feed::importArray($rss, $this->format);
+	print $feed->saveXML();
+
+} catch (Exception $e){
+	print $this->format;
+	print $e;
+	exit;
+}

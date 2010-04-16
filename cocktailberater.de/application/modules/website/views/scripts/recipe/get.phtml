@@ -18,14 +18,12 @@ $this->headMeta()->appendName('keywords', $recipe->name.', '.implode($ingredient
 $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' Cocktails besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Anweisung, Fotos, Videos und Kommentaren hier.');
 ?>
 <div>
-<div style="float: right;"><img style="<?php 
-	if(isset($photos[0]) && $photos[0]->fileName) {  ?>width: 160px; margin-right: 1em;<?php } 
-	else { ?>margin-top: 1em; <?php }?>"
+<div style="float: right;"><img 
 	src="<?php
 	if(isset($photos[0]) && $photos[0]->fileName) { 
 		echo $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName ;
 	} else {
-	 	echo $this->baseUrl().'/img/wikilogo.png';
+	 	echo $this->baseUrl().'/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
 	}
 	?>"
 	alt="<?php
@@ -34,15 +32,14 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 	title="<?php
 	print str_replace ( '\\', '', $recipe->name ) ;
 	?>"
-	style="margin-bottom: 20px;" />
-<div
-	style="clear: both; margin-left: auto; margin-right: auto; width: 140px; padding-right: 2em;">
+	style="margin-right: 1.6em; width: 160px; margin-top: 0.2em; margin-bottom: 20px;" />
+<div id="photo_video">
 	<?php
 	if (sizeof($videos)>0) {
 		?><a href="#video"><img src="<?php
 	print $this->baseUrl() ;
 	?>/img/video.png" alt="Video"
-	title="Video"
+	title="Video" height="22" width="26"
 	style="margin-right: 10px; margin-top: 4px; vertical-align: top;"
 	onclick="document.getElementById('video').style.display='block';" /></a><?php
 	}
@@ -57,7 +54,7 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 	if ($i == 1) {
 		?><img src="<?php
 		print $this->baseUrl() ;
-		?>/img/foto.png" alt="Fotos"
+		?>/img/foto.png" alt="Fotos" height="21" width="28"
 	title="Fotos"
 	style="margin-left: 10px; margin-top: 4px; vertical-align: top; margin-bottom: 20px;" /><?php
 	}
@@ -178,50 +175,128 @@ function initTag() {
 	});
 }
 dojo.addOnLoad(initTag);
+
+// sumbit the form 
+var tagFormSubmit = function(e){
+    // prevent the form from actually submitting
+    e.preventDefault(); 
+    // submit the form in the background    
+    dojo.xhrPost({
+        url: "<?=$this->url(array('controller'=>'tag','action'=>'post','module'=>'website'),null,true)?>?format=json",
+        form: "tag_form",
+        handleAs: "json",
+        handle: function(data,args){
+            if (data.rsp["@attributes"].status == "ok"){
+            	clearTagFormError();
+            	dojo.removeClass("tag_state");
+            	dojo.addClass("tag_state","success");
+            	dojo.byId("tag_state").innerHTML="Dein Tag wurde hinzugefügt.";
+            }
+            else{
+                clearTagFormError();
+            	dojo.removeClass("tag_state");
+            	dojo.addClass("tag_state","error");
+            	dojo.byId("tag_state").innerHTML="Es ist ein Fehler aufgetreten. Bitte versuch es später nochmal.";
+            }
+        }
+    });
+};
+dojo.addOnLoad(function(){
+    var tagForm = dojo.byId("tag_form");
+    // another dojo.connect syntax: call a function directly    
+    dojo.connect(tagForm,"onsubmit",tagFormSubmit);
+});
+function clearTagFormError(){
+	dojo.removeClass("tag_state");
+	dojo.addClass("tag_state","hide");
+    dojo.byId("newtag").value="";
+}
 <?php $this->headScript()->captureEnd(); ?>
 <form id="tag_form" class="regular_form hide abstand_oben abstand_unten" method="post"
 	action="<?php print $this->url(array('module'=>'website','controller'=>'tag'),null,true); ?>">
 	<fieldset>
 		<legend>Schlagwort / Tag hinzufügen</legend>
-		<label for="newtag">Dein Tag:</label>
+		<div id="tag_state" class="hide">&nbsp;</div>
+		<label for="newtag" class="hide">Dein Tag:</label>
 		<!-- text input w/ autocompletion -->
 		<?php 
 			$autoCompletetionInputOptions = array('dojoType'=>array('dijit.form.ComboBox'),'store'=>'tagStore','autoComplete'=>'false','hasDownArrow'=>'false'); 
 			echo $this->formText('newtag',null,$autoCompletetionInputOptions);
 		?>
 		<input name="recipe" value="<?php print $recipe->id; ?>" type="hidden" />
-		<input type="submit" class="small-button" value="hinzufügen"
-			style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png');" />
+		<input type="submit" class="small-button" value="Tag hinzufügen"
+			style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png'); font-size: 0.9em;" />
 	</fieldset>
 </form>
 </div>
+<?php $this->headScript()->captureStart(); ?>
+// sumbit the form 
+var ratingFormSubmit = function(e){
+    // prevent the form from actually submitting
+    e.preventDefault(); 
+    // submit the form in the background    
+    dojo.xhrPost({
+        url: "<?=$this->url(array('controller'=>'rating','action'=>'post','module'=>'website'),null,true)?>?format=json",
+        form: "rating_form",
+        handleAs: "json",
+        handle: function(data,args){
+            if (data.rsp["@attributes"].status == "ok"){
+            	clearRatingFormError();
+            	dojo.removeClass("rating_state");
+            	dojo.addClass("rating_state","success");
+            	dojo.byId("rating_state").innerHTML="Deine Bewertung wurde hinzugefügt.";
+            }
+            else if (data.rsp["@attributes"].status == "error"){
+            	clearRatingFormError();
+            	dojo.removeClass("rating_state");
+            	dojo.addClass("rating_state","error");
+            	dojo.byId("rating_state").innerHTML="Du hast schon abgestimmt!";
+            }
+            else {
+                clearRatingFormError();
+            	dojo.removeClass("rating_state");
+            	dojo.addClass("rating_state","error");
+            	dojo.byId("rating_state").innerHTML="Es ist ein Fehler aufgetreten. Bitte versuch es später nochmal.";
+            }
+        }
+    });
+};
+dojo.addOnLoad(function(){
+    var ratingForm = dojo.byId("rating_form");
+    // another dojo.connect syntax: call a function directly    
+    dojo.connect(ratingForm,"onsubmit",ratingFormSubmit);
+});
+function clearRatingFormError(){
+	dojo.removeClass("rating_form")
+	dojo.addClass("rating_form","hide")
+}
+<?php $this->headScript()->captureEnd(); ?>
 <div class="attribut">Bewertung:</div>
 <div class="wert"><?php
 $durchschnitt = $this->recipe->getRating();
-?><?php if($this->rating_error) { ?>
-		<p class="error"><?php print $this->rating_error; ?></p>
-	<?php }
-	if($this->rating_success) { ?>
-		<p class="success"><?php print $this->rating_success; ?></p>
-	<?php } ?><form action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>" method="post">
+?>
+	<div id="rating_state" class="hide">&nbsp;</div>
+	<form id="rating_form" action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>" method="post">
 	<?php for($rating = 1; $rating <= 5; $rating++){
-	?><input name="rating" value="<?php echo $rating; ?>" type="image" id="rating<?php echo $rating; ?>" 
-		src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" 
-		onmouseover="this.src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
+	?><button type="submit" id="rating<?php echo $rating; ?>"
+		onclick="document.getElementById('rating').value='<?php echo $rating; ?>';" 
+		onmouseover="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
 			for($rating2=1; $rating2 <= $rating; $rating2++){ 
-				echo "document.getElementById('rating$rating2').src='{$this->baseUrl()}/img/1_stars_pink.png';";
+				echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars_pink.png';";
 			}
 		?>"
-		onmouseout="this.src='<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
+		onmouseout="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
 			for($rating2=1; $rating2 <= $rating; $rating2++){ 
 				if($durchschnitt >= $rating2){
-					echo "document.getElementById('rating$rating2').src='{$this->baseUrl()}/img/1_stars.png';";
+					echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars.png';";
 				} else {
-					echo "document.getElementById('rating$rating2').src='{$this->baseUrl()}/img/not_yet_rated_1.png';";
+					echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/not_yet_rated_1.png';";
 				}
 			}
-		?>" /><?php } ?>
+		?>">
+		<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rate.." /></button><?php } ?>
 	<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
+	<input name="rating" id="rating" type="hidden" value="" />
 	&nbsp;(Anzahl Stimmen: <?php print $this->recipe->ratingsCount.' - Ø ' . 
 		number_format ( $this->recipe->getRating(), 2, ',', '' ) ; ?>)
 </form></div>
@@ -331,7 +406,10 @@ if ($videos) {
 	foreach ( $videos as $video ) {
 		?>
 <div id="box"
-	style="float: left; clear: both; width: 440px; margin-left: 110px"><object
+	style="float: left; clear: both; width: 440px; margin-left: 110px">
+	<p style="text-align: left; padding: 0.5em;">
+			<strong>
+				<?php echo $video->name; ?></strong></p><object
 	width="425" height="350">
 	<param name="movie"
 		value="<?php
@@ -342,8 +420,14 @@ if ($videos) {
 		echo $this->escape ( $video->url ) ;
 		?>"
 		type="application/x-shockwave-flash" wmode="transparent" width="425"
-		height="350" /></object></div>
-		<?php
+		height="350" /></object>
+		<?php if($video->description!='') { ?>
+		<p style="text-align: left; padding: 0.5em;">
+			<em><strong>Videohinweis:</strong>
+				<?php echo $video->description; ?></em>
+		</p>
+		<?php } ?>
+</div><?php
 	}
 } else {
 	?>
@@ -353,15 +437,13 @@ Video gefunden.</div>
 	<?php
 }
 ?></div>
-<div
-	style="clear: both; position: relative; height: 110px; margin-left: 25px"
-	class="left">
+<div id="recipe_info" class="left">
 <a name="video"></a>
 <div class="left icon" style="left: 270px;"><img
 	src="<?php
 	print $this->baseUrl() ;
 	?>/img/zeit.png" alt="Zeitaufwand"
-	title="Zeitaufwand" /><br />
+	title="Zeitaufwand" height="42" width="43" /><br />
 	<?php
 	print $recipe->workMin;
 	?> min</div>
@@ -370,22 +452,22 @@ Video gefunden.</div>
 	print $this->baseUrl() ;
 	?>/img/<?php
 	if ($recipe->difficulty == Website_Model_Recipe::BEGINNER) {
-		print "/difficulty/beginner.png" ;
+		print "difficulty/beginner.png" ;
 		$difficultyMessage = 'Anfänger';
 	}
 	else if ($recipe->difficulty == Website_Model_Recipe::ADVANCED) {
-		print "/difficulty/advanced.png" ;
+		print "difficulty/advanced.png" ;
 		$difficultyMessage = 'Fortgeschritten';
 	}
 	else if ($recipe->difficulty == Website_Model_Recipe::PROFI) {
-		print "/difficulty/professional.png" ;
+		print "difficulty/professional.png" ;
 		$difficultyMessage = 'Profi';
 	} else {
 		// TODO: Bild erstellen, welches ausdrückt, dass es keine Information dazu gibt...
-		print "/difficulty/unknown.png" ;
+		print "difficulty/unknown.png" ;
 		$difficultyMessage = 'nicht eingestuft';
 	}
-	?>"
+	?>" 
 	alt="Schwierigkeitsgrad <?php
 	print $difficultyMessage;
 	?>"
@@ -441,7 +523,7 @@ Video gefunden.</div>
 <div class="left icon" style="left: 360px;" id="caloriesInfo"><img
 	src="<?php
 	print $this->baseUrl() ;
-	?>/img/calories.png" alt="Kalorien"
+	?>/img/calories.png" alt="Kalorien" height="48" width="33"
 	title="Kalorien" /><br />
 	<?php
 	if(!$caloriesComplete){
@@ -449,7 +531,7 @@ Video gefunden.</div>
 	}
 	print '<nobr>'.$recipe->getCaloriesKcal();
 	?> kcal</nobr></div>
-<div class="left icon" style="left: 450px;"><img
+<div class="left icon" style="left: 450px;"><img  height="42" width="34"
 	src="<?php
 	print $this->baseUrl() ;
 	?>/img/prozent.png" alt="Alkoholgehalt"
@@ -457,7 +539,7 @@ Video gefunden.</div>
 	<?php
 	print round($recipe->getAlcoholLevel());
 	?> % Alkohol</div>
-<div class="left icon" style="left: 90px;"><img
+<div class="left icon" style="left: 90px;"><img  height="47" width="25"
 	src="<?php
 	print $this->baseUrl() ;
 	?>/img/volumen.png" alt="Volumen"

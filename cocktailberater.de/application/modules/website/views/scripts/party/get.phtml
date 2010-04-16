@@ -1,0 +1,9 @@
+<?php echo $this->partial ("template/search.phtml"); ?>
+<h1>Party</h1>
+<h2><?php print $this->party->name; ?></h2>
+<ul>
+<li>Bar: <?php print $this->party->getBar()->name; ?></li>
+<li>Gastgeber: <?php print $this->party->getHost()->firstname.' '.$this->party->getHost()->lastname; ?></li>
+<li>Datum: <?php print $this->party->date; ?></li>
+</ul>
+

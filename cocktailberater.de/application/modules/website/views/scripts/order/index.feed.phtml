@@ -1,11 +1,11 @@
 <?php
 foreach ($this->orders as $order){
 	$entries[] = array(
-		'title'       => $order->getRecipe()->name,
+		'title'       => $order->getRecipe()->name.' für '.$order->getMember()->firstname.' '.$order->getMember()->lastname,
 		'link'        => $this->url(array(
 			'id'		=>$order->id,
 			'format'	=>$this->format)),
-		'description' => $order->getRecipe()->name.' ordered by '.$order->getMember()->lastname,
+		'description' => '',
 	);
 
 }

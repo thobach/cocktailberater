@@ -66,8 +66,10 @@ class Website_Model_Video
 			$this->name			= $video->name;
 			$this->description	= $video->description;
 			$this->url			= $video->url;
-			$this->insertDate 	= new Zend_Date($video->insertDate,Website_Model_DateFormat::MYSQLTIMESTAMP);
-			$this->updateDate 	= new Zend_Date($video->updateDate,Website_Model_DateFormat::MYSQLTIMESTAMP);
+			//$this->insertDate 	= new Zend_Date($video->insertDate,Website_Model_DateFormat::MYSQLTIMESTAMP);
+			//$this->updateDate 	= new Zend_Date($video->updateDate,Website_Model_DateFormat::MYSQLTIMESTAMP);
+			$this->insertDate 	= $video->insertDate;
+			$this->updateDate 	= $video->updateDate;
 			$this->recipeId 	= $video->recipe;
 		}
 	}

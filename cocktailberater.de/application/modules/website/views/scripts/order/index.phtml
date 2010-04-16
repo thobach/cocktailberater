@@ -4,7 +4,7 @@
 <ul>
 <?php 
 foreach ($this->orders as $order){
-	print '<li><a href="'.$this->url().'/'.$order->id.'">'.$order->getRecipe()->name.'</a></li>';
+	print '<li><a href="'.$this->url().'/'.$order->id.'">'.$order->getRecipe()->name.' für '.$order->getMember()->firstname.' '.$order->getMember()->lastname.'</a></li>'."\n";
 }
 ?>
 </ul>
