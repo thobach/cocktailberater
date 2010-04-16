@@ -13,7 +13,6 @@ class OrderControllerTest extends ControllerTestCase
 		// get valid session
 		$member = Website_Model_Member::getMemberByEmail('max@thobach.de');
 		if(!$member){
-			$log->log('create new member',Zend_Log::DEBUG);
 			// create new member
 			$member = new Website_Model_Member();
 			$member->email='max@thobach.de';

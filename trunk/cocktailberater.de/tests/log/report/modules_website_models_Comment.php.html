@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>OrderControllerTest</title>
+    <title>application/controllers/</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="container.css">
     <script type="text/javascript" src="yahoo-dom-event.js"></script>
@@ -12,7 +12,7 @@
 
   <body class="yui-skin-sam">
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr><td class="title">OrderControllerTest</td></tr>
+      <tr><td class="title">application/controllers/</td></tr>
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
 
       <tr>
@@ -76,12 +76,12 @@
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
               <tr>
-                <td class="coverBarOutline"><img src="scarlet_red.png" width="0" height="10" alt="0.00%"><img src="snow.png" width="100" height="10" alt="0.00%"></td>
+                <td class="coverBarOutline"><img src="scarlet_red.png" width="6" height="10" alt="6.67%"><img src="snow.png" width="94" height="10" alt="6.67%"></td>
               </tr>
             </table>
           </td>
-          <td class="coverPerLo">0.00%</td>
-          <td class="coverNumLo">0 / 60</td>
+          <td class="coverPerLo">6.67%</td>
+          <td class="coverNumLo">4 / 60</td>
         </tr>
 
         <tr>
@@ -110,12 +110,12 @@
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
               <tr>
-                <td class="coverBarOutline"><img src="scarlet_red.png" width="0" height="10" alt="0.00%"><img src="snow.png" width="100" height="10" alt="0.00%"></td>
+                <td class="coverBarOutline"><img src="scarlet_red.png" width="6" height="10" alt="6.67%"><img src="snow.png" width="94" height="10" alt="6.67%"></td>
               </tr>
             </table>
           </td>
-          <td class="coverPerLo">0.00%</td>
-          <td class="coverNumLo">0 / 60</td>
+          <td class="coverPerLo">6.67%</td>
+          <td class="coverNumLo">4 / 60</td>
         </tr>
 
         <tr>
@@ -242,12 +242,12 @@
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
               <tr>
-                <td class="coverBarOutline"><img src="scarlet_red.png" width="0" height="10" alt="0.00%"><img src="snow.png" width="100" height="10" alt="0.00%"></td>
+                <td class="coverBarOutline"><img src="butter.png" width="66" height="10" alt="66.67%"><img src="snow.png" width="34" height="10" alt="66.67%"></td>
               </tr>
             </table>
           </td>
-          <td class="coverPerLo">0.00%</td>
-          <td class="coverNumLo">0 / 6</td>
+          <td class="coverPerMed">66.67%</td>
+          <td class="coverNumMed">4 / 6</td>
         </tr>
 
         <tr>
@@ -444,12 +444,12 @@
 <span class="lineNum" id="container91"><a name="91"></a><a href="#91" id="line91">      91</a> </span><span class="lineNoCov">              0 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span>                                                                                                           </span>
 <span class="lineNum" id="container92"><a name="92"></a><a href="#92" id="line92">      92</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                                                
 <span class="lineNum" id="container93"><a name="93"></a><a href="#93" id="line93">      93</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">public</span><span class="default">&nbsp;</span><span class="keyword">static</span><span class="default">&nbsp;</span><span class="keyword">function</span><span class="default">&nbsp;</span><span class="default">commentsByRecipeId</span><span class="default">&nbsp;</span><span class="keyword">(</span><span class="default">$recipeId</span><span class="keyword">)</span><span class="keyword">{</span>                                                      
-<span class="lineNum" id="container94"><a name="94"></a><a href="#94" id="line94">      94</a> </span><span class="lineNoCov">              0 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$commentTable</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">Website_Model_CbFactory</span><span class="keyword">::</span><span class="default">factory</span><span class="keyword">(</span><span class="default">'Website_Model_MysqlTable'</span><span class="keyword">,</span><span class="default">'comment'</span><span class="keyword">)</span><span class="keyword">;</span>                 </span>
-<span class="lineNum" id="container95"><a name="95"></a><a href="#95" id="line95">      95</a> </span><span class="lineNoCov">              0 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$comments</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">$commentTable</span><span class="keyword">-&gt;</span><span class="default">fetchAll</span><span class="keyword">(</span><span class="default">'recipe&nbsp;=&nbsp;'</span><span class="keyword">.</span><span class="default">$recipeId</span><span class="keyword">,</span><span class="default">'updateDate&nbsp;DESC'</span><span class="keyword">)</span><span class="keyword">;</span>                           </span>
+<span class="lineNum" id="container94"><a name="94"></a><a href="#94" id="line94">      94</a> </span><span class="lineCov">              2 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$commentTable</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">Website_Model_CbFactory</span><span class="keyword">::</span><span class="default">factory</span><span class="keyword">(</span><span class="default">'Website_Model_MysqlTable'</span><span class="keyword">,</span><span class="default">'comment'</span><span class="keyword">)</span><span class="keyword">;</span>                 </span>
+<span class="lineNum" id="container95"><a name="95"></a><a href="#95" id="line95">      95</a> </span><span class="lineCov">              2 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$comments</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">$commentTable</span><span class="keyword">-&gt;</span><span class="default">fetchAll</span><span class="keyword">(</span><span class="default">'recipe&nbsp;=&nbsp;'</span><span class="keyword">.</span><span class="default">$recipeId</span><span class="keyword">,</span><span class="default">'updateDate&nbsp;DESC'</span><span class="keyword">)</span><span class="keyword">;</span>                           </span>
 <span class="lineNum" id="container96"><a name="96"></a><a href="#96" id="line96">      96</a> </span><span class="lineNoCov">              0 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">foreach</span><span class="default">&nbsp;</span><span class="keyword">(</span><span class="default">$comments</span><span class="default">&nbsp;</span><span class="keyword">as</span><span class="default">&nbsp;</span><span class="default">$comment</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">{</span>                                                                       </span>
 <span class="lineNum" id="container97"><a name="97"></a><a href="#97" id="line97">      97</a> </span><span class="lineNoCov">              0 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$commentArray</span><span class="keyword">[</span><span class="keyword">]</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">Website_Model_CbFactory</span><span class="keyword">::</span><span class="default">factory</span><span class="keyword">(</span><span class="default">'Website_Model_Comment'</span><span class="keyword">,</span><span class="default">$comment</span><span class="keyword">[</span><span class="default">'id'</span><span class="keyword">]</span><span class="keyword">)</span><span class="keyword">;</span>         </span>
-<span class="lineNum" id="container98"><a name="98"></a><a href="#98" id="line98">      98</a> </span><span class="lineNoCov">              0 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span>                                                                                                       </span>
-<span class="lineNum" id="container99"><a name="99"></a><a href="#99" id="line99">      99</a> </span><span class="lineNoCov">              0 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span class="default">&nbsp;</span><span class="default">$commentArray</span><span class="keyword">;</span>                                                                                   </span>
+<span class="lineNum" id="container98"><a name="98"></a><a href="#98" id="line98">      98</a> </span><span class="lineCov">              2 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span>                                                                                                       </span>
+<span class="lineNum" id="container99"><a name="99"></a><a href="#99" id="line99">      99</a> </span><span class="lineCov">              2 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span class="default">&nbsp;</span><span class="default">$commentArray</span><span class="keyword">;</span>                                                                                   </span>
 <span class="lineNum" id="container100"><a name="100"></a><a href="#100" id="line100">     100</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span>                                                                                                           
 <span class="lineNum" id="container101"><a name="101"></a><a href="#101" id="line101">     101</a> </span>                :                                                                                                                 
 <span class="lineNum" id="container102"><a name="102"></a><a href="#102" id="line102">     102</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                                                         
@@ -516,7 +516,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://www.phpunit.de/" target="_top">PHPUnit 3.4.11</a> and <a href="http://www.xdebug.org/" target="_top">Xdebug 2.1.0beta3</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.1</a> at Fri Apr 16 16:38:44 CEST 2010.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://www.phpunit.de/" target="_top">PHPUnit 3.4.11</a> and <a href="http://www.xdebug.org/" target="_top">Xdebug 2.1.0beta3</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.1</a> at Fri Apr 16 19:29:48 CEST 2010.</td></tr>
     </table>
 
     <br />
@@ -526,6 +526,26 @@
       $E = YAHOO.util.Event;
       YAHOO.namespace("phpunit.container");
       YAHOO.phpunit.container.panelsData = {
+        "panel94": {
+          "header": "2 tests cover line 94",
+          "body": "<ul><li class=\"testPassed\">RecipeControllerTest::testGetWithIdAction</li><li class=\"testPassed\">RecipeControllerTest::testGetWithNameAction</li></ul>",
+          "footer": ""
+        },
+        "panel95": {
+          "header": "2 tests cover line 95",
+          "body": "<ul><li class=\"testPassed\">RecipeControllerTest::testGetWithIdAction</li><li class=\"testPassed\">RecipeControllerTest::testGetWithNameAction</li></ul>",
+          "footer": ""
+        },
+        "panel98": {
+          "header": "2 tests cover line 98",
+          "body": "<ul><li class=\"testPassed\">RecipeControllerTest::testGetWithIdAction</li><li class=\"testPassed\">RecipeControllerTest::testGetWithNameAction</li></ul>",
+          "footer": ""
+        },
+        "panel99": {
+          "header": "2 tests cover line 99",
+          "body": "<ul><li class=\"testPassed\">RecipeControllerTest::testGetWithIdAction</li><li class=\"testPassed\">RecipeControllerTest::testGetWithNameAction</li></ul>",
+          "footer": ""
+        },
       "dummy": ""
       };
 

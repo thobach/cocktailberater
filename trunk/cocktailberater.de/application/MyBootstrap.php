@@ -36,6 +36,8 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	 * @return void
 	 */
 	protected function _initLogger(){
+		date_default_timezone_set('Europe/Berlin');
+		
 		$logOption = $this->getOption('logger');
 		//Zend_Debug::dump($logOption['enabled']);
 		if($logOption['enabled']=='true') {

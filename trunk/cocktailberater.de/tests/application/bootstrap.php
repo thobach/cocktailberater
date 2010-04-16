@@ -13,7 +13,7 @@ set_include_path(
 );
 
 // Define application environment
-define('APPLICATION_ENV', 'testing');
+define('APPLICATION_ENV', 'development');
 
 defined('SVN_REVISION')
 	|| define('SVN_REVISION', exec('svnversion'));
