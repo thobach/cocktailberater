@@ -12,7 +12,7 @@ $this->dojo()->enable()
 // define url for autoCompletion
 $autoCompletionUrl = array('module'=>'website','controller'=>'recipe','action'=>'index');
 ?>
-<div dojoType="custom.TestNameReadStore" jsId="testStore" url="<?php echo $this->url($autoCompletionUrl); ?>"
+<div dojoType="custom.TestNameReadStore" jsId="testStore" url="<?php echo $this->url($autoCompletionUrl,null,true); ?>"
 	requestMethod="get"></div>
 <?php $this->headScript()->captureStart(); ?>
 // configure query
