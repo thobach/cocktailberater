@@ -50,7 +50,7 @@ class Website_Model_Recipe {
 		if (property_exists(get_class($this), $name)) {
 			// load associations only when needed (performance)
 			if($name == '_cocktail' && !is_a($this->_cocktail,'Cocktail')){
-				$this->_cocktail = Website_Model_CbFactory::factory('Cocktail', $this->cocktailId);
+				$this->_cocktail = Website_Model_CbFactory::factory('Website_Model_Cocktail', $this->cocktailId);
 			} elseif($name=='_member' && !is_a($this->_member,'Member')){
 				$this->_member = Website_Model_CbFactory::factory('Website_Model_Member', $this->memberId);
 			} elseif($name=='_glass' && !is_a($this->_glass,'Glass')){
@@ -93,13 +93,13 @@ class Website_Model_Recipe {
 	/**
 	 * resolve Association and return an object of Cocktail
 	 *
-	 * @return Cocktail
+	 * @return Website_Model_Cocktail
 	 */
 	public function getCocktail()
 	{
 		// TODO: write unit test
 		if(!$this->_cocktail){
-			$this->_cocktail = Website_Model_CbFactory::factory('Cocktail',$this->cocktailId);
+			$this->_cocktail = Website_Model_CbFactory::factory('Website_Model_Cocktail',$this->cocktailId);
 		}
 		return $this->_cocktail;
 	}
@@ -107,7 +107,7 @@ class Website_Model_Recipe {
 	/**
 	 * resolve Association and return an object of Glass
 	 *
-	 * @return Glass
+	 * @return Website_Model_Glass
 	 */
 	public function getGlass()
 	{
@@ -126,6 +126,7 @@ class Website_Model_Recipe {
 		}
 		return self::$_recipes[$id];
 	}
+	
 
 	public function getRating(){
 		// TODO: write unit test
@@ -134,14 +135,20 @@ class Website_Model_Recipe {
 
 	/**
 	 * checks whether the recipe exists in DB
+	 * the check is by name and id
 	 *
-	 * @param String $id
-	 * @return booloean | int False or ID for cocktail
+	 * @param String $id eather the integer id or unique name
+	 * @return booloean | int False or integer ID for recipe
 	 */
 	public static function exists($id) {
 		// TODO: write unit test
 		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe') ;
-		$recipe = $recipeTable->fetchRow('id='.$id);
+		if($id>0){
+			$recipe = $recipeTable->fetchRow('id='.$id);
+		} else {
+			$recipe = $recipeTable->fetchRow($recipeTable->select()
+        ->where('name = ?',rawurldecode(str_replace(array('_'),array(' '),$id))));
+		}
 		if ($recipe) {
 			return $recipe->id;
 		} else {
@@ -317,7 +324,7 @@ class Website_Model_Recipe {
 			$components = $this->getComponents();
 
 			// log to debug
-			$logger = Zend_Registry::get('logger');
+			//$logger = Zend_Registry::get('logger');
 
 			$totalCaloriesKcal = 0;
 			if (is_array ( $components )) {
@@ -572,7 +579,6 @@ class Website_Model_Recipe {
 		$categories = $xml->createElement ( 'categories' ) ;
 
 		if (is_array ( $_categories = $this->getCategories() )) {
-
 			foreach ( $_categories as $_category ) {
 				$_category->toXml ( $xml, $categories ) ;
 			}

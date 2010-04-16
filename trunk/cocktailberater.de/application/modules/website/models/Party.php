@@ -25,6 +25,9 @@ class Website_Model_Party {
 	 * @return mixed
 	 */
 	public function __get($name) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->__get',Zend_Log::DEBUG);
+		
 		if (property_exists(get_class($this), $name)) {
 			return $this->$name;
 		} else {
@@ -39,12 +42,15 @@ class Website_Model_Party {
 	 * @param mixed $value
 	 */
 	public function __set($name, $value) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->__set',Zend_Log::DEBUG);
+		
 		// check date to be the right format
-		if(($name == 'insertDate' || $name == 'updateDate' || $name == 'date') && !DateFormat::isValidMysqlTimestamp($value)){
-			throw new PartyException('Wrong_Date_Format');
+		if(($name == 'insertDate' || $name == 'updateDate' || $name == 'date') && !Website_Model_DateFormat::isValidMysqlTimestamp($value)){
+			throw new Website_Model_PartyException('Wrong_Date_Format');
 		}
 		if(($name == 'insertDate' || $name == 'updateDate') && $value=='0000-00-00 00:00:00'){
-			throw new PartyException('Invalid_Date');
+			throw new Website_Model_PartyException('Invalid_Date');
 		}
 		if($name == 'menuId'){
 			$this->changeMenu($this->menuId,$value);
@@ -62,8 +68,10 @@ class Website_Model_Party {
 	 *
 	 * @return Website_Model_Member
 	 */
-	public function getHost()
-	{
+	public function getHost() {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->getHost',Zend_Log::DEBUG);
+		
 		if(!$this->_host){
 			$this->_host = Website_Model_CbFactory::factory('Website_Model_Member',$this->hostId);
 		}
@@ -75,8 +83,10 @@ class Website_Model_Party {
 	 *
 	 * @return Bar
 	 */
-	public function getBar()
-	{
+	public function getBar() {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->getBar',Zend_Log::DEBUG);
+		
 		if(!$this->_bar){
 			$this->_bar = Website_Model_CbFactory::factory('Website_Model_Bar',$this->barId);
 		}
@@ -88,9 +98,10 @@ class Website_Model_Party {
 	 *
 	 * @return Menu
 	 */
-	public function getMenu()
-	{
-		// TODO: write unit test
+	public function getMenu() {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->getMenu',Zend_Log::DEBUG);
+		
 		if(!$this->_menu){
 			$this->_menu = Website_Model_CbFactory::factory('Website_Model_Menu',$this->menuId);
 		}
@@ -103,9 +114,10 @@ class Website_Model_Party {
 	 *
 	 * @return Array<Cocktail>
 	 */
-	public function getCocktails()
-	{
-		// TODO: write unit test
+	public function getCocktails() {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->getCocktails',Zend_Log::DEBUG);
+		
 		// TODO: mit menu und recipe2menue arbeiten
 		return Website_Model_Cocktail::listCocktails();
 	}
@@ -117,7 +129,9 @@ class Website_Model_Party {
 	 * @return booloean | int False or ID for party
 	 */
 	public static function exists($id) {
-		// TODO: write unit test
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->exists',Zend_Log::DEBUG);
+		
 		$partyTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','party');
 		$party = $partyTable->fetchRow('id='.$id);
 		if ($party) {
@@ -126,13 +140,12 @@ class Website_Model_Party {
 			return false;
 		}
 	}
-
-	/**
-	 *
-	 *@tested
-	 */
+	
 	public function __construct($id=NULL)
 	{
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->__construct',Zend_Log::DEBUG);
+		
 		if(!empty($id)){
 			$partyTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','party');
 			$party = $partyTable->fetchRow('id='.$id);
@@ -157,7 +170,9 @@ class Website_Model_Party {
 
 	public static function listPartys($hostId=NULL,$barId=NULL)
 	{
-		// TODO: write unit test
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->listPartys',Zend_Log::DEBUG);
+		
 		$partyTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','party');
 		$select = $partyTable->getAdapter()->select();
 
@@ -190,6 +205,9 @@ class Website_Model_Party {
 	}
 
 	public function changeMenu ($oldMenuId,$newMenuId){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->changeMenu',Zend_Log::DEBUG);
+		
 		if(!$this->id){
 			return;
 		}
@@ -206,11 +224,71 @@ class Website_Model_Party {
 		}
 	}
 
+	public function memberIsGuest($memberId){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->memberIsGuest',Zend_Log::DEBUG);
+
+		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member2party');
+		$where = $table->select()->where('party='.$this->id.' AND member='.$memberId);
+		$guest = $table->fetchRow($where);
+		if($guest->member==$memberId && $guest->party == $this->id){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function addGuest($memberId){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->addGuest',Zend_Log::DEBUG);
+
+		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member2party');
+		$table->insert(array('party'=>$this->id, 'member'=>$memberId));
+	}
+
+	public function removeGuest($memberId){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->removeGuest',Zend_Log::DEBUG);
+
+		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member2party');
+		$table->delete('party='.$this->id .' AND member='.$memberId);
+	}
+
+	public function getGuests(){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->getGuests',Zend_Log::DEBUG);
+
+		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member2party');
+		$where = $table->select()->where('party='.$this->id);
+		$guests = $table->fetchAll($where);
+		foreach ($guests as $guest){
+			$guestsArray[] = Website_Model_CbFactory::factory('Website_Model_Member',$guest->member);
+		}
+		return $guestsArray;
+	}
+
 	/**
+	 * Checks if the given member has access to an party
+	 * (must be either host of the party or guest of the party)
 	 *
-	 *@tested
+	 * @param int $memberId
+	 * @return boolean true if member has access, false if not
 	 */
+	public function memberHasAccess($memberId){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->memberHasAccess',Zend_Log::DEBUG);
+
+		if($this->hostId==$memberId || $this->memberIsGuest($memberId)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public function save (){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->save',Zend_Log::DEBUG);
+		
 		// check if all required attributes are filled
 		if($this->barId && $this->name && $this->date && $this->hostId){
 			$partyTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'party');
@@ -219,7 +297,10 @@ class Website_Model_Party {
 				$data = $this->databaseRepresentation();
 				$data['insertDate'] = $this->insertDate = date(Website_Model_DateFormat::PHPDATE2MYSQLTIMESTAMP);
 				$this->id = $partyTable->insert($data);
-				$this->changeMenu(null,$this->menuId);
+				// optional
+				if($this->menuId){
+					$this->changeMenu(null,$this->menuId);
+				}
 			}
 			else {
 				$partyTable->update($this->databaseRepresentation(),'id='.$this->id);
@@ -229,20 +310,21 @@ class Website_Model_Party {
 		}
 	}
 
-	/**
-	 *
-	 *@tested
-	 */
 	public function delete (){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->delete',Zend_Log::DEBUG);
+		
 		$partyTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'party');
 		$partyTable->delete('id='.$this->id);
-		CbFactory::destroy('Party',$this->id);
+		Website_Model_CbFactory::destroy('Party',$this->id);
 		unset($this);
 	}
 
 
 	public function toXml($xml, $branch) {
-		// TODO: write test
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->toXml',Zend_Log::DEBUG);
+		
 		$party = $xml->createElement('party');
 		$branch->appendChild($party);
 		$party->setAttribute('id', $this->id);
@@ -259,6 +341,9 @@ class Website_Model_Party {
 	 * returns an array to save the object in a database
 	 */
 	public function dataBaseRepresentation() {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Party->dataBaseRepresentation',Zend_Log::DEBUG);
+		
 		$array['name'] = $this->name;
 		$array['date'] = $this->date;
 		$array['insertDate'] = $this->insertDate;

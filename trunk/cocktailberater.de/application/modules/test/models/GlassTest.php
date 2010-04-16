@@ -24,7 +24,7 @@ class GlassTest extends PHPUnit_Framework_TestCase {
 	
 	public function testGlassLoad()
 	{
-		$glass = Website_Model_CbFactory::factory('Website_Model_Glass'GlassTest::$glassId);
+		$glass = Website_Model_CbFactory::factory('Website_Model_Glass',GlassTest::$glassId);
 		$this->assertEquals(GlassTest::$glassId, $glass->id);
 		$this->assertEquals('TestGlass', $glass->name);
 		//$this->assertEquals('TestPhoto',$glass->getPhoto()->name);
@@ -36,7 +36,7 @@ class GlassTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testToXml(){
-		$glass = Website_Model_CbFactory::factory('Website_Model_Glass'GlassTest::$glassId);
+		$glass = Website_Model_CbFactory::factory('Website_Model_Glass',GlassTest::$glassId);
 		$xml = new DOMDocument("1.0");
 		$rsp = $xml->createElement("rsp");
 		$xml->appendChild($rsp);
@@ -52,10 +52,10 @@ class GlassTest extends PHPUnit_Framework_TestCase {
 		if(!$glassId){
 			$glassId = $this->getGlassId();
 		}
-		$glass = Website_Model_CbFactory::factory('Website_Model_Glass'$glassId);
+		$glass = Website_Model_CbFactory::factory('Website_Model_Glass',$glassId);
 		$glass->delete();
 		$this->setExpectedException('GlassException','Id_Wrong');
-		$glass = Website_Model_CbFactory::factory('Website_Model_Glass'$glassId);
+		$glass = Website_Model_CbFactory::factory('Website_Model_Glass',$glassId);
 	}
 	
 

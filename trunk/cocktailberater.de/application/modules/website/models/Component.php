@@ -179,35 +179,35 @@ class Website_Model_Component {
 	public function getCaloriesKcal (){
 		if(!$this->caloriesKcal){
 			// log to debug
-			$logger = Zend_Registry::get('logger');
+			//$logger = Zend_Registry::get('logger');
 
 			if($this->unit == Website_Model_Component::CENTILITRE){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal() / 100 * $this->amount;
-				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::MILLILITRE){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal() / 1000 * $this->amount;
-				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::LITRE){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal() * $this->amount;
-				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::GRAM){
 				// TODO:
 				throw new Zend_Exception('Recipes with Component::GRAM cannot be converted right now!');
-				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::KILOGRAM){
 				// TODO:
 				throw new Zend_Exception('Recipes with Component::KILOGRAM cannot be converted right now!');
-				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::PIECE){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::PIECE) * $this->amount;
-				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::TEASPOON){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::TEASPOON) * $this->amount;
 				// print $this->amount.' TL ' .$this->getIngredient()->name.' teaspoon hit: '.$caloriesKcal.' <br />';
-				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::FLUID_OUNCE){
 				// TODO:
-				$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} else {
 				// TODO: Exception hinzuf√ºgen und √ºbersetzen
 				throw new Website_Model_RecipeException('UnsupportedUnit');

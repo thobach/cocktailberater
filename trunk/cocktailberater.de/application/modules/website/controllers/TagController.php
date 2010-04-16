@@ -13,7 +13,7 @@ class Website_TagController extends Wb_Controller_RestController {
 	}
 
 	public function getAction(){
-		
+		$this->view->tag = Website_Model_CbFactory::factory('Website_Model_Tag',$this->_getParam('id'));
 	}
 	
 	public function postAction(){
@@ -28,7 +28,7 @@ class Website_TagController extends Wb_Controller_RestController {
 				// TODO: memberID setzen
 				//$tag->memberId = $this->_getParam ( 'member' );
 			}
-			$this->_forward('get','recipe','website',array('id'=>$this->_getParam('recipe')));
+			$this->_forward('get','tag','website',array('id'=>$tag->id));
 		}
 	}
 

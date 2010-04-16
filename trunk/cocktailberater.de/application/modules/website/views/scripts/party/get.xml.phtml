@@ -5,15 +5,10 @@ $this->xml = new DOMDocument("1.0");
 $this->rsp = $this->xml->createElement("rsp");
 // add the 'rsp' element to the xml document
 $this->xml->appendChild($this->rsp);
-
+// add the 'party' element to the 'rsp' element
+$this->party->toXml($this->xml,$this->rsp);
 // set status for root element 'rsp' to 'ok'
-if($this->member){
-	$this->rsp->setAttribute('status','ok');
-	$this->member->toXml($this->xml,$this->rsp,true);
-} else {
-	$this->rsp->setAttribute('status','error');
-	$this->rsp->setAttribute('msg','Invalid credentials.');
-}
+$this->rsp->setAttribute('status','ok');
 
 // save and display tree
 print $this->xml->saveXML();

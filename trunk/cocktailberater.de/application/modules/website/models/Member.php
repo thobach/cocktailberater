@@ -2,12 +2,12 @@
 class Website_Model_Member {
 
 	// attributes
-	private $id;
-	private $passwordHash;
-	private $firstname;
-	private $lastname;
+	private $id; // required
+	private $passwordHash; // required
+	private $firstname; // required
+	private $lastname; // required
 	private $birthday;
-	private $email;
+	private $email; // required
 	private $lastLoginDate;
 	private $hashCode;
 	private $hashExpiryDate;
@@ -31,13 +31,18 @@ class Website_Model_Member {
 	 * @return mixed
 	 */
 	public function __get($name) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->__get',Zend_Log::DEBUG);
+		
 		if (property_exists(get_class($this), $name)) {
-		if($name=='passwordHash'){
+			if($name=='passwordHash'){
+				$log->log('Website_Model_Member->__get: Exception (property not exhibited)',Zend_Log::DEBUG);
 				throw new Exception ( 'Class \''.get_class($this).'\' does not exhibit property: ' . $name . '.' ) ;
 			} else {
 				return $this->$name ;
 			}
 		} else {
+			$log->log('Website_Model_Member->__get: Exception (invalid property)',Zend_Log::DEBUG);
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
 		}
 	}
@@ -49,31 +54,26 @@ class Website_Model_Member {
 	 * @param mixed $value
 	 */
 	public function __set ( $name , $value ) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->__set',Zend_Log::DEBUG);
+		
 		if (property_exists ( get_class($this), $name )) {
 			$this->$name = $value ;
 		} else {
+			$log->log('Website_Model_Member->__set: Exception (invalid property)',Zend_Log::DEBUG);
 			throw new Exception ( 'Class \''.get_class($this).'\' does not provide property: ' . $name . '.' ) ;
 		}
 	}
-
-	/* depreciated!!
-	 public static function getMember($id)
-	 {
-		if(!Member::$_member[$id]){
-		Member::$_member[$id] = Website_Model_CbFactory::factory('Website_Model_Member', $id);
-		}
-		return Member::$_member[$id];
-		}
-		*/
 
 	/**
 	 * resolve Association and return an object of Photo
 	 *
 	 * @return Photo
 	 */
-	public function getPhoto()
-	{
-		// TODO: write unit test
+	public function getPhoto() {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->getPhoto',Zend_Log::DEBUG);
+
 		if(!$this->_photo){
 			$this->_photo = Website_Model_CbFactory::factory('Website_Model_Photo',$this->photoId);
 		}
@@ -88,6 +88,9 @@ class Website_Model_Member {
 	 * @tested
 	 */
 	public static function exists($id) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->exists',Zend_Log::DEBUG);
+		
 		$memberTable  = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member');
 		$member = $memberTable->fetchRow('id = '.$id);
 		if ($member) {
@@ -96,7 +99,7 @@ class Website_Model_Member {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * checks whether member is logged in
 	 *
@@ -106,6 +109,9 @@ class Website_Model_Member {
 	 * @todo: write unit test
 	 */
 	public static function loggedIn($id,$hashCode) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->loggedIn',Zend_Log::DEBUG);
+		
 		$memberTable  = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member');
 		$member = $memberTable->fetchRow('id = '.$id.' AND hashCode = \''.$hashCode.'\' AND hashExpiryDate>= \''.date(Website_Model_DateFormat::PHPDATE2MYSQLTIMESTAMP).'\'');
 		if ($member) {
@@ -119,10 +125,12 @@ class Website_Model_Member {
 	 * checks whether email exists in DB
 	 *
 	 * @param String $email
-	 * @return booloean
+	 * @return booloean true if member exists, false if not
 	 */
 	public static function existsByEmail($email) {
-		// TODO: write unit test
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->existsByEmail',Zend_Log::DEBUG);
+		
 		$memberTable  = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member');
 		$member = $memberTable->fetchRow('email = \''.$email.'\'');
 		if ($member) {
@@ -139,14 +147,17 @@ class Website_Model_Member {
 	 *
 	 * @param String $email
 	 * @return Website_Model_Member if member exists, booloean otherwise
-	 * @tested
 	 */
 	public static function getMemberByEmail($email){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->getMemberByEmail',Zend_Log::DEBUG);
+		
 		$memberTable  = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member');
 		$member = $memberTable->fetchRow('email = \''.$email.'\'');
 		if ($member) {
 			return Website_Model_CbFactory::factory('Website_Model_Member',$member->id);
 		} else {
+			$log->log('Website_Model_Member->getMemberByEmail: false',Zend_Log::DEBUG);
 			return false;
 		}
 	}
@@ -159,11 +170,15 @@ class Website_Model_Member {
 	 *@tested
 	 */
 	public function __construct ($id=NULL){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->__construct',Zend_Log::DEBUG);
+		
 		if(!empty($id)){
 			$memberTable  = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member');
 			$member = $memberTable->fetchRow('id = '.$id);
 			if(!$member){
-				throw new MemberException('Id_Wrong');
+				$log->log('Website_Model_Member->__construct: Website_Model_MemberException (Id_Wrong)',Zend_Log::DEBUG);
+				throw new Website_Model_MemberException('Id_Wrong');
 			}
 			$this->id = (int) $member->id;
 			$this->passwordHash = $member->passwordHash;
@@ -185,10 +200,11 @@ class Website_Model_Member {
 	 *lists all Members from the database
 	 *
 	 *@return array<Member>
-	 *@tested
 	 */
-	public static function listMembers()
-	{
+	public static function listMembers() {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->listMembers',Zend_Log::DEBUG);
+		
 		$memberTable  = Website_Model_CbFactory::factory('Website_Model_MysqlTable','member');
 		$members = $memberTable->fetchAll();
 
@@ -205,6 +221,25 @@ class Website_Model_Member {
 	 *@tested
 	 */
 	public function save (){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->save',Zend_Log::DEBUG);
+		
+		if(empty($this->firstname)){
+			$log->log('Website_Model_Member->save: Website_Model_MemberException (Firstname missing!)',Zend_Log::DEBUG);
+			throw new Website_Model_MemberException('Firstname missing!');
+		}
+		if(empty($this->lastname)){
+			$log->log('Website_Model_Member->save: Website_Model_MemberException (Lastname missing!)',Zend_Log::DEBUG);
+			throw new Website_Model_MemberException('Lastname missing!');
+		}
+		if(empty($this->email)){
+			$log->log('Website_Model_Member->save: Website_Model_MemberException (Email missing!)',Zend_Log::DEBUG);
+			throw new Website_Model_MemberException('Email missing!');
+		}
+		if(empty($this->passwordHash)){
+			$log->log('Website_Model_Member->save: Website_Model_MemberException (Password missing!)',Zend_Log::DEBUG);
+			throw new Website_Model_MemberException('Password missing!');
+		}
 		$orderTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'member');
 		if (!$this->id) {
 			$data = $this->databaseRepresentation();
@@ -219,14 +254,26 @@ class Website_Model_Member {
 	}
 
 	/**
+	 * Sets the passwordHash of the Member
+	 */
+	public function setPassword($password){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->setPassword',Zend_Log::DEBUG);
+		
+		$this->passwordHash = md5($password);
+	}
+
+	/**
 	 * deletes the Member from the database and memory
 	 *
-	 * @tested
 	 */
 	public function delete (){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->delete',Zend_Log::DEBUG);
+		
 		$memberTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'member');
 		$memberTable->delete('id='.$this->id);
-		CbFactory::destroy('Member',$this->id);
+		Website_Model_CbFactory::destroy('Website_Model_Member',$this->id);
 		unset($this);
 	}
 
@@ -236,6 +283,9 @@ class Website_Model_Member {
 	 * @return array
 	 */
 	public function dataBaseRepresentation() {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->dataBaseRepresentation',Zend_Log::DEBUG);
+		
 		$array['passwordHash'] = $this->passwordHash;
 		$array['firstname'] = $this->firstname;
 		$array['lastname'] = $this->lastname;
@@ -258,8 +308,11 @@ class Website_Model_Member {
 	 * @throws boolean false if password is invalid, true otherwise
 	 * @tested
 	 */
-	public function authenticate ( $passwordHash ) {
-		if ($this->passwordHash == $passwordHash)	{
+	public function authenticate ( $password ) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->authenticate',Zend_Log::DEBUG);
+		
+		if ($this->passwordHash == md5($password))	{
 			$this->hashCode = md5('9z1rhfxasf'.rand(20,2));
 			$date = Zend_Date::now();
 			$date->add('24:00:00', Zend_Date::TIMES);
@@ -277,19 +330,44 @@ class Website_Model_Member {
 	 * @param string $hashCode
 	 * @return boolean true = authentification successful
 	 * @throws MemberException
-	 * @tested
 	 */
 	public function authenticateByHashCode ( $passwordHash ) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->authenticateByHashCode',Zend_Log::DEBUG);
+		
 		$now = Zend_Date::now();
 		$expiryDate = new Zend_Date($this->hashExpiryDate, Zend_Date::ISO_8601);
 		if ($this->hashCode == $passwordHash)	{
 			if($now->isEarlier($expiryDate)){
 				return true;
 			}	else {
-				throw new MemberException('Member_HashCode_Expired');
+				$log->log('Website_Model_Member->authenticateByHashCode: Website_Model_MemberException (Member_HashCode_Expired)',Zend_Log::DEBUG);
+				throw new Website_Model_MemberException('Member_HashCode_Expired');
 			}
 		} else {
-			throw new MemberException('Member_HashCode_Invalid');
+			$log->log('Website_Model_Member->authenticateByHashCode: Website_Model_MemberException (Member_HashCode_Invalid)',Zend_Log::DEBUG);
+			throw new Website_Model_MemberException('Member_HashCode_Invalid');
+		}
+	}
+
+	/**
+	 * Performs a logout for a member if he is currently logged in (valid
+	 * session)
+	 *
+	 * @param String $hashCode
+	 * @return boolean true if session was destroyed, false if user is not
+	 * logged in or destruction could not be completed
+	 */
+	public function logout($hashCode){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->logout',Zend_Log::DEBUG);
+		
+		if($this->hashCode == $hashCode){
+			$this->hashCode = null;
+			$this->hashExpiryDate = null;
+			return $this->save();
+		} else {
+			return false;
 		}
 	}
 
@@ -301,7 +379,10 @@ class Website_Model_Member {
 	 * @tested
 	 */
 	public function getInvoice ( $partyId ){
-		$party = CbFactory::factory('Party',$partyId);
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->getInvoice',Zend_Log::DEBUG);
+		
+		$party = Website_Model_CbFactory::factory('Website_Model_Party',$partyId);
 		$db = Zend_Db_Table::getDefaultAdapter();
 		$res = $db->fetchAll ( 'SELECT id
 			FROM `order` 
@@ -309,7 +390,7 @@ class Website_Model_Member {
 			status=\'ordered\' AND
 			member='.$this->id.'');
 		foreach($res as $order){
-			$orderArray[] = CbFactory::factory('Order',$order->id);
+			$orderArray[] = Website_Model_CbFactory::factory('Website_Model_Order',$order->id);
 		}
 		return $orderArray;
 	}
@@ -322,6 +403,9 @@ class Website_Model_Member {
 	 * @tested
 	 */
 	public function toXml($xml, $branch,$withHash = false) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Member->getInvoice',Zend_Log::DEBUG);
+		
 		$member = $xml->createElement('member');
 		$branch->appendChild($member);
 		$member->setAttribute('id', $this->id);

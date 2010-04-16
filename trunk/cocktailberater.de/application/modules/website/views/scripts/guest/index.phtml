@@ -1,0 +1,11 @@
+<?php echo $this->partial ("template/search.phtml"); ?>
+<h1>Gästeliste</h1>
+<div id="ergebnisse" style="clear: left;">
+<ul>
+<?php 
+foreach ($this->guests as $guest){
+	print '<li><a href="'.$this->url().'/'.$guest->id.'">'.$guest->firstname.' '.$guest->lastname.'</a></li>'."\n";
+}
+?>
+</ul>
+</div>

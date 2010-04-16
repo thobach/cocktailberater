@@ -88,8 +88,10 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 				$tag = $table->fetchRow ( 'id=' . $idtag ) ;
 				$this->id = $tag->id;
 				$this->name= $tag->name;
-				$this->insertDate =  new Zend_Date ($tag->insertDate, Website_Model_DateFormat::MYSQLTIMESTAMP);
-				$this->updateDate =  new Zend_Date ($tag->updateDate, Website_Model_DateFormat::MYSQLTIMESTAMP);
+				//$this->insertDate =  new Zend_Date ($tag->insertDate, Website_Model_DateFormat::MYSQLTIMESTAMP);
+				//$this->updateDate =  new Zend_Date ($tag->updateDate, Website_Model_DateFormat::MYSQLTIMESTAMP);
+				$this->insertDate =  $tag->insertDate;
+				$this->updateDate =  $tag->updateDate;
 				$this->recipeId = $tag->recipe;
 				$this->memberId = $tag->member;
 				$this->count = $this->getCountForRecipe();
