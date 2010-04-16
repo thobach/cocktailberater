@@ -517,8 +517,8 @@ div.wert p {
 .wert, dd {
 	clear: none;
 	float: left;
-	width: 24em;
-	text-align: justify;
+	width: 23em;
+	text-align: left;
 	margin: 2px;
 	padding: 1px;
 }
@@ -570,6 +570,7 @@ label.small {
 .error, .notice, .success {
 	padding:.8em;
 	border:2px solid #ddd;
+	margin-bottom: .8em;
 }
 
 .error {
@@ -688,7 +689,11 @@ dl.zend_form>dd>pre {
 	font-family: monospace;
 }
 
-input[type="radio"] { margin-right: 0.5em; } 
+input[type="radio"] { margin-right: 0.5em; }
+
+button {
+	background-color: white;
+}
 
 /* Tables 
 -----------------------------------------------------------------------------*/
@@ -714,3 +719,152 @@ table.table td,table.table th {
 	border: 1px solid black;
 	padding: 0.2em;
 }
+
+/* Recipe page
+-----------------------------------------------------------------------------*/
+
+#photo_video {
+clear: both;
+margin-left: auto;
+margin-right: auto;
+width: 140px;
+padding-right: 2em;
+}
+
+#recipe_info {
+	clear: both; 
+	position: relative; 
+	height: 110px; 
+	margin-left: 25px;
+}
+
+/* Sprites
+-----------------------------------------------------------------------------*/
+
+.stoebern_sprites {
+	background-image     : url(/img/sprites.png);
+	background-color     : transparent;
+	background-repeat    : no-repeat;
+	float: left;
+	display: block;
+	margin-right: 0.4em;
+ }
+
+ #spr_alcoholic {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -0px -0px;
+ }
+
+ #spr_non_alcoholic {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -38px -0px;
+ }
+
+ #spr_barkunde {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -76px -0px;
+ }
+
+ #spr_top10 {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -114px -0px;
+ }
+
+ #spr_beginner {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -152px -0px;
+ }
+
+ #spr_community {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -190px -0px;
+ }
+
+ #spr_image {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -228px -0px;
+ }
+
+ #spr_rum {
+	height               : 32px;
+	width                : 32px;
+	background-position  : -266px -0px;
+	margin-top			 : 3px;
+	margin-left			 : 3px;
+	padding-right		 : 3px;
+ }
+
+ #spr_vodka {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -298px -0px;
+ }
+ 
+ .social_sprites {
+	background-image     : url(/img/social-media/sprites.png);
+	background-color     : transparent;
+	background-repeat    : no-repeat;
+	float				 : left;
+	display				 : block;
+	margin-right		 : 0.2em;
+	height               : 16px;
+	width                : 16px;
+ }
+
+ #spr_delicious {
+	background-position  : -0px -0px;
+ }
+
+ #spr_delicious:hover {
+	background-position  : -16px -0px;
+ }
+
+ #spr_rss {
+	background-position  : -32px -0px;
+ }
+
+ #spr_rss:hover {
+	background-position  : -48px -0px;
+ }
+
+ #spr_digg {
+	background-position  : -64px -0px;
+ }
+
+ #spr_digg:hover {
+	background-position  : -80px -0px;
+ }
+
+ #spr_facebook_fan_gray, #spr_facebook_share_gray {
+	background-position  : -96px -0px;
+ }
+
+ #spr_facebook_fan, #spr_facebook_share {
+	background-position  : -112px -0px;
+ }
+
+ #spr_su {
+	background-position  : -128px -0px;
+ }
+
+ #spr_su:hover {
+	background-position  : -144px -0px;
+ }
+
+ #spr_twitter {
+	height               : 16px;
+	width                : 16px;
+	background-position  : -160px -0px;
+ }
+
+ #spr_twitter:hover {
+	background-position  : -176px -0px;
+ }
+ 
