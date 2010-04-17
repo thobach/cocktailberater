@@ -11,8 +11,8 @@
 
 === Hinweise zum Urheberrecht bei Rezepten ===  
   * http://www.irights.de/index.php?id=525
-  ** einzelne Rezepte kann man übernehmen
-  ** bei Sammelwerken aber nur eine geringfügige Anzahl
-  ** Beschreibungen darf man auch übernehmen wenn sie nicht poetisch, künstlerisch verfasst sind
-  *** wenn dies der Fall ist, kann man sie aber umschreiben
-  ** Bilder darf man nicht übernehmen
+   * einzelne Rezepte kann man übernehmen
+   * bei Sammelwerken aber nur eine geringfügige Anzahl
+   * Beschreibungen darf man auch übernehmen wenn sie nicht poetisch, künstlerisch verfasst sind
+    * wenn dies der Fall ist, kann man sie aber umschreiben
+   * Bilder darf man nicht übernehmen
