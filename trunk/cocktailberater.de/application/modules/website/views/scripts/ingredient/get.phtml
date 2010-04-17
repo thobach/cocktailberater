@@ -48,16 +48,15 @@ if(is_array($products)){
 }
 ?></div>
 <?php } ?>
-<?php if($this->cocktails) {?>
+<?php if($this->recipes) {?>
 <div class="attribut">Cocktails mit <?php print $this->ingredient->name; ?>:</div>
-<div class="wert"><?php
-if(is_array($this->cocktails)){
-	foreach ($this->cocktails as $cocktail) {
-		$recipes = $cocktail->getRecipes();
-		$recipe = $recipes[0];
-		echo $this->partial('template/preview.phtml',array('recipe'=>$recipe));
+<div class="wert"><div id="ergebnisse" style="clear: left;"><?php
+if(is_array($this->recipes)){
+	foreach ($this->recipes as $recipe) { ?>
+		<?php $this->cocktailPreview($recipe); ?>
+	<?php 
 	}
 }
-?>
+?></div>
 </div>
 <?php }
