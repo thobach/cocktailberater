@@ -182,6 +182,26 @@ function initTag() {
 }
 dojo.addOnLoad(initTag);
 
+function newSubmit(){
+	// add new tag to list
+	var listEntry = document.createElement("li");
+	var listEntryLink = document.createElement("a");
+	var listEntryText = document.createTextNode(" " + dojo.byId("newtag").value);
+	listEntryLink.rel = "tag";
+	listEntryLink.style.fontSize = "10px";
+	listEntryLink.href = "/website/recipe/index/search_type/tag/search/" + dojo.byId("newtag").value;
+	listEntryLink.appendChild(listEntryText);
+	listEntry.appendChild(listEntryLink);
+	dojo.query(".Zend_Tag_Cloud").forEach(function(node, index, arr){
+		node.appendChild(listEntry);
+	});
+    // clear form and tag_state
+    clearTagFormError();
+    dojo.removeClass("tag_state");
+    dojo.addClass("tag_state","success");
+    dojo.byId("tag_state").innerHTML="Dein Tag wurde hinzugefügt.";
+}
+
 // sumbit the form 
 var tagFormSubmit = function(e){
     // prevent the form from actually submitting
@@ -193,23 +213,7 @@ var tagFormSubmit = function(e){
         handleAs: "json",
         handle: function(data,args){
             if (data.rsp["@attributes"].status == "ok"){
-            	// add new tag to list
-            	var listEntry = document.createElement("li");
-            	var listEntryLink = document.createElement("a");
-            	var listEntryText = document.createTextNode(" " + dojo.byId("newtag").value);
-            	listEntryLink.rel = "tag";
-            	listEntryLink.style.fontSize = "10px";
-            	listEntryLink.href = "";
-            	listEntryLink.appendChild(listEntryText);
-            	listEntry.appendChild(listEntryLink);
-            	dojo.query(".Zend_Tag_Cloud").forEach(function(node, index, arr){
-     				node.appendChild(listEntry);
-  				});
-            	// clear form and tag_state
-            	clearTagFormError();
-            	dojo.removeClass("tag_state");
-            	dojo.addClass("tag_state","success");
-            	dojo.byId("tag_state").innerHTML="Dein Tag wurde hinzugefügt.";
+            	newSubmit();
             }
             else{
                 clearTagFormError();
@@ -220,10 +224,37 @@ var tagFormSubmit = function(e){
         }
     });
 };
+
+// add the possibility to submit the search by pressing the ENTER key
+var tagFormSubmit2 = function(e){
+	if (e.keyCode == dojo.keys.ENTER) { 
+    // prevent the form from actually submitting
+    e.preventDefault(); 
+    // submit the form in the background    
+    dojo.xhrPost({
+        url: "<?=$this->url(array('controller'=>'tag','action'=>'post','module'=>'website'),null,true)?>?format=json",
+        form: "tag_form",
+        handleAs: "json",
+        handle: function(data,args){
+            if (data.rsp["@attributes"].status == "ok"){
+            	newSubmit();
+            }
+            else{
+                clearTagFormError();
+            	dojo.removeClass("tag_state");
+            	dojo.addClass("tag_state","error");
+            	dojo.byId("tag_state").innerHTML="Es ist ein Fehler aufgetreten. Bitte versuch es später nochmal.";
+            }
+        }
+    });
+    }
+};
+
 dojo.addOnLoad(function(){
     var tagForm = dojo.byId("tag_form");
     // another dojo.connect syntax: call a function directly    
     dojo.connect(tagForm,"onsubmit",tagFormSubmit);
+    dojo.connect(dojo.byId("newtag"), 'onkeypress', tagFormSubmit2);
 });
 function clearTagFormError(){
 	dojo.removeClass("tag_state");
