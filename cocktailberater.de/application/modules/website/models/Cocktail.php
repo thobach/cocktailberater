@@ -67,12 +67,21 @@ class Website_Model_Cocktail {
 	/**
 	 * checks whether the cocktail already exists
 	 *
-	 * @param String $name
+	 * @param String $id, $name or unique name
 	 * @return booloean | int False or ID for cocktail
 	 */
-	public static function exists($name) {
+	public static function exists($id) {
 		$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
-		$cocktail = $cocktailTable->fetchRow('name=\'' . $name . '\'');
+		
+		
+		if($id>0){
+			$cocktail = $cocktailTable->fetchRow('id='.$id);
+		} else {
+			$cocktail = $cocktailTable->fetchRow($cocktailTable->select()
+        ->where('name = ?',rawurldecode(str_replace(array('_'),array(' '),$id))));
+		}
+		
+		//$cocktail = $cocktailTable->fetchRow('name=\'' . $name . '\'');
 		if ($cocktail) {
 			return $cocktail->id;
 		} else {
@@ -316,6 +325,10 @@ class Website_Model_Cocktail {
 			$cache->save($recipes,'recipesByCocktailId'.$this->id);
 		}
 		return $recipes;
+	}
+	
+	public function getUniqueName(){
+		return rawurlencode(str_replace(array(' '),array('_'),$this->name));
 	}
 
 	/**

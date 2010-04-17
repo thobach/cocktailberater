@@ -155,6 +155,10 @@ class Website_Model_Recipe {
 			return false;
 		}
 	}
+	
+	public function getUniqueName(){
+		return rawurlencode(str_replace(array(' '),array('_'),$this->name));
+	}
 
 
 	/**

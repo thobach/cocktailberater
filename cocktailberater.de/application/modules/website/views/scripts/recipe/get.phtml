@@ -126,7 +126,7 @@ if(!($alcoholLevel || $calories || $categories || $products)){
 	<?php $this->headScript()->captureEnd(); ?>
 	<a id="zutat<?php print $component->getIngredient()->id ;?>"
 	href="<?php print $this->url(array('module'=>'website','controller'=>'ingredient',
-		'id'=>$component->getIngredient()->id),null,true); ?>"
+		'id'=>$component->getIngredient()->getUniqueName()),null,true); ?>"
 	title="<?php echo $this->escape ( str_replace ( '\\', '', $component->getIngredient()->name ) ) ?>">
 	<?php print $component->getIngredient()->name ; ?></a></li>
 	<?php
