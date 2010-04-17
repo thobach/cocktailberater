@@ -171,6 +171,10 @@ class Website_Model_Ingredient {
 		}
 	}
 	
+	public function getUniqueName(){
+		return rawurlencode(str_replace(array(' '),array('_'),$this->name));
+	}
+	
 	/**
 	 * returns the average kcal of the product per given unit
 	 *
@@ -380,6 +384,22 @@ class Website_Model_Ingredient {
 		$ingredientTable->delete('id='.$this->id);
 		Website_Model_CbFactory::destroy('Ingredient',$this->id);
 		unset($this);
+	}
+	
+	
+	public static function exists($id) {
+		$ingredientTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'ingredient') ;
+		if($id>0){
+			$ingredient = $ingredientTable->fetchRow('id='.$id);
+		} else {
+			$ingredient = $ingredientTable->fetchRow($ingredientTable->select()
+        ->where('name = ?',rawurldecode(str_replace(array('_'),array(' '),$id))));
+		}
+		if ($ingredient) {
+			return $ingredient->id;
+		} else {
+			return false;
+		}
 	}
 
 	/**

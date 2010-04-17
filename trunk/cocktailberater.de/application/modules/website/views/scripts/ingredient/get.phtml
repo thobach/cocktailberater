@@ -1,8 +1,6 @@
 <?php $this->partial('template/search.phtml'); ?>
-<h4 class="left" style="margin-left: 25px;">Zutaten-Info: <?php print $this->ingredient->name; ?></h4><br />
+<h2 class="left" style="margin-left: 25px;"><?php print $this->ingredient->name; ?> - Zutateninformationen</h2><br />
 <div style="margin-left: 25px; margin-top: 15px">
-<div class="attribut">Name:</div>
-<div class="wert"><?php print $this->ingredient->name; ?></div>
 <?php if($this->ingredient->description) {?>
 <div class="attribut">Beschreibung:</div>
 <div class="wert"><?php print $this->ingredient->description; ?></div>
