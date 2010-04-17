@@ -166,12 +166,18 @@ $autoCompletionUrl = array('action'=>'index','controller'=>'recipe','module'=>'w
 <?php $this->headScript()->captureStart(); ?>
 // configure query
 djConfig.usePlainJson=true;
-// add the possibility to submit the search by pressing the ENTER key 
+
 function initTag() {
-	dojo.connect(dojo.byId("newtag"), 'onkeypress', function(e) { 
+	dojo.connect(dojo.byId("newtag"), 'onfocus', function(e) { // onkeypress
+		/*
+		// add the possibility to submit the search by pressing the ENTER key 
 		if (e.keyCode == dojo.keys.ENTER) { 
 			dojo.byId('tag_form').submit(); 
-		} 
+		}
+		*/
+		// hide tag_state onfocus
+		dojo.removeClass("tag_state");
+		dojo.addClass("tag_state","hide");
 	});
 }
 dojo.addOnLoad(initTag);
@@ -187,6 +193,19 @@ var tagFormSubmit = function(e){
         handleAs: "json",
         handle: function(data,args){
             if (data.rsp["@attributes"].status == "ok"){
+            	// add new tag to list
+            	var listEntry = document.createElement("li");
+            	var listEntryLink = document.createElement("a");
+            	var listEntryText = document.createTextNode(" " + dojo.byId("newtag").value);
+            	listEntryLink.rel = "tag";
+            	listEntryLink.style.fontSize = "10px";
+            	listEntryLink.href = "";
+            	listEntryLink.appendChild(listEntryText);
+            	listEntry.appendChild(listEntryLink);
+            	dojo.query(".Zend_Tag_Cloud").forEach(function(node, index, arr){
+     				node.appendChild(listEntry);
+  				});
+            	// clear form and tag_state
             	clearTagFormError();
             	dojo.removeClass("tag_state");
             	dojo.addClass("tag_state","success");
