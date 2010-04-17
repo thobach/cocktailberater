@@ -11,6 +11,7 @@ class Website_RecipeController extends Wb_Controller_RestController {
 	public function indexAction() {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_RecipeController->indexAction',Zend_Log::DEBUG);
+		
 		// auto-suggest for search
 		if($this->_getParam('format', false)=='ajax'){
 			$log->log('Website_RecipeController->indexAction -> ajax',Zend_Log::DEBUG);
