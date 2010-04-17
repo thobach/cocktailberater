@@ -36,7 +36,7 @@ if (is_array ( $components )) {
 	        });
 	    });
 		<?php $this->view->headScript()->captureEnd(); ?>
-<div id="cocktail" style="width: 100px; height: 150px"><a
+<div id="cocktail" style="width: 106px; height: 150px"><a
 	href="<?php $uniqueName = rawurlencode(str_replace(array(' '),array('_'),$recipe->name));
 	print $this->view->url(
 	array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>"><img
