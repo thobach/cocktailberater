@@ -165,8 +165,8 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 		$view = new Zend_View();
 		foreach ($tags as $tag) {
 			$list[] = new Zend_Tag_Item(array('title' => $tag['name'], 'weight' => $tag['weight'], 
-				'params'=>array('id'=>'test','url' => $view->url(array('module'=>'website','controller'=>'index',
-						'action'=>'tag','tag'=>$tag['name']),null,true))));
+				'params'=>array('id'=>'test','url' => $view->url(array('module'=>'website','controller'=>'recipe',
+						'action'=>'index','search_type'=>'tag','search'=>$tag['name']),'default',true))));
 		}
 		// Spread absolute values on the items
 		$list->spreadWeightValues(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
