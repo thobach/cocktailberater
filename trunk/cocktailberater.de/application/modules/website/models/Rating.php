@@ -73,20 +73,25 @@ class Website_Model_Rating {
 	 * @return Rating
 	 */
 	public function __construct ( $idRating = NULL ) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Rating->__construct',Zend_Log::DEBUG);
+		
 		if (! empty ( $idRating )) {
 			$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','rating');
 			$rating = $table->fetchRow ( 'id=' . $idRating ) ;
 			// if rating does not exist
 			if(!$rating){
+				$log->log('Website_Model_Rating->__construct: Website_Model_RatingException (Id_Wrong)',Zend_Log::DEBUG);
 				throw new Website_Model_RatingException('Id_Wrong');
 			}
-			$this->id 			= $manufacturer->id ;
-			$this->memberId 	= $manufacturer->member;
-			$this->recipeId		= $manufacturer->recipe;
-			$this->mark 		= $manufacturer->mark;
-			$this->ip 			= $manufacturer->ip;
-			$this->insertDate 	= $manufacturer->insertDate;
+			$this->id 			= $rating->id ;
+			$this->memberId 	= $rating->member;
+			$this->recipeId		= $rating->recipe;
+			$this->mark 		= $rating->mark;
+			$this->ip 			= $rating->ip;
+			$this->insertDate 	= $rating->insertDate;
 		}
+		$log->log('Website_Model_Rating->__construct: exit',Zend_Log::DEBUG);
 	}
 	
 	/**
@@ -142,6 +147,24 @@ class Website_Model_Rating {
 		$array [ 'mark' ] = $this->mark ;
 		$array [ 'ip' ] = $this->ip ;
 		return $array ;
+	}
+	
+	/**
+	 * adds the xml representation of the object to a xml branch
+	 *
+	 * @param DomDocument $xml
+	 * @param XmlElement $branch
+	 * @tested
+	 */
+	public function toXml ( $xml , $ast ) {
+		$rating = $xml->createElement ( 'reating' ) ;
+		$rating->setAttribute ( 'id', $this->id ) ;
+		$rating->setAttribute ( 'recipe', $this->recipeId ) ;
+		$rating->setAttribute ( 'member', $this->memberId) ;
+		$rating->setAttribute ( 'mark', $this->mark) ;
+		$rating->setAttribute ( 'ip', $this->ip) ;
+		$rating->setAttribute ( 'insertDate', $this->insertDate) ;
+		$ast->appendchild ( $rating ) ;
 	}
 }
 ?>

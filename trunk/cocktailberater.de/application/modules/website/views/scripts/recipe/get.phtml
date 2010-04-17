@@ -36,7 +36,7 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 <div id="photo_video">
 	<?php
 	if (sizeof($videos)>0) {
-		?><a href="#video"><img src="<?php
+		?><a href="#videoAnchor"><img src="<?php
 	print $this->baseUrl() ;
 	?>/img/video.png" alt="Video"
 	title="Video" height="22" width="26"
@@ -488,7 +488,7 @@ Video gefunden.</div>
 }
 ?></div>
 <div id="recipe_info" class="left">
-<a name="video"></a>
+<a name="videoAnchor" id="videoAnchor"></a>
 <div class="left icon" style="left: 270px;"><img
 	src="<?php
 	print $this->baseUrl() ;
