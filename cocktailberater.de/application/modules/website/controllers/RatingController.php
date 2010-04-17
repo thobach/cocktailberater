@@ -9,11 +9,15 @@ require_once(APPLICATION_PATH.'/Wb/Controller/RestController.php');
 class Website_RatingController extends Wb_Controller_RestController {
 
 	public function indexAction() {
-
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_RatingController->indexAction',Zend_Log::DEBUG);
 	}
 
 	public function getAction(){
-		if($this->_getParam('id')){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_RatingController->getAction',Zend_Log::DEBUG);
+		
+		if($this->_getParam('id')>0){
 			$this->view->rating = Website_Model_CbFactory::factory('Website_Model_Rating',$this->_getParam('id'));
 		} else {
 			$this->view->error = "ALREADY_VOTED";
@@ -21,6 +25,9 @@ class Website_RatingController extends Wb_Controller_RestController {
 	}
 
 	public function postAction(){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_RatingController->postAction',Zend_Log::DEBUG);
+		
 		// wenn ein Cocktail angegeben wurde
 		if($this->_getParam('recipe')=='' OR $this->_getParam('recipe')==0){
 			// if the id parameter is missing, throw exception
