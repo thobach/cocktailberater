@@ -477,11 +477,11 @@ p.description {
 #cocktail {
 	float: left;
 	padding-right: 1em;
-	padding-bottom: 1em;
+	padding-bottom: 2.5em;
 }
 
 #ergebnisse {
-	width: 450px;
+	width: 473px;
 	margin-left: auto;
 	margin-right: auto;
 }
