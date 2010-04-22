@@ -54,6 +54,8 @@ $this->headLink(array('rel' => 'alternate',
 					  'type' => 'application/rss+xml',
 					  'title' => 'cocktailberater - RSS',
                       'href' => 'http://blog.cocktailberater.de/feeds/posts/default?alt=rss'));
+$this->headLink(array('rel' => 'image_src',
+                      'href' => 'http://www.cocktailberater.de/img/logo.png'));
 // echo css, faveicon and feeds
 echo $this->headLink()."\n";
 // toggeling dialogs
