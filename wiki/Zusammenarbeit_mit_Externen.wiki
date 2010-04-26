@@ -21,5 +21,5 @@
   * Google Products (Google Base)
 
 === Preisinformationen aus Supermärkten ===
-  * supermarktcheck.de
+  * supermarktcheck.de (Anfrage via Twitter läuft)
    * z.B.: http://www.supermarktcheck.de/product/57449-cointreau-40
