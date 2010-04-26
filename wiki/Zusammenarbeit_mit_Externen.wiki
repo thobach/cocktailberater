@@ -16,3 +16,10 @@
    * Beschreibungen darf man auch übernehmen wenn sie nicht poetisch, künstlerisch verfasst sind
     * wenn dies der Fall ist, kann man sie aber umschreiben
    * Bilder darf man nicht übernehmen
+
+=== Preisinformationen aus Online-Shops ===
+  * Google Products (Google Base)
+
+=== Preisinformationen aus Supermärkten ===
+  * supermarktcheck.de
+   * z.B.: http://www.supermarktcheck.de/product/57449-cointreau-40
