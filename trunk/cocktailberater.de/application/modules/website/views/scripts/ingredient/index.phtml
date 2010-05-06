@@ -35,7 +35,7 @@ foreach ($this->ingredients as $ingredient){
 			$avgPrice = $product->getAveragePrice();
 			print '<li>'.$product->name.' '.(($product->getManufacturer()->name!='') ? ' ('.$product->getManufacturer()->name.') - ' : '').
 			str_replace('.',',',round($product->size,2)).' '.$product->unit.
-			($avgPrice != '0.00' ? ' - Durchschnittspreis: '.number_format($avgPrice,2,',','.').' € ' : '').'</li>';
+			($avgPrice ? ' - Durchschnittspreis: '.number_format($avgPrice,2,',','.').' € ' : '').'</li>';
 		}
 		print '</ul>';
 	}
