@@ -132,7 +132,7 @@ class Website_Model_Product
 				}
 
 				// take average * 1.5 as max treshold
-				if($priceMatrix>0){
+				if(count($priceMatrix)>0){
 					$maxPriceThresholdOne = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
 				} else {
 					$maxPriceThresholdOne = NULL;
@@ -145,7 +145,7 @@ class Website_Model_Product
 				}
 
 				// take average of cleaned up results * 1.5 as new max treshold
-				if($priceMatrix>0){
+				if(count($priceMatrix)>0){
 					$maxPriceThresholdTwo = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
 				} else {
 					$maxPriceThresholdTwo = NULL;
