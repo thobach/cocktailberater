@@ -19,6 +19,7 @@ class Website_Model_Ingredient {
 	private $averageAlcoholLevel;
 	private $averageDensityGramsPerCm3;
 	private $averageCaloriesKcal;
+	private $averagePricePerKilogram;
 	
 	// supporting variables
 	private static $_ingredients;
@@ -273,23 +274,30 @@ class Website_Model_Ingredient {
 	 * @return float average price
 	 */	
 	public function getAveragePricePerLitre(){
-		$products = $this->getProducts();
-		$avgCount = 0;
-		foreach($products as $product){
-			$price = $product->getAveragePrice();
-			if($product->unit == 'l' && $price>0){
-				$avgSum += $price / $product->size;
-				$avgCount++;
-				//print 'preis: '.$price.'<br />';
-			} else if ($product->unit == 'g' && $price > 0 && $product->densityGramsPerCm3 > 0){
-				$avgSum += $price / $product->size / $product->densityGramsPerCm3 * 1000;
-				$avgCount++;
-			} else if ($product->unit == 'kg' && $price > 0 && $product->densityGramsPerCm3 > 0){
-				$avgSum += $price / $product->size / $product->densityGramsPerCm3;
-				$avgCount++;
+		if($this->averagePricePerLitre === NULL){
+			$products = $this->getProducts();
+			$avgCount = 0;
+			foreach($products as $product){
+				$price = $product->getAveragePrice();
+				if($product->unit == 'l' && $price>0){
+					$avgSum += $price / $product->size;
+					$avgCount++;
+					//print 'preis: '.$price.'<br />';
+				} else if ($product->unit == 'g' && $price > 0 && $product->densityGramsPerCm3 > 0){
+					$avgSum += $price / $product->size / $product->densityGramsPerCm3 * 1000;
+					$avgCount++;
+				} else if ($product->unit == 'kg' && $price > 0 && $product->densityGramsPerCm3 > 0){
+					$avgSum += $price / $product->size / $product->densityGramsPerCm3;
+					$avgCount++;
+				}
+			}
+			if($avgCount>0){
+				$this->averagePricePerLitre = round($avgSum/$avgCount,2);
+			} else {
+				$this->averagePricePerLitre = NULL;
 			}
 		}
-		return round($avgSum/$avgCount,2);
+		return $this->averagePricePerLitre;
 	}
 	
 	/**
@@ -298,21 +306,28 @@ class Website_Model_Ingredient {
 	 * @return float average price
 	 */	
 	public function getAveragePricePerKilogram(){
-		$products = $this->getProducts();
-		$avgCount = 0;
-		foreach($products as $product){
-			$price = $product->getAveragePrice();
-			if($product->unit == 'g' && $price>0){
-				$avgSum += $price * 1000 / $product->size;
-				$avgCount++;
-				//print 'preis: '.$price.'<br />';
-			} else if($product->unit == 'kg' && $price>0){
-				$avgSum += $price / $product->size;
-				$avgCount++;
-				//print 'preis: '.$price.'<br />';
+		if($this->averagePricePerKilogram === NULL){
+			$products = $this->getProducts();
+			$avgCount = 0;
+			foreach($products as $product){
+				$price = $product->getAveragePrice();
+				if($product->unit == 'g' && $price>0){
+					$avgSum += $price * 1000 / $product->size;
+					$avgCount++;
+					//print 'preis: '.$price.'<br />';
+				} else if($product->unit == 'kg' && $price>0){
+					$avgSum += $price / $product->size;
+					$avgCount++;
+					//print 'preis: '.$price.'<br />';
+				}
+			}
+			if($avgCount>0){
+				$this->averagePricePerKilogram = round($avgSum/$avgCount,2);
+			} else {
+				$this->averagePricePerKilogram = NULL;
 			}
 		}
-		return round($avgSum/$avgCount,2);
+		return $this->averagePricePerKilogram;
 	}
 	
 	/**
