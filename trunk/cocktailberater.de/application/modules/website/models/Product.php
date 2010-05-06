@@ -132,7 +132,11 @@ class Website_Model_Product
 				}
 
 				// take average * 1.5 as max treshold
-				$maxPriceThresholdOne = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				if($priceMatrix>0){
+					$maxPriceThresholdOne = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				} else {
+					$maxPriceThresholdOne = NULL;
+				}
 				// delete all 'shops' where price is above max trashold
 				foreach ($priceMatrix as $id => $price){
 					if($price > $maxPriceThresholdOne || ($this->max_price > 0 && $price > $this->max_price)){
@@ -141,7 +145,11 @@ class Website_Model_Product
 				}
 
 				// take average of cleaned up results * 1.5 as new max treshold
-				$maxPriceThresholdTwo = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				if($priceMatrix>0){
+					$maxPriceThresholdTwo = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				} else {
+					$maxPriceThresholdTwo = NULL;
+				}
 
 				// average price of selection
 				$avgPrice = 0.0;
