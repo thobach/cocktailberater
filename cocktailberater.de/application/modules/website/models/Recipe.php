@@ -25,6 +25,7 @@ class Website_Model_Recipe {
 	private $isAlcoholic; // calculated
 	private $alcoholLevel; // calculated
 	private $caloriesKcal; // calculated
+	private $averagePrice; // calculated
 	private $volumeCl; // calculated
 	private $ratingsSum;
 	private $ratingsCount;
@@ -126,7 +127,7 @@ class Website_Model_Recipe {
 		}
 		return self::$_recipes[$id];
 	}
-	
+
 
 	public function getRating(){
 		// TODO: write unit test
@@ -147,7 +148,7 @@ class Website_Model_Recipe {
 			$recipe = $recipeTable->fetchRow('id='.$id);
 		} else {
 			$recipe = $recipeTable->fetchRow($recipeTable->select()
-        ->where('name = ?',rawurldecode(str_replace(array('_'),array(' '),$id))));
+			->where('name = ?',rawurldecode(str_replace(array('_'),array(' '),$id))));
 		}
 		if ($recipe) {
 			return $recipe->id;
@@ -155,7 +156,7 @@ class Website_Model_Recipe {
 			return false;
 		}
 	}
-	
+
 	public function getUniqueName(){
 		return rawurlencode(str_replace(array(' '),array('_'),$this->name));
 	}
@@ -228,11 +229,11 @@ class Website_Model_Recipe {
 		} else {
 			$limitSql = '';
 		}
-		
+
 		$orderBySql = 'name';
-		
+
 		$db = Zend_Db_Table::getDefaultAdapter();
-		
+
 		// evaluate filter
 		$validFilters = array('with-image','alcoholic','non-alcoholic','top10');
 		if(is_array($filter)){
@@ -302,7 +303,7 @@ class Website_Model_Recipe {
 
 	/**
 	 * Searches for recipes with certain difficulty, ordered by rating
-	 * 
+	 *
 	 * @todo: write unit test
 	 * @param String $difficulty
 	 * @return Website_Model_Recipe[] array with unique recipes (id as key)
@@ -322,9 +323,8 @@ class Website_Model_Recipe {
 		return $recipeArray;
 	}
 
-	public function getCaloriesKcal (){
+	public function getCaloriesKcal() {
 		if(!$this->caloriesKcal){
-			// TODO: write unit test
 			$components = $this->getComponents();
 
 			// log to debug
@@ -341,9 +341,7 @@ class Website_Model_Recipe {
 		return $this->caloriesKcal;
 	}
 
-	public function getVolumeCl()
-	{
-		// TODO: write unit test
+	public function getVolumeCl() {
 		$components = $this->getComponents();
 		$volumeCl=0;
 		if (is_array ( $components )) {
@@ -357,9 +355,7 @@ class Website_Model_Recipe {
 		return $volumeCl;
 	}
 
-	public function getAlcoholLevel()
-	{
-		// TODO: write unit test
+	public function getAlcoholLevel() {
 		$components = $this->getComponents();
 		$alcoholLevel=0;
 		$volume=0;
@@ -380,9 +376,7 @@ class Website_Model_Recipe {
 		return $alcoholLevel;
 	}
 
-	public function isAlcoholic()
-	{
-		// TODO: write unit test
+	public function isAlcoholic() {
 		$alcoholLevel = $this->getAlcoholLevel();
 		if($alcoholLevel > 0){
 			return true;
@@ -390,22 +384,40 @@ class Website_Model_Recipe {
 		return false;
 	}
 
-	public function getPhotos()
-	{
+	public function getPhotos() {
 		return Website_Model_Photo::photosByRecipeId ($this->id);
 	}
 
-	public function getVideos()
-	{
+	public function getVideos() {
 		return Website_Model_Video::videosByRecipeId ($this->id);
 	}
 
 	/**
+	 * Returns the average price (e.g. 1.32) of the recipe calculated by each components average price
 	 *
-	 * @tested
+	 * @return double price
 	 */
-	public function getComponents()
-	{
+	public function getAveragePrice() {
+		if(!$this->averagePrice){
+			$components = $this->getComponents();
+			$avgPrice = 0.0;
+			if (is_array ( $components )) {
+				foreach ( $components as $component ) {
+					$avgPrice += $component->getAveragePrice();
+					// print $component->getIngredient()->name.' '.$component->getAveragePrice().'<br />';
+				}
+			}
+			$this->averagePrice = round($avgPrice,2);
+		}
+		return $this->averagePrice;
+	}
+
+	/**
+	 * Returns all compoments with ingredient, amount & unit of a recipe
+	 *
+	 * @return Website_Model_Component[]
+	 */
+	public function getComponents(){
 		if(!$this->id){
 			throw new Website_Model_RecipeException('Id_Missing');
 		}
@@ -540,10 +552,10 @@ class Website_Model_Recipe {
 			print $e ;
 		}
 	}
-	
+
 	/**
 	 * Appends its XML representation to the DOMNode of the DOMDocument
-	 * 
+	 *
 	 * @param DOMDocument $xml
 	 * @param DOMNode $ast
 	 * @return void

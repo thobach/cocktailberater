@@ -8,6 +8,13 @@
 require_once(APPLICATION_PATH.'/Wb/Controller/RestController.php');
 class Website_IngredientController extends Wb_Controller_RestController {
 
+	public function indexAction(){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_IngredientController->indexAction',Zend_Log::DEBUG);
+
+		$this->view->ingredients = Website_Model_Ingredient::listIngredients('%');
+	}
+
 	public function getAction(){
 		if ($this->_hasParam ( 'id' )) {
 			$realId = Website_Model_Ingredient::exists($this->_getParam('id'));
@@ -21,5 +28,5 @@ class Website_IngredientController extends Wb_Controller_RestController {
 			$this->view->recipes = $liste ;
 		}
 	}
-	
+
 }
