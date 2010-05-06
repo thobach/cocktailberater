@@ -129,7 +129,7 @@ class Website_Model_Ingredient {
 	 * @return array Ingredient
 	 * @tested
 	 */
-	static function listIngredients ( $search , $limit = 100) {
+	static function listIngredients ( $search , $limit = 200) {
 		$db = Zend_Db_Table::getDefaultAdapter();
 		// wird für suggest benutzt
 		$result = $db->fetchAll ( 'SELECT id, name
