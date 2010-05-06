@@ -54,7 +54,7 @@ if(is_array($products)){
 		$avgPrice = $product->getAveragePrice();
 		print '<li>'.$product->name.' ('.$product->getManufacturer()->name.') - '.
 		str_replace('.',',',round($product->size,2)).' '.$product->unit.
-		($avgPrice != '0.00' ? ' - Durchschnittspreis: '.number_format($avgPrice,2,',','.').' € ' : '').'<ul style="clear: left; margin-top: 2em;">';
+		($avgPrice ? ' - Durchschnittspreis: '.number_format($avgPrice,2,',','.').' € ' : '').'<ul style="clear: left; margin-top: 2em;">';
 		$offers = $product->getOffers();
 		$i=0;
 		foreach($offers as $offer){
