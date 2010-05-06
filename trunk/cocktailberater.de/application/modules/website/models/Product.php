@@ -196,13 +196,18 @@ class Website_Model_Product
 				$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl());
 
 				// average price over all shops
+				$priceMatrix = array();
 				foreach ($feed->entries as $entry) {
 					$price = $entry->getGbaseAttribute('preis');
 					$priceMatrix[$entry->id->text] =  str_replace(' eur','',$price[0]->text);
 				}
 
 				// take average * 1.5 as max treshold
-				$maxPriceThresholdOne = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				if(count($priceMatrix)>0){
+					$maxPriceThresholdOne = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				} else {
+					$maxPriceThresholdOne = NULL;
+				}
 				// delete all 'shops' where price is above max trashold
 				foreach ($priceMatrix as $id => $price){
 					if($price>$maxPriceThresholdOne || ($price > $this->max_price && $this->max_price > 0)){
@@ -210,7 +215,11 @@ class Website_Model_Product
 					}
 				}
 				// take average of cleaned up results * 1.5 as new max treshold
-				$maxPriceThresholdTwo = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				if(count($priceMatrix)>0){
+					$maxPriceThresholdTwo = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				} else {
+					$maxPriceThresholdTwo = NULL;
+				}
 
 				// create empty result set
 				$offerList = array();
