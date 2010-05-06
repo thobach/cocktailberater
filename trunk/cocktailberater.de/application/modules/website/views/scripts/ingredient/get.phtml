@@ -13,13 +13,24 @@
 <div class="attribut">Kalorien:</div>
 <div class="wert"><?php print round($this->ingredient->getAverageCaloriesKcal()/10); ?> kcal / 100g bzw. 100 ml</div>
 <?php } ?>
+<?php if($this->ingredient->getAveragePricePerLitre()!='0.00' || $this->ingredient->getAveragePricePerKilogram()!='0.00') {?>
+<div class="attribut">Durchschnitts-preis:</div>
+<div class="wert"><?php 
+if($this->ingredient->getAveragePricePerLitre()!='0.00') { 
+	print number_format($this->ingredient->getAveragePricePerLitre(),2,',','.'); ?> € / Liter <?php }
+if($this->ingredient->getAveragePricePerLitre()!='0.00' && $this->ingredient->getAveragePricePerKilogram()!='0.00') {
+	print '<br />';
+}
+if($this->ingredient->getAveragePricePerKilogram()!='0.00') {
+	print number_format($this->ingredient->getAveragePricePerKilogram(),2,',','.'); ?> € / kg <?php } ?></div>
+<?php } ?>
 <?php if($this->ingredient->getMostUsedUnit()) {?>
 <div class="attribut">Einheit:</div>
-<div class="wert"><?php print $this->ingredient->getMostUsedUnit(); ?></div>
+<div class="wert"><?php print ($this->ingredient->getMostUsedUnit() == 'l' ? 'Liter' : $this->ingredient->getMostUsedUnit()); ?></div>
 <?php } ?>
 <?php if($this->ingredient->getAverageWeightGram()) {?>
 <div class="attribut">Gewicht pro Einheit:</div>
-<div class="wert"><?php print $this->ingredient->getAverageWeightGram(); ?> kg</div>
+<div class="wert"><?php print $this->ingredient->getAverageWeightGram(); ?> g</div>
 <?php } ?>
 <?php if($this->ingredient->getIngredientCategories()) {?>
 <div class="attribut">Kategorien:</div>
@@ -32,19 +43,39 @@ if(is_array($this->ingredient->getIngredientCategories())){
 }
 ; ?></div>
 <?php } ?>
-<?php $products = Website_Model_Product::productsByIngredientId($this->ingredient->id);
+<?php
+$products = Website_Model_Product::productsByIngredientId($this->ingredient->id);
 if($products) { ?>
 <div class="attribut">Produkte:</div>
-<div class="wert"><?php
-$products = Website_Model_Product::productsByIngredientId($this->ingredient->id);
+<div class="wert"><div id="ergebnisse" style="clear: left;"><?php
 if(is_array($products)){
 	print '<ul style="font-size: 0.9em; list-style-type: circle; margin-left: 2em;">';
 	foreach ($products as $product) {
-		print '<li>'.$product->name.' ('.$product->getManufacturer()->name.') - '.str_replace('.',',',round($product->size,2)).' '.$product->unit.'</li>';
+		$avgPrice = $product->getAveragePrice();
+		print '<li>'.$product->name.' ('.$product->getManufacturer()->name.') - '.
+		str_replace('.',',',round($product->size,2)).' '.$product->unit.
+		($avgPrice != '0.00' ? ' - Durchschnittspreis: '.number_format($avgPrice,2,',','.').' € ' : '').'<ul style="clear: left; margin-top: 2em;">';
+		$offers = $product->getOffers();
+		$i=0;
+		foreach($offers as $offer){
+			$i++;
+			print '<li style="margin-bottom: 3em; width: 100px; float: left; height: 130px; text-align: center;'.
+				($i==1 ? 'clear: left;' : 'clear: none;').'">
+				<a href="'.$offer['shopUrl'].'">';
+				if(!$offer['imageUrl']){
+					$offer['imageUrl'] = '/img/bottle.png';
+				}
+				print '<img src="'.$offer['imageUrl'].'" style="max-width: 100px; height: 100px" 
+						alt="'.$offer['title'].' ('.$offer['brand'].')" 
+						title="'.$offer['title'].' ('.$offer['brand'].')" /><br />';
+				print ''.$offer['shop'].'</a><br />
+				Preis:  '.number_format($offer['price'],2,',','.').'€</li>';
+		}
+		print '</ul></li>';
 	}
 	print '</ul>';
 }
-?></div>
+?></div></div>
 <?php } ?>
 <?php if($this->recipes) {?>
 <div class="attribut">Cocktails mit <?php print $this->ingredient->name; ?>:</div>

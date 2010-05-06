@@ -2,35 +2,6 @@
 class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
 	/**
-	 * Initialize Cache
-	 *
-	 * @return void
-	 */
-	protected function _initCache(){
-		if($config->cache->enabled=='true') {
-			$cacheEnabled = true;
-		} else {
-			$cacheEnabled = false;
-		}
-
-		$frontendOptions = array(
-			'lifetime' => 7200, // cache lifetime of 2 hours
-			'automatic_serialization' => true,
-			'caching' => $cacheEnabled
-		);
-
-		$backendOptions = array(
-		    'cache_dir' => realpath(APPLICATION_PATH.'/../tmp/') // Directory where to put the cache files
-		);
-		// getting a Zend_Cache_Core object
-		$cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
-		// add Cache object to registry
-		Zend_Registry::set ('cache',$cache);
-		// Register the Cache object for Zend_Locale
-		Zend_Locale::setCache($cache);
-	}
-
-	/**
 	 * Initialize Logger
 	 *
 	 * @return void
@@ -60,6 +31,39 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			$log = new Zend_Log($writer);
 		}
 		Zend_Registry::set('logger',$log);
+	}
+	
+	/**
+	 * Initialize Cache
+	 *
+	 * @return void
+	 */
+	protected function _initCache(){
+		$config = $this->getOptions();
+		$log = Zend_Registry::get('logger');
+		if($config['cache']['enabled']=='true') {
+			$log->log('cache enabled',Zend_Log::DEBUG);
+			$cacheEnabled = true;
+		} else {
+			$log->log('cache disabled',Zend_Log::DEBUG);
+			$cacheEnabled = false;
+		}
+
+		$frontendOptions = array(
+			'lifetime' => 7200, // cache lifetime of 2 hours
+			'automatic_serialization' => true,
+			'caching' => $cacheEnabled
+		);
+
+		$backendOptions = array(
+		    'cache_dir' => realpath(APPLICATION_PATH.'/../tmp/') // Directory where to put the cache files
+		);
+		// getting a Zend_Cache_Core object
+		$cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
+		// add Cache object to registry
+		Zend_Registry::set ('cache',$cache);
+		// Register the Cache object for Zend_Locale
+		Zend_Locale::setCache($cache);
 	}
 
 	/**
