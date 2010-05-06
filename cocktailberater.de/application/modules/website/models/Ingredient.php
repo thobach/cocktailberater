@@ -14,16 +14,24 @@ class Website_Model_Ingredient {
 	private $pieces_in_whole;
 	private $insertDate;
 	private $updateDate;
-	
+
 	// calculated attributes
 	private $averageAlcoholLevel;
 	private $averageDensityGramsPerCm3;
 	private $averageCaloriesKcal;
 	private $averagePricePerKilogram;
-	
+	private $averagePricePerLitre;
+	private $averagePricePerPiece;
+	private $averagePricePerWhole;
+	private $averageVolumeLitre;
+	private $averageWeightGram;
+	private $ingredientCategoryArray;
+	private $mostUsedUnit;
+	private $productArray;
+
 	// supporting variables
 	private static $_ingredients;
-	
+
 	// constants
 	const SOLID = 'solid';
 	const LIQUID = 'liquid';
@@ -43,7 +51,7 @@ class Website_Model_Ingredient {
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
 		}
 	}
-	
+
 	/**
 	 * Magic Setter Function, is accessed when setting an attribute
 	 *
@@ -59,14 +67,14 @@ class Website_Model_Ingredient {
 	}
 
 	/* depreciated
-	public static function getIngredient($id)
-	{
+	 public static function getIngredient($id)
+	 {
 		if(!Ingredient::$_ingredients[$id]){
-			Ingredient::$_ingredients[$id] = CbFactory::factory('Ingredient', $id);
+		Ingredient::$_ingredients[$id] = CbFactory::factory('Ingredient', $id);
 		}
 		return Ingredient::$_ingredients[$id];
-	}*/
-	
+		}*/
+
 	/**
 	 * Ingredient constructor returns a Ingredient object by an id, or an empty one
 	 *
@@ -83,7 +91,7 @@ class Website_Model_Ingredient {
 			if(!$ingredient){
 				throw new Website_Model_IngredientException('Id_Wrong');
 			}
-			
+
 			// attributes
 			$this->id					= $ingredient['id'];
 			$this->name					= $ingredient['name'];
@@ -96,23 +104,23 @@ class Website_Model_Ingredient {
 		}
 	}
 
-    /**
-	* static function to compare objects by ingredient name
-	*
-	* @param Website_Model_Ingredient $a
-	* @param Website_Model_Ingredient $b
-	* @return int
-	*/
-    public static function cmp_obj(Website_Model_Ingredient $a, Website_Model_Ingredient $b)
-    {
-        $al = strtolower($a->name);
-        $bl = strtolower($b->name);
-        if ($al == $bl) {
-            return 0;
-        }
-        return ($al > $bl) ? +1 : -1;
-    }
-    
+	/**
+	 * static function to compare objects by ingredient name
+	 *
+	 * @param Website_Model_Ingredient $a
+	 * @param Website_Model_Ingredient $b
+	 * @return int
+	 */
+	public static function cmp_obj(Website_Model_Ingredient $a, Website_Model_Ingredient $b)
+	{
+		$al = strtolower($a->name);
+		$bl = strtolower($b->name);
+		if ($al == $bl) {
+			return 0;
+		}
+		return ($al > $bl) ? +1 : -1;
+	}
+
 	/**
 	 * returns an Array of ingredient objects by a search string
 	 *
@@ -137,7 +145,7 @@ class Website_Model_Ingredient {
 		}
 		return ($ingredientArray) ;
 	}
-	
+
 	/**
 	 * returns an Array of IngredientCategory objects
 	 *
@@ -145,30 +153,34 @@ class Website_Model_Ingredient {
 	 * @tested
 	 */
 	public function getIngredientCategories () {
-		$ingredientCategoryArray = Website_Model_IngredientCategory::categoriesByIngredientId( $this->id );
-		return $ingredientCategoryArray;
+		if($this->ingredientCategoryArray === NULL){
+			$this->ingredientCategoryArray = Website_Model_IngredientCategory::categoriesByIngredientId( $this->id );
+		}
+		return $this->ingredientCategoryArray;
 	}
-	
+
 	/**
 	 * returns an Array of Product objects
 	 *
 	 * @return array Product
 	 */
 	public function getProducts () {
-		$productArray = Website_Model_Product::productsByIngredientId( $this->id );
-		return $productArray;
+		if($this->productArray === NULL){
+			$this->productArray = Website_Model_Product::productsByIngredientId( $this->id );
+		}
+		return $this->productArray;
 	}
-	
+
 	/**
 	 * returns the average density in g/cm3 of the product
 	 *
 	 * @return int|null density in g/cm3
 	 * @tested
-	 */	
+	 */
 	public function getAverageDensityGramsPerCm3(){
 		if($this->averageDensityGramsPerCm3 === NULL){
 			$db = Zend_Db_Table::getDefaultAdapter();
-			$res = $db->fetchRow ( 'SELECT 
+			$res = $db->fetchRow ( 'SELECT
 				AVG (densityGramsPerCm3) AS averageDensityGramsPerCm3 
 				FROM `product` 
 				WHERE ingredient='.$this->id);
@@ -180,11 +192,11 @@ class Website_Model_Ingredient {
 		}
 		return $this->averageDensityGramsPerCm3;
 	}
-	
+
 	public function getUniqueName() {
 		return rawurlencode(str_replace(array(' '),array('_'),$this->name));
 	}
-	
+
 	/**
 	 * returns the average kcal of the product per given unit
 	 *
@@ -195,7 +207,7 @@ class Website_Model_Ingredient {
 		if($this->averageCaloriesKcal[$unit] === NULL){
 			$db = Zend_Db_Table::getDefaultAdapter();
 			if($unit==Website_Model_Component::PIECE){
-				$res = $db->fetchRow ( 'SELECT 
+				$res = $db->fetchRow ( 'SELECT
 					CASE unit 
 						WHEN \'g\' THEN AVG(caloriesKcal/size)*AVG(size)
 						WHEN \'kg\' THEN AVG(caloriesKcal/size)*AVG(size)
@@ -210,7 +222,7 @@ class Website_Model_Ingredient {
 					FROM `product` 
 					WHERE ingredient='.$this->id.' AND caloriesKcal IS NOT null');
 			} else if($unit==Website_Model_Component::TEASPOON){
-				$res = $db->fetchRow ( 'SELECT 
+				$res = $db->fetchRow ( 'SELECT
 					CASE unit 
 						WHEN \'g\' THEN AVG(caloriesKcal/size/densityGramsPerCm3)*5
 						WHEN \'kg\' THEN AVG(caloriesKcal/size/densityGramsPerCm3/1000)*5
@@ -223,7 +235,7 @@ class Website_Model_Ingredient {
 					FROM `product` 
 					WHERE ingredient='.$this->id.' AND caloriesKcal IS NOT null');
 			} else {
-				$res = $db->fetchRow ( 'SELECT 
+				$res = $db->fetchRow ( 'SELECT
 					CASE unit 
 						WHEN \'l\' THEN AVG(caloriesKcal/size) 
 						WHEN \'cl\' THEN AVG(caloriesKcal/size*100) 
@@ -245,16 +257,16 @@ class Website_Model_Ingredient {
 		}
 		return $this->averageCaloriesKcal[$unit];
 	}
-	
+
 	/**
 	 * returns the average alcohol level of the product
 	 *
 	 * @return int|null alcohol level
-	 */	
+	 */
 	public function getAverageAlcoholLevel(){
 		if($this->averageAlcoholLevel===NULL){
 			$db = Zend_Db_Table::getDefaultAdapter();
-			$res = $db->fetchRow ( 'SELECT 
+			$res = $db->fetchRow ( 'SELECT
 				AVG(alcoholLevel) AS averageAlcoholLevel
 				FROM `product` 
 				WHERE ingredient='.$this->id.' AND alcoholLevel IS NOT null');
@@ -265,14 +277,14 @@ class Website_Model_Ingredient {
 			}
 		}
 		return $this->averageAlcoholLevel;
-		
+
 	}
-	
+
 	/**
 	 * returns the average price per liter of all products
 	 *
 	 * @return float average price
-	 */	
+	 */
 	public function getAveragePricePerLitre(){
 		if($this->averagePricePerLitre === NULL){
 			$products = $this->getProducts();
@@ -299,12 +311,12 @@ class Website_Model_Ingredient {
 		}
 		return $this->averagePricePerLitre;
 	}
-	
+
 	/**
 	 * returns the average price per kilogram of all products
 	 *
 	 * @return float average price
-	 */	
+	 */
 	public function getAveragePricePerKilogram(){
 		if($this->averagePricePerKilogram === NULL){
 			$products = $this->getProducts();
@@ -329,73 +341,91 @@ class Website_Model_Ingredient {
 		}
 		return $this->averagePricePerKilogram;
 	}
-	
+
 	/**
 	 * returns the average price per piece of all products
 	 *
 	 * @return float average price
-	 */	
+	 */
 	public function getAveragePricePerPiece(){
-		$products = $this->getProducts();
-		$avgCount = 0;
-		foreach($products as $product){
-			$price = $product->getAveragePrice();
-			if($price>0){
-				$avgSum += $price / $product->getIngredient()->pieces_in_whole;
-				$avgCount++;
-				//print 'preis: '.$price.'<br />';
+		if($this->averagePricePerPiece === NULL){
+			$products = $this->getProducts();
+			$avgCount = 0;
+			foreach($products as $product){
+				$price = $product->getAveragePrice();
+				if($price>0){
+					$avgSum += $price / $product->getIngredient()->pieces_in_whole;
+					$avgCount++;
+					//print 'preis: '.$price.'<br />';
+				}
+			}
+			if($avgCount>0){
+				$this->averagePricePerPiece = round($avgSum/$avgCount,2);
+			} else {
+				$this->averagePricePerPiece = NULL;
 			}
 		}
-		return round($avgSum/$avgCount,2);
+		return $this->averagePricePerPiece;
 	}
-	
+
 	/**
 	 * returns the average price per whole of all products
 	 *
 	 * @return float average price
-	 */	
+	 */
 	public function getAveragePricePerWhole(){
-		$products = $this->getProducts();
-		$avgCount = 0;
-		foreach($products as $product){
-			$price = $product->getAveragePrice();
-			if($product->unit == 'l' && $price>0){
-				$avgSum += $price / $product->size;
-				$avgCount++;
-				//print 'preis: '.$price.'<br />';
+		if($this->averagePricePerWhole === NULL){
+			$products = $this->getProducts();
+			$avgCount = 0;
+			foreach($products as $product){
+				$price = $product->getAveragePrice();
+				if($product->unit == 'l' && $price>0){
+					$avgSum += $price / $product->size;
+					$avgCount++;
+					//print 'preis: '.$price.'<br />';
+				}
+			}
+			if($avgCount>0){
+				$this->averagePricePerWhole = round($avgSum/$avgCount,2);
+			} else {
+				$this->averagePricePerWhole = NULL;
 			}
 		}
-		return round($avgSum/$avgCount,2);
+		return $this->averagePricePerWhole;
 	}
-	
+
 	/**
 	 * returns the average weight in gram of the product
 	 *
 	 * @return int|null weight in gram
-	 */	
+	 */
 	public function getAverageWeightGram(){
-		// TODO: not only accept GRAM as unit here, also do some conversion
-		$db = Zend_Db_Table::getDefaultAdapter();
-		$res = $db->fetchRow ( 'SELECT 
+		if($this->averageWeightGram === NULL){
+			// TODO: not only accept GRAM as unit here, also do some conversion
+			$db = Zend_Db_Table::getDefaultAdapter();
+			$res = $db->fetchRow ( 'SELECT
 			AVG(size) AS averageSize
 			FROM `product` 
 			WHERE unit=\''.Website_Model_Component::GRAM.'\' AND ingredient='.$this->id);
-		if($res['averageSize']){
-			return round($res['averageSize']);
-		} else {
-			return null;
+			if($res['averageSize']){
+				$this->averageWeightGram = round($res['averageSize']);
+			} else {
+				$this->averageWeightGram = NULL;
+			}
 		}
+		return $this->averageWeightGram;
 	}
-	
+
 	/**
 	 * returns the average volume in Litre of the product
 	 *
 	 * @return int|null volume in litre
 	 * @tested
-	 */		
+	 */
 	public function getAverageVolumeLitre(){
-		$db = Zend_Db_Table::getDefaultAdapter();
-		$res = $db->fetchRow ( 'SELECT 
+		if($this->averageVolumeLitre === NULL){
+			$db = Zend_Db_Table::getDefaultAdapter();
+			$res = $db->fetchRow ( 'SELECT
 			AVG(
 			if(unit=\'ml\',size/1000,
 			if(unit=\'cl\',size/100,
@@ -407,52 +437,57 @@ class Website_Model_Ingredient {
 			if(unit=\'l\',size,
 			if(unit=\'fl. oz\',size/1000*29.5,\'noVolume\')))) !=\'noVolume\'
 				AND ingredient='.$this->id.' AND size IS NOT null');
-		if($res['sizeInLitre']){
-			return round($res['sizeInLitre'],2);
-		} else {
-			return null;
+			if($res['sizeInLitre']){
+				$this->averageVolumeLitre = round($res['sizeInLitre'],2);
+			} else {
+				$this->averageVolumeLitre = NULL;
+			}
 		}
+		return $this->averageVolumeLitre;
 	}
-		
+
 	/**
-	* returns the most used unit of an Ingredient, 
-	* if not unambgiguous only one unit is returned
-	* return string (Unit) or null if no product data available
-	*@tested
-	*/
+	 * returns the most used unit of an Ingredient,
+	 * if not unambgiguous only one unit is returned
+	 * return string (Unit) or null if no product data available
+	 *@tested
+	 */
 	public function getMostUsedUnit(){
-		$db = Zend_Db_Table::getDefaultAdapter();
-		$res = $db->fetchRow ( 'SELECT 
+		if($this->mostUsedUnit === NULL){
+			$db = Zend_Db_Table::getDefaultAdapter();
+			$res = $db->fetchRow ( 'SELECT
 			unit 
 			FROM `product` 
 			WHERE ingredient='.$this->id.' GROUP BY unit ORDER BY count(unit) DESC LIMIT 1');
-		if($res){
-			return $res['unit'];
-		} else {
-			null;
+			if($res){
+				$this->mostUsedUnit = $res['unit'];
+			} else {
+				$this->mostUsedUnit = NULL;
+			}
 		}
+		return $this->mostUsedUnit;
 	}
-	
+
 	/**
-	* attaches an IngredientCategory to an Ingredient
-	*@tested
-	*/
+	 * attaches an IngredientCategory to an Ingredient
+	 *@tested
+	 */
 	public function addIngredientCategory($ingredientCategoryId){
 		$db = Zend_Db_Table::getDefaultAdapter();
-		$res = $db->query ( 'INSERT INTO ingredient2ingredientcategory 
+		$res = $db->query ( 'INSERT INTO ingredient2ingredientcategory
 			(ingredientCategory, ingredient)
 			VALUES ('.$ingredientCategoryId.','.$this->id.')');
 	}
-	
+
 	/**
-	*detaches an IngredientCategory from an Ingredient
-	*@tested
-	*/	
+	 *detaches an IngredientCategory from an Ingredient
+	 *@tested
+	 */
 	public function removeIngredientCategory($ingredientCategoryId){
 		$ingredientTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'ingredient2ingredientcategory');
 		$ingredientTable->delete('ingredientCategory='.$ingredientCategoryId.' AND ingredient='.$this->id);
-	}	
-	
+	}
+
 	/**
 	 * adds the xml representation of the object to a xml branch
 	 *
@@ -471,9 +506,9 @@ class Website_Model_Ingredient {
 		$zutat->setAttribute('updateDate',$this->updateDate);
 		$ast->appendchild($zutat);
 	}
-	
+
 	/**
-	 * saves an object persistent into a database 
+	 * saves an object persistent into a database
 	 *
 	 * @return (boolean | int) if update => true, if insert => recipe and ingredient id
 	 * @tested
@@ -493,7 +528,7 @@ class Website_Model_Ingredient {
 		// Erfolg zurückgeben
 		return $return ;
 	}
-	
+
 	/**
 	 *
 	 * @tested
@@ -504,15 +539,15 @@ class Website_Model_Ingredient {
 		Website_Model_CbFactory::destroy('Ingredient',$this->id);
 		unset($this);
 	}
-	
-	
+
+
 	public static function exists($id) {
 		$ingredientTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'ingredient') ;
 		if($id>0){
 			$ingredient = $ingredientTable->fetchRow('id='.$id);
 		} else {
 			$ingredient = $ingredientTable->fetchRow($ingredientTable->select()
-        ->where('name = ?',rawurldecode(str_replace(array('_'),array(' '),$id))));
+			->where('name = ?',rawurldecode(str_replace(array('_'),array(' '),$id))));
 		}
 		if ($ingredient) {
 			return $ingredient->id;
