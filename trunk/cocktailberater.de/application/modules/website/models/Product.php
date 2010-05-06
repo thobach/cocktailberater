@@ -21,6 +21,10 @@ class Website_Model_Product
 	private $_ingredient;
 	private $_manufacturer;
 
+	// calculated attributes
+	private $averagePrice;
+	private $offers;
+
 	/**
 	 * magic getter for all attributes
 	 *
@@ -109,67 +113,70 @@ class Website_Model_Product
 	 * @return double
 	 */
 	public function getAveragePrice(){
-		// load cache from registry
-		$cache = Zend_Registry::get('cache');
+		if($this->averagePrice === NULL){
+			// load cache from registry
+			$cache = Zend_Registry::get('cache');
 
-		// see if offer - list is already in cache
-		$avgPrice = $cache->load('averagePriceByProductId'.$this->id);
-		if($avgPrice === false) {
-			// ask google base
-			$service = new Zend_Gdata_Gbase();
-			$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl());
+			// see if offer - list is already in cache
+			$avgPrice = $cache->load('averagePriceByProductId'.$this->id);
+			if($avgPrice === false) {
+				// ask google base
+				$service = new Zend_Gdata_Gbase();
+				$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl());
 
-			// average price over all shops
-			$priceMatrix = array();
-			foreach ($feed->entries as $entry) {
-				$price = $entry->getGbaseAttribute('preis');
-				$priceMatrix[$entry->id->text] =  str_replace(' eur','',$price[0]->text);
-			}
-
-			// take average * 1.5 as max treshold
-			$maxPriceThresholdOne = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
-			// delete all 'shops' where price is above max trashold
-			foreach ($priceMatrix as $id => $price){
-				if($price > $maxPriceThresholdOne || ($this->max_price > 0 && $price > $this->max_price)){
-					unset($priceMatrix[$id]);
+				// average price over all shops
+				$priceMatrix = array();
+				foreach ($feed->entries as $entry) {
+					$price = $entry->getGbaseAttribute('preis');
+					$priceMatrix[$entry->id->text] =  str_replace(' eur','',$price[0]->text);
 				}
-			}
 
-			// take average of cleaned up results * 1.5 as new max treshold
-			$maxPriceThresholdTwo = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				// take average * 1.5 as max treshold
+				$maxPriceThresholdOne = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				// delete all 'shops' where price is above max trashold
+				foreach ($priceMatrix as $id => $price){
+					if($price > $maxPriceThresholdOne || ($this->max_price > 0 && $price > $this->max_price)){
+						unset($priceMatrix[$id]);
+					}
+				}
 
-			// average price of selection
-			$avgPrice = 0.0;
-			$sumPrice = 0.0;
-			$countPrice = 0;
+				// take average of cleaned up results * 1.5 as new max treshold
+				$maxPriceThresholdTwo = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
 
-			foreach ($feed->entries as $entry) {
-				$content = $entry->content->text;
-				$preis = $entry->getGbaseAttribute('preis');
-				$preis = str_replace(' eur','',$preis[0]->text);
-				if($preis<=$maxPriceThresholdTwo && ($preis <= $this->max_price || $this->max_price <= 0)){
-					// avg price calculation
+				// average price of selection
+				$avgPrice = 0.0;
+				$sumPrice = 0.0;
+				$countPrice = 0;
+
+				foreach ($feed->entries as $entry) {
+					$content = $entry->content->text;
+					$preis = $entry->getGbaseAttribute('preis');
+					$preis = str_replace(' eur','',$preis[0]->text);
+					if($preis<=$maxPriceThresholdTwo && ($preis <= $this->max_price || $this->max_price <= 0)){
+						// avg price calculation
+						$countPrice++;
+						$sumPrice += $preis;
+					}
+				}
+
+				// ask local database
+				$priceTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','price');
+				$prices = $priceTable->fetchAll('product='.$this->id);
+
+				foreach($prices as $price){
+					$sumPrice += $price->price;
 					$countPrice++;
-					$sumPrice += $preis;
 				}
+				if($countPrice>0){
+					$avgPrice = round($sumPrice/$countPrice,2);
+				} else {
+					$avgPrice = NULL;
+				}
+				$cache->save($avgPrice,'averagePriceByProductId'.$this->id);
 			}
-
-			// ask local database
-			$priceTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','price');
-			$prices = $priceTable->fetchAll('product='.$this->id);
-
-			foreach($prices as $price){
-				$sumPrice += $price->price;
-				$countPrice++;
-			}
-			if($countPrice>0){
-				$avgPrice = round($sumPrice/$countPrice,2);
-			} else {
-				$avgPrice = NULL;
-			}
-			$cache->save($avgPrice,'averagePriceByProductId'.$this->id);
+			$this->averagePrice = $avgPrice;
 		}
-		return $avgPrice;
+		return $this->averagePrice;
 	}
 
 	/**
@@ -178,59 +185,62 @@ class Website_Model_Product
 	 * @return array keys: title, description, shop, shopUrl, price, imageUrl, brand
 	 */
 	public function getOffers(){
-		// load cache from registry
-		$cache = Zend_Registry::get('cache');
+		if($this->offers === NULL){
+			// load cache from registry
+			$cache = Zend_Registry::get('cache');
 
-		// see if offer - list is already in cache
-		$offerList = $cache->load('offersByProductId'.$this->id);
-		if($offerList === false) {
-			$service = new Zend_Gdata_Gbase();
-			$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl());
+			// see if offer - list is already in cache
+			$offerList = $cache->load('offersByProductId'.$this->id);
+			if($offerList === false) {
+				$service = new Zend_Gdata_Gbase();
+				$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl());
 
-			// average price over all shops
-			foreach ($feed->entries as $entry) {
-				$price = $entry->getGbaseAttribute('preis');
-				$priceMatrix[$entry->id->text] =  str_replace(' eur','',$price[0]->text);
-			}
-
-			// take average * 1.5 as max treshold
-			$maxPriceThresholdOne = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
-			// delete all 'shops' where price is above max trashold
-			foreach ($priceMatrix as $id => $price){
-				if($price>$maxPriceThresholdOne || ($price > $this->max_price && $this->max_price > 0)){
-					unset($priceMatrix[$id]);
-				}
-			}
-			// take average of cleaned up results * 1.5 as new max treshold
-			$maxPriceThresholdTwo = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
-
-			// create empty result set
-			$offerList = array();
-			foreach ($feed->entries as $entry) {
-				$price = $entry->getGbaseAttribute('preis');
-				$price = str_replace(' eur','',$price[0]->text);
-				if($price <= $maxPriceThresholdTwo && ($this->max_price <= 0 || $price < $this->max_price)){
-					$baseAttributes = $entry->getGbaseAttributes();
+				// average price over all shops
+				foreach ($feed->entries as $entry) {
 					$price = $entry->getGbaseAttribute('preis');
-					$price = $price[0]->text;
-					$brand = $entry->getGbaseAttribute('marke');
-					$brand = $brand[0]->text;
-					$imageLink = $entry->getGbaseAttribute('image_link');
-					$imageLink = $imageLink[0]->text;
-					$shop = $entry->author;
-					$shop = $shop[0]->name->text;
-					$link = $entry->link;
-					$link = $link[0]->href;
-					$offerList[] = array(
+					$priceMatrix[$entry->id->text] =  str_replace(' eur','',$price[0]->text);
+				}
+
+				// take average * 1.5 as max treshold
+				$maxPriceThresholdOne = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+				// delete all 'shops' where price is above max trashold
+				foreach ($priceMatrix as $id => $price){
+					if($price>$maxPriceThresholdOne || ($price > $this->max_price && $this->max_price > 0)){
+						unset($priceMatrix[$id]);
+					}
+				}
+				// take average of cleaned up results * 1.5 as new max treshold
+				$maxPriceThresholdTwo = round((array_sum($priceMatrix)/count($priceMatrix))*1.5,2);
+
+				// create empty result set
+				$offerList = array();
+				foreach ($feed->entries as $entry) {
+					$price = $entry->getGbaseAttribute('preis');
+					$price = str_replace(' eur','',$price[0]->text);
+					if($price <= $maxPriceThresholdTwo && ($this->max_price <= 0 || $price < $this->max_price)){
+						$baseAttributes = $entry->getGbaseAttributes();
+						$price = $entry->getGbaseAttribute('preis');
+						$price = $price[0]->text;
+						$brand = $entry->getGbaseAttribute('marke');
+						$brand = $brand[0]->text;
+						$imageLink = $entry->getGbaseAttribute('image_link');
+						$imageLink = $imageLink[0]->text;
+						$shop = $entry->author;
+						$shop = $shop[0]->name->text;
+						$link = $entry->link;
+						$link = $link[0]->href;
+						$offerList[] = array(
 			  	'shop'=>$shop, 'shopUrl'=>$link,
 			  	'price'=>str_replace(array('eur'),array(''),$price),
 			  	'imageUrl'=>$imageLink,'title'=>$entry->title->text,
 			  	'description'=>$entry->content->text,'brand'=>$brand);			  	
+					}
 				}
+				$cache->save($offerList,'offersByProductId'.$this->id);
 			}
-			$cache->save($offerList,'offersByProductId'.$this->id);
+			$this->offers = $offerList;
 		}
-		return $offerList;
+		return $this->offers;
 	}
 
 
