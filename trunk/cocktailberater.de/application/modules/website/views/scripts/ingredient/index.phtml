@@ -15,15 +15,15 @@ foreach ($this->ingredients as $ingredient){
 	if($ingredient->getAverageCaloriesKcal()) {
 		print 'Kalorien: '.round($ingredient->getAverageCaloriesKcal()/10).' kcal / 100g bzw. 100 ml<br />';
 	}
-	if($ingredient->getAveragePricePerLitre()!='0.00' || $ingredient->getAveragePricePerKilogram()!='0.00') {
+	if($ingredient->getAveragePricePerLitre() || $ingredient->getAveragePricePerKilogram()) {
 		print 'Durchschnittspreis: ';
-		if($ingredient->getAveragePricePerLitre()!='0.00') {
+		if($ingredient->getAveragePricePerLitre()) {
 			print number_format($ingredient->getAveragePricePerLitre(),2,',','.').' € / Liter ';
 		}
-		if($ingredient->getAveragePricePerLitre()!='0.00' && $ingredient->getAveragePricePerKilogram()!='0.00') {
+		if($ingredient->getAveragePricePerLitre() && $ingredient->getAveragePricePerKilogram()) {
 			print '<br />';
 		}
-		if($ingredient->getAveragePricePerKilogram()!='0.00') {
+		if($ingredient->getAveragePricePerKilogram()) {
 			print number_format($ingredient->getAveragePricePerKilogram(),2,',','.').' € / kg<br />';
 		}
 	}

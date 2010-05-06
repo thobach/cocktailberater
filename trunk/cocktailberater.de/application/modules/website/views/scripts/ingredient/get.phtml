@@ -13,15 +13,15 @@
 <div class="attribut">Kalorien:</div>
 <div class="wert"><?php print round($this->ingredient->getAverageCaloriesKcal()/10); ?> kcal / 100g bzw. 100 ml</div>
 <?php } ?>
-<?php if($this->ingredient->getAveragePricePerLitre()!='0.00' || $this->ingredient->getAveragePricePerKilogram()!='0.00') {?>
+<?php if($this->ingredient->getAveragePricePerLitre() || $this->ingredient->getAveragePricePerKilogram()) {?>
 <div class="attribut">Durchschnitts-preis:</div>
 <div class="wert"><?php 
-if($this->ingredient->getAveragePricePerLitre()!='0.00') { 
+if($this->ingredient->getAveragePricePerLitre()) { 
 	print number_format($this->ingredient->getAveragePricePerLitre(),2,',','.'); ?> € / Liter <?php }
-if($this->ingredient->getAveragePricePerLitre()!='0.00' && $this->ingredient->getAveragePricePerKilogram()!='0.00') {
+if($this->ingredient->getAveragePricePerLitre() && $this->ingredient->getAveragePricePerKilogram()) {
 	print '<br />';
 }
-if($this->ingredient->getAveragePricePerKilogram()!='0.00') {
+if($this->ingredient->getAveragePricePerKilogram()) {
 	print number_format($this->ingredient->getAveragePricePerKilogram(),2,',','.'); ?> € / kg <?php } ?></div>
 <?php } ?>
 <?php if($this->ingredient->getMostUsedUnit()) {?>
