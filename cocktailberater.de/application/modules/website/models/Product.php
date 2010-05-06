@@ -120,6 +120,7 @@ class Website_Model_Product
 			$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl());
 
 			// average price over all shops
+			$priceMatrix = array();
 			foreach ($feed->entries as $entry) {
 				$price = $entry->getGbaseAttribute('preis');
 				$priceMatrix[$entry->id->text] =  str_replace(' eur','',$price[0]->text);
@@ -161,8 +162,11 @@ class Website_Model_Product
 				$sumPrice += $price->price;
 				$countPrice++;
 			}
-
-			$avgPrice = round($sumPrice/$countPrice,2);
+			if($countPrice>0){
+				$avgPrice = round($sumPrice/$countPrice,2);
+			} else {
+				$avgPrice = NULL;
+			}
 			$cache->save($avgPrice,'averagePriceByProductId'.$this->id);
 		}
 		return $avgPrice;
