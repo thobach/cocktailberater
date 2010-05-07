@@ -1,6 +1,34 @@
 <?php
 class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
+	protected function _initPageCache(){
+		$config = $this->getOptions();
+		if($config['cache']['enabled']=='true') {
+			if(APPLICATION_ENV == 'development'){
+				$debug = true;
+			} else {
+				$debug = false;
+			}
+			$frontendOptionsPage = array(
+			   'lifetime' => 7200,
+			   'debug_header' => $debug, // für das Debuggen
+			   'regexps' => array(
+			       // cache den gesamten IndexController
+			       '^/website' => array(
+			       		'cache' => true,
+						'cache_with_cookie_variables' => true,
+					 	'cache_with_session_variables' => true
+					)
+			   )
+			);
+			$backendOptionsPage = array(
+			    'cache_dir' => realpath(APPLICATION_PATH.'/../tmp/')
+			);
+			$cachePage = Zend_Cache::factory('Page','File',$frontendOptionsPage,$backendOptionsPage);
+			$cachePage->start();
+		}
+	}
+	
 	/**
 	 * Initialize Logger
 	 *
@@ -47,32 +75,6 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		} else {
 			$log->log('cache disabled',Zend_Log::DEBUG);
 			$cacheEnabled = false;
-		}
-		
-		// page cache
-		if($cacheEnabled){
-			if(APPLICATION_ENV == 'development'){
-				$debug = true;
-			} else {
-				$debug = false;
-			}
-			$frontendOptionsPage = array(
-			   'lifetime' => 7200,
-			   'debug_header' => $debug, // für das Debuggen
-			   'regexps' => array(
-			       // cache den gesamten IndexController
-			       '^/website' => array(
-			       		'cache' => true,
-						'cache_with_cookie_variables' => true,
-					 	'cache_with_session_variables' => true
-					)
-			   )
-			);
-			$backendOptionsPage = array(
-			    'cache_dir' => realpath(APPLICATION_PATH.'/../tmp/')
-			);
-			$cachePage = Zend_Cache::factory('Page','File',$frontendOptionsPage,$backendOptionsPage);
-			$cachePage->start();
 		}
 
 		// normal cache

@@ -105,6 +105,12 @@ class Website_Model_Comment {
 	 * @return mixed at update true, at insert int (recipeId)
 	 */
 	public function save () {
+		// remove all saved pages
+		$cache = Zend_Registry::get('cache');
+		$cache->clean(
+			Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
+			array('model')
+		);
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','comment');
 		if ($this->id) {
 			// update tag

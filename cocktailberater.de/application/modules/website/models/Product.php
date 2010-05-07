@@ -180,7 +180,7 @@ class Website_Model_Product
 				} else {
 					$avgPrice = NULL;
 				}
-				$cache->save($avgPrice,'averagePriceByProductId'.$this->id);
+				$cache->save($avgPrice,'averagePriceByProductId'.$this->id,array('model'));
 			}
 			$this->averagePrice = $avgPrice;
 		}
@@ -253,7 +253,7 @@ class Website_Model_Product
 			  	'description'=>$entry->content->text,'brand'=>$brand);			  	
 					}
 				}
-				$cache->save($offerList,'offersByProductId'.$this->id);
+				$cache->save($offerList,'offersByProductId'.$this->id,array('model'));
 			}
 			$this->offers = $offerList;
 		}

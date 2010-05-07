@@ -57,7 +57,7 @@ class Website_Model_RecipeCategory extends Website_Model_Category {
 					$recipesArray[] = Website_Model_CbFactory::factory('Website_Model_RecipeCategory', $recipe->recipeCategory);
 				}
 			}
-			$cache->save($recipesArray,'categoryByRecipeId'.$id);
+			$cache->save($recipesArray,'categoryByRecipeId'.$id,array('model'));
 		}
 		//	print microtime(). ' ';
 		return $recipesArray;
