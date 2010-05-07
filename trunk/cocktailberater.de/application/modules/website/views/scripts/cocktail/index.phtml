@@ -1,12 +1,36 @@
 <?php echo $this->partial ("template/search.phtml"); ?>
-<h1>Cocktails</h1>
-<div id="ergebnisse" style="clear: left;">
-<ul>
-<?php 
+<h1>Cocktails mit Rezeptalternativen</h1>
+<ul style="margin-left: 1em;">
+<?php
+$i=0;
 foreach ($this->cocktails as $cocktail){
-	$count = count($cocktail->getRecipes());
-	print '<li><a href="'.$this->url().'/'.$cocktail->id.'">'.$cocktail->name.'</a> ('.$count.' Rezept'.($count>1 ? 'e' : '').')</li>';
+	$i++;
+	print '<li style="width: 20em; float: left; margin-bottom: 1em; margin-left: 1em; margin-right: 1em; '.( ($i == 1) ? 'clear: left;' : 'clear: none;' ).'">'.
+	'<a href="'.$this->url().'/'.$cocktail->getUniqueName().'">'.$cocktail->name.'</a><br />';
+	$recipes = $cocktail->getRecipes();
+	if(is_array($recipes)) { 
+		print '<ul style="font-size: 0.9em; list-style-type: circle; list-style-type: none;">';
+		foreach ($recipes as $recipe) {
+			$avgPrice = $recipe->getAveragePrice();
+			$calories = $recipe->getCaloriesKcal();
+			$photos = $recipe->getPhotos();
+			print '<li style="margin-bottom: 1em;">';
+			print '<a href="'.$this->url().'/'.$recipe->getUniqueName().'">'.
+			'<img style="height: 100px;" src="'.$this->baseUrl();
+			if(isset($photos[0]) && $photos[0]->id){
+				print '/img/recipes/'.$this->escape($photos[0]->fileName);
+			} else { 
+				print '/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
+			}
+			print '" /></a>';
+			print '<br /><a href="'.$this->url().'/'.$recipe->getUniqueName().'">'.$recipe->name.'</a> '.
+			($avgPrice ? ' <br />Durchschnittspreis: '.number_format($avgPrice,2,',','.').'&nbsp;€ ' : '').
+			($calories ? ' <br />Durchschnittskalorien: '.number_format($calories,0,',','.').'&nbsp;kcal ' : '');
+			print '</li>';
+		}
+		print '</ul>';
+	}
+	print '</li>';
 }
 ?>
 </ul>
-</div>

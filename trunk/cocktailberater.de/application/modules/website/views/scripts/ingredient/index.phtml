@@ -13,18 +13,18 @@ foreach ($this->ingredients as $ingredient){
 		print 'Alkoholgehalt: '.$ingredient->getAverageAlcoholLevel().'%<br />';
 	}
 	if($ingredient->getAverageCaloriesKcal()) {
-		print 'Kalorien: '.round($ingredient->getAverageCaloriesKcal()/10).' kcal / 100g bzw. 100 ml<br />';
+		print 'Kalorien: '.round($ingredient->getAverageCaloriesKcal()/10).'&nbsp;kcal / 100&nbsp;g bzw. 100&nbsp;ml<br />';
 	}
 	if($ingredient->getAveragePricePerLitre() || $ingredient->getAveragePricePerKilogram()) {
 		print 'Durchschnittspreis: ';
 		if($ingredient->getAveragePricePerLitre()) {
-			print number_format($ingredient->getAveragePricePerLitre(),2,',','.').' € / Liter ';
+			print number_format($ingredient->getAveragePricePerLitre(),2,',','.').'&nbsp;€&nbsp;/&nbsp;Liter ';
 		}
 		if($ingredient->getAveragePricePerLitre() && $ingredient->getAveragePricePerKilogram()) {
 			print '<br />';
 		}
 		if($ingredient->getAveragePricePerKilogram()) {
-			print number_format($ingredient->getAveragePricePerKilogram(),2,',','.').' € / kg<br />';
+			print number_format($ingredient->getAveragePricePerKilogram(),2,',','.').'&nbsp;€&nbsp;/&nbsp;kg<br />';
 		}
 	}
 	$products = Website_Model_Product::productsByIngredientId($ingredient->id);
@@ -34,8 +34,8 @@ foreach ($this->ingredients as $ingredient){
 		foreach ($products as $product) {
 			$avgPrice = $product->getAveragePrice();
 			print '<li>'.$product->name.' '.(($product->getManufacturer()->name!='') ? ' ('.$product->getManufacturer()->name.') - ' : '').
-			str_replace('.',',',round($product->size,2)).' '.$product->unit.
-			($avgPrice ? ' - Durchschnittspreis: '.number_format($avgPrice,2,',','.').' € ' : '').'</li>';
+			str_replace('.',',',round($product->size,2)).'&nbsp;'.$product->unit.
+			($avgPrice ? ' - Durchschnittspreis: '.number_format($avgPrice,2,',','.').'&nbsp;€ ' : '').'</li>';
 		}
 		print '</ul>';
 	}
