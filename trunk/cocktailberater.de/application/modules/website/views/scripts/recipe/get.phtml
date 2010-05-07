@@ -6,9 +6,10 @@ $recipe = $this->recipe;
 $photos = $recipe->getPhotos();
 $videos = $recipe->getVideos();
 $alternatives = $this->alternatives;
+$components = $recipe->getComponents();
 $gesamt = count($alternatives);
 // ingredient list
-foreach ( $recipe->getComponents() as $component ) {
+foreach ( $components as $component ) {
 	$ingredientList[] = $component->amount.' '.$component->unit.' '.$component->getIngredient()->name;
 	$ingredientList2[] = $component->getIngredient()->name;
 }
@@ -81,7 +82,7 @@ print str_replace("\n",'</p><p>',$recipe->description);
 ?></p></div><?php } ?>
 <div class="attribut">Zutaten:</div>
 <div class="wert"><p><strong>Cocktail</strong></p><ul><?php
-foreach ( $recipe->getComponents() as $component ) {
+foreach ( $components as $component ) {
 	print '<li>';
 	print $component->amount ;
 	print ' ' ;
@@ -547,7 +548,6 @@ Video gefunden.</div>
 			connectId: ["caloriesInfo"],
 			label: "<?php
 				$calories = $recipe->getCaloriesKcal();
-				$components = $recipe->getComponents();
 				$caloriesComplete = true;
 				if(is_array($components)){
 					foreach ($components as $component) {
