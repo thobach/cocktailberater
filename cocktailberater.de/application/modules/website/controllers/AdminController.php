@@ -146,4 +146,9 @@ class  Website_AdminController extends Zend_Controller_Action {
 		}
 
 	}
+	
+	public function deleteCacheAction(){
+		$cache = Zend_Registry::get('cache');
+		$cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+	}
 }
