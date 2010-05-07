@@ -55,12 +55,13 @@ class Website_Model_Photo {
 		}
 	}
 	
-	public static function getPhoto($id)
-	{
-		if(!isset(self::$_photo[$id])){
-			self::$_photo[$id] = new self($id);
-		}
-		return self::$_photo[$id];
+	/**
+	 * 
+	 * @deprecated use factory instead
+	 * @param int $id
+	 */
+	public static function getPhoto($id) {
+		return Website_Model_CbFactory::factory('Website_Model_Photo',$id);
 	}
 	
 	
@@ -83,15 +84,20 @@ class Website_Model_Photo {
 		$this->id.'.jpg';
 	}
 	
-	static function photosByRecipeId ( $idrezept ) {
+	/**
+	 * 
+	 * @param int $idrezept
+	 * @param int $max number of photos required
+	 */
+	public static function photosByRecipeId ( $idrezept, $max = NULL ) {
 		if($idrezept<1 || $idrezept === null){
 			throw new Exception ( 'No ID given for '.get_class().'::photosByRecipeId().' ) ;
 		}
 		$photo2recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'photo2recipe');
-		$photo2recipes = $photo2recipeTable->fetchAll ( 'recipe=' . $idrezept ) ;
+		$photo2recipes = $photo2recipeTable->fetchAll ( 'recipe=' . $idrezept , NULL, $max) ;
 		$photoArray = array();
 		foreach ( $photo2recipes as $photo2recipe ) {
-			$photoArray [] = self::getPhoto( $photo2recipe->photo) ;
+			$photoArray [] = Website_Model_CbFactory::factory('Website_Model_Photo',$photo2recipe->photo);
 		}
 		return $photoArray ;
 	}

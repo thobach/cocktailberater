@@ -15,7 +15,7 @@ class Zend_View_Helper_CocktailPreview extends Zend_View_Helper_Abstract
 	 */
 	public function cocktailPreview(Website_Model_Recipe $recipe,$top10Position=null) {
 		$this->view->dojo()->enable()->requireModule('dijit.Tooltip');
-		$photos = Website_Model_Photo::photosByRecipeId($recipe->id); ?>
+		$photos = Website_Model_Photo::photosByRecipeId($recipe->id,1); ?>
 		<?php $this->view->headScript()->captureStart(); ?>
 		dojo.addOnLoad(function() {
 			recipe<?php print $recipe->id ;?>Tooltip = new dijit.Tooltip({
@@ -36,8 +36,8 @@ if (is_array ( $components )) {
 	        });
 	    });
 		<?php $this->view->headScript()->captureEnd(); ?>
-<div id="cocktail" style="width: 106px; height: 150px"><a
-	href="<?php $uniqueName = rawurlencode(str_replace(array(' '),array('_'),$recipe->name));
+<div id="cocktail" style="width: 107px; height: 150px"><a
+	href="<?php $uniqueName = $recipe->getUniqueName();
 	print $this->view->url(
 	array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>"><img
 	style="height: 100px;"

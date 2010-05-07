@@ -290,6 +290,7 @@ class Website_Model_Ingredient {
 			$products = $this->getProducts();
 			$avgCount = 0;
 			foreach($products as $product){
+				// cached
 				$price = $product->getAveragePrice();
 				if($product->unit == 'l' && $price>0){
 					$avgSum += $price / $product->size;

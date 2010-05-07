@@ -161,10 +161,9 @@ class Website_Model_Recipe {
 		return rawurlencode(str_replace(array(' '),array('_'),$this->name));
 	}
 
-
 	/**
-	 *
-	 * @tested
+	 * 
+	 * @param int|NULL $id
 	 */
 	public function __construct ( $id = NULL ) {
 
@@ -193,9 +192,9 @@ class Website_Model_Recipe {
 			$this->isOriginal = $recipe->isOriginal ;
 			//$this->isAlcoholic = $this->isAlcoholic();
 			$this->isAlcoholic = $recipe->isAlcoholic;
-			$this->alcoholLevel = $this->getAlcoholLevel();
-			$this->caloriesKcal = $this->getCaloriesKcal();
-			$this->volumeCl = $this->getVolumeCl();
+			//$this->alcoholLevel = $this->getAlcoholLevel();
+			//$this->caloriesKcal = $this->getCaloriesKcal();
+			//$this->volumeCl = $this->getVolumeCl();
 			$this->ratingsCount = $recipe->ratingsCount;
 			$this->ratingsSum = $recipe->ratingsSum;
 			//$this->insertDate =  new Zend_Date ($recipe->insertDate);
@@ -356,6 +355,7 @@ class Website_Model_Recipe {
 	}
 
 	public function getAlcoholLevel() {
+		if(!$this->alcoholLevel){
 		$components = $this->getComponents();
 		$alcoholLevel=0;
 		$volume=0;
@@ -371,9 +371,10 @@ class Website_Model_Recipe {
 				}
 				$volume += $component->amount;
 			}
-			$alcoholLevel = round($alcoholLevel/$volume*100,1);
+			$this->alcoholLevel = $alcoholLevel = round($alcoholLevel/$volume*100,1);
 		}
-		return $alcoholLevel;
+		}
+		return $this->alcoholLevel;
 	}
 
 	public function isAlcoholic() {
@@ -384,8 +385,8 @@ class Website_Model_Recipe {
 		return false;
 	}
 
-	public function getPhotos() {
-		return Website_Model_Photo::photosByRecipeId ($this->id);
+	public function getPhotos($max = NULL) {
+		return Website_Model_Photo::photosByRecipeId ($this->id, $max);
 	}
 
 	public function getVideos() {
@@ -441,22 +442,20 @@ class Website_Model_Recipe {
 		$table->insert($data);
 	}
 
-	public function getComments()
-	{
-		// TODO: write unit test
+	public function getComments() {
 		return Website_Model_Comment::commentsByRecipeId ($this->id);
 	}
 
-	private function getTags()
-	{
-		// TODO: write unit test
+	private function getTags() {
 		return Website_Model_Tag::tagsByRecipeId ($this->id);
 	}
 
-	public static function getRecipesByTag($tag){
-		// TODO: write unit test
+	public static function getRecipesByTag($tag,$max = NULL){
 		$db = Zend_Db_Table::getDefaultAdapter();
-		$tags = $db->fetchAll ( 'SELECT recipe FROM tag WHERE name=\''.$tag.'\' GROUP BY recipe');
+		if($max>0){
+			$max = ' LIMIT '.$max;
+		}
+		$tags = $db->fetchAll ( 'SELECT recipe FROM tag WHERE name=\''.$tag.'\' GROUP BY recipe'.$max);
 		foreach ( $tags as $tag ) {
 			$recipeArray [] = Website_Model_CbFactory::factory('Website_Model_Recipe', $tag['recipe'] ) ;
 		}

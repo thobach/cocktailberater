@@ -164,6 +164,7 @@ class Website_Model_Component {
 		} elseif($this->unit==Website_Model_Component::WHOLE){
 			throw new Website_Model_ComponentException("Whole_Not_Convertable_To_Litre");
 		} elseif($this->unit==Website_Model_Component::TEASPOON){
+			// 1 Teaspoon = 5 ml
 			return ($this->amount/200);
 		} elseif($this->unit==Website_Model_Component::FLUID_OUNCE){
 			// Durchschnittswert der verschiedenen Unzen ~ 29ml
