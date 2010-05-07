@@ -510,7 +510,7 @@ class Website_Model_Recipe {
 			foreach ($recipes as $recipe) {
 				$recipeArray[] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipe->id);
 			}
-			$cache->save($recipeArray,'recipeList');
+			$cache->save($recipeArray,'recipeList',array('model'));
 		}
 		return $recipeArray;
 

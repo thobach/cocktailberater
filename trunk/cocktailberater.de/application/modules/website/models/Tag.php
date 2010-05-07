@@ -208,6 +208,12 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 	 * @return mixed at update true, at insert int (tagId)
 	 */
 	public function save () {
+		// remove all saved pages
+		$cache = Zend_Registry::get('cache');
+		$cache->clean(
+			Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
+			array('model')
+		);
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','tag');
 		if ($this->id) {
 			// update tag

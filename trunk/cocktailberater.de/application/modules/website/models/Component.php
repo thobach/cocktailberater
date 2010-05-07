@@ -309,7 +309,7 @@ class Website_Model_Component {
 			foreach ( $components as $component ) {
 				$componentsArray [] = Website_Model_CbFactory::factory('Website_Model_Component',$component->ingredient,$component->recipe);
 			}
-			$cache->save ($componentsArray,'componentsByRecipeId'.$idrecipe);
+			$cache->save ($componentsArray,'componentsByRecipeId'.$idrecipe,array('model'));
 		}
 		return $componentsArray ;
 	}
@@ -335,7 +335,7 @@ class Website_Model_Component {
 			foreach ( $components as $component ) {
 				$componentsArray [] = Website_Model_CbFactory::factory('Website_Model_Component',$component->ingredient,$component->recipe);
 			}
-			$cache->save ($componentsArray,'componentsByIngredientId'.$idingredient);
+			$cache->save ($componentsArray,'componentsByIngredientId'.$idingredient,array('model'));
 		}
 		return $componentsArray ;
 	}

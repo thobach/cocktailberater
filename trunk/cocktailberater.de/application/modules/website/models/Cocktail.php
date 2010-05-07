@@ -322,7 +322,7 @@ class Website_Model_Cocktail {
 		// see if recipe - list is already in cache
 		if(!$recipes = $cache->load('recipesByCocktailId'.$this->id)) {
 			$recipes = Website_Model_Recipe::recipesByCocktailId($this->id);
-			$cache->save($recipes,'recipesByCocktailId'.$this->id);
+			$cache->save($recipes,'recipesByCocktailId'.$this->id,array('model'));
 		}
 		return $recipes;
 	}
