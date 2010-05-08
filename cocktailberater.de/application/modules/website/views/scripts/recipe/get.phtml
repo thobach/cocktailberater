@@ -16,7 +16,7 @@ foreach ( $components as $component ) {
 // setting meta keywords
 $this->headMeta()->appendName('keywords', $recipe->name.', '.implode($ingredientList2,', ').', cocktail, rezept, cocktails, rezepte, cocktailrezepte, cocktailrezept, cocktailberater');
 // setting meta description
-$this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' Cocktails besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Anweisung, Fotos, Videos und Kommentaren hier.');
+$this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' Cocktails besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Anweisung, Fotos, Videos, Tags/Schlagworten, Kosten/Preisen, Kalorien und Kommentaren hier.');
 ?>
 <div>
 <div style="float: right;"><img 
@@ -575,12 +575,12 @@ Video gefunden.</div>
 	print $this->baseUrl() ;
 	?>/img/calories.png" alt="Kalorien" height="48" width="33"
 	title="Kalorien" /><br />
-	<?php
+	<span style="text-decoration: underline; text-underline-style: dotted; cursor: pointer; color: rgb(84, 97, 110);"><?php
 	if(!$caloriesComplete){
 		print 'über ';
 	}
 	print '<nobr>'.$recipe->getCaloriesKcal();
-	?> kcal</nobr></div>
+	?> kcal</nobr></span></div>
 <div class="left icon" style="left: 390px;"><img  height="42" width="34"
 	src="<?php
 	print $this->baseUrl() ;
@@ -621,14 +621,14 @@ Video gefunden.</div>
 <div class="left icon" style="left: 480px;" id="priceInfo"><img  height="42" width="34"
 	src="<?php
 	print $this->baseUrl() ;
-	?>/img/icons/money.png" alt="Preis"
-	title="Preis" /><br />
+	?>/img/icons/money.png" alt="Preis / Kosten"
+	title="Preis / Kosten" /><br /><span style="text-decoration: underline; text-underline-style: dotted; cursor: pointer; color: rgb(84, 97, 110);">
 	<?php
 	if(!$priceComplete){
 		print 'über ';
 	}
 	print number_format($recipe->getAveragePrice(),2,',','.');
-	?> €</div>
+	?> €</span></div>
 <div class="left icon" style="left: 60px;"><img  height="47" width="25"
 	src="<?php
 	print $this->baseUrl() ;

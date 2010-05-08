@@ -209,8 +209,8 @@ class Website_Model_Ingredient {
 			if($unit==Website_Model_Component::PIECE){
 				$res = $db->fetchRow ( 'SELECT
 					CASE unit 
-						WHEN \'g\' THEN AVG(caloriesKcal/size)*AVG(size)
-						WHEN \'kg\' THEN AVG(caloriesKcal/size)*AVG(size)
+						WHEN \'g\' THEN AVG(caloriesKcal/size)*AVG(size)/'.$this->pieces_in_whole.'
+						WHEN \'kg\' THEN AVG(caloriesKcal/size)*AVG(size)/'.$this->pieces_in_whole.'
 						ELSE NULL
 					END	
 					averageCaloriesKcal
