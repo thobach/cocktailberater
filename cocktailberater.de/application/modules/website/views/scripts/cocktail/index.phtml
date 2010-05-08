@@ -7,7 +7,7 @@ $i=0;
 foreach ($this->cocktails as $cocktail){
 	$i++;
 	print '<li style="width: 20em; float: left; margin-bottom: 1em; margin-left: 1em; margin-right: 1em; '.( ($i == 1) ? 'clear: left;' : 'clear: none;' ).'">'.
-	'<a href="'.$this->url().'/'.$cocktail->getUniqueName().'">'.$cocktail->name.'</a><br />';
+	'<a href="'.$this->url(array('module'=>'website','controller'=>'cocktail','action'=>'get','id'=>$cocktail->getUniqueName())).'">'.$cocktail->name.'</a><br />';
 	$recipes = $cocktail->getRecipes();
 	if(is_array($recipes)) { 
 		print '<ul style="font-size: 0.9em; list-style-type: circle; list-style-type: none;">';
@@ -24,7 +24,7 @@ foreach ($this->cocktails as $cocktail){
 				print '/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
 			}
 			print '" /></a>';
-			print '<br /><a href="'.$this->url().'/'.$recipe->getUniqueName().'">'.$recipe->name.'</a> '.
+			print '<br /><a href="'.$this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'">'.$recipe->name.'</a> '.
 			($avgPrice ? ' <br />Durchschnittspreis / Kosten: '.number_format($avgPrice,2,',','.').'&nbsp;€ ' : '').
 			($calories ? ' <br />Durchschnittskalorien: '.number_format($calories,0,',','.').'&nbsp;kcal ' : '');
 			print '</li>';
