@@ -1,6 +1,7 @@
 <?php echo $this->partial ("template/search.phtml"); ?>
 <h1>Cocktails mit Rezeptalternativen</h1>
-<ul style="margin-left: 1em;">
+<p>Hier finden Sie Cocktails mit verschiedenen Rezepten und Angaben zu durchschnittlichen Kalorien und Kosten/Preisen.</p>
+<ul style="margin-top: 1em; margin-left: 1em;">
 <?php
 $i=0;
 foreach ($this->cocktails as $cocktail){
@@ -24,7 +25,7 @@ foreach ($this->cocktails as $cocktail){
 			}
 			print '" /></a>';
 			print '<br /><a href="'.$this->url().'/'.$recipe->getUniqueName().'">'.$recipe->name.'</a> '.
-			($avgPrice ? ' <br />Durchschnittspreis: '.number_format($avgPrice,2,',','.').'&nbsp;€ ' : '').
+			($avgPrice ? ' <br />Durchschnittspreis / Kosten: '.number_format($avgPrice,2,',','.').'&nbsp;€ ' : '').
 			($calories ? ' <br />Durchschnittskalorien: '.number_format($calories,0,',','.').'&nbsp;kcal ' : '');
 			print '</li>';
 		}
