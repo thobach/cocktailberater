@@ -22,7 +22,7 @@ class Website_Model_Recipe {
 	private $workMin;
 	private $difficulty;
 	private $isOriginal;
-	private $isAlcoholic; // calculated
+	private $isAlcoholic; // calculated, but from DB
 	private $alcoholLevel; // calculated
 	private $caloriesKcal; // calculated
 	private $averagePrice; // calculated
@@ -57,6 +57,16 @@ class Website_Model_Recipe {
 			} elseif($name=='_glass' && !is_a($this->_glass,'Glass')){
 				$this->_glass = Website_Model_CbFactory::factory('Website_Model_Glass', $this->glassId);
 			}
+			// calculated attributes are lazy loaded
+			elseif($name=='alcoholLevel' && $this->alcoholLevel === NULL){
+				$this->alcoholLevel = $this->getAlcoholLevel();
+			} elseif($name=='caloriesKcal' && $this->caloriesKcal === NULL){
+				$this->caloriesKcal = $this->getCaloriesKcal();
+			} elseif($name=='averagePrice' && $this->averagePrice === NULL){
+				$this->averagePrice = $this->getAveragePrice();
+			} elseif($name=='volumeCl' && $this->volumeCl === NULL){
+				$this->volumeCl = $this->getVolumeCl();
+			}			
 			return $this->$name;
 		} else {
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
@@ -98,7 +108,6 @@ class Website_Model_Recipe {
 	 */
 	public function getCocktail()
 	{
-		// TODO: write unit test
 		if(!$this->_cocktail){
 			$this->_cocktail = Website_Model_CbFactory::factory('Website_Model_Cocktail',$this->cocktailId);
 		}
@@ -112,7 +121,6 @@ class Website_Model_Recipe {
 	 */
 	public function getGlass()
 	{
-		// TODO: write unit test
 		if(!$this->_glass){
 			$this->_glass = Website_Model_CbFactory::factory('Website_Model_Glass',$this->glassId);
 		}
@@ -121,7 +129,6 @@ class Website_Model_Recipe {
 
 	public static function getRecipe($id)
 	{
-		// TODO: write unit test
 		if(!isset(self::$_recipes[$id])){
 			self::$_recipes[$id] = Website_Model_CbFactory::factory('Website_Model_Recipe', $id);
 		}
@@ -130,7 +137,6 @@ class Website_Model_Recipe {
 
 
 	public function getRating(){
-		// TODO: write unit test
 		return round(@($this->ratingsSum/$this->ratingsCount),2);
 	}
 
@@ -142,7 +148,6 @@ class Website_Model_Recipe {
 	 * @return booloean | int False or integer ID for recipe
 	 */
 	public static function exists($id) {
-		// TODO: write unit test
 		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe') ;
 		if($id>0){
 			$recipe = $recipeTable->fetchRow('id='.$id);
@@ -190,16 +195,13 @@ class Website_Model_Recipe {
 			$this->workMin = $recipe->workMin ;
 			$this->difficulty = $recipe->difficulty ;
 			$this->isOriginal = $recipe->isOriginal ;
-			//$this->isAlcoholic = $this->isAlcoholic();
 			$this->isAlcoholic = $recipe->isAlcoholic;
 			//$this->alcoholLevel = $this->getAlcoholLevel();
 			//$this->caloriesKcal = $this->getCaloriesKcal();
 			//$this->volumeCl = $this->getVolumeCl();
 			$this->ratingsCount = $recipe->ratingsCount;
 			$this->ratingsSum = $recipe->ratingsSum;
-			//$this->insertDate =  new Zend_Date ($recipe->insertDate);
 			$this->insertDate =  $recipe->insertDate;
-			//$this->updateDate =  new Zend_Date ($recipe->updateDate);
 			$this->updateDate =  $recipe->updateDate;
 
 
@@ -213,7 +215,6 @@ class Website_Model_Recipe {
 	 * @param $name search string
 	 * @param $limit maximal number of recipes (nullable)
 	 * @param $filter array with filters (nullable)
-	 * @todo write unit test
 	 * @todo implement filter array
 	 * @return Website_Model_Recipe[] array with matching recipes
 	 */
@@ -277,7 +278,6 @@ class Website_Model_Recipe {
 	}
 
 	public static function searchByIngredient ($name){
-		// TODO: write unit test
 		$ingredients = Website_Model_Ingredient::listIngredients ( $name ) ;
 		$recipeArray = array();
 		foreach($ingredients as $ingredient){
@@ -292,7 +292,6 @@ class Website_Model_Recipe {
 	}
 
 	public static function searchByTag ($name){
-		// TODO: write  unit test
 		$tags = Website_Model_Tag::listTags ( $name ) ;
 		foreach($tags as $tag){
 			$recipeArray[$tag->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$tag->recipeId);
@@ -430,12 +429,10 @@ class Website_Model_Recipe {
 
 	public function addComponent(Website_Model_Component $component)
 	{
-		// TODO: write unit test
 		$this->_components[] = $component;
 	}
 
 	public function addRecipeCategory ($recipeCategoryId){
-		// TODO: write unit test
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe2recipecategory');
 		$data['recipe'] = $this->id;
 		$data['recipeCategory'] = $recipeCategoryId;
@@ -464,13 +461,11 @@ class Website_Model_Recipe {
 
 	private function getCategories()
 	{
-		// TODO: write unit test
 		return Website_Model_RecipeCategory::categoryByRecipeId ($this->id);
 
 	}
 
 	public function recipesByCocktailId ( $idcocktail ) {
-		// TODO: write unit test
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe');
 		try {
 			$recipes = $table->fetchAll ( 'cocktail=' . $idcocktail , '(ratingsSum / ratingsCount) DESC') ; }
@@ -485,7 +480,6 @@ class Website_Model_Recipe {
 
 	// For testing purposes
 	public function listRecipe ( $idrecipe ) {
-		// TODO: write unit test
 		try {
 			return new Website_Model_Recipe ( $idrecipe ) ;
 		} catch ( Zend_Db_Adapter_Exception $e ) {
@@ -498,7 +492,6 @@ class Website_Model_Recipe {
 	}
 
 	public function listRecipes () {
-		// TODO: write unit test
 		// load cache from registry
 		$cache = Zend_Registry::get('cache');
 		// see if a cache already exists:
@@ -516,7 +509,6 @@ class Website_Model_Recipe {
 
 	}
 	public function photoRecipe ( $idrecipe ) {
-		// TODO: write unit test
 		try {
 			$db = Zend_Db_Table::getDefaultAdapter();
 			$result = $db->fetchAll ( 'SELECT	*
@@ -534,7 +526,6 @@ class Website_Model_Recipe {
 		}
 	}
 	public function videoCocktail ( $idrecipe ) {
-		// TODO: write unit test
 		try {
 			$db = Zend_Db_Table::getDefaultAdapter();
 			$result = $db->fetchAll ( 'SELECT	*
@@ -560,7 +551,6 @@ class Website_Model_Recipe {
 	 * @return void
 	 */
 	public function toXml (DOMDocument $xml ,DOMNode  $ast ) {
-		// TODO: write unit test
 		$recipe = $xml->createElement ( 'recipe' ) ;
 		$recipe->setAttribute ( 'id', $this->id ) ;
 		$recipe->setAttribute ( 'member', $this->memberId ) ;
@@ -634,7 +624,6 @@ class Website_Model_Recipe {
 	 * saves the object persistent into the databse
 	 *
 	 * @return mixed at update true, at insert int (recipeId)
-	 * @tested
 	 */
 	public function save () {
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe');
@@ -676,7 +665,6 @@ class Website_Model_Recipe {
 
 	/**
 	 *
-	 * @tested
 	 */
 	public function delete (){
 		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe');

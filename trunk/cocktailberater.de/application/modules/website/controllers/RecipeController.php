@@ -8,6 +8,16 @@
 require_once(APPLICATION_PATH.'/Wb/Controller/RestController.php');
 class Website_RecipeController extends Wb_Controller_RestController {
 
+	/**
+	 * lists all recipes, also used for search and search suggestion (format=ajax)
+	 * 
+	 * @representation html, xml, json, rss, atom, pdf, ajax
+	 * @param search optional search phrase
+	 * @param search_type optional
+	 * 	for search suggestion (format=ajax) it can be name, ingredient or tag
+	 * 	for all other search_type it can be alcoholic, non-alcoholic, top10, difficulty, ingredient, image, tag or name
+	 * 	if none is given, all recipies are returned
+	 */
 	public function indexAction() {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_RecipeController->indexAction',Zend_Log::DEBUG);
@@ -92,6 +102,12 @@ class Website_RecipeController extends Wb_Controller_RestController {
 		$log->log('Website_RecipeController->indexAction -> exiting',Zend_Log::DEBUG);
 	}
 
+	/**
+	 * displays a recipe of a cocktail
+	 * 
+	 * @representation html, xml, json, atom, rss
+	 * @param id int or string with ID or unique name
+	 */
 	public function getAction(){
 		// check if recipe id / name was given
 		if($this->_getParam('id')==''){
