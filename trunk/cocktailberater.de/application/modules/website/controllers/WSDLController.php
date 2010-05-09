@@ -77,7 +77,6 @@ class Website_WSDLController extends Zend_Controller_Action {
 	}
 	
 	public function clientAction(){
-		$this->getFrontController()->setParam('noViewRenderer', true);
 		$this->getResponse()->setHeader('Content-Type','text/html');
 
 		$client = new Zend_Soap_Client('http://'.$_SERVER['HTTP_HOST'].'/website/wsdl/wsdl?wsdl',array('cache_wsdl'=>false));
