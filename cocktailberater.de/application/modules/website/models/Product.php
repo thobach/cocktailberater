@@ -286,10 +286,6 @@ class Website_Model_Product
 					$image = $entry->getGbaseAttribute('image_link');
 					$image = $image[0]->text;
 				}
-				$url=getimagesize($image);
-				if(!is_array($url)){
-					$image = null;
-				}
 				$cache->save($image,'imageByProductId'.$this->id,array('model'));
 			}
 			$this->image = $image;
