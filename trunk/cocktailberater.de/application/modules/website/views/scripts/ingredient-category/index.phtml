@@ -1,0 +1,105 @@
+<?php $this->partial ("template/search.phtml"); ?>
+<p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Zutatenkategorien',
+                'module'     => 'website',
+                'controller' => 'ingredient-category'
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo $this->navigation($container)->breadcrumbs();
+?></p>
+<div style="clear: left; margin-left: 25px; margin-right: 25px;">
+<h2 style="margin-top: 0; text-align: left;">Zutatenkategorien</h2>
+<?php $i=0;
+foreach ($this->ingredientCategories as $ingredientCategory){ 
+	$i++; 
+	if($i!=1) { print ', '; } ?><a href="#<?php print $ingredientCategory->getUniqueName(); ?>"><?php print $ingredientCategory->name; ?></a><?php 
+} ?>
+<?php foreach ($this->ingredientCategories as $ingredientCategory){ ?>
+<h3 class="textLeft" id="<?php print $ingredientCategory->getUniqueName(); ?>"
+ style="margin-bottom: 0.5em;"><a 
+ href="<?php print $this->url(
+ array('controller'=>'ingredient-category','action'=>'get','module'=>'website',
+ 'id'=>$ingredientCategory->getUniqueName())); ?>"><?php 
+ print $ingredientCategory->name; ?></a></h3>
+<?php 
+$this->dojo()->enable()->requireModule('dijit.Tooltip');
+$this->headScript()->captureStart();
+?>
+dojo.addOnLoad(function() {
+	priceTooltip = new dijit.Tooltip({
+		connectId: ["priceTooltip"],
+		label: "Alle Preisangaben sind Durschnittspreise."
+	});
+	caloriesTooltip = new dijit.Tooltip({
+		connectId: ["caloriesTooltip"],
+		label: "Kalorienangaben pro 100 g bzw. 100 ml"
+	});
+});
+<?php $this->headScript()->captureEnd(); ?>
+<table class="table" style="width: 100%; margin-bottom: 2em;">
+	<thead>
+		<tr>
+			<th>Zutat</th>
+			<th>Alkoholgehalt</th>
+			<th><a href="#" class="tip pink" id="caloriesTooltip">Kalorien</a></th>
+			<th><a href="#" class="tip pink" id="priceTooltip">Preis</a></th>
+			<th>Rezepte</th>
+			<th>Produkte</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach (Website_Model_IngredientCategory::getIngredientsByCategory($ingredientCategory->id) as $ingredient){ ?>
+		<tr>
+			<td><a
+				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>">
+				<?php print $ingredient->name; ?></a></td>
+			<td><?php if($ingredient->getAverageAlcoholLevel()) { print $ingredient->getAverageAlcoholLevel().' %'; } else { print '0 %'; } ?></td>
+			<td><?php if($ingredient->getAverageCaloriesKcal()) { print round($ingredient->getAverageCaloriesKcal()/10); ?>&nbsp;kcal<?php } else { print 'k.A.'; } ?></td>
+			<td><?php 
+			if($ingredient->getAveragePricePerLitre() || $ingredient->getAveragePricePerKilogram()) {
+				if($ingredient->getAveragePricePerLitre()) {
+					print number_format($ingredient->getAveragePricePerLitre(),2,',','.').'&nbsp;€&nbsp;/&nbsp;l ';
+				}
+				if($ingredient->getAveragePricePerLitre() && $ingredient->getAveragePricePerKilogram()) {
+					print ' bzw. ';
+				}
+				if($ingredient->getAveragePricePerKilogram()) {
+					print number_format($ingredient->getAveragePricePerKilogram(),2,',','.').'&nbsp;€&nbsp;/&nbsp;kg';
+				}
+			} ?></td>
+			<td><?php 
+			if($ingredient->getRecipes()) {
+				$i=0;
+				foreach($ingredient->getRecipes() as $recipe){
+					$i++;
+				}
+				?><a
+				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>#recipes-list"><?php print $i; ?>
+			Stk.</a><?php
+			}
+			?></td>
+			<td><?php 
+			$products = Website_Model_Product::productsByIngredientId($ingredient->id);
+			if(is_array($products)) {
+				$i=0;
+				foreach ($products as $product) {
+					$i++;
+				}
+			}
+			?><a
+				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>#products-list"><?php print $i; ?>
+			Stk.</a></td>
+		</tr>
+		<?php } ?>
+	</tbody>
+</table><?php } ?>
+</div>

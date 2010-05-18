@@ -56,6 +56,10 @@ abstract class Website_Model_Category {
 	abstract public function delete();
 	abstract protected function dataBaseRepresentation();
 	
+	public function getUniqueName() {
+		return rawurlencode(str_replace(array(' '),array('_'),$this->name));
+	}
+	
 	/**
 	 * adds the xml representation of the object to a xml branch
 	 *

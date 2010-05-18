@@ -1,45 +1,174 @@
-<?php echo $this->partial ("template/search.phtml"); ?>
-<h1>Zutaten</h1>
-<ul style="">
+<?php $this->partial ("template/search.phtml"); ?>
+<p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Zutaten',
+                'module'     => 'website',
+                'controller' => 'ingredient'
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo $this->navigation($container)->breadcrumbs();
+?></p>
+<?php 
+$this->dojo()->enable()->requireModule('dijit.Tooltip');
+$this->headScript()->captureStart();
+?>
+dojo.addOnLoad(function() {
+	priceTooltip = new dijit.Tooltip({
+		connectId: ["priceTooltip"],
+		label: "Alle Preisangaben sind Durschnittspreise."
+	});
+	caloriesTooltip = new dijit.Tooltip({
+		connectId: ["caloriesTooltip"],
+		label: "Kalorienangaben pro 100 g bzw. 100 ml"
+	});
+});
+<?php $this->headScript()->captureEnd(); ?>
+<div style="clear: left; margin-left: 25px; margin-right: 25px;">
+<h2 style="margin-top: 0; text-align: left;">Zutaten für Cocktailrezepte</h2>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Zutat</th>
+			<th>Kategorie</th>
+			<th>Alk.- gehalt</th>
+			<th><a href="#" class="tip pink" id="caloriesTooltip">Kalorien</a></th>
+			<th><a href="#" class="tip pink" id="priceTooltip">Preis</a></th>
+			<th>Rezepte</th>
+			<th>Produkte</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->ingredients as $ingredient){ ?>
+		<tr>
+			<td><?php 
+			$categories = '';
+			foreach($ingredient->getIngredientCategories() as $cagetory){
+				$cagetory = '<a href="'.$this->url(array('controller'=>'ingredient-category','action'=>'get','module'=>'website','id'=>$cagetory->getUniqueName())).'">'.$cagetory->name.'</a>';
+				$categories	= ($categories ? $categories.', '.$cagetory : $cagetory);
+			} ?> <a
+				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>">
+				<?php print $ingredient->name; ?></a></td>
+			<td><?php print $categories; ?></td>
+			<td><?php if($ingredient->getAverageAlcoholLevel()) { print $ingredient->getAverageAlcoholLevel().' %'; } else { print '0 %'; } ?></td>
+			<td><?php if($ingredient->getAverageCaloriesKcal()) { print round($ingredient->getAverageCaloriesKcal()/10); ?>&nbsp;kcal<?php } else { print 'k.A.'; } ?></td>
+			<td><?php 
+			if($ingredient->getAveragePricePerLitre() || $ingredient->getAveragePricePerKilogram()) {
+				if($ingredient->getAveragePricePerLitre()) {
+					print number_format($ingredient->getAveragePricePerLitre(),2,',','.').'&nbsp;€&nbsp;/&nbsp;l ';
+				}
+				if($ingredient->getAveragePricePerLitre() && $ingredient->getAveragePricePerKilogram()) {
+					print ' bzw. ';
+				}
+				if($ingredient->getAveragePricePerKilogram()) {
+					print number_format($ingredient->getAveragePricePerKilogram(),2,',','.').'&nbsp;€&nbsp;/&nbsp;kg';
+				}
+			} ?></td>
+			<td><?php 
+			if($ingredient->getRecipes()) {
+				$i=0;
+				foreach($ingredient->getRecipes() as $recipe){
+					$i++;
+				}
+				?><a
+				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>#recipes-list"><?php print $i; ?>
+			Stk.</a><?php
+			}
+			?></td>
+			<td><?php 
+			$products = Website_Model_Product::productsByIngredientId($ingredient->id);
+			if(is_array($products) && count($products)>0) {
+				$i=0;
+				foreach ($products as $product) {
+					$i++;
+				}
+			?><a href="<?php print $this->url(array('controller'=>'ingredient',
+			'action'=>'get','module'=>'website',
+			'id'=>$ingredient->getUniqueName())); ?>#products-list"><?php print $i; ?>
+			Stk.</a><?php } ?></td>
+		</tr>
+		<?php } ?>
+	</tbody>
+</table>
 <?php
-$i=0;
-foreach ($this->ingredients as $ingredient){
-	$i++;
-	print '<li style="text-align: left; width: 20em; float: left; margin-bottom: 1em; margin-left: 1em; margin-right: 1em; '.( ($i == 1) ? 'clear: left;' : 'clear: none;' ).'"><a href="'.$this->url().'/'.$ingredient->getUniqueName().'">'.$ingredient->name.'</a><br />';
-	if($ingredient->description) {
-		print $ingredient->description.'<br />';
-	}
+/*
+foreach ($this->ingredients as $ingredient){ ?>
+	<div class="attribut">Zutat:</div>
+	<div class="wert" style="width: 435px;">
+	<?php 
+	$categories = '';
+	foreach($ingredient->getIngredientCategories() as $cagetory){
+		$cagetory = '<a href="'.$this->url(array('controller'=>'ingredient-category','action'=>'get','module'=>'website','id'=>$cagetory->getUniqueName())).'">'.$cagetory->name.'</a>';
+		$categories	= ($categories ? $categories.', '.$cagetory : $cagetory);
+	} ?>
+	<a href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>">
+		<?php print $ingredient->name; ?></a>
+	 - Kategorie: <?php print $categories; ?>
+	</div>
+	<?php 
+	if($ingredient->description) { ?>
+		<div class="attribut">Beschreibung:</div>
+		<div class="wert" style="width: 435px;">
+		<?php print $ingredient->description; ?></div>
+	<?php }
 	if($ingredient->getAverageAlcoholLevel()) {
-		print 'Alkoholgehalt: '.$ingredient->getAverageAlcoholLevel().'%<br />';
-	}
-	if($ingredient->getAverageCaloriesKcal()) {
-		print 'Kalorien: '.round($ingredient->getAverageCaloriesKcal()/10).'&nbsp;kcal / 100&nbsp;g bzw. 100&nbsp;ml<br />';
-	}
-	if($ingredient->getAveragePricePerLitre() || $ingredient->getAveragePricePerKilogram()) {
-		print 'Durchschnittspreis: ';
+	?>
+		<div class="attribut">Alkoholgehalt:</div>
+		<div class="wert" style="width: 435px;">
+		<?php print $ingredient->getAverageAlcoholLevel(); ?>%</div>
+	<?php }
+	if($ingredient->getAverageCaloriesKcal()) { ?>
+		<div class="attribut">Kalorien:</div>
+		<div class="wert" style="width: 435px;">
+		<?php print round($ingredient->getAverageCaloriesKcal()/10); ?>&nbsp;kcal / 100&nbsp;g bzw. 100&nbsp;ml</div>
+	<?php }
+	if($ingredient->getAveragePricePerLitre() || $ingredient->getAveragePricePerKilogram()) { ?>
+		<div class="attribut">Preis:</div><div class="wert" style="width: 435px;">
+		<?php 
 		if($ingredient->getAveragePricePerLitre()) {
 			print number_format($ingredient->getAveragePricePerLitre(),2,',','.').'&nbsp;€&nbsp;/&nbsp;Liter ';
 		}
 		if($ingredient->getAveragePricePerLitre() && $ingredient->getAveragePricePerKilogram()) {
-			print '<br />';
+			print ' bzw. ';
 		}
 		if($ingredient->getAveragePricePerKilogram()) {
-			print number_format($ingredient->getAveragePricePerKilogram(),2,',','.').'&nbsp;€&nbsp;/&nbsp;kg<br />';
+			print number_format($ingredient->getAveragePricePerKilogram(),2,',','.').'&nbsp;€&nbsp;/&nbsp;kg';
+		} ?>
+		</div>
+	<?php }
+	if($ingredient->getRecipes()) {
+		print '<div class="attribut">Cocktailrezepte:</div>';
+		print '<div class="wert" style="width: 435px;">';
+		$i=0;
+		foreach($ingredient->getRecipes() as $recipe){
+			$i++;
+			print ( $i>1 ? ', ' : '' ).'<a href="'.$this->url(array('controller'=>'recipe','action'=>'get','module'=>'website','id'=>$recipe->getUniqueName())).'">'.
+				$recipe->name.'</a>';
 		}
+		print '</div>';
 	}
 	$products = Website_Model_Product::productsByIngredientId($ingredient->id);
 	if(is_array($products)) { 
-		print 'Produkte: ';
-		print '<ul style="font-size: 0.9em; list-style-type: circle; margin-left: 2em;">';
+		print '<div class="attribut">Produkte:</div>';
+		print '<div class="wert" style="width: 435px;">';
+		print '<ul style="list-style-type: circle; margin-left: 2em;">';
 		foreach ($products as $product) {
 			$avgPrice = $product->getAveragePrice();
-			print '<li>'.$product->name.' '.(($product->getManufacturer()->name!='') ? ' ('.$product->getManufacturer()->name.') - ' : '').
+			print '<li><a href="'.$this->url(array('controller'=>'product','action'=>'get','module'=>'website','id'=>$product->getUniqueName())).'">'.$product->name.'</a> '.(($product->getManufacturer()->name!='') ? ' (<a href="'.$this->url(array('controller'=>'manufacturer','action'=>'get','module'=>'website','id'=>$product->getManufacturer()->getUniqueName())).'">'.$product->getManufacturer()->name.'</a>) - ' : '').
 			str_replace('.',',',round($product->size,2)).'&nbsp;'.$product->unit.
-			($avgPrice ? ' - Durchschnittspreis: '.number_format($avgPrice,2,',','.').'&nbsp;€ ' : '').'</li>';
+			($avgPrice ? ' für '.number_format($avgPrice,2,',','.').'&nbsp;€ ' : '').'</li>';
 		}
-		print '</ul>';
+		print '</ul></div>';
 	}
-	print '</li>';
-}
+	print '<hr style="padding-top: 0.5em; margin-bottom: 0.5em;" />';
+}*/
 ?>
-</ul>
+
+</div>

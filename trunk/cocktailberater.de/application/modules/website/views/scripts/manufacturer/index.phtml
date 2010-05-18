@@ -1,0 +1,50 @@
+<?php $this->partial ("template/search.phtml"); ?>
+<p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Hersteller',
+                'module'     => 'website',
+                'controller' => 'manufacturer'
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo $this->navigation($container)->breadcrumbs();
+?></p>
+<div style="clear: left; margin-left: 25px; margin-right: 25px;">
+<h2 style="margin-top: 0; text-align: left;">Hersteller und Marken von Cocktailzutaten</h2>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Hersteller/Marke</th>
+			<th>Webseite</th>
+			<th>Produkte</th>
+			<th>Rezepte</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+foreach ($this->manufacturers as $manufacturer){
+	print '<tr>';
+	$products = $manufacturer->getProducts();
+	$recipes = $manufacturer->getRecipes();
+	print '<td><a href="'.$this->url(
+	array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website')).'">'.
+	$manufacturer->name.'</a></td>';
+	print '<td>'.($manufacturer->website ? '<a href="'.$manufacturer->website.'">'.$manufacturer->website.'</a>' : '');
+	print '</td>';
+	print '<td>'.($products!==false ? '<a href="'.$this->url(
+		array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website')).'#products-list">'.count($products).' Stk.</a>' : 'keine').'</td>';
+	print '<td>'.(count($recipes)>0 ? '<a href="'.$this->url(
+		array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website')).'#recipes-list">'.count($recipes).' Stk.</a>' : 'keine').'</td>';
+	print '</tr>';
+}
+?>
+	</tbody>
+</table>
+</div>

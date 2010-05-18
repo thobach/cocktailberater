@@ -24,6 +24,7 @@ class Website_Model_Product
 	// calculated attributes
 	private $averagePrice;
 	private $offers;
+	private $image;
 
 	/**
 	 * magic getter for all attributes
@@ -69,7 +70,7 @@ class Website_Model_Product
 		}
 	}
 
-	private function getGoogleBaseUrl(){
+	private function getGoogleBaseUrl($limit=50){
 		// create filter to select only shops which offer the right size of the product
 		$match = array();
 		$match[0] = '"'.round($this->size,2).''.$this->unit.'"';
@@ -102,9 +103,13 @@ class Website_Model_Product
 			$manufacturer = '';
 		}
 
-		$url = 'http://www.google.com/base/feeds/snippets/?bq='.urlencode('("'.$this->name.'"'.$manufacturer.' ('.$size.'))').'[item%20type%3Aprodukte]&max-results=100';
+		$url = 'http://www.google.com/base/feeds/snippets/?bq='.urlencode('("'.$this->name.'"'.$manufacturer.' ('.$size.'))').'[item%20type%3Aprodukte]&max-results='.$limit;
 		//echo $url;
 		return $url;
+	}
+	
+	public function getUniqueName() {
+		return rawurlencode(str_replace(array(' '),array('_'),$this->id.'_'.$this->name));
 	}
 
 	/**
@@ -192,16 +197,16 @@ class Website_Model_Product
 	 *
 	 * @return array keys: title, description, shop, shopUrl, price, imageUrl, brand
 	 */
-	public function getOffers(){
+	public function getOffers($limit=50){
 		if($this->offers === NULL){
 			// load cache from registry
 			$cache = Zend_Registry::get('cache');
 
 			// see if offer - list is already in cache
-			$offerList = $cache->load('offersByProductId'.$this->id);
+			$offerList = $cache->load('offersByProductId'.$this->id.'limit'.$limit);
 			if($offerList === false) {
 				$service = new Zend_Gdata_Gbase();
-				$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl());
+				$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl($limit));
 
 				// average price over all shops
 				$priceMatrix = array();
@@ -253,11 +258,43 @@ class Website_Model_Product
 			  	'description'=>$entry->content->text,'brand'=>$brand);			  	
 					}
 				}
-				$cache->save($offerList,'offersByProductId'.$this->id,array('model'));
+				$cache->save($offerList,'offersByProductId'.$this->id.'limit'.$limit,array('model'));
 			}
 			$this->offers = $offerList;
 		}
 		return $this->offers;
+	}
+	
+	public function getRecipes(){
+		return $this->getIngredient()->getRecipes();
+	}
+	
+	public function getImage(){
+		if($this->image === NULL){
+			// load cache from registry
+			$cache = Zend_Registry::get('cache');
+
+			// see if offer - list is already in cache
+			$image = $cache->load('imageByProductId'.$this->id);
+			if($image === false) {
+				$service = new Zend_Gdata_Gbase();
+				$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl(1));
+
+				// create empty result set
+				$image = null;
+				foreach ($feed->entries as $entry) {
+					$image = $entry->getGbaseAttribute('image_link');
+					$image = $image[0]->text;
+				}
+				$url=getimagesize($image);
+				if(!is_array($url)){
+					$image = null;
+				}
+				$cache->save($image,'imageByProductId'.$this->id,array('model'));
+			}
+			$this->image = $image;
+		}
+		return $this->image;
 	}
 
 
@@ -318,7 +355,7 @@ class Website_Model_Product
 	public static function listProduct()
 	{
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','product');
-		foreach ($table->fetchAll() as $product) {
+		foreach ($table->fetchAll(null,'name') as $product) {
 			$productArray[] = Website_Model_CbFactory::factory('Website_Model_Product',$product['id']);
 		}
 		return $productArray;
@@ -341,6 +378,16 @@ class Website_Model_Product
 		$table->delete('id='.$this->id);
 		CbFactory::destroy('Product',$this->id);
 		unset($this);
+	}
+	
+	public static function exists($id) {
+		$productTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product') ;
+		if(((int)$id)>0){
+			$product = $productTable->fetchRow('id='.(int)$id);
+			return $product->id;
+		} else {
+			return false;
+		}
 	}
 
 	/**

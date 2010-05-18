@@ -1,0 +1,65 @@
+<?php $this->partial ("template/search.phtml"); ?>
+<p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Produkte',
+                'module'     => 'website',
+                'controller' => 'product'
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo $this->navigation($container)->breadcrumbs();
+?></p>
+<div style="margin-left: 25px; margin-right: 25px;">
+<h2 class="clear left" style="margin-top: 0;">Produkte für Cocktailrezepte</h2>
+<?php 
+$this->dojo()->enable()->requireModule('dijit.Tooltip');
+$this->headScript()->captureStart();
+?>
+dojo.addOnLoad(function() {
+	priceTooltip = new dijit.Tooltip({
+		connectId: ["priceTooltip"],
+		label: "Errechneter Durschnittspreis von verschiedenen (Online)-Händlern"
+	});
+	caloriesTooltip = new dijit.Tooltip({
+		connectId: ["caloriesTooltip"],
+		label: "Gesamtkalorien des Produktes"
+	});
+});
+<?php $this->headScript()->captureEnd(); ?>
+<table class="table clear">
+	<thead>
+		<tr>
+			<th>Produkt (Hersteller / Marke)</th>
+			<th>Zutat</th>
+			<th class="textRight">Alkohol- / Fruchtgehalt</th>
+			<th class="textRight"><a href="#" class="tip pink" id="caloriesTooltip">Kalorien</a></th>
+			<th class="textRight"><a href="#" class="tip pink" id="priceTooltip">Preis</a></th>
+			<th class="textRight">Rezepte</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->products as $product){ ?>
+	<tr>
+		<td><a href="<?php print $this->url(array('id'=>$product->getUniqueName(),'controller'=>'product','action'=>'get','module'=>'website')); ?>">
+		<?php print $product->name; ?></a> 
+		<?php if($product->getManufacturer() && $product->getManufacturer()->name){ ?>(<a href="<?php print $this->url(array('controller'=>'manufacturer',
+		'id'=>$product->getManufacturer()->getUniqueName())); ?>"><?php print $product->getManufacturer()->name; ?></a>)<?php }?> 
+		<?php print number_format($product->size,2,',','.').'&nbsp;'.$product->unit; ?></td>
+		<td><?php if($product->getIngredient()) { ?><a href="<?php print $this->url(array('id'=>$product->getIngredient()->getUniqueName(),'controller'=>'ingredient','action'=>'get','module'=>'website')); ?>"><?php print $product->getIngredient()->name; ?></a><?php } ?></td>
+		<td class="textRight"><?php print round($product->alcoholLevel); ?>&nbsp;% / <?php print round($product->fruitConcentration); ?>&nbsp;%</td>
+		<td class="textRight"><?php if($product->caloriesKcal!==null){ ?><?php print number_format($product->caloriesKcal,0,',','.'); ?>&nbsp;kcal<?php } else {?>k.A.<?php } ?></td>
+		<td class="textRight"><?php print ($product->getAveragePrice() ? number_format($product->getAveragePrice(),2,',','.').'&nbsp;€' : 'k.A.'); ?></td>
+		<td class="textRight"><?php if(count($product->getRecipes())>0){ ?><a href="<?php echo $this->url(array('controller'=>'product','id'=>$product->getUniqueName(),'action'=>'get','module'=>'website')); ?>#recipes-list"><?php echo count($product->getRecipes()); ?>&nbsp;Stk.</a><?php } else { ?>keine<?php } ?></td>
+	</tr>
+	<?php } ?>
+	</tbody>
+</table>
+
+</div>

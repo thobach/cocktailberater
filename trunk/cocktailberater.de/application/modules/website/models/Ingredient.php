@@ -31,6 +31,7 @@ class Website_Model_Ingredient {
 
 	// supporting variables
 	private static $_ingredients;
+	private $recipes;
 
 	// constants
 	const SOLID = 'solid';
@@ -147,12 +148,11 @@ class Website_Model_Ingredient {
 	}
 
 	/**
-	 * returns an Array of IngredientCategory objects
+	 * returns an array of IngredientCategory objects
 	 *
-	 * @return array IngredientCategory
-	 * @tested
+	 * @return array Website_Model_IngredientCategory
 	 */
-	public function getIngredientCategories () {
+	public function getIngredientCategories() {
 		if($this->ingredientCategoryArray === NULL){
 			$this->ingredientCategoryArray = Website_Model_IngredientCategory::categoriesByIngredientId( $this->id );
 		}
@@ -160,15 +160,40 @@ class Website_Model_Ingredient {
 	}
 
 	/**
-	 * returns an Array of Product objects
+	 * returns an array of Product objects
 	 *
-	 * @return array Product
+	 * @return array Website_Model_Product
 	 */
-	public function getProducts () {
+	public function getProducts() {
 		if($this->productArray === NULL){
 			$this->productArray = Website_Model_Product::productsByIngredientId( $this->id );
 		}
 		return $this->productArray;
+	}
+
+	/**
+	 * returns an array of Recipe objects
+	 *
+	 * @return array Website_Model_Recipe
+	 */
+	public function getRecipes(){
+		if(!$this->recipes){
+			// load cache from registry
+			$cache = Zend_Registry::get('cache');
+			// see if product - list is already in cache
+			if(!$recipes = $cache->load('recipesByIngredientId'.$this->id)) {
+				$recipes = array();
+				$componentsArray = Website_Model_Component::componentsByIngredientId($this->id);
+				if(is_array($componentsArray)){
+					foreach ($componentsArray as $component){
+						$recipes[$component->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$component->recipeId);
+					}
+				}
+				$cache->save($recipes,'recipesByIngredientId'.$this->id,array('model'));
+			}
+			$this->recipes = $recipes;
+		}
+		return $this->recipes;
 	}
 
 	/**

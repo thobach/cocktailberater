@@ -127,14 +127,31 @@ class Website_Model_IngredientCategory extends Website_Model_Category {
 		}
 	}
 	
-	/**
-	 * @tested
-	 */
+
 	public function delete (){
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'ingredientcategory');
 		$table->delete('id='.$this->id);
 		CbFactory::destroy('IngredientCategory',$this->id);
 		unset($this);
+	}
+	
+	public static function exists($id) {
+		$ingredientCategoryTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'ingredientcategory') ;
+		if($id>0){
+			$ingredientCategory = $ingredientCategoryTable->fetchRow('id='.$id);
+		} else {
+			$ingredientCategory = $ingredientCategoryTable->fetchRow($ingredientCategoryTable->select()
+			->where('name = ?',rawurldecode(str_replace(array('_'),array(' '),$id))));
+		}
+		if ($ingredientCategory) {
+			return $ingredientCategory->id;
+		} else {
+			return false;
+		}
+	}
+	
+	public function getUniqueName() {
+		return rawurlencode(str_replace(array(' '),array('_'),$this->name));
 	}
 	
 	/**
