@@ -129,11 +129,13 @@ class Website_Model_Manufacturer {
 		// see if product - list is already in cache
 		if(!$recipes = $cache->load('recipesByManufacturerId'.$this->id)) {
 			$recipes = array();
-			foreach ($this->getProducts() as $product){
-				$componentsArray = Website_Model_Component::componentsByIngredientId($product->getIngredient()->id);
-				if(is_array($componentsArray)){
-					foreach ($componentsArray as $component){
-						$recipes[$component->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$component->recipeId);
+			if(is_array($this->getProducts())){
+				foreach ($this->getProducts() as $product){
+					$componentsArray = Website_Model_Component::componentsByIngredientId($product->getIngredient()->id);
+					if(is_array($componentsArray)){
+						foreach ($componentsArray as $component){
+							$recipes[$component->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$component->recipeId);
+						}
 					}
 				}
 			}
