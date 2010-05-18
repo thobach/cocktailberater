@@ -1,0 +1,116 @@
+<?php $this->partial('template/search.phtml'); ?>
+<p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Zutatenkategorien',
+                'module'     => 'website',
+                'controller' => 'ingredient-category',
+                'pages'      => array(
+                    array(
+                        'label'      => $this->ingredientCategory->name,
+                        'module'     => 'website',
+                        'controller' => 'ingredient-category',
+                        'action'     => 'get'
+                    )
+                )
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo $this->navigation($container)->breadcrumbs();
+?></p>
+<div style="margin-left: 25px; margin-right: 25px;">
+<h2 class="clear textLeft" style="margin-top: 0;"><?php print $this->ingredientCategory->name; ?></h2>
+<p class="clear" style="font-size: 1em;"><?php
+$i=0;
+foreach ($this->ingredients as $this->ingredient) { 
+	$i++; 
+	if($i!=1) { print ', '; } ?><a href="#<?php print $this->ingredient->getUniqueName(); ?>"><?php print $this->ingredient->name; ?></a><?php 
+} ?></p>
+<?php
+$j=0;
+foreach ($this->ingredients as $this->ingredient) { 
+	$j++;
+	if($j!=1) { 
+		print '<hr style="padding-top: 1em;" />'; 
+	} ?>
+<h3 class="clear left" style="margin-top: 1em; margin-bottom: 0.5em;" 
+	id="<?php print $this->ingredient->getUniqueName(); ?>"><a href="<?php 
+	print $this->url(array('controller'=>'ingredient','action'=>'get',
+	'module'=>'website', 'id'=>$this->ingredient->getUniqueName())); ?>"><?php 
+print $this->ingredient->name; ?></a></h3>
+<?php if($this->ingredient->description) {?>
+<div class="attribut">Beschreibung:</div>
+<div class="wert"><?php print $this->ingredient->description; ?></div>
+<?php } ?>
+<?php if($this->ingredient->getAverageAlcoholLevel()) {?>
+<div class="attribut">Alkoholgehalt:</div>
+<div class="wert"><?php print $this->ingredient->getAverageAlcoholLevel(); ?> %</div>
+<?php } ?>
+<?php if($this->ingredient->getAverageCaloriesKcal()) {?>
+<div class="attribut">Kalorien:</div>
+<div class="wert"><?php print round($this->ingredient->getAverageCaloriesKcal()/10); ?> kcal / 100g bzw. 100 ml</div>
+<?php } ?>
+<?php if($this->ingredient->getAveragePricePerLitre() || $this->ingredient->getAveragePricePerKilogram()) {?>
+<div class="attribut">Preis:</div>
+<div class="wert"><?php 
+if($this->ingredient->getAveragePricePerLitre()) { 
+	print number_format($this->ingredient->getAveragePricePerLitre(),2,',','.'); ?> € / Liter <?php
+}
+if($this->ingredient->getAveragePricePerLitre() && $this->ingredient->getAveragePricePerKilogram()) {
+	print '<br />';
+}
+if($this->ingredient->getAveragePricePerKilogram()) {
+	print number_format($this->ingredient->getAveragePricePerKilogram(),2,',','.'); ?> € / kg <?php 
+} ?></div>
+<?php } ?>
+<?php if($this->ingredient->getAverageWeightGram()) {?>
+<div class="attribut">Gewicht pro Einheit:</div>
+<div class="wert"><?php print $this->ingredient->getAverageWeightGram(); ?> g</div>
+<?php }
+if($this->ingredient->getRecipes()) {?>
+<h4 class="clear left" style="margin-bottom: 1.7em; margin-top: 1em;" id="recipes-list">Cocktailrezepte mit <?php print $this->ingredient->name; ?></h4>
+<div style="clear: left; "><?php
+if(is_array($this->ingredient->getRecipes())){
+	foreach ($this->ingredient->getRecipes() as $recipe) { ?>
+		<?php $this->cocktailPreview($recipe); ?>
+	<?php 
+	}
+} ?></div>
+<?php }
+$products = Website_Model_Product::productsByIngredientId($this->ingredient->id);
+if($products) { ?>
+<h4 class="clear left" id="products-list"><?php print $this->ingredient->name; ?> Produkte</h4>
+<div style="clear: left; text-align: left;"><?php
+if(is_array($products)){
+	?><ul><?php 
+	$k=0;
+	foreach ($products as $product) {
+		$k++;
+		$avgPrice = $product->getAveragePrice(); ?><li 
+		style="<?php print ($k==1 ? 'clear: left; ' : 'clear: none; '); ?>
+		padding-top: 0.7em; width: 120px; float: left; text-align: center; margin-right: 1em;"><span 
+		style="height: 100px; width: 100px; display: block;"><img 
+		src="<?php print ($product->getImage() ? $product->getImage() : $this->baseUrl().'/img/bottle.png'); ?>" 
+		style="max-width: 100px; max-height: 100px; margin-top: 1em;" 
+		alt="<?php print $offer['title'].' ('.$offer['brand'].')';?>" 
+		title="<?php print $offer['title'].' ('.$offer['brand'].')';?>" />
+		</span><br /><a href="<?php print $this->url(array('controller'=>'product',
+		'id'=>$product->getUniqueName())); ?>"><?php print $product->name;?></a>
+		<?php print str_replace('.',',',round($product->size,2)).' '.$product->unit; ?>
+		<?php if($product->getManufacturer()) { ?>
+		(<a href="<?php print $this->url(array('controller'=>'manufacturer',
+		'id'=>$product->getManufacturer()->getUniqueName())); ?>"><?php print $product->getManufacturer()->name; ?></a>)<?php } ?> 
+		<?php print ($avgPrice ? number_format($avgPrice,2,',','.').' € ' : ''); ?></li><?php 
+	}
+	?></ul><?php 
+}
+?></div>
+<?php }
+} ?> 
+</div> 

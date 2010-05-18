@@ -44,6 +44,10 @@ version history: /html/css/screen.css
 	text-align: left;
 }
 
+.textRight, table.table td.textRight, table.table th.textRight {
+	text-align: right;
+}
+
 .hide {
 	display: none;
 }
@@ -183,6 +187,13 @@ a.nolink:hover {
 	color: #CF0060;
 }
 
+a.tip {
+	border-bottom: 1px dotted gray;
+}
+
+a.pink:hover, a.pink:active, a.pink:visited, a.pink:link {
+	color: #cf0060;
+}
 
 .link {
 	text-decoration: underline;
@@ -700,24 +711,32 @@ button {
 table {
 	border-spacing: 0;
 	border-collapse: collapse;
+	border: 1px solid gray;
 }
 
 td {
-	text-align: left;
 	font-weight: normal;
 }
 
 table.table {
-	padding: 0.1em;
+	padding: 0.2em;
 }
 
 table.table thead {
-	background-color: #CF0060;
+	color: #CF0060;
+	border: 1px solid gray;
+	background-color: #DDDDDD;
+}
+
+table.table tbody tr:nth-child(2n+1) {
+	background-color: #EEEEEE;
 }
 
 table.table td,table.table th {
-	border: 1px solid black;
-	padding: 0.2em;
+	border: 1px dotted gray;
+	padding: 0.3em;
+	text-align: left;
+	vertical-align: top;
 }
 
 /* Recipe page

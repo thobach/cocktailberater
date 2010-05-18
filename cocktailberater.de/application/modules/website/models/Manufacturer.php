@@ -22,7 +22,7 @@ class Website_Model_Manufacturer {
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
 		}
 	}
-	
+
 	/**
 	 * Magic Setter Function, is accessed when setting an attribute
 	 *
@@ -36,12 +36,12 @@ class Website_Model_Manufacturer {
 			throw new Exception ( 'Class \''.get_class($this).'\' does not provide property: ' . $name . '.' ) ;
 		}
 	}
-	
+
 	/**
 	 * Manufacturer constructor returns a Manufacturer object by an id, or an empty one
 	 *
 	 * @param integer optional $idManufacturer
-	 * @return Manufacturer
+	 * @return Website_Model_Manufacturer
 	 */
 	public function Website_Model_Manufacturer ( $idManufacturer = NULL ) {
 		if (! empty ( $idManufacturer )) {
@@ -49,7 +49,7 @@ class Website_Model_Manufacturer {
 			$manufacturer = $table->fetchRow ( 'id=' . $idManufacturer ) ;
 			// if manufacturer does not exist
 			if(!$manufacturer){
-				throw new ManufacturerException('Id_Wrong');
+				throw new Website_Model_ManufacturerException('Id_Wrong');
 			}
 			$this->id 			= $manufacturer->id ;
 			$this->name 		= $manufacturer->name;
@@ -63,15 +63,30 @@ class Website_Model_Manufacturer {
 	/**
 	 * returns an array of all Manufacturer objects
 	 *
-	 * @return array Manufacturer
+	 * @return array Website_Model_Manufacturer
 	 */
 	public static function listManufacturer()
 	{
 		$manufacturerTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','manufacturer');
-		foreach ($manufacturerTable->fetchAll() as $manufacturer) {
-			$manufacturerArray[] = CbFactory::factory('Manufacturer',$manufacturer->id);
+		foreach ($manufacturerTable->fetchAll(null,'name') as $manufacturer) {
+			$manufacturerArray[] = Website_Model_CbFactory::factory('Website_Model_Manufacturer',$manufacturer->id);
 		}
 		return $manufacturerArray;
+	}
+
+	public static function exists($id) {
+		$manufacturerTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'manufacturer') ;
+		if($id>0){
+			$manufacturer = $manufacturerTable->fetchRow('id='.$id);
+		} else {
+			$manufacturer = $manufacturerTable->fetchRow($manufacturerTable->select()
+			->where('name = ?',rawurldecode(str_replace(array('_'),array(' '),$id))));
+		}
+		if ($manufacturer) {
+			return $manufacturer->id;
+		} else {
+			return false;
+		}
 	}
 
 	public function save (){
@@ -85,14 +100,52 @@ class Website_Model_Manufacturer {
 			$manufacturerTable->update($this->databaseRepresentation(),'id='.$this->id);
 		}
 	}
-	
+
 	public function delete (){
 		$manufacturerTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'manufacturer');
 		$manufacturerTable->delete('id='.$this->id);
-		CbFactory::destroy('Manufacturer',$this->id);
+		Website_Model_CbFactory::destroy('Website_Model_Manufacturer',$this->id);
 		unset($this);
 	}
-	
+
+	public function getProducts (){
+		// load cache from registry
+		$cache = Zend_Registry::get('cache');
+		// see if product - list is already in cache
+		if(!$productArray = $cache->load('productsByManufacturerId'.$this->id)) {
+			$productTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product');
+			$products = $productTable->fetchAll('manufacturer='.$this->id);
+			foreach($products as $product){
+				$productArray[] = Website_Model_CbFactory::factory('Website_Model_Product',$product->id);
+			}
+			$cache->save($productArray,'productsByManufacturerId'.$this->id,array('model'));
+		}
+		return $productArray;
+	}
+
+	public function getRecipes(){
+		// load cache from registry
+		$cache = Zend_Registry::get('cache');
+		// see if product - list is already in cache
+		if(!$recipes = $cache->load('recipesByManufacturerId'.$this->id)) {
+			$recipes = array();
+			foreach ($this->getProducts() as $product){
+				$componentsArray = Website_Model_Component::componentsByIngredientId($product->getIngredient()->id);
+				if(is_array($componentsArray)){
+					foreach ($componentsArray as $component){
+						$recipes[$component->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$component->recipeId);
+					}
+				}
+			}
+			$cache->save($recipes,'recipesByManufacturerId'.$this->id,array('model'));
+		}
+		return $recipes;
+	}
+
+	public function getUniqueName() {
+		return rawurlencode(str_replace(array(' '),array('_'),$this->name));
+	}
+
 	/**
 	 * returns an array to save the object in a database
 	 *
@@ -104,8 +157,8 @@ class Website_Model_Manufacturer {
 		$array['country'] = $this->country;
 		return $array;
 	}
-	
-	
+
+
 	/**
 	 * adds the xml representation of the object to a xml branch
 	 *

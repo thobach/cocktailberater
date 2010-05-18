@@ -11,7 +11,7 @@ class Website_CocktailController extends Wb_Controller_RestController {
 	public function indexAction() {
 		$list = Website_Model_Cocktail::listCocktails ('%') ;
 		$this->view->cocktails = $list ;
-		$this->view->title = 'Cocktaillist';
+		$this->view->title = 'Auflistung aller Cocktails mit Rezepten';
 	}
 	
 	public function getAction() {

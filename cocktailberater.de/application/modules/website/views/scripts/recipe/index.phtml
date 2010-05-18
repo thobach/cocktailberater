@@ -1,6 +1,7 @@
 <?php
 echo $this->partial ('template/search.phtml');
 if ($this->recipes) { ?>
+<h2>Cocktailrezepte: </h2>
 <div id="ergebnisse" style="clear: left;"><?php
 foreach ($this->recipes as $recipe){
 	if($this->top10){

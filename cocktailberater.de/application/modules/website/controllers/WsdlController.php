@@ -3,7 +3,7 @@
 class Website_WsdlController extends Zend_Controller_Action {
 
 	public function preDispatch(){
-		$this->getHelper('layout')->disableLayout();
+		$this->_helper->layout->disableLayout();
 		$this->getFrontController()->setParam('noViewRenderer', true);
 		$this->getResponse()->setHeader('Content-Type','application/xml');
 		ini_set("soap.wsdl_cache_enabled", "0");

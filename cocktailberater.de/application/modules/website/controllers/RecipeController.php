@@ -133,7 +133,7 @@ class Website_RecipeController extends Wb_Controller_RestController {
 
 		$this->view->headLink($this->view->xmlLink);
 		$this->view->alternatives = $this->view->recipe->getCocktail()->getRecipes();
-		$this->view->title = $this->view->recipe->name.' Cocktail Rezepte' ;
+		$this->view->title = $this->view->recipe->name.' Cocktailrezept' ;
 		$this->view->format = $this->_getParam('format');
 	}
 

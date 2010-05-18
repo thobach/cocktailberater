@@ -13,6 +13,7 @@ class Website_IngredientController extends Wb_Controller_RestController {
 		$log->log('Website_IngredientController->indexAction',Zend_Log::DEBUG);
 
 		$this->view->ingredients = Website_Model_Ingredient::listIngredients('%');
+		$this->view->title = 'Liste aller Zutaten für Cocktailrezepte';
 	}
 
 	public function getAction(){
@@ -26,6 +27,7 @@ class Website_IngredientController extends Wb_Controller_RestController {
 			$this->view->ingredient = $ingredient ;
 			$liste = Website_Model_Recipe::searchByIngredient($ingredient->name);
 			$this->view->recipes = $liste ;
+			$this->view->title = 'Cocktailrezepte mit '.$this->view->ingredient->name.', inkl. Produkte und Zutateninformationen';
 		}
 	}
 

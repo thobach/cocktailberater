@@ -18,8 +18,7 @@ $this->headMeta()->appendName('keywords', $recipe->name.', '.implode($ingredient
 // setting meta description
 $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' Cocktails besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Anweisung, Fotos, Videos, Tags/Schlagworten, Kosten/Preisen, Kalorien und Kommentaren hier.');
 ?>
-<div>
-<div style="float: right;"><img 
+<div style="float: right; clear: both;"><img 
 	src="<?php
 	if(isset($photos[0]) && $photos[0]->fileName) { 
 		echo $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName ;
@@ -65,7 +64,7 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 	?></div>
 </div>
 <!-- class="right" -->
-<div style="margin-left: 25px; margin-top: 15px">
+<div style="margin-left: 25px; margin-top: 15px; clear: none;">
 <div class="attribut">Name:</div>
 <div class="wert"><?php
 print str_replace ( '\\', '', $recipe->name ) ;
@@ -347,8 +346,8 @@ $durchschnitt = $this->recipe->getRating();
 		?>">
 		<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rate.." /></button><?php } ?>
 	<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
-	<input name="rating" id="rating" type="hidden" value="" />
-	<br />(Anzahl Stimmen: <?php print $this->recipe->ratingsCount.' - Ø ' . 
+	<input name="rating" id="rating" type="hidden" value="" /> 
+		(Anzahl Stimmen: <?php print $this->recipe->ratingsCount.' - Ø ' . 
 		number_format ( $this->recipe->getRating(), 2, ',', '' ) ; ?>)
 </form></div>
 <div class="attribut">Rezeptquelle:</div>
@@ -439,7 +438,7 @@ if(!(location.hash=='#comment-insert' || location.hash=='#comments')){
 </div>
 <?php if($gesamt>1) { ?>
 	<div class="attribut">Rezept- alternativen:</div>
-	<div class="wert">
+	<div class="wert" style="width: 36em;">
 	<ul class="nolist">
 	<?php
 	foreach ($alternatives as $alternative) { ?>
@@ -637,5 +636,4 @@ Video gefunden.</div>
 	<?php
 	print $recipe->getVolumeCl() ;
 	?> cl</div>
-</div>
 </div>

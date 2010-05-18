@@ -3,7 +3,7 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
 	protected function _initPageCache(){
 		$config = $this->getOptions();
-		if($config['cache']['enabled']=='true') {
+		if($config['pagecache']['enabled']=='true') {
 			if(APPLICATION_ENV == 'development'){
 				$debug = true;
 			} else {
@@ -124,7 +124,7 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$restControllers = array(
 			'bar','cocktail','comment','component','glass',
 			'guest',
-		    'ingredient','ingredientCategory',
+		    'ingredient','ingredient-category',
 		    'manufacturer','member','menue','order','party',
 		    'photo','photoCategory','product','rating',
 		    'recipe','recipeCategory','session','tag','video');
