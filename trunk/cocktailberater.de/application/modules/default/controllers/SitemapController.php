@@ -30,17 +30,27 @@ class SitemapController extends Zend_Controller_Action{
 			$options['controller'] = 'cocktail';
 			$options['params'] = array();
 			$options['params']['id'] = $cocktail->getUniqueName();
-			$cocktails2['c'.$cocktail->id] = new Zend_Navigation_Page_Mvc($options);
-			$cocktails2['c'.$cocktail->id]->setRoute('rest');
-			foreach ($cocktail->getRecipes() as $recipe){
-				$options = array();
-				$options['label'] = $recipe->name;
-				$options['module'] = 'website';
-				$options['controller'] = 'recipe';
-				$options['params'] = array();
-				$options['params']['id'] = $recipe->getUniqueName();
-				$cocktails2['r'.$recipe->id] = new Zend_Navigation_Page_Mvc($options);
-				$cocktails2['r'.$recipe->id]->setRoute('rest');
+			$page = new Zend_Navigation_Page_Mvc($options);
+			$page->set('lastmod',$cocktail->updateDate);
+			$page->set('changefreq','monthly');
+			$page->set('priority','0.8');
+			$page->setRoute('rest');
+			$cocktails2['c'.$cocktail->id] = $page;
+			if(is_array($cocktail->getRecipes())){
+				foreach ($cocktail->getRecipes() as $recipe){
+					$options = array();
+					$options['label'] = $recipe->name;
+					$options['module'] = 'website';
+					$options['controller'] = 'recipe';
+					$options['params'] = array();
+					$options['params']['id'] = $recipe->getUniqueName();
+					$page = new Zend_Navigation_Page_Mvc($options);
+					$page->set('lastmod',$recipe->updateDate);
+					$page->set('changefreq','monthly');
+					$page->set('priority','0.9');
+					$page->setRoute('rest');
+					$cocktails2['r'.$recipe->id] = $page;
+				}
 			}
 		}
 		$alcoholic = $pages; //->findOneBy('action','alcoholic');
@@ -51,16 +61,60 @@ class SitemapController extends Zend_Controller_Action{
 		$ingredients2 = array();
 		foreach($ingredients as $ingredient){
 			$options = array();
-			$options['label'] = $recipe->name;
+			$options['label'] = $ingredient->name;
 			$options['module'] = 'website';
 			$options['controller'] = 'ingredient';
 			$options['params'] = array();
 			$options['params']['id'] = $ingredient->getUniqueName();
-			$ingredients2['i'.$ingredient->id] = new Zend_Navigation_Page_Mvc($options);
-			$ingredients2['i'.$ingredient->id]->setRoute('rest');
+			$page = new Zend_Navigation_Page_Mvc($options);
+			$page->set('lastmod',$ingredient->updateDate);
+			$page->set('changefreq','monthly');
+			$page->set('priority','0.7');
+			$page->setRoute('rest');
+			$ingredients2['i'.$ingredient->id] = $page;
 		}
 		$ingredient = $pages; //->findOneBy('action','alcoholic');
 		$ingredient->addPages($ingredients2);
+		
+		// add products
+		$products = Website_Model_Product::listProduct() ;
+		$products2 = array();
+		foreach($products as $product){
+			$options = array();
+			$options['label'] = $product->name;
+			$options['module'] = 'website';
+			$options['controller'] = 'product';
+			$options['params'] = array();
+			$options['params']['id'] = $product->getUniqueName();
+			$page = new Zend_Navigation_Page_Mvc($options);
+			$page->set('lastmod',$product->updateDate);
+			$page->set('changefreq','monthly');
+			$page->set('priority','0.4');
+			$page->setRoute('rest');
+			$products2['i'.$product->id] = $page;
+		}
+		$product = $pages; //->findOneBy('action','alcoholic');
+		$product->addPages($products2);
+		
+		// add manufacturers
+		$manufacturers = Website_Model_Manufacturer::listManufacturer();
+		$manufacturers2 = array();
+		foreach($manufacturers as $manufacturer){
+			$options = array();
+			$options['label'] = $manufacturer->name;
+			$options['module'] = 'website';
+			$options['controller'] = 'manufacturer';
+			$options['params'] = array();
+			$options['params']['id'] = $manufacturer->getUniqueName();
+			$page = new Zend_Navigation_Page_Mvc($options);
+			$page->set('lastmod',$manufacturer->updateDate);
+			$page->set('changefreq','monthly');
+			$page->set('priority','0.5');
+			$page->setRoute('rest');
+			$manufacturers2['i'.$manufacturer->id] = $page;
+		}
+		$manufacturer = $pages; //->findOneBy('action','alcoholic');
+		$manufacturer->addPages($manufacturers2);
 
 		// pass all page nodes to the view
 		$this->view->pages = $pages;
