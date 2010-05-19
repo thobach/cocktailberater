@@ -1,12 +1,30 @@
 <?php echo $this->partial ("template/search.phtml"); ?>
-<h1>Cocktails mit Rezeptalternativen</h1>
-<p>Hier finden Sie Cocktails mit verschiedenen Rezepten und Angaben zu durchschnittlichen Kalorien und Kosten/Preisen.</p>
+<p class="left" style="margin: 0 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Cocktails',
+                'module'     => 'website',
+                'controller' => 'cocktail'
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo $this->navigation($container)->breadcrumbs();
+?></p>
+<div style="clear: left; margin-left: 25px; margin-right: 25px;">
+<h2 class="textLeft">Cocktails mit Rezeptalternativen</h2>
+<p class="textLeft">Hier finden Sie Cocktails mit verschiedenen Rezepten und Angaben zu durchschnittlichen Kalorien und Kosten/Preisen.</p>
 <ul style="margin-top: 1em; margin-left: 1em;">
 <?php
 $i=0;
 foreach ($this->cocktails as $cocktail){
 	$i++;
-	print '<li style="width: 20em; float: left; margin-bottom: 1em; margin-left: 1em; margin-right: 1em; '.( ($i == 1) ? 'clear: left;' : 'clear: none;' ).'">'.
+	print '<li style="width: 17em; float: left; margin-bottom: 1em; margin-left: 1em; margin-right: 1em; '.( ($i == 1) ? 'clear: left;' : 'clear: none;' ).'">'.
 	'<a href="'.$this->url(array('module'=>'website','controller'=>'cocktail','action'=>'get','id'=>$cocktail->getUniqueName())).'">'.$cocktail->name.'</a><br />';
 	$recipes = $cocktail->getRecipes();
 	if(is_array($recipes)) { 
@@ -35,3 +53,4 @@ foreach ($this->cocktails as $cocktail){
 }
 ?>
 </ul>
+</div>
