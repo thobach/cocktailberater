@@ -109,7 +109,7 @@ class Website_Model_Product
 	}
 	
 	public function getUniqueName() {
-		return rawurlencode(str_replace(array(' '),array('_'),$this->id.'_'.$this->name));
+		return rawurlencode(str_replace(array(' '),array('_'),$this->id.'_'.$this->getManufacturer()->name.'_'.$this->name));
 	}
 
 	/**
