@@ -50,9 +50,11 @@ dojo.addOnLoad(function() {
 		<tr>
 			<td><?php 
 			$categories = '';
-			foreach($ingredient->getIngredientCategories() as $cagetory){
-				$cagetory = '<a href="'.$this->url(array('controller'=>'ingredient-category','action'=>'get','module'=>'website','id'=>$cagetory->getUniqueName())).'">'.$cagetory->name.'</a>';
-				$categories	= ($categories ? $categories.', '.$cagetory : $cagetory);
+			if(is_array($ingredient->getIngredientCategories())){
+				foreach($ingredient->getIngredientCategories() as $cagetory){
+					$cagetory = '<a href="'.$this->url(array('controller'=>'ingredient-category','action'=>'get','module'=>'website','id'=>$cagetory->getUniqueName())).'">'.$cagetory->name.'</a>';
+					$categories	= ($categories ? $categories.', '.$cagetory : $cagetory);
+				}
 			} ?> <a
 				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>">
 				<?php print $ingredient->name; ?></a></td>
