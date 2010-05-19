@@ -107,7 +107,7 @@ if(is_array($products)){
 			print '<li style="text-align: left;'.
 				($i==1 ? 'clear: left;' : 'clear: none;').'">
 				<a href="'.$offer['shopUrl'].'">';
-				print ''.$offer['shop'].'</a> für '.number_format($offer['price'],2,',','.').' €</li>';
+			print $offer['shop'].'</a>'.($offer['price']>0 ? ' für '.number_format($offer['price'],2,',','.').' €' : '').'</li>';
 		}
 		print (count($offers)>0 ? '</ul>' : '').'</li>';
 	}

@@ -38,7 +38,9 @@ if($this->manufacturer->website){ ?>
 <?php } ?>
 <h3 class="clear left" id="products-list" style="margin-bottom: 0.7em;"><?php print $this->manufacturer->name; ?> Produkte</h3>
 <ul class="clear">
-<?php foreach ($this->manufacturer->getProducts() as $product){ ?>
+<?php
+if(is_array($this->manufacturer->getProducts())){
+	foreach ($this->manufacturer->getProducts() as $product){ ?>
 	<li
 		style="text-align: center; float: left; clear: none; width: 130px; height: 120px; padding-right: 1em; padding-bottom: 1em;"><a
 		href="<?php echo $this->url(
@@ -57,7 +59,8 @@ if($this->manufacturer->website){ ?>
 		'module'=>'website',
 		'id'=>$product->getIngredient()->getUniqueName())); ?>"><?php
 		echo $product->getIngredient()->name; ?></a>)</li>
-		<?php } ?>
+		<?php } 
+} ?>
 </ul>
 <?php if($this->manufacturer->getRecipes()){ ?>
 <h3 class="clear left" style="margin-bottom: 1.7em;" id="recipes-list">Cocktailrezepte mit Zutaten von <?php print $this->manufacturer->name; ?></h3>
