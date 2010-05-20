@@ -485,7 +485,7 @@ p.description {
 	text-align: left;
 }
 
-#cocktail {
+.cocktail {
 	float: left;
 	padding-right: 1em;
 	padding-bottom: 2.5em;
