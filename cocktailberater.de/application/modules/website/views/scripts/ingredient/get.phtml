@@ -1,4 +1,3 @@
-<?php $this->partial('template/search.phtml'); ?>
 <p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
 $pages = array(
     array(
@@ -82,36 +81,47 @@ $products = Website_Model_Product::productsByIngredientId($this->ingredient->id)
 if($products) { ?>
 <h3 class="clear left" id="products-list"><?php print $this->ingredient->name; ?> Produkte</h3>
 <div style="clear: left; text-align: left;"><?php
-if(is_array($products)){
-	print '<ul style="list-style-type: circle; margin-left: 25px;">';
+if(is_array($products)){ ?>
+<ul style="list-style-type: circle; margin-left: 25px;">
+<?php 
 	foreach ($products as $product) {
 		$avgPrice = $product->getAveragePrice();
 		$offers = $product->getOffers();
-		print '<li style="padding-top: 0.7em;"><a href="'.$this->url(array(
-		'controller'=>'product','id'=>$product->getUniqueName())).'">'.
-		$product->name.	'</a> von <a href="'.$this->url(array(
-		'controller'=>'manufacturer','id'=>$product->getManufacturer()->getUniqueName())).'">'.
-		$product->getManufacturer()->name.'</a> ('.str_replace('.',',',round($product->size,2)).' '.
-		$product->unit.') '.(count($offers)>0 ? 'gibt es '.($avgPrice ? 'für durchschnittlich '.
-		number_format($avgPrice,2,',','.').' € ' : '').' bei:<br />' : '').
-		($product->getImage() ? '<img src="'.$product->getImage().'" '.
-		'style="max-width: 160px; max-height: 160px; float: right; '.
-		'margin-right: 25px; margin-top: 1em;" '. 
-		'alt="'.$offer['title'].' ('.$offer['brand'].')" '.
-		'title="'.$offer['title'].' ('.$offer['brand'].')" />' : '').
-		(count($offers)>0 ? '<ul style="clear: left; margin-top: 0.2em; list-style-type: circle; margin-left: 25px;">' : '');
-		
-		$i=0;
-		foreach($offers as $offer){
-			$i++;
-			print '<li style="text-align: left;'.
-				($i==1 ? 'clear: left;' : 'clear: none;').'">
-				<a href="'.$offer['shopUrl'].'">';
-			print $offer['shop'].'</a>'.($offer['price']>0 ? ' für '.number_format($offer['price'],2,',','.').' €' : '').'</li>';
-		}
-		print (count($offers)>0 ? '</ul>' : '').'</li>';
-	}
-	print '</ul>';
-}
-?></div>
+		?>
+	<li style="padding-top: 0.7em;">
+		<a href="<?php print $this->url(array('controller'=>'product',
+		'id'=>$product->getUniqueName())); ?>"><?php print $product->name; ?></a>
+		<?php if($product->getManufacturer()){ ?>von <a href="<?php 
+		print $this->url(array('controller'=>'manufacturer',
+		'id'=>$product->getManufacturer()->getUniqueName())); ?>"><?php 
+		print $product->getManufacturer()->name; ?></a><?php } ?> 
+		(<?php print str_replace('.',',',round($product->size,2)).' '.
+		$product->unit;?>) <?php  print (count($offers)>0 ? 'gibt es '.($avgPrice ? 'für durchschnittlich '.
+		number_format($avgPrice,2,',','.').' € ' : '').' bei:<br />' : ''); ?>
+		<?php if($product->getImage()){ ?>
+			<img src="<?php print $product->getImage(); ?>" 
+			style="max-width: 160px; max-height: 160px; float: right; margin-right: 25px; margin-top: 1em;" 
+			alt="<?php print $offer['title'].' ('.$offer['brand'].')'; ?>" 
+			title="<?php print $offer['title'].' ('.$offer['brand'].')'; ?>" />
+		<?php } 
+		if(count($offers)>0){ ?>
+			<ul style="clear: left; margin-top: 0.2em; list-style-type: circle; margin-left: 25px;">
+			<?php 
+			$i=0;
+			foreach($offers as $offer){
+				$i++; ?>
+				<li style="text-align: left; <?php ($i==1 ? 'clear: left;' : 'clear: none;'); ?>">
+					<a href="<?php print $offer['shopUrl']; ?>"><?php print $offer['shop']; ?></a>
+					<?php if($offer['price']>0){ ?>
+						für <?php print number_format($offer['price'],2,',','.').' €'; ?>
+					<?php } ?>
+				</li>
+			</ul>
+			<?php }
+		} ?>
+	</li>
+	<?php } ?>
+</ul>
+<?php } ?>
+</div>
 <?php } 

@@ -302,15 +302,15 @@ class Website_Model_Component {
 		$cache = Zend_Registry::get('cache');
 
 		// see if getAll - list is already in cache
-		if(!$componentsArray = $cache->load('componentsByRecipeId'.$idrecipe)) {
+		//if(!$componentsArray = $cache->load('componentsByRecipeId'.$idrecipe)) {
 
 			$componentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','component');
 			$components = $componentTable->fetchAll ( 'recipe=' . $idrecipe ) ;
 			foreach ( $components as $component ) {
 				$componentsArray [] = Website_Model_CbFactory::factory('Website_Model_Component',$component->ingredient,$component->recipe);
 			}
-			$cache->save ($componentsArray,'componentsByRecipeId'.$idrecipe,array('model'));
-		}
+			//$cache->save ($componentsArray,'componentsByRecipeId'.$idrecipe,array('model'));
+		//}
 		return $componentsArray ;
 	}
 
@@ -329,14 +329,14 @@ class Website_Model_Component {
 		$cache = Zend_Registry::get('cache');
 
 		// see if getAll - list is already in cache
-		if(!$componentsArray = $cache->load('componentsByIngredientId'.$idingredient)) {
+		//if(!$componentsArray = $cache->load('componentsByIngredientId'.$idingredient)) {
 			$componentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','component');
 			$components = $componentTable->fetchAll ( 'ingredient=' . $idingredient ) ;
 			foreach ( $components as $component ) {
 				$componentsArray [] = Website_Model_CbFactory::factory('Website_Model_Component',$component->ingredient,$component->recipe);
 			}
-			$cache->save ($componentsArray,'componentsByIngredientId'.$idingredient,array('model'));
-		}
+			//$cache->save ($componentsArray,'componentsByIngredientId'.$idingredient,array('model'));
+		//}
 		return $componentsArray ;
 	}
 

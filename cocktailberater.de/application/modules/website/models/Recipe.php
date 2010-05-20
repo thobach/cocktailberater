@@ -404,7 +404,6 @@ class Website_Model_Recipe {
 			if (is_array ( $components )) {
 				foreach ( $components as $component ) {
 					$avgPrice += $component->getAveragePrice();
-					// print $component->getIngredient()->name.' '.$component->getAveragePrice().'<br />';
 				}
 			}
 			$this->averagePrice = round($avgPrice,2);

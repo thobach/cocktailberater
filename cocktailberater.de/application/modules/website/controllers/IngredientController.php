@@ -17,6 +17,9 @@ class Website_IngredientController extends Wb_Controller_RestController {
 	}
 
 	public function getAction(){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_IngredientController->getAction',Zend_Log::DEBUG);
+		
 		if ($this->_hasParam ( 'id' )) {
 			$realId = Website_Model_Ingredient::exists($this->_getParam('id'));
 			// throw exception if id could not be found

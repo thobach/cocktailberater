@@ -22,9 +22,10 @@ class Website_Model_Product
 	private $_manufacturer;
 
 	// calculated attributes
-	private $averagePrice;
 	private $offers;
 	private $image;
+	private static $_avgPrices;
+	private static $_productsByIngredientId;
 
 	/**
 	 * magic getter for all attributes
@@ -70,6 +71,12 @@ class Website_Model_Product
 		}
 	}
 
+	/**
+	 * returns a google base url with query parameter
+	 * 
+	 * @param integer $limit
+	 * @return string google base url
+	 */
 	private function getGoogleBaseUrl($limit=50){
 		// create filter to select only shops which offer the right size of the product
 		$match = array();
@@ -108,6 +115,10 @@ class Website_Model_Product
 		return $url;
 	}
 	
+	/**
+	 * returns the unique name which is also rawurlencoded
+	 * @return string
+	 */
 	public function getUniqueName() {
 		return rawurlencode(str_replace(array(' '),array('_'),$this->id.'_'.$this->getManufacturer()->name.'_'.$this->name));
 	}
@@ -118,13 +129,19 @@ class Website_Model_Product
 	 * @return double
 	 */
 	public function getAveragePrice(){
-		if($this->averagePrice === NULL){
-			// load cache from registry
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Product->getAveragePrice',Zend_Log::DEBUG);
+		// check if data is already calculated
+		if(Website_Model_Product::$_avgPrices[$this->id] === NULL){
+			// load cache module from registry
 			$cache = Zend_Registry::get('cache');
-
-			// see if offer - list is already in cache
-			$avgPrice = $cache->load('averagePriceByProductId'.$this->id);
-			if($avgPrice === false) {
+			// internal cache not yet created			
+			if(!is_array(Website_Model_Product::$_avgPrices)){
+				// load price information from cache
+				Website_Model_Product::$_avgPrices = $cache->load('averagePrices');
+			}
+			// continue if cache does not contain the price information for this product
+			if(Website_Model_Product::$_avgPrices[$this->id] === NULL) {
 				// ask google base
 				$service = new Zend_Gdata_Gbase();
 				$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl());
@@ -157,7 +174,7 @@ class Website_Model_Product
 				}
 
 				// average price of selection
-				$avgPrice = 0.0;
+				$avgPrice[$this->id] = 0.0;
 				$sumPrice = 0.0;
 				$countPrice = 0;
 
@@ -180,16 +197,24 @@ class Website_Model_Product
 					$sumPrice += $price->price;
 					$countPrice++;
 				}
+				
+				// any price information in local database or google base
 				if($countPrice>0){
-					$avgPrice = round($sumPrice/$countPrice,2);
+					Website_Model_Product::$_avgPrices[$this->id] = round($sumPrice/$countPrice,2);
 				} else {
-					$avgPrice = NULL;
+					Website_Model_Product::$_avgPrices[$this->id] = -1;
 				}
-				$cache->save($avgPrice,'averagePriceByProductId'.$this->id,array('model'));
+				
+				// persist new data in cache
+				$cache->save(Website_Model_Product::$_avgPrices,'averagePrices',array('model'));
 			}
-			$this->averagePrice = $avgPrice;
 		}
-		return $this->averagePrice;
+		$log->log('Website_Model_Product->getAveragePrice exiting',Zend_Log::DEBUG);
+		if(Website_Model_Product::$_avgPrices[$this->id] === -1){
+			return NULL;
+		} else {
+			return Website_Model_Product::$_avgPrices[$this->id];
+		}
 	}
 
 	/**
@@ -269,6 +294,11 @@ class Website_Model_Product
 		return $this->getIngredient()->getRecipes();
 	}
 	
+	/**
+	 * returns the image of the first product
+	 * 
+	 * @return string image url
+	 */
 	public function getImage(){
 		if($this->image === NULL){
 			// load cache from registry
@@ -293,8 +323,6 @@ class Website_Model_Product
 		return $this->image;
 	}
 
-
-
 	/**
 	 * Magic Setter Function, is accessed when setting an attribute
 	 *
@@ -309,6 +337,11 @@ class Website_Model_Product
 		}
 	}
 
+	/**
+	 * loads the product with the given id from the persistent storage
+	 * 
+	 * @param integer $productId, default NULL -> creates empty product object
+	 */
 	public function __construct ($productId=NULL){
 		if(!empty($productId)){
 			$productTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','product');
@@ -333,23 +366,31 @@ class Website_Model_Product
 		}
 	}
 
-	public static function productsByIngredientId($ingredient){
-		$productTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','product');
-		$products = $productTable->fetchAll('ingredient='.$ingredient);
-		$productArray = array();
-		foreach ($products as $product){
-			$productArray[] = Website_Model_CbFactory::factory('Website_Model_Product', $product['id']);
+	/**
+	 * returns all products of an ingredient by id
+	 * 
+	 * @param integer $ingredientId
+	 * @return Website_Model_Product[]
+	 */
+	public static function productsByIngredientId($ingredientId){
+		if(self::$_productsByIngredientId[$ingredientId] === NULL){
+			$productTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','product');
+			$products = $productTable->fetchAll('ingredient='.$ingredientId);
+			self::$_productsByIngredientId[$ingredientId] = array();
+			foreach ($products as $product){
+				self::$_productsByIngredientId[$ingredientId][] = 
+					Website_Model_CbFactory::factory('Website_Model_Product', $product['id']);
+			}
 		}
-		return $productArray;
+		return self::$_productsByIngredientId[$ingredientId];
 	}
 
 	/**
 	 * returns an array of all Product objects
 	 *
-	 * @return array Product
+	 * @return Website_Model_Product[]
 	 */
-	public static function listProduct()
-	{
+	public static function listProduct() {
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','product');
 		foreach ($table->fetchAll(null,'name') as $product) {
 			$productArray[] = Website_Model_CbFactory::factory('Website_Model_Product',$product['id']);
@@ -357,6 +398,9 @@ class Website_Model_Product
 		return $productArray;
 	}
 
+	/**
+	 * makes the product persistent 
+	 */
 	public function save (){
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product');
 		if (!$this->id) {
@@ -369,13 +413,22 @@ class Website_Model_Product
 		}
 	}
 
+	/**
+	 * deletes the product
+	 */
 	public function delete (){
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product');
 		$table->delete('id='.$this->id);
-		CbFactory::destroy('Product',$this->id);
+		Website_Model_CbFactory::destroy('Product',$this->id);
 		unset($this);
 	}
 	
+	/**
+	 * checks if the product exists in the persitent storage
+	 * 
+	 * @param integer $id
+	 * @return integer|boolean id if product exists, false otherwise
+	 */
 	public static function exists($id) {
 		$productTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product') ;
 		if(((int)$id)>0){

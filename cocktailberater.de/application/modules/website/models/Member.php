@@ -74,8 +74,10 @@ class Website_Model_Member {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_Model_Member->getPhoto',Zend_Log::DEBUG);
 
-		if(!$this->_photo){
+		if(!$this->_photo && $this->photoId){
 			$this->_photo = Website_Model_CbFactory::factory('Website_Model_Photo',$this->photoId);
+		} else {
+			$this->_photo = NULL;
 		}
 		return $this->_photo;
 	}
@@ -422,7 +424,7 @@ class Website_Model_Member {
 		$member->setAttribute('email', $this->email);
 		$member->setAttribute('insertDate', $this->insertDate);
 		$member->setAttribute('updateDate', $this->updateDate);
-		if($this->getPhoto()->id){
+		if($this->getPhoto()){
 			$photo = $xml->createElement('photo');
 			$this->getPhoto()->toXml($xml, $photo);
 			$member->appendChild($photo);

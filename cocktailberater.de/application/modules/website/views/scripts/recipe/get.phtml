@@ -592,7 +592,7 @@ Video gefunden.</div>
 	dojo.addOnLoad(function() {
 		priceInfoTooltip = new dijit.Tooltip({
 			connectId: ["priceInfo"],
-			label: "<?php
+			label: "<?php	
 				$price = number_format($recipe->getAveragePrice(),2,',','.');
 				$components = $recipe->getComponents();
 				$priceComplete = true;

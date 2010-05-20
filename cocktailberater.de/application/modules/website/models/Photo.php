@@ -66,6 +66,8 @@ class Website_Model_Photo {
 	
 	
 	public function __construct ( $idfoto = NULL ) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Photo->__construct'.$idfoto,Zend_Log::DEBUG);
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'photo');
 		if (! empty ( $idfoto )) {
 			$photo = $table->fetchRow ( 'id = ' . $idfoto ) ;
@@ -76,6 +78,7 @@ class Website_Model_Photo {
 			$this->description = $photo->description ;
 			$this->photoCategoryId = $photo->photoCategory;
 		}
+		$log->log('Website_Model_Photo->__construct exiting',Zend_Log::DEBUG);
 	}
 	
 	public function getPhotoUrl(){
@@ -90,8 +93,12 @@ class Website_Model_Photo {
 	 * @param int $max number of photos required
 	 */
 	public static function photosByRecipeId ( $idrezept, $max = NULL ) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Photo->photosByRecipeId'.$idrezept,Zend_Log::DEBUG);
+		
 		if($idrezept<1 || $idrezept === null){
-			throw new Exception ( 'No ID given for '.get_class().'::photosByRecipeId().' ) ;
+			$log->log('Website_Model_Photo->photosByRecipeId: Website_Model_PhotoException',Zend_Log::DEBUG);
+			throw new Website_Model_PhotoException ( 'No ID given for '.get_class().'::photosByRecipeId().' ) ;
 		}
 		$photo2recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'photo2recipe');
 		$photo2recipes = $photo2recipeTable->fetchAll ( 'recipe=' . $idrezept , NULL, $max) ;

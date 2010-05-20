@@ -10,7 +10,7 @@ class Website_Model_CbFactory {
 	private static $_hash;
 
 	/**
-	 * returns an objects of $className with some parameters
+	 * returns an object of typ $className, called with one or two parameters
 	 *
 	 * @param string $className
 	 * @param mixed $firstParam
@@ -19,21 +19,23 @@ class Website_Model_CbFactory {
 	 */
 	public static function factory($className,$firstParam=NULL,$secondParam=NULL)
 	{
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_CbFactory->factory ('.$className.','.$firstParam.','.$secondParam.')',Zend_Log::DEBUG);
 		if($firstParam && $secondParam){
-			if(!isset(Website_Model_CbFactory::$_hash[$className][$firstParam][$secondParam])){
-				Website_Model_CbFactory::$_hash[$className][$firstParam][$secondParam] = new $className($firstParam,$secondParam);
+			if(!isset(self::$_hash[$className][$firstParam][$secondParam])){
+				self::$_hash[$className][$firstParam][$secondParam] = new $className($firstParam,$secondParam);
 			}
-			return Website_Model_CbFactory::$_hash[$className][$firstParam][$secondParam];
+			return self::$_hash[$className][$firstParam][$secondParam];
 		} else if($firstParam){
-			if(!isset(Website_Model_CbFactory::$_hash[$className][$firstParam])){
-				Website_Model_CbFactory::$_hash[$className][$firstParam] = new $className($firstParam);
+			if(!isset(self::$_hash[$className][$firstParam])){
+				self::$_hash[$className][$firstParam] = new $className($firstParam);
 			}
-			return Website_Model_CbFactory::$_hash[$className][$firstParam];
+			return self::$_hash[$className][$firstParam];
 		} else {
-			if(!isset(Website_Model_CbFactory::$_hash[$className])){
-				Website_Model_CbFactory::$_hash[$className] = new $className();
+			if(!isset(self::$_hash[$className])){
+				self::$_hash[$className] = new $className();
 			}
-			return Website_Model_CbFactory::$_hash[$className];
+			return self::$_hash[$className];
 		}
 	}
 
