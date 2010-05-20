@@ -246,7 +246,7 @@ if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index' 
 else { 
 	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header-detail.png\'); height: 50px;';
 	$linkStyle = 'height: 50px;'; 
-	$homeStyle = '<div id="home_hover" style="position: relative; background: url(\''.$this->baseUrl().'/img/home.png'.'\') no-repeat; height: 40px; left: 270px; top: 6px; display: none;">&nbsp;</div>';
+	$homeStyle = '<span id="home_hover" style="position: relative; background: url(\''.$this->baseUrl().'/img/home.png'.'\') no-repeat; height: 40px; left: 270px; top: 6px; display: none;">&nbsp;</span>';
 	$homeStyleHover = ' onmouseover="document.getElementById(\'home_hover\').style.display=\'block\';"  onmouseout="document.getElementById(\'home_hover\').style.display=\'none\';"';
 }
 ?>
