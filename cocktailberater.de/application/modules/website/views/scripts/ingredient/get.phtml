@@ -82,7 +82,7 @@ if($products) { ?>
 <h3 class="clear left" id="products-list"><?php print $this->ingredient->name; ?> Produkte</h3>
 <div style="clear: left; text-align: left;"><?php
 if(is_array($products)){ ?>
-<ul style="list-style-type: circle; margin-left: 25px;">
+<ul style="list-style-type: circle; margin-left: 25px; clear: left;">
 <?php 
 	foreach ($products as $product) {
 		$avgPrice = $product->getAveragePrice();
@@ -105,7 +105,7 @@ if(is_array($products)){ ?>
 			title="<?php print $offer['title'].' ('.$offer['brand'].')'; ?>" />
 		<?php } 
 		if(count($offers)>0){ ?>
-			<ul style="clear: left; margin-top: 0.2em; list-style-type: circle; margin-left: 25px;">
+			<ul style="margin-top: 0.2em; list-style-type: circle; margin-left: 25px; float: left;  width: 20em;">
 			<?php 
 			$i=0;
 			foreach($offers as $offer){
@@ -116,9 +116,10 @@ if(is_array($products)){ ?>
 						für <?php print number_format($offer['price'],2,',','.').' €'; ?>
 					<?php } ?>
 				</li>
+			
+			<?php } ?>
 			</ul>
-			<?php }
-		} ?>
+		<?php } ?>
 	</li>
 	<?php } ?>
 </ul>
