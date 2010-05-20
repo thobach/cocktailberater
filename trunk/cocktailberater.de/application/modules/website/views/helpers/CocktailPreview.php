@@ -6,7 +6,7 @@
 
 class Zend_View_Helper_CocktailPreview extends Zend_View_Helper_Abstract {
 	
-	static $alreadyDisplayed;
+	public static $alreadyDisplayed = array();
 	
 	/**
 	 * prints a preview of a cocktail used by search etc
@@ -16,11 +16,14 @@ class Zend_View_Helper_CocktailPreview extends Zend_View_Helper_Abstract {
 	 * @return 	string 					html content
 	 */
 	public function cocktailPreview(Website_Model_Recipe $recipe,$top10Position=null) {
+		$log = Zend_Registry::get('logger');
+		$log->log('cocktailPreview, ID: '.$recipe->id,Zend_Log::DEBUG);
+		$this->view->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
 		$this->view->dojo()->enable()->requireModule('dijit.Tooltip');
-		$photos = Website_Model_Photo::photosByRecipeId($recipe->id,1); ?>
-		<?php
+		$photos = Website_Model_Photo::photosByRecipeId($recipe->id,1);
 		Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id] = 
 			Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id] + 1;
+		
 		$this->view->headScript()->captureStart(); ?>
 dojo.addOnLoad(function() {
 	recipe<?php print $recipe->id.'_'.
@@ -42,7 +45,10 @@ if (is_array ( $components )) {
 ?></div>"
 	});
 });
-		<?php $this->view->headScript()->captureEnd(); ?>
+<?php
+$this->view->headScript()->captureEnd();
+$log->log('cocktailPreview, middle 4',Zend_Log::DEBUG);
+?>
 <div id="cocktail" style="width: 107px; height: 150px"><a
 	href="<?php $uniqueName = $recipe->getUniqueName();
 	print $this->view->url(
@@ -75,7 +81,7 @@ if (is_array ( $components )) {
 		//print ' - Bewertung: '.number_format($cocktail->bewertungs_summe/$cocktail->bewertungs_anzahl,2,',',NULL);
 	}
 	?></a></div><?php 
-
+	$log->log('cocktailPreview, exiting',Zend_Log::DEBUG);
 }
 
 }

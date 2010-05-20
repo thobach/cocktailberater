@@ -162,7 +162,7 @@ class Website_Model_Ingredient {
 	/**
 	 * returns an array of Product objects
 	 *
-	 * @return array Website_Model_Product
+	 * @return Website_Model_Product[]
 	 */
 	public function getProducts() {
 		if($this->productArray === NULL){
@@ -314,19 +314,20 @@ class Website_Model_Ingredient {
 		if($this->averagePricePerLitre === NULL){
 			$products = $this->getProducts();
 			$avgCount = 0;
-			foreach($products as $product){
-				// cached
-				$price = $product->getAveragePrice();
-				if($product->unit == 'l' && $price>0){
-					$avgSum += $price / $product->size;
-					$avgCount++;
-					//print 'preis: '.$price.'<br />';
-				} else if ($product->unit == 'g' && $price > 0 && $product->densityGramsPerCm3 > 0){
-					$avgSum += $price / $product->size / $product->densityGramsPerCm3 * 1000;
-					$avgCount++;
-				} else if ($product->unit == 'kg' && $price > 0 && $product->densityGramsPerCm3 > 0){
-					$avgSum += $price / $product->size / $product->densityGramsPerCm3;
-					$avgCount++;
+			if(is_array($products)){
+				foreach($products as $product){
+					// cached
+					$price = $product->getAveragePrice();
+					if($product->unit == 'l' && $price>0){
+						$avgSum += $price / $product->size;
+						$avgCount++;
+					} else if ($product->unit == 'g' && $price > 0 && $product->densityGramsPerCm3 > 0){
+						$avgSum += $price / $product->size / $product->densityGramsPerCm3 * 1000;
+						$avgCount++;
+					} else if ($product->unit == 'kg' && $price > 0 && $product->densityGramsPerCm3 > 0){
+						$avgSum += $price / $product->size / $product->densityGramsPerCm3;
+						$avgCount++;
+					}
 				}
 			}
 			if($avgCount>0){

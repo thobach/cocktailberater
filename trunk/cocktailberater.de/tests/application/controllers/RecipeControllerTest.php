@@ -202,7 +202,7 @@ class RecipeControllerTest extends ControllerTestCase
 		$this->assertController("recipe");
 		$this->assertAction("get");
 		$this->assertResponseCode(200);
-		$this->assertXpathContentContains('/html/body/div[2]/div[2]/div/div[2]/div[2]/div[2]', "Mojito");
+		$this->assertXpathContentContains('/html/body/div[@id=\'wrapper\']/div[@id=\'homepage\']/div[@id=\'content\']/div[3]/div[2]', "Mojito");
 	}
 	
 	public function testGetWithNameAction() {
@@ -211,12 +211,11 @@ class RecipeControllerTest extends ControllerTestCase
 		$this->assertController("recipe");
 		$this->assertAction("get");
 		$this->assertResponseCode(200);
-		$this->assertXpathContentContains('/html/body/div[2]/div[2]/div/div[2]/div[2]/div[2]', "Mai Tai");
+		$this->assertXpathContentContains('/html/body/div[@id=\'wrapper\']/div[@id=\'homepage\']/div[@id=\'content\']/div[3]/div[2]', "Mai Tai");
 	}
 
 	public function testGetWithWrongIdAction() {
 		$this->dispatch('/website/recipe/0');
-		
-				$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Incorrect_Id'));
+		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Incorrect_Id'));
 	}
 }
