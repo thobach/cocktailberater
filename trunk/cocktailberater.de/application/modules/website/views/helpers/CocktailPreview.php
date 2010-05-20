@@ -49,7 +49,7 @@ if (is_array ( $components )) {
 $this->view->headScript()->captureEnd();
 $log->log('cocktailPreview, middle 4',Zend_Log::DEBUG);
 ?>
-<div id="cocktail" style="width: 107px; height: 150px"><a
+<div class="cocktail" style="width: 107px; height: 150px"><a
 	href="<?php $uniqueName = $recipe->getUniqueName();
 	print $this->view->url(
 	array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>"><img
@@ -63,7 +63,7 @@ $log->log('cocktailPreview, middle 4',Zend_Log::DEBUG);
 	Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id]; ?>"
 	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>"
 	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>"><img
-	src="<?php print $this->view->baseUrl(); ?>/img/info.png" align="top" height="17" width="20" /></a><br />
+	src="<?php print $this->view->baseUrl(); ?>/img/info.png" style="vertical-align: top;" height="17" width="20" /></a><br />
 <a
 	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>">
 	<?php 
