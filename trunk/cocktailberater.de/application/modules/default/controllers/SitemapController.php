@@ -116,11 +116,18 @@ class SitemapController extends Zend_Controller_Action{
 		$manufacturer = $pages; //->findOneBy('action','alcoholic');
 		$manufacturer->addPages($manufacturers2);
 
-		// pass all page nodes to the view
-		$this->view->pages = $pages;
-
-		// set header to XML
-		$this->getResponse()->setHeader('Content-Type', 'text/xml');
+		if($this->_getParam('format')=='array'){
+			foreach($pages as $page){
+				$urls[] = array($page->getHref());	
+			}
+			print serialize($urls);
+		} else {			
+			// pass all page nodes to the view
+			$this->view->pages = $pages;
+	
+			// set header to XML
+			$this->getResponse()->setHeader('Content-Type', 'text/xml');
+		}
 	}
 
 }

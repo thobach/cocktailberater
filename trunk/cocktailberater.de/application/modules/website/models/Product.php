@@ -24,8 +24,10 @@ class Website_Model_Product
 	// calculated attributes
 	private $offers;
 	private $image;
+	private $uniqueName;
 	private static $_avgPrices;
 	private static $_productsByIngredientId;
+	private static $_numberOfRecipes;
 
 	/**
 	 * magic getter for all attributes
@@ -46,9 +48,8 @@ class Website_Model_Product
 	 *
 	 * @return Website_Model_Ingredient
 	 */
-	public function getIngredient()
-	{
-		if(!$this->_ingredient){
+	public function getIngredient() {
+		if($this->_ingredient === NULL){
 			$this->_ingredient = Website_Model_CbFactory::factory('Website_Model_Ingredient',$this->ingredientId);
 		}
 		return $this->_ingredient;
@@ -57,10 +58,9 @@ class Website_Model_Product
 	/**
 	 * resolve Association and return an object of Manufacturer
 	 *
-	 * @return Manufacturer
+	 * @return Website_Model_Manufacturer
 	 */
-	public function getManufacturer()
-	{
+	public function getManufacturer() {
 		if($this->manufacturerId!=null){
 			if(!$this->_manufacturer){
 				$this->_manufacturer = Website_Model_CbFactory::factory('Website_Model_Manufacturer',$this->manufacturerId);
@@ -73,9 +73,9 @@ class Website_Model_Product
 
 	/**
 	 * returns a google base url with query parameter
-	 * 
-	 * @param integer $limit
-	 * @return string google base url
+	 *
+	 * @param	int		$limit
+	 * @return	string	google base url
 	 */
 	private function getGoogleBaseUrl($limit=50){
 		// create filter to select only shops which offer the right size of the product
@@ -114,13 +114,19 @@ class Website_Model_Product
 		//echo $url;
 		return $url;
 	}
-	
+
 	/**
 	 * returns the unique name which is also rawurlencoded
 	 * @return string
 	 */
 	public function getUniqueName() {
-		return rawurlencode(str_replace(array(' '),array('_'),$this->id.'_'.$this->getManufacturer()->name.'_'.$this->name));
+		if($this->uniqueName === NULL){
+			$this->uniqueName = rawurlencode(
+				str_replace(array(' '),array('_'),
+				$this->id.'_'.$this->getManufacturer()->name.'_'.$this->name));
+		}
+		return $this->uniqueName;
+		
 	}
 
 	/**
@@ -135,10 +141,10 @@ class Website_Model_Product
 		if(Website_Model_Product::$_avgPrices[$this->id] === NULL){
 			// load cache module from registry
 			$cache = Zend_Registry::get('cache');
-			// internal cache not yet created			
+			// internal cache not yet created
 			if(!is_array(Website_Model_Product::$_avgPrices)){
 				// load price information from cache
-				Website_Model_Product::$_avgPrices = $cache->load('averagePrices');
+				Website_Model_Product::$_avgPrices = $cache->load('averageProductPrices');
 			}
 			// continue if cache does not contain the price information for this product
 			if(Website_Model_Product::$_avgPrices[$this->id] === NULL) {
@@ -197,16 +203,16 @@ class Website_Model_Product
 					$sumPrice += $price->price;
 					$countPrice++;
 				}
-				
+
 				// any price information in local database or google base
 				if($countPrice>0){
 					Website_Model_Product::$_avgPrices[$this->id] = round($sumPrice/$countPrice,2);
 				} else {
 					Website_Model_Product::$_avgPrices[$this->id] = -1;
 				}
-				
+
 				// persist new data in cache
-				$cache->save(Website_Model_Product::$_avgPrices,'averagePrices',array('model'));
+				$cache->save(Website_Model_Product::$_avgPrices,'averageProductPrices',array('model'));
 			}
 		}
 		$log->log('Website_Model_Product->getAveragePrice exiting',Zend_Log::DEBUG);
@@ -289,14 +295,44 @@ class Website_Model_Product
 		}
 		return $this->offers;
 	}
-	
+
+	/**
+	 * Returns all recipes of this product via looking up its ingredient
+	 *
+	 * return array[int]Website_Model_Recipe
+	 */
 	public function getRecipes(){
 		return $this->getIngredient()->getRecipes();
 	}
-	
+
+	/**
+	 * Returns the number of recipes of this product via looking up its ingredient
+	 *
+	 * return int
+	 */
+	public function getNumberOfRecipes(){
+		// check if data is already calculated
+		if(Website_Model_Product::$_numberOfRecipes[$this->id] === NULL){
+			// load cache module from registry
+			$cache = Zend_Registry::get('cache');
+			// internal cache not yet created
+			if(!is_array(Website_Model_Product::$_numberOfRecipes)){
+				// load calories information from cache
+				Website_Model_Product::$_numberOfRecipes = $cache->load('productNumberOfRecipes');
+			}
+			// continue if cache does not contain the price information for this recipe
+			if(Website_Model_Product::$_numberOfRecipes[$this->id] === NULL) {
+				Website_Model_Product::$_numberOfRecipes[$this->id] = $this->getIngredient()->getNumberOfRecipes();
+				// persist new data in cache
+				$cache->save(Website_Model_Product::$_numberOfRecipes,'productNumberOfRecipes',array('model'));
+			}
+		}
+		return Website_Model_Product::$_numberOfRecipes[$this->id];
+	}
+
 	/**
 	 * returns the image of the first product
-	 * 
+	 *
 	 * @return string image url
 	 */
 	public function getImage(){
@@ -339,7 +375,7 @@ class Website_Model_Product
 
 	/**
 	 * loads the product with the given id from the persistent storage
-	 * 
+	 *
 	 * @param integer $productId, default NULL -> creates empty product object
 	 */
 	public function __construct ($productId=NULL){
@@ -368,7 +404,7 @@ class Website_Model_Product
 
 	/**
 	 * returns all products of an ingredient by id
-	 * 
+	 *
 	 * @param integer $ingredientId
 	 * @return Website_Model_Product[]
 	 */
@@ -378,11 +414,28 @@ class Website_Model_Product
 			$products = $productTable->fetchAll('ingredient='.$ingredientId);
 			self::$_productsByIngredientId[$ingredientId] = array();
 			foreach ($products as $product){
-				self::$_productsByIngredientId[$ingredientId][] = 
-					Website_Model_CbFactory::factory('Website_Model_Product', $product['id']);
+				self::$_productsByIngredientId[$ingredientId][] =
+				Website_Model_CbFactory::factory('Website_Model_Product', $product['id']);
 			}
 		}
 		return self::$_productsByIngredientId[$ingredientId];
+	}
+
+	/**
+	 * returns the number of products of an ingredient by id
+	 *
+	 * @param	int	$ingredientId
+	 * @return	int
+	 */
+	public static function numberOfProductsByIngredientId($ingredientId){
+		if(self::$_productsByIngredientId[$ingredientId] === NULL){
+			$productTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','product');
+			$products = $productTable->fetchAll('ingredient='.$ingredientId);
+			$count = count($products);
+		} else {
+			$count = count(self::$_productsByIngredientId[$ingredientId]);
+		}
+		return $count;
 	}
 
 	/**
@@ -399,7 +452,7 @@ class Website_Model_Product
 	}
 
 	/**
-	 * makes the product persistent 
+	 * makes the product persistent
 	 */
 	public function save (){
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product');
@@ -422,10 +475,10 @@ class Website_Model_Product
 		Website_Model_CbFactory::destroy('Product',$this->id);
 		unset($this);
 	}
-	
+
 	/**
 	 * checks if the product exists in the persitent storage
-	 * 
+	 *
 	 * @param integer $id
 	 * @return integer|boolean id if product exists, false otherwise
 	 */
