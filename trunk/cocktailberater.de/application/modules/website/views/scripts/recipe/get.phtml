@@ -1,4 +1,7 @@
 <?php
+// RDF options
+$this->layout()->rdf = ' xmlns:amf="http://purl.org/amicroformat/" xmlns:v="http://rdf.data-vocabulary.org/#" typeof="v:Recipe" xml:lang="de" ';
+
 print $this->partial('template/search.phtml',$this);
 $this->dojo()->enable()->requireModule('dijit.Tooltip')->requireModule('dojox.image.Lightbox');
 $this->dojo()->addStylesheet($this->dojo()->getCdnBase().$this->dojo()->getCdnVersion().'/dojox/image/resources/Lightbox.css');
@@ -31,7 +34,7 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 	?>"
 	title="<?php
 	print str_replace ( '\\', '', $recipe->name ) ;
-	?>"
+	?>" rel="v:photo"
 	style="margin-right: 1.6em; width: 160px; margin-top: 0.2em; margin-bottom: 20px;" />
 <div id="photo_video">
 	<?php
@@ -64,9 +67,9 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 	?></div>
 </div>
 <!-- class="right" -->
-<div style="margin-left: 25px; margin-top: 15px; clear: none;">
+<div style="margin-left: 25px; margin-top: 15px; clear: none;" typeof="amf:Recipe" about="<?php print $this->url(); ?>">
 <div class="attribut">Name:</div>
-<div class="wert"><?php
+<div class="wert"><span property="v:name"><?php
 print str_replace ( '\\', '', $recipe->name ) ;
 if($recipe->isOriginal){
 	print  ' (original)';
@@ -74,7 +77,7 @@ if($recipe->isOriginal){
 if(!$recipe->isAlcoholic()){
 	print  ' (alkoholfrei)';
 }
-?></div>
+?></span></div>
 <?php if($recipe->description){?><div class="attribut">Beschreibung:</div>
 <div class="wert"><p><?php
 print str_replace("\n",'</p><p>',$recipe->description);
@@ -82,10 +85,10 @@ print str_replace("\n",'</p><p>',$recipe->description);
 <div class="attribut">Zutaten:</div>
 <div class="wert"><p><strong>Cocktail</strong></p><ul><?php
 foreach ( $components as $component ) {
-	print '<li>';
-	print $component->amount ;
+	print '<li property="v:ingredient">';
+	print '<span property="v:amount">'.$component->amount.'</span>';
 	print ' ' ;
-	print $component->unit ;
+	print '<span property="v:name">'.$component->unit.'</span>';
 	print ' ' ;
 	?>
 	<?php $this->headScript()->captureStart(); ?>
@@ -133,9 +136,9 @@ if(!($alcoholLevel || $calories || $categories || $products)){
 } // foreach
 ?></ul><p class="abstand_oben"><strong>Dekoration</strong></p><ul><li>Früchte nach Belieben.</li></ul></div>
 <div class="attribut">Anweisung:</div>
-<div class="wert"><p><?php
+<div class="wert"><p property="v:instructions"><?php
 print str_replace("\n",'</p><p>',$recipe->instruction);
-?></p></div>
+?><span property="v:yield" class="hide">Für 1 Glas</span></p></div>
 <div class="attribut">Schlagworte / Tags:<br />
 <span id="switcha1"
 	onclick="document.getElementById('tag_form').style.display='block'; document.getElementById('switcha1').innerHTML=''; dojo.byId('newtag').focus();"
@@ -352,7 +355,7 @@ $durchschnitt = $this->recipe->getRating();
 </form></div>
 <div class="attribut">Rezeptquelle:</div>
 <div class="wert"><?php if($recipe->source) {
-	print $recipe->source;
+	print '<span property="amf:author">'.$recipe->source.'</span>';
 } else {
 	?>-keine angegeben-<?php } ?></div>	
 	<?php $this->headScript()->captureStart(); ?>
@@ -395,7 +398,7 @@ if(!(location.hash=='#comment-insert' || location.hash=='#comments')){
 				print 'anonym' ;
 			}
 			print '</em> am '.$comment->insertDate;
-			print '<br />'.stripslashes(str_replace (array("\r\n", "\r", "\n",'\r\n', '\r', '\n'),'</p><p>',$this->escape($comment->comment))) . '</p></li>' ;
+			print '<br />'.stripslashes(str_replace (array("\r\n", "\r", "\n",'\r\n', '\r', '\n'),'</p><p property="amf:note">',$this->escape($comment->comment))) . '</p></li>' ;
 		}
 	} else {
 		print 'keine Kommentare vorhanden' ;
@@ -494,9 +497,9 @@ Video gefunden.</div>
 	print $this->baseUrl() ;
 	?>/img/zeit.png" alt="Zeitaufwand"
 	title="Zeitaufwand" height="42" width="43" /><br />
-	<?php
+	<span property="v:cookTime"><?php
 	print $recipe->workMin;
-	?> min</div>
+	?> min</span></div>
 <div class="left icon" style="left: 140px;"><img
 	src="<?php
 	print $this->baseUrl() ;
