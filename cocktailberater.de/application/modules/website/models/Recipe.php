@@ -24,8 +24,8 @@ class Website_Model_Recipe {
 	private $isOriginal;
 	private $isAlcoholic; // calculated, but from DB
 	private $alcoholLevel; // calculated
-	private $caloriesKcal; // calculated
 	private $averagePrice; // calculated
+	private $caloriesKcal; // calculated
 	private $volumeCl; // calculated
 	private $ratingsSum;
 	private $ratingsCount;
@@ -40,6 +40,8 @@ class Website_Model_Recipe {
 	// supporting variables
 	private $_components;
 	private static $_recipes;
+	private static $_avgPrices;
+	private static $_avgCalories;
 
 	/**
 	 * magic getter for all attributes
@@ -66,7 +68,7 @@ class Website_Model_Recipe {
 				$this->averagePrice = $this->getAveragePrice();
 			} elseif($name=='volumeCl' && $this->volumeCl === NULL){
 				$this->volumeCl = $this->getVolumeCl();
-			}			
+			}
 			return $this->$name;
 		} else {
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
@@ -167,7 +169,7 @@ class Website_Model_Recipe {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param int|NULL $id
 	 */
 	public function __construct ( $id = NULL ) {
@@ -322,21 +324,31 @@ class Website_Model_Recipe {
 	}
 
 	public function getCaloriesKcal() {
-		if(!$this->caloriesKcal){
-			$components = $this->getComponents();
-
-			// log to debug
-			//$logger = Zend_Registry::get('logger');
-
-			$totalCaloriesKcal = 0;
-			if (is_array ( $components )) {
-				foreach ( $components as $component ) {
-					$totalCaloriesKcal += $component->getCaloriesKcal();
-				}
+		// check if data is already calculated
+		if(Website_Model_Recipe::$_avgCalories[$this->id] === NULL){
+			// load cache module from registry
+			$cache = Zend_Registry::get('cache');
+			// internal cache not yet created
+			if(!is_array(Website_Model_Recipe::$_avgCalories)){
+				// load calories information from cache
+				Website_Model_Recipe::$_avgCalories = $cache->load('averageRecipeCalories');
 			}
-			$this->caloriesKcal = round($totalCaloriesKcal,0);
+			// continue if cache does not contain the price information for this recipe
+			if(Website_Model_Recipe::$_avgCalories[$this->id] === NULL) {
+				$components = $this->getComponents();
+				$totalCaloriesKcal = 0;
+				if (is_array ( $components )) {
+					foreach ( $components as $component ) {
+						/* @var $component Website_Model_Component */
+						$totalCaloriesKcal += $component->getCaloriesKcal();
+					}
+				}
+				Website_Model_Recipe::$_avgCalories[$this->id] = round($totalCaloriesKcal,0);
+				// persist new data in cache
+				$cache->save(Website_Model_Recipe::$_avgCalories,'averageRecipeCalories',array('model'));
+			}
 		}
-		return $this->caloriesKcal;
+		return Website_Model_Recipe::$_avgCalories[$this->id];
 	}
 
 	public function getVolumeCl() {
@@ -355,23 +367,23 @@ class Website_Model_Recipe {
 
 	public function getAlcoholLevel() {
 		if(!$this->alcoholLevel){
-		$components = $this->getComponents();
-		$alcoholLevel=0;
-		$volume=0;
-		if (is_array ( $components )) {
-			foreach($components as $component){
-				$db = Zend_Db_Table::getDefaultAdapter();
-				$alcoholLevelSql = $db->fetchRow ( 'SELECT AVG(alcoholLevel) AS averageAlcoholLevel
+			$components = $this->getComponents();
+			$alcoholLevel=0;
+			$volume=0;
+			if (is_array ( $components )) {
+				foreach($components as $component){
+					$db = Zend_Db_Table::getDefaultAdapter();
+					$alcoholLevelSql = $db->fetchRow ( 'SELECT AVG(alcoholLevel) AS averageAlcoholLevel
 				FROM `product` 
 				WHERE ingredient='.$component->ingredientId);
-				if($alcoholLevelSql['averageAlcoholLevel']!="NULL"){
-					$alcoholLevel += $alcoholLevelSql['averageAlcoholLevel'] / 100 * $component->amount ;
-					//var_dump($alcoholLevel);
+					if($alcoholLevelSql['averageAlcoholLevel']!="NULL"){
+						$alcoholLevel += $alcoholLevelSql['averageAlcoholLevel'] / 100 * $component->amount ;
+						//var_dump($alcoholLevel);
+					}
+					$volume += $component->amount;
 				}
-				$volume += $component->amount;
+				$this->alcoholLevel = $alcoholLevel = round($alcoholLevel/$volume*100,1);
 			}
-			$this->alcoholLevel = $alcoholLevel = round($alcoholLevel/$volume*100,1);
-		}
 		}
 		return $this->alcoholLevel;
 	}
@@ -398,17 +410,31 @@ class Website_Model_Recipe {
 	 * @return double price
 	 */
 	public function getAveragePrice() {
-		if(!$this->averagePrice){
-			$components = $this->getComponents();
-			$avgPrice = 0.0;
-			if (is_array ( $components )) {
-				foreach ( $components as $component ) {
-					$avgPrice += $component->getAveragePrice();
-				}
+		// check if data is already calculated
+		if(Website_Model_Recipe::$_avgPrices[$this->id] === NULL){
+			// load cache module from registry
+			$cache = Zend_Registry::get('cache');
+			// internal cache not yet created
+			if(!is_array(Website_Model_Recipe::$_avgPrices)){
+				// load price information from cache
+				Website_Model_Recipe::$_avgPrices = $cache->load('averageRecipePrices');
 			}
-			$this->averagePrice = round($avgPrice,2);
+			// continue if cache does not contain the price information for this recipe
+			if(Website_Model_Recipe::$_avgPrices[$this->id] === NULL) {
+				$components = $this->getComponents();
+				$avgPrice = 0.0;
+				if (is_array ( $components )) {
+					foreach ( $components as $component ) {
+						/* @var $component Website_Model_Component */
+						$avgPrice += $component->getAveragePrice();
+					}
+				}
+				Website_Model_Recipe::$_avgPrices[$this->id] = round($avgPrice,2);
+				// persist new data in cache
+				$cache->save(Website_Model_Recipe::$_avgPrices,'averageRecipePrices',array('model'));
+			}
 		}
-		return $this->averagePrice;
+		return Website_Model_Recipe::$_avgPrices[$this->id];
 	}
 
 	/**

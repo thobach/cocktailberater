@@ -2,4 +2,6 @@
 /**
  * Sitemap XML File for search engines
  */
-echo $this->navigation($this->pages)->sitemap()->setFormatOutput(true); 
+if($this->pages){
+	echo $this->navigation($this->pages)->sitemap()->setFormatOutput(true);
+}

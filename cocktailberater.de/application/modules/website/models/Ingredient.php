@@ -20,7 +20,6 @@ class Website_Model_Ingredient {
 	private $averageDensityGramsPerCm3;
 	private $averageCaloriesKcal;
 	private $averagePricePerKilogram;
-	private $averagePricePerLitre;
 	private $averagePricePerPiece;
 	private $averagePricePerWhole;
 	private $averageVolumeLitre;
@@ -31,6 +30,9 @@ class Website_Model_Ingredient {
 
 	// supporting variables
 	private static $_ingredients;
+	private static $_numberOfRecipes;
+	private static $_averageIngredientPricePerLitre;
+	private static $_averageIngredientPricePerKilogram;
 	private $recipes;
 
 	// constants
@@ -127,8 +129,7 @@ class Website_Model_Ingredient {
 	 *
 	 * @param string $search
 	 * @param int $limit count of results, default 100
-	 * @return array Ingredient
-	 * @tested
+	 * @return array[int]Website_Model_Ingredient
 	 */
 	static function listIngredients ( $search , $limit = 200) {
 		$db = Zend_Db_Table::getDefaultAdapter();
@@ -144,7 +145,7 @@ class Website_Model_Ingredient {
 		foreach ($result as $ingredient) {
 			$ingredientArray[] = Website_Model_CbFactory::factory('Website_Model_Ingredient',$ingredient['id']);
 		}
-		return ($ingredientArray) ;
+		return $ingredientArray;
 	}
 
 	/**
@@ -194,6 +195,40 @@ class Website_Model_Ingredient {
 			$this->recipes = $recipes;
 		}
 		return $this->recipes;
+	}
+
+	/**
+	 * returns the number of Recipes that use this ingredient
+	 *
+	 * @return	int
+	 */
+	public function getNumberOfRecipes(){
+		if(!$this->recipes){
+			// check if data is already calculated
+			if(Website_Model_Ingredient::$_numberOfRecipes[$this->id] === NULL){
+				// load cache module from registry
+				$cache = Zend_Registry::get('cache');
+				// internal cache not yet created
+				if(!is_array(Website_Model_Ingredient::$_numberOfRecipes)){
+					// load calories information from cache
+					Website_Model_Ingredient::$_numberOfRecipes = $cache->load('ingredientNumberOfRecipes');
+				}
+				// continue if cache does not contain the price information for this recipe
+				if(Website_Model_Ingredient::$_numberOfRecipes[$this->id] === NULL) {
+					$componentsArray = Website_Model_Component::componentsByIngredientId($this->id);
+					Website_Model_Ingredient::$_numberOfRecipes[$this->id] = count($componentsArray);
+					// persist new data in cache
+					$cache->save(Website_Model_Ingredient::$_numberOfRecipes,'ingredientNumberOfRecipes',array('model'));
+				}
+			}
+		} else {
+			Website_Model_Ingredient::$_numberOfRecipes[$this->id] = count($this->recipes);
+			// load cache module from registry
+			$cache = Zend_Registry::get('cache');
+			// persist new data in cache
+			$cache->save(Website_Model_Ingredient::$_numberOfRecipes,'ingredientNumberOfRecipes',array('model'));
+		}
+		return Website_Model_Ingredient::$_numberOfRecipes[$this->id];
 	}
 
 	/**
@@ -311,32 +346,51 @@ class Website_Model_Ingredient {
 	 * @return float average price
 	 */
 	public function getAveragePricePerLitre(){
-		if($this->averagePricePerLitre === NULL){
-			$products = $this->getProducts();
-			$avgCount = 0;
-			if(is_array($products)){
-				foreach($products as $product){
-					// cached
-					$price = $product->getAveragePrice();
-					if($product->unit == 'l' && $price>0){
-						$avgSum += $price / $product->size;
-						$avgCount++;
-					} else if ($product->unit == 'g' && $price > 0 && $product->densityGramsPerCm3 > 0){
-						$avgSum += $price / $product->size / $product->densityGramsPerCm3 * 1000;
-						$avgCount++;
-					} else if ($product->unit == 'kg' && $price > 0 && $product->densityGramsPerCm3 > 0){
-						$avgSum += $price / $product->size / $product->densityGramsPerCm3;
-						$avgCount++;
+		// check if data is already calculated
+		if(Website_Model_Ingredient::$_averageIngredientPricePerLitre[$this->id] === NULL){
+			// load cache module from registry
+			$cache = Zend_Registry::get('cache');
+			// internal cache not yet created
+			if(!is_array(Website_Model_Ingredient::$_averageIngredientPricePerLitre)){
+				// load calories information from cache
+				Website_Model_Ingredient::$_averageIngredientPricePerLitre = $cache->load('averageIngredientPricePerLitre');
+			}
+			// continue if cache does not contain the price information for this recipe
+			if(Website_Model_Ingredient::$_averageIngredientPricePerLitre[$this->id] === NULL) {
+				$products = $this->getProducts();
+				$avgCount = 0;
+				if(is_array($products)){
+					foreach($products as $product){
+						// cached
+						/* @var $product Website_Model_Product */
+						$price = $product->getAveragePrice();
+						if($product->unit == 'l' && $price>0){
+							$avgSum += $price / $product->size;
+							$avgCount++;
+						} else if ($product->unit == 'g' && $price > 0 && $product->densityGramsPerCm3 > 0){
+							$avgSum += $price / $product->size / $product->densityGramsPerCm3 * 1000;
+							$avgCount++;
+						} else if ($product->unit == 'kg' && $price > 0 && $product->densityGramsPerCm3 > 0){
+							$avgSum += $price / $product->size / $product->densityGramsPerCm3;
+							$avgCount++;
+						}
 					}
 				}
-			}
-			if($avgCount>0){
-				$this->averagePricePerLitre = round($avgSum/$avgCount,2);
-			} else {
-				$this->averagePricePerLitre = NULL;
+				if($avgCount>0){
+					Website_Model_Ingredient::$_averageIngredientPricePerLitre[$this->id] = round($avgSum/$avgCount,2);
+				} else {
+					Website_Model_Ingredient::$_averageIngredientPricePerLitre[$this->id] = -1;
+				}
+				// persist new data in cache
+				$cache->save(Website_Model_Ingredient::$_averageIngredientPricePerLitre,'averageIngredientPricePerLitre',array('model'));
 			}
 		}
-		return $this->averagePricePerLitre;
+		if(Website_Model_Ingredient::$_averageIngredientPricePerLitre[$this->id]== -1){
+			$price = NULL;
+		} else {
+			$price = Website_Model_Ingredient::$_averageIngredientPricePerLitre[$this->id];
+		}
+		return $price;
 	}
 
 	/**
@@ -345,7 +399,17 @@ class Website_Model_Ingredient {
 	 * @return float average price
 	 */
 	public function getAveragePricePerKilogram(){
-		if($this->averagePricePerKilogram === NULL){
+		// check if data is already calculated
+		if(Website_Model_Ingredient::$_averageIngredientPricePerKilogram[$this->id] === NULL){
+			// load cache module from registry
+			$cache = Zend_Registry::get('cache');
+			// internal cache not yet created
+			if(!is_array(Website_Model_Ingredient::$_averageIngredientPricePerKilogram)){
+				// load calories information from cache
+				Website_Model_Ingredient::$_averageIngredientPricePerKilogram = $cache->load('averageIngredientPricePerKilogram');
+			}
+			// continue if cache does not contain the price information for this recipe
+			if(Website_Model_Ingredient::$_averageIngredientPricePerKilogram[$this->id] === NULL) {
 			$products = $this->getProducts();
 			$avgCount = 0;
 			foreach($products as $product){
@@ -353,20 +417,26 @@ class Website_Model_Ingredient {
 				if($product->unit == 'g' && $price>0){
 					$avgSum += $price * 1000 / $product->size;
 					$avgCount++;
-					//print 'preis: '.$price.'<br />';
 				} else if($product->unit == 'kg' && $price>0){
 					$avgSum += $price / $product->size;
 					$avgCount++;
-					//print 'preis: '.$price.'<br />';
 				}
 			}
 			if($avgCount>0){
-				$this->averagePricePerKilogram = round($avgSum/$avgCount,2);
-			} else {
-				$this->averagePricePerKilogram = NULL;
+					Website_Model_Ingredient::$_averageIngredientPricePerKilogram[$this->id] = round($avgSum/$avgCount,2);
+				} else {
+					Website_Model_Ingredient::$_averageIngredientPricePerKilogram[$this->id] = -1;
+				}
+				// persist new data in cache
+				$cache->save(Website_Model_Ingredient::$_averageIngredientPricePerKilogram,'averageIngredientPricePerKilogram',array('model'));
 			}
 		}
-		return $this->averagePricePerKilogram;
+		if(Website_Model_Ingredient::$_averageIngredientPricePerKilogram[$this->id]== -1){
+			$price = NULL;
+		} else {
+			$price = Website_Model_Ingredient::$_averageIngredientPricePerKilogram[$this->id];
+		}
+		return $price;
 	}
 
 	/**
