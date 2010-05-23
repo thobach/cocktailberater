@@ -15,45 +15,53 @@ $entries[] = array(
 							"<p><strong>Anweisung:</strong></p>".
 							"<p>".$this->recipe->instruction."</p>",
 		'description'	=> "".$this->recipe->description,
-	);
-	
-foreach($this->recipe->getComments() as $comment){
-	$date = new Zend_Date($comment->updateDate,Zend_Date::ISO_8601);
-	$entries[] = array(
+);
+
+if(is_array($this->recipe->getComments())){
+	foreach($this->recipe->getComments() as $comment){
+		$date = new Zend_Date($comment->updateDate,Zend_Date::ISO_8601);
+		$entries[] = array(
 		'title'       	=> 	'Kommentar',
 		'link'        	=> 	$this->url(),
 		'lastUpdate'	=> 	$date->getTimestamp(),
 		'content'		=> 	$comment->comment,
 		'description'	=>	$comment->comment,
-	);	
+		);
+	}
 }
 
-foreach($this->recipe->getRatings() as $rating){
-	$date = new Zend_Date($rating->insertDate,Zend_Date::ISO_8601);
-	$entries[] = array(
+if(is_array($this->recipe->getRatings())){
+	foreach($this->recipe->getRatings() as $rating){
+		$date = new Zend_Date($rating->insertDate,Zend_Date::ISO_8601);
+		$entries[] = array(
 		'title'       	=> 	'Bewertung '.$rating->mark,
 		'link'        	=> 	$this->url(),
 		'lastUpdate'	=> 	$date->getTimestamp(),
 		'content'		=> 	'Bewertung '.$rating->mark,
 		'description'	=> 	'Bewertung '.$rating->mark,
-	);	
+		);
+	}
 }
 
-foreach($this->recipe->getTags() as $tag){
-	$date = new Zend_Date($tag->updateDate,Zend_Date::ISO_8601);
-	$entries[] = array(
+if(is_array($this->recipe->getTags())){
+	foreach($this->recipe->getTags() as $tag){
+		$date = new Zend_Date($tag->updateDate,Zend_Date::ISO_8601);
+		$entries[] = array(
 		'title'       	=> 	'Tag '.$tag->name,
 		'link'        	=> 	$this->url(),
 		'lastUpdate'	=> 	$date->getTimestamp(),
 		'content'		=> 	'Tag '.$tag->name,
 		'description'	=> 	'Tag '.$tag->name,
-	);	
+		);
+	}
 }
 
 // Create the RSS array
 $rss = array(
-	'title'   		=> 	'Details zum Cocktailrezept '.$this->recipe->name,
-	'description'	=>	'Alle Informationen wie Rezeptupdates, Bewertungen und Kommentare zum '.$this->recipe->name.' Cocktailrezept',
+	'title'   		=> 	$this->recipe->name.
+						' Details zum Cocktailrezept - cocktailberater.de',
+	'description'	=>	'Alle Informationen wie Rezeptupdates, Bewertungen '.
+						'und Kommentare zum '.$this->recipe->name.' Cocktailrezept',
 	'link'    		=> 	'http://www.cocktailberater.de',
 	'charset' 		=> 	'UTF-8',
 	'entries' 		=> 	$entries
