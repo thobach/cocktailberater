@@ -1,7 +1,23 @@
 <?php
+$this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
+					  'title' => 'Liste aller Cocktailrezepte - Atom',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=atom'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
+					  'title' => 'Liste aller Cocktailrezepte - RSS',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=rss'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/json',
+					  'title' => 'Liste aller Cocktailrezepte - JSON',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=json'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/xml',
+					  'title' => 'Liste aller Cocktailrezepte - XML',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=xml'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/pdf',
+					  'title' => 'Cocktailkarte mit allen Rezepten - PDF',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=pdf'));
+
 echo $this->partial ('template/search.phtml');
 if ($this->recipes) { ?>
-<h2>Cocktailrezepte: </h2>
+<h2>Cocktailrezepte:</h2>
 <div id="ergebnisse" style="clear: left;"><?php
 foreach ($this->recipes as $recipe){
 	if($this->top10){
@@ -15,3 +31,13 @@ foreach ($this->recipes as $recipe){
 <?php } else { ?>
 <p>Bitte geben Sie einen Suchbegriff ein.</p>
 <?php } ?>
+<p class="clear">Darstellung als: <a
+	href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe','index'=>'index')).'?format=pdf'; ?>">Cocktailkarte (PDF)</a>,
+<a
+	href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe','index'=>'index')).'?format=atom'; ?>">Atom</a>,
+<a
+	href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe','index'=>'index')).'?format=rss'; ?>">RSS</a>,
+<a
+	href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe','index'=>'index')).'?format=xml'; ?>">XML</a>
+oder <a
+	href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe','index'=>'index')).'?format=json'; ?>">JSON</a>

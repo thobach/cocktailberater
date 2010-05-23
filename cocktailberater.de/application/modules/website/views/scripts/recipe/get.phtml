@@ -1,10 +1,10 @@
 <?php
-// RDF options
-$this->layout()->rdf = ' xmlns:amf="http://purl.org/amicroformat/" xmlns:v="http://rdf.data-vocabulary.org/#" typeof="v:Recipe" xml:lang="de" ';
-
 print $this->partial('template/search.phtml',$this);
-$this->dojo()->enable()->requireModule('dijit.Tooltip')->requireModule('dojox.image.Lightbox');
-$this->dojo()->addStylesheet($this->dojo()->getCdnBase().$this->dojo()->getCdnVersion().'/dojox/image/resources/Lightbox.css');
+
+// dojo helper
+$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+
+// rename variables & fetch required data
 $recipe = $this->recipe;
 $photos = $recipe->getPhotos();
 $videos = $recipe->getVideos();
@@ -20,23 +20,43 @@ foreach ( $components as $component ) {
 $this->headMeta()->appendName('keywords', $recipe->name.', '.implode($ingredientList2,', ').', cocktail, rezept, cocktails, rezepte, cocktailrezepte, cocktailrezept, cocktailberater');
 // setting meta description
 $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' Cocktails besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Anweisung, Fotos, Videos, Tags/Schlagworten, Kosten/Preisen, Kalorien und Kommentaren hier.');
+// rdf
+$this->headLink(array('rel' => 'alternate','type' => 'application/rdf+xml',
+					  'title' => $recipe->name.' - RDF',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=rdf'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
+					  'title' => $recipe->name.' - Atom',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=atom'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
+					  'title' => $recipe->name.' - RSS',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=rss'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/json',
+					  'title' => $recipe->name.' - JSON',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=json'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/xml',
+					  'title' => $recipe->name.' - XML',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'));
 ?>
-<div typeof="amf:Recipe" about="<?php print $this->url(); ?>">
 <!-- class="right" -->
-<div style="float: right; clear: both;"><img 
-	src="<?php
+<div style="float: right; clear: both;">
+<?php
+$this->dojo()->enable()->requireModule('dojox.image.Lightbox');
+$this->dojo()->addStylesheet($this->dojo()->getCdnBase().$this->dojo()->getCdnVersion().'/dojox/image/resources/Lightbox.css');
+$this->headScript()->captureStart();
+?>function initLightbox0() {
+	var lightBox0 = new dojox.image.Lightbox({group:"photo"},dojo.byId('recipe_image'));
+	lightBox0.startup();
+}
+dojo.addOnLoad(initLightbox0);
+<?php $this->headScript()->captureEnd();?>
+	<img src="<?php
 	if(isset($photos[0]) && $photos[0]->fileName) { 
 		echo $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName ;
 	} else {
 	 	echo $this->baseUrl().'/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
-	}
-	?>"
-	alt="<?php
-	print str_replace ( '\\', '', $recipe->name ) ;
-	?>"
-	title="<?php
-	print str_replace ( '\\', '', $recipe->name ) ;
-	?>" rel="v:photo"
+	} 
+	?>" id="recipe_image" alt="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"
+	title="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"
 	style="margin-right: 1.6em; width: 160px; margin-top: 0.2em; margin-bottom: 20px;" />
 <div id="photo_video"><?php
 	if (sizeof($videos)>0) { ?>
@@ -49,11 +69,16 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 	$imageCounter = 0;
 	if(is_array($photos)){
 		foreach ( $photos as $photo ) {
-			$imageCounter++ ;
-			?>
+			$imageCounter++;
+			$this->headScript()->captureStart();
+?>function initLightbox<?php echo $imageCounter; ?>() {
+	var lightBox<?php echo $imageCounter; ?> = new dojox.image.Lightbox({group:"photo",href:"<?php echo $this->baseUrl() .'/img/recipes/' . $photo->originalFileName ; ?>", title:"<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"},dojo.byId('lightbox<?php echo $imageCounter; ?>'));
+	lightBox<?php echo $imageCounter; ?>.startup();
+}
+dojo.addOnLoad(initLightbox<?php echo $imageCounter; ?>);
+<?php $this->headScript()->captureEnd();?>
 			<a href="<?php echo $this->baseUrl() .'/img/recipes/' . $photo->originalFileName ; ?>" 
-				dojoType="dojox.image.Lightbox" group="one" 
-				title="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>">
+				id="lightbox<?php echo $imageCounter; ?>" title="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>">
 			<?php // display photo icon for first image
 			if ($imageCounter == 1) { ?>
 				<img src="<?php print $this->baseUrl(); ?>/img/foto.png" 
@@ -67,7 +92,7 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 <!-- end of class="right" -->
 <div style="margin-left: 25px; margin-top: 15px; clear: none;">
 <div class="attribut">Name:</div>
-<div class="wert"><span property="v:name"><?php
+<div class="wert"><?php
 print str_replace ( '\\', '', $recipe->name ) ;
 if($recipe->isOriginal){
 	print  ' (original)';
@@ -75,18 +100,21 @@ if($recipe->isOriginal){
 if(!$recipe->isAlcoholic()){
 	print  ' (alkoholfrei)';
 }
-?></span></div>
+?></div>
 <?php if($recipe->description){?><div class="attribut">Beschreibung:</div>
 <div class="wert"><p><?php
 print str_replace("\n",'</p><p>',$recipe->description);
 ?></p></div><?php } ?>
 <div class="attribut">Zutaten:</div>
 <div class="wert"><p><strong>Cocktail</strong></p><ul><?php
+// dojo tooltip
+$this->dojo()->enable()->requireModule('dijit.Tooltip');
+
 foreach ( $components as $component ) {
-	print '<li property="v:ingredient">';
-	print '<span property="v:amount">'.$component->amount.'</span>';
+	print '<li>';
+	print ''.$component->amount.'';
 	print ' ' ;
-	print '<span property="v:name">'.$component->unit.'</span>';
+	print ''.$component->unit.'';
 	print ' ' ;
 	?>
 	<?php $this->headScript()->captureStart(); ?>
@@ -134,9 +162,9 @@ if(!($alcoholLevel || $calories || $categories || $products)){
 } // foreach
 ?></ul><p class="abstand_oben"><strong>Dekoration</strong></p><ul><li>Früchte nach Belieben.</li></ul></div>
 <div class="attribut">Anweisung:</div>
-<div class="wert"><p property="v:instructions"><?php
+<div class="wert"><p><?php
 print str_replace("\n",'</p><p>',$recipe->instruction);
-?></p><span property="v:yield" class="hide">Für 1 Glas</span></div>
+?></p></div>
 <div class="attribut">Schlagworte / Tags:<br />
 <span id="switcha1"
 	onclick="document.getElementById('tag_form').style.display='block'; document.getElementById('switcha1').innerHTML=''; dojo.byId('newtag').focus();"
@@ -150,20 +178,21 @@ $tagCloud->setTagDecorator($decorator);
 echo $tagCloud;
 ?>
 <?php
-// dojo helper
-$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
 // enable dojo with custom module (readStore), parser, and comboBox
 $this->dojo()->enable()
 ->registerModulePath('custom', $this->baseUrl().'/js/custom')
-->requireModule('dojo.parser')
-->requireModule('dojox.data.QueryReadStore')
-->requireModule('dijit.form.ComboBox')
-->requireModule('custom.TagReadStore');
+->requireModule('dojo.parser')->requireModule('dojox.data.QueryReadStore')
+->requireModule('dijit.form.ComboBox')->requireModule('custom.TagReadStore');
 // define url for autoCompletion
 $autoCompletionUrl = array('action'=>'index','controller'=>'recipe','module'=>'website','format'=>'ajax','index'=>'index');
-?>
-<div dojoType="custom.TagReadStore" jsId="tagStore" url="<?php echo $this->url($autoCompletionUrl); ?>"
-	requestMethod="get"></div>
+$this->headScript()->captureStart(); ?>
+function initTagReadStore() {
+	var tagReadStore = new custom.TagReadStore({url:"<?php echo $this->url($autoCompletionUrl); ?>", requestMethod:"get"},dojo.byId('tagReadStore'));
+	var tagSearch = new dijit.form.ComboBox({store:tagReadStore, autoComplete:false, hasDownArrow:false},dojo.byId('newtag'));
+}
+dojo.addOnLoad(initTagReadStore);
+<?php $this->headScript()->captureEnd(); ?>
+<div id="tagReadStore"></div>
 <?php $this->headScript()->captureStart(); ?>
 // configure query
 djConfig.usePlainJson=true;
@@ -270,10 +299,7 @@ function clearTagFormError(){
 		<div id="tag_state" class="hide">&nbsp;</div>
 		<label for="newtag" class="hide">Dein Tag:</label>
 		<!-- text input w/ autocompletion -->
-		<?php 
-			$autoCompletetionInputOptions = array('dojoType'=>array('dijit.form.ComboBox'),'store'=>'tagStore','autoComplete'=>'false','hasDownArrow'=>'false'); 
-			echo $this->formText('newtag',null,$autoCompletetionInputOptions);
-		?>
+		<input id="newtag" name="newtag" type="text" />
 		<input name="recipe" value="<?php print $recipe->id; ?>" type="hidden" />
 		<input type="submit" class="small-button" value="Tag hinzufügen"
 			style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png'); font-size: 0.9em;" />
@@ -323,37 +349,37 @@ function clearRatingFormError(){
 }
 <?php $this->headScript()->captureEnd(); ?>
 <div class="attribut">Bewertung:</div>
-<div class="wert"><?php
-$durchschnitt = $this->recipe->getRating();
-?>
+<div class="wert"><?php $durchschnitt = $this->recipe->getRating(); ?>
 	<div id="rating_state" class="hide">&nbsp;</div>
 	<form id="rating_form" action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>" method="post">
-	<?php for($rating = 1; $rating <= 5; $rating++){
-	?><button type="submit" id="rating<?php echo $rating; ?>"
-		onclick="document.getElementById('rating').value='<?php echo $rating; ?>';" 
-		onmouseover="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
-			for($rating2=1; $rating2 <= $rating; $rating2++){ 
-				echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars_pink.png';";
-			}
-		?>"
-		onmouseout="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
-			for($rating2=1; $rating2 <= $rating; $rating2++){ 
-				if($durchschnitt >= $rating2){
-					echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars.png';";
-				} else {
-					echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/not_yet_rated_1.png';";
+	<fieldset>
+		<?php for($rating = 1; $rating <= 5; $rating++){
+		?><button type="submit" id="rating<?php echo $rating; ?>"
+			onclick="document.getElementById('rating').value='<?php echo $rating; ?>';" 
+			onmouseover="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
+				for($rating2=1; $rating2 <= $rating; $rating2++){ 
+					echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars_pink.png';";
 				}
-			}
-		?>">
-		<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rate.." /></button><?php } ?>
-	<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
-	<input name="rating" id="rating" type="hidden" value="" /> 
-		(Anzahl Stimmen: <?php print $this->recipe->ratingsCount.' - Ø ' . 
-		number_format ( $this->recipe->getRating(), 2, ',', '' ) ; ?>)
-</form></div>
+			?>"
+			onmouseout="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
+				for($rating2=1; $rating2 <= $rating; $rating2++){ 
+					if($durchschnitt >= $rating2){
+						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars.png';";
+					} else {
+						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/not_yet_rated_1.png';";
+					}
+				}
+			?>">
+			<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rate.." /></button><?php } ?>
+		<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
+		<input name="rating" id="rating" type="hidden" value="" /> 
+			(Anzahl Stimmen: <?php print $this->recipe->ratingsCount.' - Ø ' . 
+			number_format ( $this->recipe->getRating(), 2, ',', '' ) ; ?>)
+	</fieldset>
+	</form></div>
 <div class="attribut">Rezeptquelle:</div>
 <div class="wert"><?php if($recipe->source) {
-	print '<span property="amf:author">'.$recipe->source.'</span>';
+	print $recipe->source;
 } else {
 	?>-keine angegeben-<?php } ?></div>	
 	<?php $this->headScript()->captureStart(); ?>
@@ -378,7 +404,7 @@ if(!(location.hash=='#comment-insert' || location.hash=='#comments')){
 	dojo.addOnLoad(hideComments);
 }
 	<?php $this->headScript()->captureEnd(); ?>
-<div class="attribut"><a name="comments" class="nolink">Kommentare:</a><br />
+<div class="attribut"><a id="comments" class="nolink">Kommentare:</a><br />
 <a id="switchb1" class="hide" href="#comment-insert"
 	onclick="showComments();"
 	style="cursor: pointer; color: #54616E"></a></div>
@@ -396,10 +422,10 @@ if(!(location.hash=='#comment-insert' || location.hash=='#comments')){
 				print 'anonym' ;
 			}
 			print '</em> am '.$comment->insertDate;
-			print '<br />'.stripslashes(str_replace (array("\r\n", "\r", "\n",'\r\n', '\r', '\n'),'</p><p property="amf:note">',$this->escape($comment->comment))) . '</p></li>' ;
+			print '<br />'.stripslashes(str_replace (array("\r\n", "\r", "\n",'\r\n', '\r', '\n'),'</p><p>',$this->escape($comment->comment))) . '</p></li>' ;
 		}
 	} else {
-		print 'keine Kommentare vorhanden' ;
+		print '<li>keine Kommentare vorhanden</li>' ;
 	}
 	?></ul>
 <form id="comment_form" class="regular_form"
@@ -407,7 +433,7 @@ if(!(location.hash=='#comment-insert' || location.hash=='#comments')){
 	action="<?php print $this->url(array('module'=>'website','controller'=>'comment'),null,true); ?>#comment-insert"
 	method="post">
 <fieldset>
-	<legend><a name="comment-insert">Kommentar hinzufügen</a></legend>
+	<legend><a id="comment-insert">Kommentar hinzufügen</a></legend>
 	<?php if($this->comment_error) { ?>
 		<p class="error"><?php print $this->comment_error; ?></p>
 	<?php }
@@ -416,7 +442,9 @@ if(!(location.hash=='#comment-insert' || location.hash=='#comments')){
 	<?php } 
 	if(!$this->comment_success) { ?>
 	<label for="comment" class="clear pink left">Dein Kommentar (reiner Text):</label>  
-	<textarea name="comment" id="comment" class="clear text pink left abstand_unten"><?php if($this->comment_error) { print $_POST['comment']; } ?></textarea>
+	<textarea name="comment" id="comment" rows="10" cols="40" 
+		class="clear text pink left abstand_unten"><?php 
+		if($this->comment_error) { print $_POST['comment']; } ?></textarea>
 	<?php 
 	$captcha = new Zend_Captcha_ReCaptcha(array(
 	    'name' => 'captcha',
@@ -461,7 +489,7 @@ if ($videos) {
 	<p style="text-align: left; padding: 0.5em;">
 			<strong>
 				<?php echo $video->name; ?></strong></p><object
-	width="425" height="350">
+	width="425" height="350" type="application/x-shockwave-flash">
 	<param name="movie"
 		value="<?php
 		echo $this->escape ( $video->url ) ;
@@ -489,15 +517,15 @@ Video gefunden.</div>
 }
 ?></div>
 <div id="recipe_info" class="left">
-<a name="videoAnchor" id="videoAnchor"></a>
+<a id="videoAnchor"></a>
 <div class="left icon" style="left: 225px;"><img
 	src="<?php
 	print $this->baseUrl() ;
 	?>/img/zeit.png" alt="Zeitaufwand"
 	title="Zeitaufwand" height="42" width="43" /><br />
-	<span property="v:cookTime"><?php
+	<?php
 	print $recipe->workMin;
-	?> min</span></div>
+	?> min</div>
 <div class="left icon" style="left: 140px;"><img
 	src="<?php
 	print $this->baseUrl() ;
@@ -578,9 +606,7 @@ Video gefunden.</div>
 	<span style="text-decoration: underline; text-underline-style: dotted; cursor: pointer; color: rgb(84, 97, 110);"><?php
 	if(!$caloriesComplete){
 		print 'über ';
-	}
-	print '<nobr>'.$recipe->getCaloriesKcal();
-	?> kcal</nobr></span></div>
+	} ?><span style="white-space: nowrap"><?php print $recipe->getCaloriesKcal(); ?> kcal</span></span></div>
 <div class="left icon" style="left: 390px;"><img  height="42" width="34"
 	src="<?php
 	print $this->baseUrl() ;
@@ -639,4 +665,3 @@ Video gefunden.</div>
 	print $recipe->getVolumeCl() ;
 	?> cl</div>
 </div>
-</div><!-- typeof="amf:Recipe" -->

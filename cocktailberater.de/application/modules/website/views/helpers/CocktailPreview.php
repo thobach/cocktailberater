@@ -53,7 +53,7 @@ $log->log('cocktailPreview, middle 4',Zend_Log::DEBUG);
 	href="<?php $uniqueName = $recipe->getUniqueName();
 	print $this->view->url(
 	array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>"><img
-	style="height: 100px;"
+	style="height: 100px;" alt="<?php print $recipe->name; ?>"
 	src="<?php print $this->view->baseUrl();
 	if(isset($photos[0]) && $photos[0]->id){
 		print '/img/recipes/'.$this->view->escape($photos[0]->fileName);
@@ -62,7 +62,7 @@ $log->log('cocktailPreview, middle 4',Zend_Log::DEBUG);
 	} ?>" /></a><a id="recipe<?php print $recipe->id.'_'.
 	Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id]; ?>"
 	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>"
-	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>"><img
+	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>"><img alt="Info"
 	src="<?php print $this->view->baseUrl(); ?>/img/info.png" style="vertical-align: top;" height="17" width="20" /></a><br />
 <a
 	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>">

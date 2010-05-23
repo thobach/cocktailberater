@@ -3,22 +3,60 @@ $components = '';
 foreach ($this->recipe->getComponents() as $component){
 	$components .= $component->amount.' '.$component->unit.' '.$component->getIngredient()->name.'<br />';
 }
+$date = new Zend_Date($this->recipe->updateDate,Zend_Date::ISO_8601);
 $entries[] = array(
-	'title'       	=> $this->recipe->name,
-	'link'        	=> $this->url(array(
-		'id'			=>$this->recipe->id,
-		'cocktail'		=>$this->_getParam('cocktail'),
-		'format'		=>$this->format)),
-	'description' 	=> $this->recipe->description."<br /><br />".$components."<br />".$this->recipe->instruction,
-);
+		'title'       	=> 	$this->recipe->name.' Cocktailrezept',
+		'link'        	=> 	$this->url(),
+		'lastUpdate'	=> 	$date->getTimestamp(),
+		'content'		=> 	"<p><strong>Beschreibung:</strong></p>".
+							"<p>".$this->recipe->description."</p>".
+							"<p><strong>Zutaten:</strong></p>".
+							"<ul>".$components."</ul>".
+							"<p><strong>Anweisung:</strong></p>".
+							"<p>".$this->recipe->instruction."</p>",
+		'description'	=> "".$this->recipe->description,
+	);
+	
+foreach($this->recipe->getComments() as $comment){
+	$date = new Zend_Date($comment->updateDate,Zend_Date::ISO_8601);
+	$entries[] = array(
+		'title'       	=> 	'Kommentar',
+		'link'        	=> 	$this->url(),
+		'lastUpdate'	=> 	$date->getTimestamp(),
+		'content'		=> 	$comment->comment,
+		'description'	=>	$comment->comment,
+	);	
+}
 
+foreach($this->recipe->getRatings() as $rating){
+	$date = new Zend_Date($rating->insertDate,Zend_Date::ISO_8601);
+	$entries[] = array(
+		'title'       	=> 	'Bewertung '.$rating->mark,
+		'link'        	=> 	$this->url(),
+		'lastUpdate'	=> 	$date->getTimestamp(),
+		'content'		=> 	'Bewertung '.$rating->mark,
+		'description'	=> 	'Bewertung '.$rating->mark,
+	);	
+}
+
+foreach($this->recipe->getTags() as $tag){
+	$date = new Zend_Date($tag->updateDate,Zend_Date::ISO_8601);
+	$entries[] = array(
+		'title'       	=> 	'Tag '.$tag->name,
+		'link'        	=> 	$this->url(),
+		'lastUpdate'	=> 	$date->getTimestamp(),
+		'content'		=> 	'Tag '.$tag->name,
+		'description'	=> 	'Tag '.$tag->name,
+	);	
+}
 
 // Create the RSS array
 $rss = array(
-	'title'   => 'cocktailberater',
-	'link'    => 'http://www.cocktailberater.de',
-	'charset' => 'UTF-8',
-	'entries' => $entries
+	'title'   		=> 	'Details zum Cocktailrezept '.$this->recipe->name,
+	'description'	=>	'Alle Informationen wie Rezeptupdates, Bewertungen und Kommentare zum '.$this->recipe->name.' Cocktailrezept',
+	'link'    		=> 	'http://www.cocktailberater.de',
+	'charset' 		=> 	'UTF-8',
+	'entries' 		=> 	$entries
 );
 
 // Import the array

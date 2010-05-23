@@ -1,0 +1,47 @@
+<?php /* @var $recipe Website_Model_Recipe */ $recipe = $this->recipe; ?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace">
+	<v:Recipe xmlns:v="http://rdf.data-vocabulary.org/#" />
+	<amf:Recipe xmlns:amf="http://purl.org/amicroformat/"
+		rdf:about="<?php print $this->url(array("module"=>"website","controller"=>"recipe","action"=>"get","id"=>$recipe->getUniqueName())); ?>">
+		<xhv:alternate xmlns:xhv="http://www.w3.org/1999/xhtml/vocab#"
+			rdf:resource="<?php print $this->url(array("module"=>"website","controller"=>"recipe","action"=>"get","id"=>$recipe->id)); ?>" />
+		<v:name xmlns:v="http://rdf.data-vocabulary.org/#" xml:lang="de">
+		<?php print $recipe->name; ?>
+		</v:name>
+		<v:yield xmlns:v="http://rdf.data-vocabulary.org/#" xml:lang="de">Für 1 Glas</v:yield>
+		<v:instructions xmlns:v="http://rdf.data-vocabulary.org/#" xml:lang="de">
+		<?php print $recipe->instruction; ?>
+		</v:instructions>
+		<?php foreach($recipe->getComponents() as $component) {?>
+		<v:ingredient xmlns:v="http://rdf.data-vocabulary.org/#"
+			rdf:parseType="Literal" xml:lang="de">
+			<span xmlns="http://www.w3.org/1999/xhtml" property="amf:value"
+				 xml:lang="de"><?php print $component->amount; ?></span>
+			<span xmlns="http://www.w3.org/1999/xhtml" property="amf:type"
+				 xml:lang="de"><?php print $component->unit; ?></span>
+			<a
+				href="<?php print $this->url(array("module"=>"website","controller"=>"ingredient","action"=>"get","id"=>$component->getIngredient()->getUniqueName())); ?>"
+				title="<?php print $component->getIngredient()->name; ?>" lang="de"><?php print $component->getIngredient()->name; ?></a>
+		</v:ingredient>
+		<?php } ?>
+		<v:duration xmlns:v="http://rdf.data-vocabulary.org/#" xml:lang="de">
+		<?php print $recipe->workMin; ?> min</v:duration>
+		<v:nutrition xmlns:v="http://rdf.data-vocabulary.org/#">
+		<?php print $recipe->getCaloriesKcal(); ?> kcal</v:nutrition>
+		<?php foreach ($recipe->getPhotos() as /* @var $photo Website_Model_Photo */ $photo) {?>
+		<v:photo xmlns:v="http://rdf.data-vocabulary.org/#">
+		<?php print $photo->getPhotoUrl(); ?> kcal</v:photo>
+		<?php } ?>
+		<amf:author>
+		<?php print $recipe->source; ?>
+		</amf:author>
+		<?php foreach(Website_Model_Tag::tagsByRecipeId($recipe->id) as $tag) {?>
+		<amf:tag xml:lang="de">
+		<?php print $tag->name; ?>
+		</amf:tag>
+		<amf:tag xml:lang="de"
+			rdf:resource="<?php print $this->url(array("module"=>"website","controller"=>"recipe","action"=>"index","index"=>"index","search_type"=>"tag","search"=>$tag->name)); ?>" />
+		<?php } ?>
+	</amf:Recipe>
+</rdf:RDF>

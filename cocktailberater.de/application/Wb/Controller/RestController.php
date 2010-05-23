@@ -29,6 +29,11 @@ abstract class Wb_Controller_RestController extends Zend_Rest_Controller {
 				'suffix'	=> 'pdf',
 				'headers'	=> array('Content-Type' => 'application/pdf')));
 		}
+		if(!$contextSwitch->hasContext('rdf')){
+			$contextSwitch->addContext('rdf',array(
+				'suffix'	=> 'rdf',
+				'headers'	=> array('Content-Type' => 'application/rdf+xml')));
+		}
 		if(!$contextSwitch->hasContext('ajax')){
 			$contextSwitch->addContext('ajax',array(
 				'suffix'	=> 'ajax',

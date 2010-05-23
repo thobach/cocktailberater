@@ -134,4 +134,13 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		// Returns the router resource to bootstrap resource registry
 		return $router;
 	}
+	
+	/**
+	 * Sets the baseUrl
+	 * 
+	 * @return void
+	 */
+	public function _initUrl(){
+		Zend_Controller_Front::getInstance()->setBaseUrl('http://'.$_SERVER['HTTP_HOST']);
+	}
 }
