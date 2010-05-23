@@ -4,7 +4,7 @@
 $this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
 // enable dojo with custom module (readStore), parser, and comboBox
 $this->dojo()->enable()
-->registerModulePath('custom', $this->baseUrl().'/js/custom')
+->registerModulePath('custom', '/js/custom')
 ->requireModule('dojo.parser')
 ->requireModule('dojox.data.QueryReadStore')
 ->requireModule('dijit.form.ComboBox')
