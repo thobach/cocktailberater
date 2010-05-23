@@ -63,7 +63,7 @@ dojo.addOnLoad(initLightbox0);
 	<a href="#videoAnchor"><img 
 		src="<?php print $this->baseUrl() ;	?>/img/video.png" alt="Video"
 		title="Video" height="22" width="26"
-		style="margin-right: 10px; margin-top: 4px; vertical-align: top;"
+		style="margin-bottom: 0.75em;"
 		onclick="document.getElementById('video').style.display='block';" /></a><?php
 	}
 	$imageCounter = 0;
@@ -83,11 +83,41 @@ dojo.addOnLoad(initLightbox<?php echo $imageCounter; ?>);
 			if ($imageCounter == 1) { ?>
 				<img src="<?php print $this->baseUrl(); ?>/img/foto.png" 
 					alt="Fotos" height="21" width="28" title="Fotos"
-					style="margin-left: 10px; margin-top: 4px; vertical-align: top; margin-bottom: 20px;" />
+					style="margin-left: 1em; margin-bottom: 0.7em;" />
 			<?php } // if	?>
 			</a>
 		<?php } // foreach
-	} // is array ?></div>
+	} // is array
+
+print '<a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())).'?format=atom'.'"><img src="'.
+$this->baseUrl().'/img/icons/atom_2.png" alt="Atom" style="margin-left: 1em;" /></a>';
+
+print '<span class="link" onclick="dojo.toggleClass(\'alternate_options\', \'hide\'); '.
+		'this.style.display=\'none\';" style="margin-left: 1em; vertical-align: top; text-decoration: none;">&gt;</span>';
+
+print '<span class="hide" id="alternate_options">';
+print '<br /><a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())).'?format=rss'.'"><img src="'.
+$this->baseUrl().'/img/icons/rss_2.png" alt="RSS" style="" /></a>';
+
+print '<a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())).'?format=pdf'.'"><img src="'.
+$this->baseUrl().'/img/icons/printer_2.png" alt="PDF Druck" style="margin-left: 1.8em; margin-bottom: 0.3em;" /></a>';
+
+print '<a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'.'"><img src="'.
+$this->baseUrl().'/img/icons/xml.png" alt="XML" style="margin-left: 1.8em; margin-right: 0.4em; margin-bottom: 0.3em;" /></a>';
+
+print '<br /><a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())).'?format=json'.'"><img src="'.
+$this->baseUrl().'/img/icons/json.png" alt="JSON" style="margin-top: 0.5em;" /></a>';
+
+print '<a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())).'?format=rdf'.'"><img src="'.
+$this->baseUrl().'/img/icons/rdf.png" alt="RDF" style="margin-left: 1.8em; margin-top: 0.5em;" /></a>';
+print '</span>';
+?></div>
 </div>
 <!-- end of class="right" -->
 <div style="margin-left: 25px; margin-top: 15px; clear: none;">
@@ -180,7 +210,7 @@ echo $tagCloud;
 <?php
 // enable dojo with custom module (readStore), parser, and comboBox
 $this->dojo()->enable()
-->registerModulePath('custom', $this->baseUrl().'/js/custom')
+->registerModulePath('custom', '/js/custom')
 ->requireModule('dojo.parser')->requireModule('dojox.data.QueryReadStore')
 ->requireModule('dijit.form.ComboBox')->requireModule('custom.TagReadStore');
 // define url for autoCompletion
