@@ -141,6 +141,19 @@ class Website_Model_Recipe {
 	public function getRating(){
 		return round(@($this->ratingsSum/$this->ratingsCount),2);
 	}
+	
+	/**
+	 * @return array[int]Website_Model_Rating
+	 */
+	public function getRatings(){
+		$ratingTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'rating');
+		$ratings = $ratingTable->fetchAll('recipe='.$this->id);
+		$ratingArray = array();
+		foreach($ratings as $rating){
+			$ratingArray[] = Website_Model_CbFactory::factory('Website_Model_Rating', $rating->id);
+		}
+		return $ratingArray;
+	}
 
 	/**
 	 * checks whether the recipe exists in DB
@@ -468,7 +481,7 @@ class Website_Model_Recipe {
 		return Website_Model_Comment::commentsByRecipeId ($this->id);
 	}
 
-	private function getTags() {
+	public function getTags() {
 		return Website_Model_Tag::tagsByRecipeId ($this->id);
 	}
 

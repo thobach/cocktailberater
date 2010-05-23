@@ -62,7 +62,7 @@ foreach ($list as $key => $recipe) {
 	?></li><?php } ?><li>...</li></ul>" });
 });
 <?php $this->_view->headScript()->captureEnd();
-			$tagHtml = sprintf('<a href="%s" %s id="tag%s" rel="amf:tag"><span>Dieses Rezept wurde %s mal mit dem Schlagwort </span><span property="amf:tag" style="display: inline;">%s</span><span> versehen.</span></a>', htmlSpecialChars($tag->getParam('url')), $attribute,str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()), $tag->getWeight(), $tag->getTitle());
+			$tagHtml = sprintf('<a href="%s" %s id="tag%s" rel="tag"><span>Dieses Rezept wurde %s mal mit dem Schlagwort </span>%s<span> versehen.</span></a>', htmlSpecialChars($tag->getParam('url')), $attribute,str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()), $tag->getWeight(), $tag->getTitle());
 
 			foreach ($this->getHtmlTags() as $key => $data) {
 				if (is_array($data)) {

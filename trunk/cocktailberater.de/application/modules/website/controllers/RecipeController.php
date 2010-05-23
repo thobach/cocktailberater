@@ -15,7 +15,7 @@ class Website_RecipeController extends Wb_Controller_RestController {
 	 * @param search optional search phrase
 	 * @param search_type optional
 	 * 	for search suggestion (format=ajax) it can be name, ingredient or tag
-	 * 	for all other search_type it can be alcoholic, non-alcoholic, top10, difficulty, ingredient, image, tag or name
+	 * 	for all other search_type it can be alcoholic, non-alcoholic, top10, difficulty, menu, ingredient, image, tag or name
 	 * 	if none is given, all recipies are returned
 	 */
 	public function indexAction() {
@@ -68,6 +68,12 @@ class Website_RecipeController extends Wb_Controller_RestController {
 				case 'difficulty':
 					$log->log('Website_RecipeController->indexAction -> difficulty',Zend_Log::DEBUG);
 					$list = Website_Model_Recipe::searchByDifficulty($this->_getParam('search')) ;
+					$this->view->title = 'Einfache Cocktailrezepte';
+					break;
+				case 'menu':
+					$log->log('Website_RecipeController->indexAction -> menu',Zend_Log::DEBUG);
+					$menu = Website_Model_CbFactory::factory('Website_Model_Menu',$this->_getParam('search'));
+					$list = $menu->listRecipes();
 					$this->view->title = 'Einfache Cocktailrezepte';
 					break;
 				case 'ingredient':
@@ -123,6 +129,7 @@ class Website_RecipeController extends Wb_Controller_RestController {
 		}
 		$this->view->recipe =  Website_Model_CbFactory::factory('Website_Model_Recipe',$this->_getParam('id'));
 		
+		// ??
 		$this->view->xmlLink = array(
 						'rel' => 'alternate',
 						'type' => 'application/xml',
@@ -130,10 +137,13 @@ class Website_RecipeController extends Wb_Controller_RestController {
 						'href' => $this->view->url(array(
 							'id'=>$this->_getParam('id'),
 							'cocktail'=>$this->_getParam('cocktail'),'rep'=>'xml')));
-
+		// ??
 		$this->view->headLink($this->view->xmlLink);
+		
 		$this->view->alternatives = $this->view->recipe->getCocktail()->getRecipes();
+		// html page title
 		$this->view->title = $this->view->recipe->name.' Cocktailrezept' ;
+		// for feed.phtml -> rss or atom
 		$this->view->format = $this->_getParam('format');
 	}
 

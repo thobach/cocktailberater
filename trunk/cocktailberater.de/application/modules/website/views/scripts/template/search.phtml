@@ -40,7 +40,6 @@ $autoCompletionUrl = array('module'=>'website','controller'=>'recipe','action'=>
 	<?php } ?>
 	}
 	dojo.addOnLoad(init);
-	
 <?php $this->headScript()->captureEnd(); ?>
 <form method="post" id="suche_name"	action="<?php 
 $searchLink = array('module'=>'website','controller'=>'recipe','action'=>'index');
@@ -51,8 +50,8 @@ print $this->url($searchLink,null,true); ?>">
 	<!-- visible -->
 	<label for="search">Cocktail:</label>
 	<!-- text input w/ autocompletion -->
-	<input type="text" name="search" id="search" value="">
-	<input type="hidden" name="search" id="search_backup" value="">
+	<input type="text" name="search" id="search" value="" />
+	<input type="hidden" name="search" id="search_backup" value="" />
 	<!-- submit button -->
 	<input type="submit" value="Suchen" id="search_button" 
 		style="background-image: url('<?php print $this->baseUrl();?>/img/suchen-button.png');"
@@ -71,4 +70,4 @@ print $this->url($searchLink,null,true); ?>">
 </fieldset>
 </form>
 <!-- search end -->
-<hr class="abstand_oben_doppelt abstand_unten_doppelt">
+<hr class="abstand_oben_doppelt abstand_unten_doppelt" />

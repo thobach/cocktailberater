@@ -1,9 +1,220 @@
 <?php
-$pdf = new Zend_Pdf();
-$pdf->pages[0] = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
-$font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
-$pdf->pages[0]->setFont($font, 12);
-foreach($this->recipes as $recipe){
-	$pdf->pages[0]->drawText($recipe->name . ' '. $recipe->source, 72, 800-24*++$i);
+$pdf = Zend_Pdf::load(realpath(APPLICATION_PATH.'/../public/pdf').'/cocktailkarte_front_test.pdf');
+
+$pageCount = 0;
+$recipeCount = 0;
+
+// default font size
+$fontSize = 10;
+
+// page size: 105x210mm
+// 1 in = 25.4 mm
+$width = round(72/25.4*105);
+$height = round(72/25.4*210);
+
+// image size
+$maxImageHeight = 70;
+$maxImageWidth = 50;
+
+// page style
+$style = new Zend_Pdf_Style();
+$font = Zend_Pdf_Font::fontWithPath(realpath(APPLICATION_PATH.'/../public/fonts').'/teen____.ttf');
+$fontBold = Zend_Pdf_Font::fontWithPath(realpath(APPLICATION_PATH.'/../public/fonts').'/teenbold.ttf');
+$style->setFont($font,$fontSize);
+// almost black
+
+$style->setFillColor(new Zend_Pdf_Color_Cmyk(0,0,0,0));
+$pdf->pages[0]->setStyle($style);
+// bar name
+$pdf->pages[0]->setFont($font, 48);
+$pdf->pages[0]->drawText('Tabas Bar',35,100);
+$pdf->pages[0]->setFont($font, $fontSize);
+// copyright
+$pdf->pages[0]->drawText('- Cocktailkarte erstellt von www.cocktailberater.de -',30,25);
+
+$style->setFillColor(new Zend_Pdf_Color_Rgb(0.078,0.078,0.075));
+$pdf->pages[0]->setStyle($style);
+
+foreach($this->recipes as /* @var $recipe Website_Model_Recipe */$recipe){
+	// setup new page
+	if($recipeCount%7==0 || $i>45){
+		$recipeCount = 0;
+		
+		/* @var $page Zend_Pdf_Page */
+		$pdf->pages[$pageCount+5] = $pdf->pages[$pageCount+4];
+		$pdf->pages[$pageCount+4] = $pdf->pages[$pageCount+3];
+		$pdf->pages[$pageCount+3] = $pdf->pages[$pageCount+2];
+		$pdf->pages[$pageCount+2] = $pdf->pages[$pageCount+1];
+		$pdf->pages[$pageCount+1] = $pdf->pages[$pageCount];
+		
+		
+		$pageCount++;
+		
+		$page = $pdf->pages[$pageCount] = $pdf->newPage($width,$height);
+		$page->setStyle($style);
+		$i=8;
+
+		// black box
+		$page->drawRectangle(0,$height-60,$width,$height,Zend_Pdf_Page::SHAPE_DRAW_FILL);
+		// with headline (pink capital)
+		$style->setFillColor(new Zend_Pdf_Color_Cmyk(0,1,0,0));
+		$page->setStyle($style);
+		$page->setFont($font, 38);
+		$page->drawText('C',65,$height-45);
+		$style->setFillColor(new Zend_Pdf_Color_Html('white'));
+		$page->setStyle($style);
+		$page->setFont($font, 38);
+		$page->drawText('ocktails',86,$height-45);
+		$page->setFont($font, $fontSize);
+		$style->setFillColor(new Zend_Pdf_Color_Html('black'));
+		$page->setStyle($style);
+	}
+
+	// name
+	$style->setFont($fontBold,$fontSize+2);
+	$page->setStyle($style);
+	if($recipeCount%2==0){
+		$page->drawText($recipe->name,45,$height-$i*12);
+		$i++;
+	} else {
+		$page->drawText($recipe->name,90,$height-$i*12);
+		$i++;
+	}
+	$style->setFont($font,$fontSize);
+	$page->setStyle($style);
+
+	
+
+	// components
+	$page->setFont($font, 10);
+	$components = '';
+	foreach ($recipe->getComponents() as /* @var $component Website_Model_Component */ $component){
+		if($component->getIngredient()->name != 'Eiswürfel' && $component->getIngredient()->name != 'Chrushed Ice'){
+			if($components!=''){
+				$components .= ', ';
+			}
+			$components .= $component->getIngredient()->name;
+		}
+	}
+
+	$lines = explode("\n",getWrappedText($components,$style,165)) ;
+	// left
+	$imageOffset = 0;
+	if($recipeCount%2==0){
+		if(is_array($lines)){
+			foreach($lines as $line){
+				$page->drawText($line, 45, $height-$i*12-3);
+				$i++;
+				$imageOffset++;
+			}
+		}
+	}
+	// right
+	else {
+		if(is_array($lines)){
+			foreach($lines as $line){
+				$page->drawText($line, 90, $height-$i*12-3);
+				$i++;
+				$imageOffset++;
+			}
+		}
+	}
+	$page->setFont($font, $fontSize);
+	
+	// picture
+	$photos = $recipe->getPhotos(1);
+	$image = NULL;
+	foreach($photos as /* @var $photo Website_Model_Photo */$photo){
+		if($photo->fileName){
+			$image = realpath(APPLICATION_PATH.'/../public/img/recipes').'/'.$photo->fileName;
+		}
+	}
+	if(!$image){
+		if($recipe->getGlass()->getPhoto()->originalFileName){
+			$image = realpath(APPLICATION_PATH.'/../public/img/glasses/non-interlaced').'/'.$recipe->getGlass()->getPhoto()->originalFileName;
+		}
+	}
+	if($image){
+		$dimensions = getimagesize($image);
+	} else {
+		$dimensions = NULL;
+	}
+	/*if($dimensions && $dimensions[0]>$maxImageWidth){
+		$dimensionsNew[1] = $maxImageWidth*$dimensions[1]/$dimensions[0];
+		$dimensionsNew[0] = $maxImageWidth;
+	}*/
+	if($dimensions && $dimensions[1]>$maxImageHeight){
+		$dimensionsNew[0] = $maxImageHeight*$dimensions[0]/$dimensions[1];
+		$dimensionsNew[1] = $maxImageHeight;
+	}
+	if($image){
+		$image = Zend_Pdf_Image::imageWithPath($image);
+		// right
+		if($recipeCount%2==0){
+			$page->drawImage($image,$width-50-$dimensionsNew[0]/2,$height-($i-(($imageOffset+1)/2))*12-20,$width-50-$dimensionsNew[0]/2+$dimensionsNew[0],$height-($i-(($imageOffset+1)/2))*12-20+$dimensionsNew[1]);
+		}
+		// left
+		else {
+			$page->drawImage($image,50-$dimensionsNew[0]/2,$height-($i-(($imageOffset+1)/2))*12-20,50-$dimensionsNew[0]/2+$dimensionsNew[0],$height-($i-(($imageOffset+1)/2))*12-20+$dimensionsNew[1]);
+		}
+	}
+	
+	$i++;
+	$i++;
+
+	$recipeCount++;
 }
+
 print $pdf->render();
+
+/**
+ * 
+ * taken from http://blog.alfbox.net/index.php/2008/06/04/wrapping-text-for-zend-pdf/
+ * 
+ * @param unknown_type $string
+ * @param Zend_Pdf_Style $style
+ * @param unknown_type $max_width
+ */
+function getWrappedText($string, Zend_Pdf_Style $style,$max_width){
+	$wrappedText = '' ;
+	$lines = explode("\n",$string) ;
+	foreach($lines as $line) {
+		$words = explode(' ',$line) ;
+		$word_count = count($words) ;
+		$i = 0 ;
+		$wrappedLine = '' ;
+		while($i < $word_count)	{
+			/* if adding a new word isn't wider than $max_width,
+			 we add the word */
+			if(widthForStringUsingFontSize($wrappedLine.' '.$words[$i]
+			,$style->getFont()
+			, $style->getFontSize()) < $max_width) {
+				if(!empty($wrappedLine)) {
+					$wrappedLine .= ' ' ;
+				}
+				$wrappedLine .= $words[$i] ;
+			} else {
+				$wrappedText .= $wrappedLine."\n" ;
+				$wrappedLine = $words[$i] ;
+			}
+			$i++ ;
+		}
+		$wrappedText .= $wrappedLine."\n" ;
+	}
+	return $wrappedText ;
+}
+/**
+ * found here, not sure of the author :
+ * http://devzone.zend.com/article/2525-Zend_Pdf-tutorial#comments-2535
+ */
+function widthForStringUsingFontSize($string, $font, $fontSize){
+	$drawingString = iconv('UTF-8', 'UTF-16BE//IGNORE', $string);
+	$characters = array();
+	for ($i = 0; $i < strlen($drawingString); $i++) {
+		$characters[] = (ord($drawingString[$i++]) << 8 ) | ord($drawingString[$i]);
+	}
+	$glyphs = $font->glyphNumbersForCharacters($characters);
+	$widths = $font->widthsForGlyphs($glyphs);
+	$stringWidth = (array_sum($widths) / $font->getUnitsPerEm()) * $fontSize;
+	return $stringWidth;
+}

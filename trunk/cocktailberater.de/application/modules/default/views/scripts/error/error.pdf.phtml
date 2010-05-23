@@ -1,0 +1,27 @@
+<?php
+$pdf = new Zend_Pdf();
+/* @var $page Zend_Pdf_Page() */
+$page = $pdf->pages[0] = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
+$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_COURIER),8);
+$page->drawText('Uuups, da ist wohl etwas dazwischen gekommen....',20,800);
+$page->drawText($this->message,20,780);
+$page->drawText($this->exception->getMessage(),20,760);
+$page->drawText($this->exception->getTraceAsString(),20,740);
+/*
+  <?php if ('testing' == APPLICATION_ENV || 'development' == APPLICATION_ENV || 'thobamac' == APPLICATION_ENV){ ?>
+
+  <h3>Exception information:</h3>
+  <p>
+      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+  </p>
+
+  <h3>Stack trace:</h3>
+  <pre><?php echo $this->exception->getTraceAsString() ?>
+  </pre>
+
+  <h3>Request Parameters:</h3>
+  <pre><?php var_dump($this->request->getParams()) ?>
+  </pre>
+  <?php } ?>
+  */
+print $pdf->render();

@@ -1,17 +1,11 @@
-<?php 
+<?php
 // for JS-fallback
 $currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('show');
 // HTML 5 header
-if($this->layout->rdf){
-	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" 
-	"http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">'."\n";
-} else {
-	echo $this->doctype('HTML5')."\n";
-} 
+echo $this->doctype('HTML5')."\n";
 ?>
-<html lang="de-DE"<?php print $this->layout()->rdf; ?>>
+<html lang="de-DE">
 <head>
-<meta charset="utf-8" />
 <?php
 // title
 $title = 'Cocktail Rezepte vom cocktailberater';
@@ -40,6 +34,7 @@ $this->dojo()->setDjConfigOption('baseUrl', './');
 $this->dojo()->addStyleSheetModule('dijit.themes.tundra');
 // for dropdown boxes in at the top
 $this->dojo()->requireModule('dijit.Dialog');
+
 // end for dropdown boxes
 echo $this->dojo()."\n";
 // css style sheets
@@ -49,15 +44,16 @@ $this->headLink()->appendStylesheet($this->baseUrl().'/css/print.css','print');
 $this->headLink(array('rel' => 'shortcut icon',
                       'href' => $this->baseUrl().'/favicon.ico'),
                       'PREPEND');
-// feed (rss & atom)
+// feed of blog (rss & atom)
 $this->headLink(array('rel' => 'alternate',
 					  'type' => 'application/atom+xml',
-					  'title' => 'cocktailberater - Atom',
+					  'title' => 'cocktailberater.de Blog - Atom',
                       'href' => 'http://blog.cocktailberater.de/feeds/posts/default'));
 $this->headLink(array('rel' => 'alternate',
 					  'type' => 'application/rss+xml',
-					  'title' => 'cocktailberater - RSS',
+					  'title' => 'cocktailberater.de Blog - RSS',
                       'href' => 'http://blog.cocktailberater.de/feeds/posts/default?alt=rss'));
+// e.g. for facebook sharing
 $this->headLink(array('rel' => 'image_src',
 					  'type' => 'image/jpeg',
                       'href' => 'http://www.cocktailberater.de/img/logo.png'));
