@@ -127,6 +127,9 @@ class Website_RecipeController extends Wb_Controller_RestController {
 				throw new Website_Model_RecipeException('Incorrect_Id');
 			}
 		}
+		if($this->_hasParam('comments')){
+			$this->view->commentsOnly = true;
+		}
 		$this->view->recipe =  Website_Model_CbFactory::factory('Website_Model_Recipe',$this->_getParam('id'));
 		
 		// ??

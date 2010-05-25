@@ -7,7 +7,7 @@ class Website_Model_Rating {
 	private $mark;
 	private $ip;
 	private $insertDate;
-	
+
 	// associations
 	private $_recipe;
 	private $_member;
@@ -25,7 +25,7 @@ class Website_Model_Rating {
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
 		}
 	}
-	
+
 	/**
 	 * resolve Association and return an object of Member
 	 *
@@ -38,11 +38,11 @@ class Website_Model_Rating {
 		}
 		return $this->_member;
 	}
-	
+
 	/**
 	 * resolve Association and return an object of Recipe
 	 *
-	 * @return Recipe
+	 * @return Website_Model_Recipe
 	 */
 	public function getRecipe()
 	{
@@ -51,7 +51,7 @@ class Website_Model_Rating {
 		}
 		return $this->_recipe;
 	}
-	
+
 	/**
 	 * Magic Setter Function, is accessed when setting an attribute
 	 *
@@ -65,7 +65,7 @@ class Website_Model_Rating {
 			throw new Exception ( 'Class \''.get_class($this).'\' does not provide property: ' . $name . '.' ) ;
 		}
 	}
-	
+
 	/**
 	 * Rating constructor returns a Rating object by an id, or an empty one
 	 *
@@ -75,7 +75,7 @@ class Website_Model_Rating {
 	public function __construct ( $idRating = NULL ) {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_Model_Rating->__construct',Zend_Log::DEBUG);
-		
+
 		if (! empty ( $idRating )) {
 			$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','rating');
 			$rating = $table->fetchRow ( 'id=' . $idRating ) ;
@@ -93,7 +93,7 @@ class Website_Model_Rating {
 		}
 		$log->log('Website_Model_Rating->__construct: exit',Zend_Log::DEBUG);
 	}
-	
+
 	/**
 	 * saves the object persistent into the databse
 	 *
@@ -103,8 +103,8 @@ class Website_Model_Rating {
 		// remove all saved pages
 		$cache = Zend_Registry::get('cache');
 		$cache->clean(
-			Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
-			array('model')
+		Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
+		array('model')
 		);
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','rating');
 		if(!$this->rated24hBefore()) {
@@ -116,6 +116,21 @@ class Website_Model_Rating {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * returns an array of rating objects
+	 *
+	 * @return array[int]Website_Model_Rating
+	 */
+	static function listComments () {
+		$ratingTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','rating');
+		$ratings = $ratingTable->fetchAll(NULL,'insertDate DESC');
+		$ratingArray = array();
+		foreach ($ratings as $rating) {
+			$ratingArray[] = Website_Model_CbFactory::factory('Website_Model_Rating',$rating['id']);
+		}
+		return ($ratingArray) ;
 	}
 
 	private function rated24hBefore (){
@@ -131,17 +146,17 @@ class Website_Model_Rating {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * saves the rating to the recipe table (for statistics and performance)
-	 * 
-	*/
+	 *
+	 */
 	private function updateRecipeStatistics(){
 		$this->getRecipe()->ratingsSum += $this->mark;
 		$this->getRecipe()->ratingsCount += 1;
 		$this->getRecipe()->save();
 	}
-	
+
 	/**
 	 * gibt ein Array zurück um die Daten in eine table zu speichern
 	 *
@@ -154,13 +169,12 @@ class Website_Model_Rating {
 		$array [ 'ip' ] = $this->ip ;
 		return $array ;
 	}
-	
+
 	/**
 	 * adds the xml representation of the object to a xml branch
 	 *
 	 * @param DomDocument $xml
 	 * @param XmlElement $branch
-	 * @tested
 	 */
 	public function toXml ( $xml , $ast ) {
 		$rating = $xml->createElement ( 'reating' ) ;
@@ -171,6 +185,35 @@ class Website_Model_Rating {
 		$rating->setAttribute ( 'ip', $this->ip) ;
 		$rating->setAttribute ( 'insertDate', $this->insertDate) ;
 		$ast->appendchild ( $rating ) ;
+	}
+
+	/**
+	 * Returns an array with all elements of a feed entry
+	 *
+	 * @return array
+	 */
+	public function toFeedEntry(){
+		$view = new Zend_View();
+
+		$date = new Zend_Date($this->insertDate,Zend_Date::ISO_8601);
+
+		$entry = array(
+				'title'       	=> 	$this->getRecipe()->name.' wurde mit '.$this->mark.' bewertet',
+				'guid'			=>	$view->url(array('module'=>'website',
+									'controller'=>'recipe','action'=>'get',
+									'id'=>$this->getRecipe()->getUniqueName()),'rest',true).'#rating-'.$this->id,
+				'link'        	=> 	$view->url(array('module'=>'website',
+									'controller'=>'recipe','action'=>'get',
+									'id'=>$this->getRecipe()->getUniqueName()),'rest',true),
+				'lastUpdate'	=> 	$date->getTimestamp(),
+				'content'		=> 	'Am '.$date->get(Zend_Date::DATE_FULL,$de).
+									' um '.$date->get(Zend_Date::TIME_MEDIUM,$de).
+									' Uhr wurde '.$this->getRecipe()->name.' mit '.$this->mark.' bewertet.',
+				'description'	=> 	'Am '.$date->get(Zend_Date::DATE_FULL,$de).
+									' um '.$date->get(Zend_Date::TIME_MEDIUM,$de).
+									' Uhr wurde '.$this->getRecipe()->name.' mit '.$this->mark.' bewertet.',
+		);
+		return $entry;
 	}
 }
 ?>

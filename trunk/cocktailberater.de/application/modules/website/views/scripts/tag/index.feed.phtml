@@ -2,29 +2,22 @@
 $de = new Zend_Locale('de_DE');
 $latestUpdateDate = new Zend_Date('2000-01-01',$de);
 $publishedDate = new Zend_Date(Zend_Date::now(),$de);
-foreach ($this->recipes as /* @var $recipe Website_Model_Recipe */ $recipe){
-	// recipe
-	$components = '';
-	foreach ($recipe->getComponents() as $component){
-		$components .= $component->amount.' '.$component->unit.' '.$component->getIngredient()->name.'<br />';
+// tags
+if(is_array($this->tags)){
+	foreach($this->tags as /* @var $tag Website_Model_Tag */ $tag){
+		$date = new Zend_Date($tag->updateDate,Zend_Date::ISO_8601);
+		// update latest update date (for feed attribute)
+		if($date->isLater($latestUpdateDate)){
+			$latestUpdateDate = $date;
+		}
+		$entries[] = $tag->toFeedEntry();
 	}
-	$date = new Zend_Date($recipe->updateDate,Zend_Date::ISO_8601);
-	// update latest update date (for feed attribute)
-	if($date->isLater($latestUpdateDate)){
-		$latestUpdateDate = $date;
-	}
-	// update published date (for feed attribute)
-	if($date->isEarlier($publishedDate)){
-		$publishedDate = $date;
-	}
-	$entries[] = $recipe->toFeedEntry();
-
 }
 
 // Create the RSS array
 $rss = array(
-	'title'   		=> 	'Liste aller Cocktailrezepte - cocktailberater.de',
-	'description'	=>	'Alle Cocktailrezepte des cocktailberaters.',
+	'title'   		=> 	'Liste aller Tags - cocktailberater.de',
+	'description'	=>	'Alle Tags des cocktailberaters.',
 	'link'    		=> 	$this->url().'?format='.$this->format,
 	'author'		=>	'cocktailberater.de '.APPLICATION_VERSION,
 	'email'			=>	'info@cocktailberater.de',

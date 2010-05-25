@@ -141,7 +141,7 @@ class Website_Model_Recipe {
 	public function getRating(){
 		return round(@($this->ratingsSum/$this->ratingsCount),2);
 	}
-	
+
 	/**
 	 * @return array[int]Website_Model_Rating
 	 */
@@ -579,6 +579,61 @@ class Website_Model_Recipe {
 			// perhaps factory() failed to load the specified Adapter class
 			print $e ;
 		}
+	}
+
+	/**
+	 * Returns an array with all elements of a feed entry
+	 * 
+	 * @return array
+	 */
+	public function toFeedEntry(){
+		$view = new Zend_View();
+		
+		$date = new Zend_Date($this->updateDate,Zend_Date::ISO_8601);
+		
+		$categories = array();
+		if(is_array($this->getTags())){
+			foreach($this->getTags() as $tag){
+				$categories[] = array(
+				'term'	=>	$tag->name,
+				'scheme'=>	$view->url(array('module'=>'website',
+				'controller'=>'recipe','action'=>'index','index'=>'index',
+				'search_type'=>'tag','search'=>$tag->name,'format'=>'')),'rest',true);
+			}
+		}
+
+		$entry = array(
+		'title'       	=> 	$this->name,
+		'link'        	=> 	$view->url(array('module'=>'website',
+							'controller'=>'recipe','action'=>'get',
+							'id'=>$this->getUniqueName()),'rest',true),
+		'description'	=>	$this->name.
+							' Cocktailrezept mit Zusatzinformationen wie '.
+							'Videos, Fotos, Kosten, Kalorien, '.
+							'Alkoholgehalt, etc.',
+		'guid'			=>	$view->url(array('module'=>'website',
+							'controller'=>'recipe','action'=>'get',
+							'id'=>$this->getUniqueName()),'rest',true),
+		'content'		=> 	"<p><strong>Beschreibung:</strong></p>".
+							"<p>".$this->description."</p>".
+							"<p><strong>Zutaten:</strong></p>".
+							"<ul>".$components."</ul>".
+							"<p><strong>Anweisung:</strong></p>".
+							"<p>".$this->instruction."</p>".
+							"<p><strong>Zusatzinformationen:</strong></p>".
+							"<ul>".
+							"<li>Glas: ".$this->getGlass()->name."</li>".
+							"<li>Volumen: ".$this->getVolumeCl()." cl</li>".
+							"<li>Schwierigkeitsgrad: ".$this->difficulty."</li>".
+							"<li>Zeitaufwand: ".$this->workMin." min</li>".
+							"<li>Kalorien: ".$this->getCaloriesKcal()." kcal</li>".
+							"<li>Alkoholgehalt: ".number_format($this->getAlcoholLevel(),0,',','.')." %</li>".
+							"<li>Kosten: ".number_format($this->getAveragePrice(),2,',','.')." €</li>".
+							"</ul>",
+		'category'		=>	$categories,
+		'lastUpdate'	=> 	$date->getTimestamp(),
+		);
+		return $entry;
 	}
 
 	/**

@@ -24,15 +24,19 @@ $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' 
 $this->headLink(array('rel' => 'alternate','type' => 'application/rdf+xml',
 					  'title' => $recipe->name.' - RDF',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=rdf'));
+// atom
 $this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
 					  'title' => $recipe->name.' - Atom',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=atom'));
+// rss
 $this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
 					  'title' => $recipe->name.' - RSS',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=rss'));
+// json
 $this->headLink(array('rel' => 'alternate','type' => 'application/json',
 					  'title' => $recipe->name.' - JSON',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=json'));
+// xml
 $this->headLink(array('rel' => 'alternate','type' => 'application/xml',
 					  'title' => $recipe->name.' - XML',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'));
@@ -89,35 +93,32 @@ dojo.addOnLoad(initLightbox<?php echo $imageCounter; ?>);
 		<?php } // foreach
 	} // is array
 
-print '<a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())).'?format=atom'.'"><img src="'.
-$this->baseUrl().'/img/icons/atom_2.png" alt="Atom" style="margin-left: 1em;" /></a>';
-
-print '<span class="link" onclick="dojo.toggleClass(\'alternate_options\', \'hide\'); '.
-		'this.style.display=\'none\';" style="margin-left: 1em; vertical-align: top; text-decoration: none;">&gt;</span>';
-
-print '<span class="hide" id="alternate_options">';
-print '<br /><a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())).'?format=rss'.'"><img src="'.
-$this->baseUrl().'/img/icons/rss_2.png" alt="RSS" style="" /></a>';
-
-print '<a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())).'?format=pdf'.'"><img src="'.
-$this->baseUrl().'/img/icons/printer_2.png" alt="PDF Druck" style="margin-left: 1.8em; margin-bottom: 0.3em;" /></a>';
-
-print '<a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'.'"><img src="'.
-$this->baseUrl().'/img/icons/xml.png" alt="XML" style="margin-left: 1.8em; margin-right: 0.4em; margin-bottom: 0.3em;" /></a>';
-
-print '<br /><a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())).'?format=json'.'"><img src="'.
-$this->baseUrl().'/img/icons/json.png" alt="JSON" style="margin-top: 0.5em;" /></a>';
-
-print '<a href="'.$this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())).'?format=rdf'.'"><img src="'.
-$this->baseUrl().'/img/icons/rdf.png" alt="RDF" style="margin-left: 1.8em; margin-top: 0.5em;" /></a>';
-print '</span>';
-?></div>
+?><a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=atom"><img src="<?php 
+echo $this->baseUrl();?>/img/icons/atom_2.png" alt="Atom" style="margin-left: 1em;" /></a>
+<span class="link" onclick="dojo.toggleClass('alternate_options', 'hide'); this.style.display='none';" 
+style="margin-left: 1em; vertical-align: top; text-decoration: none;">&gt;</span>
+<span class="hide" id="alternate_options"><br /><a 
+href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=rss"><img 
+src="<?php echo $this->baseUrl();?>/img/icons/rss_2.png" alt="RSS" style="" /></a>
+<a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=pdf"><img 
+src="<?php echo $this->baseUrl(); ?>/img/icons/printer_2.png" alt="PDF Druck" 
+style="margin-left: 1.8em; margin-bottom: 0.3em;" /></a>
+<a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName()));?>?format=xml"><img 
+src="<?php echo $this->baseUrl(); ?>/img/icons/xml.png" alt="XML" 
+style="margin-left: 1.8em; margin-right: 0.4em; margin-bottom: 0.3em;" /></a><br />
+<a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=json"><img 
+src="<?php echo $this->baseUrl(); ?>/img/icons/json.png" alt="JSON" 
+style="margin-top: 0.5em;" /></a><a href="<?php echo 
+$this->url(array('module'=>'website','controller'=>'recipe',
+'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=rdf"><img 
+src="<?php echo $this->baseUrl(); ?>/img/icons/rdf.png" alt="RDF" 
+style="margin-left: 1.8em; margin-top: 0.5em;" /></a></span>
+</div><!-- end of class="right" -->
 </div>
 <!-- end of class="right" -->
 <div style="margin-left: 25px; margin-top: 15px; clear: none;">
