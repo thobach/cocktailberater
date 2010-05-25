@@ -9,7 +9,7 @@ require_once(APPLICATION_PATH.'/Wb/Controller/RestController.php');
 class Website_CommentController extends Wb_Controller_RestController {
 	
 	public function indexAction() {
-		
+		$this->view->comments = Website_Model_Comment::listComments();
 	}
 
 	public function getAction(){

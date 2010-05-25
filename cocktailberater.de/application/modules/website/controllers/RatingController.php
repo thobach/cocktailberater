@@ -11,6 +11,7 @@ class Website_RatingController extends Wb_Controller_RestController {
 	public function indexAction() {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_RatingController->indexAction',Zend_Log::DEBUG);
+		$this->view->ratings = Website_Model_Rating::listComments();
 	}
 
 	public function getAction(){

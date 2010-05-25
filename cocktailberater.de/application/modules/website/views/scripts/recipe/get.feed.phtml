@@ -1,72 +1,77 @@
 <?php
-$components = '';
-foreach ($this->recipe->getComponents() as $component){
-	$components .= $component->amount.' '.$component->unit.' '.$component->getIngredient()->name.'<br />';
-}
-$date = new Zend_Date($this->recipe->updateDate,Zend_Date::ISO_8601);
-$entries[] = array(
-		'title'       	=> 	$this->recipe->name.' Cocktailrezept',
-		'link'        	=> 	$this->url(),
-		'lastUpdate'	=> 	$date->getTimestamp(),
-		'content'		=> 	"<p><strong>Beschreibung:</strong></p>".
-							"<p>".$this->recipe->description."</p>".
-							"<p><strong>Zutaten:</strong></p>".
-							"<ul>".$components."</ul>".
-							"<p><strong>Anweisung:</strong></p>".
-							"<p>".$this->recipe->instruction."</p>",
-		'description'	=> "".$this->recipe->description,
-);
+/* @var $recipe Website_Model_Recipe */
+$recipe = $this->recipe;
+$de = new Zend_Locale('de_DE');
+$latestUpdateDate = new Zend_Date('2000-01-01',$de);
+// additional data to comments only feed
+if($this->commentsOnly==false){
+	// recipe
+	$entries[] = $recipe->toFeedEntry();
 
-if(is_array($this->recipe->getComments())){
-	foreach($this->recipe->getComments() as $comment){
+	// ratings
+	if(is_array($recipe->getRatings())){
+		foreach($recipe->getRatings() as /* @var $rating Website_Model_Rating */ $rating){
+			$date = new Zend_Date($rating->insertDate,Zend_Date::ISO_8601);
+			// update latest update date (for feed attribute)
+			if($date->isLater($latestUpdateDate)){
+				$latestUpdateDate = $date;
+			}
+			$entries[] = $rating->toFeedEntry();
+		}
+	}
+
+	// tags
+	if(is_array($recipe->getTags())){
+		foreach($recipe->getTags() as /* @var $tag Website_Model_Tag */ $tag){
+			$date = new Zend_Date($tag->updateDate,Zend_Date::ISO_8601);
+			// update latest update date (for feed attribute)
+			if($date->isLater($latestUpdateDate)){
+				$latestUpdateDate = $date;
+			}
+			$entries[] = $tag->toFeedEntry();
+		}
+	}
+}
+
+// comments
+if(is_array($recipe->getComments())){
+	foreach($recipe->getComments() as /* @var $comment Website_Model_Comment */ $comment){
 		$date = new Zend_Date($comment->updateDate,Zend_Date::ISO_8601);
-		$entries[] = array(
-		'title'       	=> 	'Kommentar',
-		'link'        	=> 	$this->url(),
-		'lastUpdate'	=> 	$date->getTimestamp(),
-		'content'		=> 	$comment->comment,
-		'description'	=>	$comment->comment,
-		);
+		// update latest update date (for feed attribute)
+		if($date->isLater($latestUpdateDate)){
+			$latestUpdateDate = $date;
+		}
+		$entries[] = $comment->toFeedEntry();
 	}
 }
 
-if(is_array($this->recipe->getRatings())){
-	foreach($this->recipe->getRatings() as $rating){
-		$date = new Zend_Date($rating->insertDate,Zend_Date::ISO_8601);
-		$entries[] = array(
-		'title'       	=> 	'Bewertung '.$rating->mark,
-		'link'        	=> 	$this->url(),
-		'lastUpdate'	=> 	$date->getTimestamp(),
-		'content'		=> 	'Bewertung '.$rating->mark,
-		'description'	=> 	'Bewertung '.$rating->mark,
-		);
-	}
+// Create the feedData array
+$insertDate = new Zend_Date($recipe->insertDate,Zend_Date::ISO_8601);
+$photos = $recipe->getPhotos(1);
+if(isset($photos[0]) && $photos[0]->fileName) {
+	$photo = $this->baseUrl().'/img/recipes/'.$photos[0]->fileName ;
+} else {
+	$photo = $this->baseUrl().'/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
 }
-
-if(is_array($this->recipe->getTags())){
-	foreach($this->recipe->getTags() as $tag){
-		$date = new Zend_Date($tag->updateDate,Zend_Date::ISO_8601);
-		$entries[] = array(
-		'title'       	=> 	'Tag '.$tag->name,
-		'link'        	=> 	$this->url(),
-		'lastUpdate'	=> 	$date->getTimestamp(),
-		'content'		=> 	'Tag '.$tag->name,
-		'description'	=> 	'Tag '.$tag->name,
-		);
-	}
-}
-
-// Create the RSS array
-$rss = array(
-	'title'   		=> 	$this->recipe->name.
+$feedData = array(
+	'title'   		=> 	$recipe->name.
 						' Details zum Cocktailrezept - cocktailberater.de',
 	'description'	=>	'Alle Informationen wie Rezeptupdates, Bewertungen '.
-						'und Kommentare zum '.$this->recipe->name.' Cocktailrezept',
-	'link'    		=> 	'http://www.cocktailberater.de',
+						'Schlagworte/Tags und Kommentare zum '.
+						''.$this->recipe->name.' Cocktailrezept',
+	'link'    		=> 	$this->url().'?format='.$this->format,
+	'author'		=>	'cocktailberater.de '.APPLICATION_VERSION,
+	'email'			=>	'info@cocktailberater.de',
+	'webmaster'		=>	'info@thobach.de',
+	'image'			=>	$photo,
+	'generator'		=>	'cocktailberater '.APPLICATION_VERSION,
+	'language'		=>	'de',
+	'published'		=> 	$insertDate->getTimestamp(),
+	'lastUpdate'	=> 	$latestUpdateDate->getTimestamp(),
 	'charset' 		=> 	'UTF-8',
 	'entries' 		=> 	$entries
 );
 
 // Import the array
-$feed = Zend_Feed::importArray($rss, $this->format);
+$feed = Zend_Feed::importArray($feedData, $this->format);
 print $feed->saveXML();

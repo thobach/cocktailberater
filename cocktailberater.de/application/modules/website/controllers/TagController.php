@@ -9,7 +9,7 @@ require_once(APPLICATION_PATH.'/Wb/Controller/RestController.php');
 class Website_TagController extends Wb_Controller_RestController {
 	
 	public function indexAction() {
-		
+		$this->view->tags = Website_Model_Tag::listTags('');
 	}
 
 	public function getAction(){

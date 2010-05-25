@@ -31,7 +31,7 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
 		}
 	}
-	
+
 	public function getParam($name) {
 		return $this->__get($name);
 	}
@@ -49,11 +49,11 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 			throw new Exception ( 'Class \''.get_class($this).'\' does not provide property: ' . $name . '.' ) ;
 		}
 	}
-	
+
 	public function setParam($name,$value) {
 		return $this->__set($name,$value);
 	}
-	
+
 	/**
 	 * resolve Association and return an object of Member
 	 *
@@ -66,11 +66,11 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 		}
 		return $this->_member;
 	}
-	
+
 	/**
 	 * resolve Association and return an object of Recipe
 	 *
-	 * @return Recipe
+	 * @return Website_Model_Recipe
 	 */
 	public function getRecipe()
 	{
@@ -79,7 +79,7 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 		}
 		return $this->_recipe;
 	}
-	
+
 	public function __construct ( $idtag = NULL , $name = NULL, $recipeId = NULL ) {
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','tag');
 		try {
@@ -95,7 +95,7 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 				$this->recipeId = $tag->recipe;
 				$this->memberId = $tag->member;
 				$this->count = $this->getCountForRecipe();
-			} 
+			}
 			// create new tag, no need to check for duplicates, since they are wanted (no counting)
 			elseif ($name != '' && $recipeId != '' && empty ( $idtag )) {
 				$this->name = $name ;
@@ -111,22 +111,22 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 			print $e ;
 		}
 	}
-	
+
 	public function getWeight(){
 		return $this->getCountForRecipe();
 	}
-	
+
 	public function getTitle(){
 		return $this->name;
 	}
-	
+
 	public function getCountForRecipe(){
 		$db = Zend_Db_Table::getDefaultAdapter();
 		$result = $db->fetchRow ( 'SELECT count(id) as count FROM tag WHERE recipe='.$this->recipeId.' AND name=\''.$this->name.'\' GROUP BY recipe AND name');
 		return $result->count;
 	}
 
-	
+
 
 	/**
 	 * returns an array of tag objects by search string
@@ -150,7 +150,7 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 		}
 		return ($tagArray) ;
 	}
-	
+
 	/**
 	 * returns a Zend_Tag_Cloud with all tags of a recipe
 	 *
@@ -160,11 +160,11 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 	static function getRecipeTagCloud ( $recipeId) {
 		$db = Zend_Db_Table::getDefaultAdapter();
 		$tags = $db->fetchAll ( 'SELECT name, count(name) as weight FROM tag WHERE recipe='.$recipeId.' GROUP BY name');
-		
+
 		$list = new Zend_Tag_ItemList();
 		$view = new Zend_View();
 		foreach ($tags as $tag) {
-			$list[] = new Zend_Tag_Item(array('title' => $tag['name'], 'weight' => $tag['weight'], 
+			$list[] = new Zend_Tag_Item(array('title' => $tag['name'], 'weight' => $tag['weight'],
 				'params'=>array('id'=>'test','url' => $view->url(array('module'=>'website','controller'=>'recipe',
 						'action'=>'index','search_type'=>'tag','search'=>$tag['name']),'default',true))));
 		}
@@ -189,7 +189,39 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 		}
 		return $tagArray;
 	}
-	
+
+	/**
+	 * Returns an array with all elements of a feed entry
+	 *
+	 * @return array
+	 */
+	public function toFeedEntry(){
+		$view = new Zend_View();
+
+		$date = new Zend_Date($this->updateDate,Zend_Date::ISO_8601);
+
+		$entry = array(
+				'title'       	=> 	$this->getRecipe()->name.' wurde mit '.$this->name.' verschlagwortet',
+				'guid'			=>	$view->url(array('module'=>'website',
+									'controller'=>'recipe','action'=>'index',
+									'index'=>'index','search_type'=>'tag',
+									'search'=>$this->name),'rest',true).'#tag-'.$this->id,
+				'link'        	=> 	$view->url(array('module'=>'website',
+									'controller'=>'recipe','action'=>'get',
+									'id'=>$this->getRecipe()->getUniqueName()),'rest',true),
+				'lastUpdate'	=> 	$date->getTimestamp(),
+				'content'		=> 	'Am '.$date->get(Zend_Date::DATE_FULL,$de).
+									' um '.$date->get(Zend_Date::TIME_MEDIUM,$de).
+									' Uhr wurde '.$this->getRecipe()->name.
+									' mit dem Tag '.$this->name.' versehen.',
+				'description'	=> 	'Am '.$date->get(Zend_Date::DATE_FULL,$de).
+									' um '.$date->get(Zend_Date::TIME_MEDIUM,$de).
+									' Uhr wurde '.$this->getRecipe()->name.
+									' mit dem Tag '.$this->name.' versehen.',
+		);
+		return $entry;
+	}
+
 	public function toxml ( $xml , $ast ) {
 		$tag = $xml->createElement ('tag') ;
 		$tag->setAttribute('id', $this->id) ;
@@ -198,10 +230,10 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 		$tag->setAttribute('updateDate',$this->updateDate);
 		$tag->setAttribute('recipe',$this->recipeId);
 		$tag->setAttribute('member', $this->memberId) ;
-		
+
 		$ast->appendchild ( $tag ) ;
 	}
-	
+
 	/**
 	 * saves the object persistent into the databse
 	 *
@@ -211,8 +243,8 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 		// remove all saved pages
 		$cache = Zend_Registry::get('cache');
 		$cache->clean(
-			Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
-			array('model')
+		Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
+		array('model')
 		);
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','tag');
 		if ($this->id) {
@@ -228,14 +260,14 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 		}
 		return $return ;
 	}
-	
+
 	public function delete (){
 		$tagTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'tag');
 		$tagTable->delete('id='.$this->id);
 		Website_Model_CbFactory::destroy('Website_Model_Tag',$this->id);
 		unset($this);
 	}
-	
+
 
 	/**
 	 * gibt ein Array zurück um die Daten in eine table zu speichern

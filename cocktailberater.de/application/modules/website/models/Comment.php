@@ -4,7 +4,7 @@
  *
  */
 class Website_Model_Comment {
-	
+
 	// attributes
 	private $id;
 	private $memberId;
@@ -13,7 +13,7 @@ class Website_Model_Comment {
 	private $ip;
 	private $insertDate;
 	private $updateDate;
-	
+
 	// associations
 	private $_member;
 	private $_recipe;
@@ -31,7 +31,7 @@ class Website_Model_Comment {
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
 		}
 	}
-	
+
 	/**
 	 * resolve Association and return an object of Member
 	 *
@@ -44,11 +44,11 @@ class Website_Model_Comment {
 		}
 		return $this->_member;
 	}
-	
+
 	/**
 	 * resolve Association and return an object of Recipe
 	 *
-	 * @return Recipe
+	 * @return Website_Model_Recipe
 	 */
 	public function getRecipe()
 	{
@@ -71,7 +71,7 @@ class Website_Model_Comment {
 			throw new Exception ( 'Class \''.get_class($this).'\' does not provide property: ' . $name . '.' ) ;
 		}
 	}
-	
+
 	public function __construct ($commentId=NULL){
 		if($commentId!=NULL){
 			$commentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','comment');
@@ -89,14 +89,29 @@ class Website_Model_Comment {
 			$this->updateDate = $comment->updateDate;
 		}
 	}
-	
+
 	public static function commentsByRecipeId ($recipeId){
 		$commentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','comment');
 		$comments = $commentTable->fetchAll('recipe = '.$recipeId,'updateDate DESC');
 		foreach ($comments as $comment) {
 			$commentArray[] = Website_Model_CbFactory::factory('Website_Model_Comment',$comment['id']);
 		}
-	    return $commentArray;
+		return $commentArray;
+	}
+	
+	/**
+	 * returns an array of comment objects
+	 *
+	 * @return array[int]Website_Model_Tag
+	 */
+	static function listComments () {
+		$commentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','comment');
+		$comments = $commentTable->fetchAll(NULL,'updateDate DESC');
+		$tagArray = array();
+		foreach ($comments as $comment) {
+			$commentArray[] = Website_Model_CbFactory::factory('Website_Model_Comment',$comment['id']);
+		}
+		return ($commentArray) ;
 	}
 
 	/**
@@ -108,8 +123,8 @@ class Website_Model_Comment {
 		// remove all saved pages
 		$cache = Zend_Registry::get('cache');
 		$cache->clean(
-			Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
-			array('model')
+		Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
+		array('model')
 		);
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','comment');
 		if ($this->id) {
@@ -125,14 +140,14 @@ class Website_Model_Comment {
 		}
 		return $return ;
 	}
-	
+
 	public function delete (){
 		$tagTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'comment');
 		$tagTable->delete('id='.$this->id);
 		CbFactory::destroy('Comment',$this->id);
 		unset($this);
 	}
-	
+
 
 	/**
 	 * gibt ein Array zurück um die Daten in eine table zu speichern
@@ -146,8 +161,38 @@ class Website_Model_Comment {
 		$array [ 'ip' ] = $this->ip ;
 		return $array ;
 	}
-	
-	
+
+	/**
+	 * Returns an array with all elements of a feed entry
+	 *
+	 * @return array
+	 */
+	public function toFeedEntry(){
+		$view = new Zend_View();
+
+		$date = new Zend_Date($this->insertDate,Zend_Date::ISO_8601);
+
+		$entry = array(
+				'title'       	=> 	$this->getRecipe()->name.' wurde kommentiert',
+				'guid'			=>	$view->url(array('module'=>'website',
+									'controller'=>'recipe','action'=>'get',
+									'id'=>$this->getRecipe()->getUniqueName()),'rest',true).'#comment-'.$this->id,
+				'link'        	=> 	$view->url(array('module'=>'website',
+									'controller'=>'recipe','action'=>'get',
+									'id'=>$this->getRecipe()->getUniqueName()),'rest',true),
+				'lastUpdate'	=> 	$date->getTimestamp(),
+				'content'		=> 	'Am '.$date->get(Zend_Date::DATE_FULL,$de).
+									' um '.$date->get(Zend_Date::TIME_MEDIUM,$de).
+									' Uhr wurde '.$this->getRecipe()->name.' mit folgendem Kommentar versehen: '.
+									''.$this->comment,
+				'description'	=>	'Am '.$date->get(Zend_Date::DATE_FULL,$de).
+									' um '.$date->get(Zend_Date::TIME_MEDIUM,$de).
+									' Uhr wurde '.$this->getRecipe()->name.' mit folgendem Kommentar versehen: '.
+									''.$this->comment,
+		);
+		return $entry;
+	}
+
 	public function toxml ( $xml , $ast ) {
 		$tag = $xml->createElement ('comment') ;
 		$tag->setAttribute('id', $this->id) ;
@@ -156,9 +201,9 @@ class Website_Model_Comment {
 		$tag->setAttribute('member', $this->memberId) ;
 		$tag->setAttribute('insertDate',$this->insertDate);
 		$tag->setAttribute('updateDate',$this->updateDate);
-		
+
 		$ast->appendchild ( $tag ) ;
 	}
-	
+
 }
 ?>
