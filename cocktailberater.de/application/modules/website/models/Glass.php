@@ -35,7 +35,7 @@ class Website_Model_Glass {
 	public function getPhoto()
 	{
 		if(!$this->_photo){
-			$this->_photo = Website_Model_Photo::getPhoto($this->photoId);
+			$this->_photo = Website_Model_CbFactory::factory('Website_Model_Photo',$this->photoId);
 		}
 		return $this->_photo;
 	}
