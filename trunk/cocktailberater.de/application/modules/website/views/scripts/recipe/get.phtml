@@ -96,20 +96,20 @@ dojo.addOnLoad(initLightbox<?php echo $imageCounter; ?>);
 ?><a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=atom"><img src="<?php 
 echo $this->baseUrl();?>/img/icons/atom_2.png" alt="Atom" style="margin-left: 1em;" /></a>
-<span class="link" onclick="dojo.toggleClass('alternate_options', 'hide'); this.style.display='none';" 
+<span class="link" onclick="dojo.toggleClass('alternate_options', 'hide'); this.style.visibility='hidden';" 
 style="margin-left: 1em; vertical-align: top; text-decoration: none;">&gt;</span>
 <span class="hide" id="alternate_options"><br /><a 
 href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=rss"><img 
-src="<?php echo $this->baseUrl();?>/img/icons/rss_2.png" alt="RSS" style="" /></a>
+src="<?php echo $this->baseUrl();?>/img/icons/rss_2.png" alt="RSS" style="padding-top:6px;" /></a>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=pdf"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/printer_2.png" alt="PDF Druck" 
-style="margin-left: 1.8em; margin-bottom: 0.3em;" /></a>
+style="margin-left: 1.6em; margin-bottom: 0.3em;" /></a>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName()));?>?format=xml"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/xml.png" alt="XML" 
-style="margin-left: 1.8em; margin-right: 0.4em; margin-bottom: 0.3em;" /></a><br />
+style="margin-left: 1.6em; margin-right: 0.4em; margin-bottom: 0.3em;" /></a><br />
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=json"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/json.png" alt="JSON" 
@@ -117,7 +117,7 @@ style="margin-top: 0.5em;" /></a><a href="<?php echo
 $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=rdf"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/rdf.png" alt="RDF" 
-style="margin-left: 1.8em; margin-top: 0.5em;" /></a></span>
+style="margin-left: 1.8em; margin-top: 0.5em; margin-right: 1.6em;" /></a></span>
 </div><!-- end of class="right" -->
 </div>
 <!-- end of class="right" -->
@@ -147,8 +147,7 @@ foreach ( $components as $component ) {
 	print ' ' ;
 	print ''.$component->unit.'';
 	print ' ' ;
-	?>
-	<?php $this->headScript()->captureStart(); ?>
+	$this->headScript()->captureStart(); ?>
 	dojo.addOnLoad(function() {
 		zutat<?php print $component->getIngredient()->id ;?>Tooltip = new dijit.Tooltip({
             connectId: ["zutat<?php print $component->getIngredient()->id ;?>"],
@@ -160,7 +159,7 @@ $products = $component->getIngredient()->getProducts();
 ?><div style=\"text-align:left;\"><?php
 if($alcoholLevel){ ?><span class=\"pink\">Alkoholgehalt:</span> <?php print $alcoholLevel; ?> %<br /><?php }
 if($calories) { ?><span class=\"pink\">Kalorien:</span> <?php print round($calories/10); ?> kcal pro 100 ml<br /><?php } 
-if($categories) {?><span class=\"pink\">Kategorie(n):</span> <?php
+if($categories) {?><span class=\"pink\">Kategorie:</span> <?php
 	if(is_array($categories)){
 		foreach ($categories as $category) {
 			print $category->name.'<br />';
@@ -171,7 +170,7 @@ if($products) { ?><span class=\"pink\">Produkte:</span><?php
 	if(is_array($products)){
 		print '<ul style=\"font-size: 0.9em; list-style-type: circle; margin-left: 2em;\">';
 		foreach ($products as $product) {
-			print '<li>' . $product->name .' ('.$product->getManufacturer()->name.') - ' .
+			print '<li>' . $product->name .($product->getManufacturer()->name ? ' ('.$product->getManufacturer()->name.') ' : '').' - ' .
 			str_replace('.', ',', round ( $product->size, 2 )) . ' ' . $product->unit . '</li>';
 		}
 		print "</ul>";
@@ -196,10 +195,7 @@ if(!($alcoholLevel || $calories || $categories || $products)){
 <div class="wert"><p><?php
 print str_replace("\n",'</p><p>',$recipe->instruction);
 ?></p></div>
-<div class="attribut">Schlagworte / Tags:<br />
-<span id="switcha1"
-	onclick="document.getElementById('tag_form').style.display='block'; document.getElementById('switcha1').innerHTML=''; dojo.byId('newtag').focus();"
-	style="cursor: pointer; color: #54616E">(hinzufügen)</span></div>
+<div class="attribut">Schlagworte / Tags:</div>
 <div class="wert"><?php
 $tagCloud =  Website_Model_Tag::getRecipeTagCloud($recipe->id);
 require_once(APPLICATION_PATH.'/Wb/Decorator/HtmlTag.php');
@@ -219,17 +215,19 @@ $autoCompletionUrl = array('action'=>'index','controller'=>'recipe','module'=>'w
 $this->headScript()->captureStart(); ?>
 function initTagReadStore() {
 	var tagReadStore = new custom.TagReadStore({url:"<?php echo $this->url($autoCompletionUrl); ?>", requestMethod:"get"},dojo.byId('tagReadStore'));
-	var tagSearch = new dijit.form.ComboBox({store:tagReadStore, autoComplete:false, hasDownArrow:false},dojo.byId('newtag'));
+	var tagSearch = new dijit.form.ComboBox({store:tagReadStore, autoComplete:false, hasDownArrow:false},dojo.byId('tagvalue'));
 }
 dojo.addOnLoad(initTagReadStore);
 <?php $this->headScript()->captureEnd(); ?>
+<input name="tag_prev" id="tag_prev" value="Dein Tag" class="text medium left" 
+	onfocus="insertTag();" style="margin-left: 1em; margin-top: 2px;" />
 <div id="tagReadStore"></div>
 <?php $this->headScript()->captureStart(); ?>
 // configure query
 djConfig.usePlainJson=true;
 
 function initTag() {
-	dojo.connect(dojo.byId("newtag"), 'onfocus', function(e) { // onkeypress
+	dojo.connect(dojo.byId("tagvalue"), 'onfocus', function(e) { // onkeypress
 		/*
 		// add the possibility to submit the search by pressing the ENTER key 
 		if (e.keyCode == dojo.keys.ENTER) { 
@@ -247,10 +245,10 @@ function newSubmit(){
 	// add new tag to list
 	var listEntry = document.createElement("li");
 	var listEntryLink = document.createElement("a");
-	var listEntryText = document.createTextNode(" " + dojo.byId("newtag").value);
+	var listEntryText = document.createTextNode(" " + dojo.byId("tagvalue").value);
 	listEntryLink.rel = "tag";
 	listEntryLink.style.fontSize = "10px";
-	listEntryLink.href = "/website/recipe/index/search_type/tag/search/" + dojo.byId("newtag").value;
+	listEntryLink.href = "/website/recipe/index/search_type/tag/search/" + dojo.byId("tagvalue").value;
 	listEntryLink.appendChild(listEntryText);
 	listEntry.appendChild(listEntryLink);
 	dojo.query(".Zend_Tag_Cloud").forEach(function(node, index, arr){
@@ -265,11 +263,13 @@ function newSubmit(){
 
 // sumbit the form 
 var tagFormSubmit = function(e){
+	dojo.byId('newtag').value = dojo.byId('tagvalue').value;
     // prevent the form from actually submitting
     e.preventDefault(); 
     // submit the form in the background    
     dojo.xhrPost({
-        url: "<?=$this->url(array('controller'=>'tag','action'=>'post','module'=>'website'),null,true)?>?format=json",
+        url: "<?php echo $this->url(array('controller'=>'tag','action'=>'post',
+					'module'=>'website'),null,true)?>?format=json",
         form: "tag_form",
         handleAs: "json",
         handle: function(data,args){
@@ -288,26 +288,28 @@ var tagFormSubmit = function(e){
 
 // add the possibility to submit the search by pressing the ENTER key
 var tagFormSubmit2 = function(e){
+	dojo.byId('newtag').value = dojo.byId('tagvalue').value; 
 	if (e.keyCode == dojo.keys.ENTER) { 
-    // prevent the form from actually submitting
-    e.preventDefault(); 
-    // submit the form in the background    
-    dojo.xhrPost({
-        url: "<?=$this->url(array('controller'=>'tag','action'=>'post','module'=>'website'),null,true)?>?format=json",
-        form: "tag_form",
-        handleAs: "json",
-        handle: function(data,args){
-            if (data.rsp["@attributes"].status == "ok"){
-            	newSubmit();
-            }
-            else{
-                clearTagFormError();
-            	dojo.removeClass("tag_state");
-            	dojo.addClass("tag_state","error");
-            	dojo.byId("tag_state").innerHTML="Es ist ein Fehler aufgetreten. Bitte versuch es später nochmal.";
-            }
-        }
-    });
+    	// prevent the form from actually submitting
+	    e.preventDefault(); 
+	    // submit the form in the background    
+	    dojo.xhrPost({
+	        url: "<?php echo $this->url(array('controller'=>'tag',
+					'action'=>'post','module'=>'website'),null,true)?>?format=json",
+	        form: "tag_form",
+	        handleAs: "json",
+	        handle: function(data,args){
+	            if (data.rsp["@attributes"].status == "ok"){
+	            	newSubmit();
+	            }
+	            else{
+	                clearTagFormError();
+	            	dojo.removeClass("tag_state");
+	            	dojo.addClass("tag_state","error");
+	            	dojo.byId("tag_state").innerHTML="Es ist ein Fehler aufgetreten. Bitte versuch es später nochmal.";
+	            }
+	        }
+	    });
     }
 };
 
@@ -315,22 +317,29 @@ dojo.addOnLoad(function(){
     var tagForm = dojo.byId("tag_form");
     // another dojo.connect syntax: call a function directly    
     dojo.connect(tagForm,"onsubmit",tagFormSubmit);
-    dojo.connect(dojo.byId("newtag"), 'onkeypress', tagFormSubmit2);
+    dojo.connect(dojo.byId('tagvalue'), 'onkeypress', tagFormSubmit2);
 });
 function clearTagFormError(){
 	dojo.removeClass("tag_state");
 	dojo.addClass("tag_state","hide");
-    dojo.byId("newtag").value="";
+    dojo.byId("tagvalue").value="";
+}
+function insertTag(){
+	dojo.addClass('tag_prev','hide');
+	document.getElementById('tag_form').style.display='block';
+	dijit.byId('tagvalue').focus();
 }
 <?php $this->headScript()->captureEnd(); ?>
-<form id="tag_form" class="regular_form hide abstand_oben abstand_unten" method="post"
+
+<form id="tag_form" class="regular_form hide abstand_unten clear" method="post"
 	action="<?php print $this->url(array('module'=>'website','controller'=>'tag'),null,true); ?>">
 	<fieldset>
 		<legend>Schlagwort / Tag hinzufügen</legend>
 		<div id="tag_state" class="hide">&nbsp;</div>
-		<label for="newtag" class="hide">Dein Tag:</label>
+		<label for="tagvalue" class="hide">Dein Tag:</label>
 		<!-- text input w/ autocompletion -->
-		<input id="newtag" name="newtag" type="text" />
+		<input id="tagvalue" name="" type="text" />
+		<input name="newtag" id="newtag" value="" type="hidden" />
 		<input name="recipe" value="<?php print $recipe->id; ?>" type="hidden" />
 		<input type="submit" class="small-button" value="Tag hinzufügen"
 			style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png'); font-size: 0.9em;" />
@@ -380,7 +389,7 @@ function clearRatingFormError(){
 }
 <?php $this->headScript()->captureEnd(); ?>
 <div class="attribut">Bewertung:</div>
-<div class="wert"><?php $durchschnitt = $this->recipe->getRating(); ?>
+<div class="wert" style="width: 36em;"><?php $durchschnitt = $this->recipe->getRating(); ?>
 	<div id="rating_state" class="hide">&nbsp;</div>
 	<form id="rating_form" action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>" method="post">
 	<fieldset>
@@ -409,7 +418,7 @@ function clearRatingFormError(){
 	</fieldset>
 	</form></div>
 <div class="attribut">Rezeptquelle:</div>
-<div class="wert"><?php if($recipe->source) {
+<div class="wert" style="width: 36em;"><?php if($recipe->source) {
 	print $recipe->source;
 } else {
 	?>-keine angegeben-<?php } ?></div>	
@@ -419,8 +428,6 @@ function hideComments() {
 	dojo.byId('commentList').style.display='none';
 	dojo.byId('comment_form').style.display='none';
 	dojo.byId('switchc1').style.display='block';
-	dojo.byId('switchb1').style.display='block';
-	dojo.byId('switchb1').innerHTML='(einfügen)';
 	dojo.byId('switchc1').innerHTML='<?php $amountOfComments = count($this->recipe->getComments()); echo $amountOfComments; ?> Kommentar(e) anzeigen';
 }
 // show all comments and new comment form 
@@ -428,32 +435,80 @@ function showComments() {
 	dojo.byId('commentList').style.display='block';
 	dojo.byId('switchc1').innerHTML='';
 	dojo.byId('comment_form').style.display='block';
-	dojo.byId('switchb1').innerHTML='';
 }
-// only hide comments when anchor is not set in url
-if(!(location.hash=='#comment-insert' || location.hash=='#comments')){ 
-	dojo.addOnLoad(hideComments);
+// display full comment form
+function insertComment(){
+	showComments();
+	if(dojo.byId('comment')){
+		dojo.toggleClass('comment_prev','hide');
+		dojo.byId('comment').focus();
+	}
 }
+// reload captcha image 
+function reloadCaptcha(){
+	var xhrArgs = {
+		url: "<?php echo $this->baseUrl(); ?>/website/captcha/post?format=json",
+		postData: '',
+		handleAs: "json",
+		load: function(data) {
+			dojo.byId("captcha_span").innerHTML = data.imageTag;
+			dojo.byId("captchaId").value = data.id;
+		},
+		error: function(error) {
+			alert('Beim Laden des neuen Captchas ist leider ein Fehler aufgetreten. Bitte versuch es erneut!');
+		}
+	}
+	//Call the asynchronous xhrPost
+	var deferred = dojo.xhrPost(xhrArgs);
+	
+}
+dojo.addOnLoad(function(){
+	// only hide comments when anchor is not set in url
+	if(!(location.hash=='#comment-insert' || location.hash=='#comments')){ 
+		hideComments();
+	}
+	// open form and focus input
+	if(location.hash=='#comment-insert'){
+		insertComment();
+	}
+	// show comments
+	if(location.hash=='#comments'){
+		showComments();
+	}
+});
 	<?php $this->headScript()->captureEnd(); ?>
-<div class="attribut"><a id="comments" class="nolink">Kommentare:</a><br />
-<a id="switchb1" class="hide" href="#comment-insert"
-	onclick="showComments();"
-	style="cursor: pointer; color: #54616E"></a></div>
-<div class="wert"><a id="switchc1" href="#comments" class="hide"
-	onclick="showComments();"
-	style="cursor: pointer; color: #54616E"></a>
+<div class="attribut"><a id="comments" class="nolink">Kommentare:</a></div>
+<div class="wert" style="width: 36em;"><?php
+	if(!$this->comment_success) { ?><textarea name="comment_prev" 
+		id="comment_prev" rows="2" cols="35" 
+		class="clear text left abstand_unten" onfocus="insertComment();" 
+		style="font-size: 1em; margin-left: 0; margin-top: 3px;">Was denkst du? Dein Kommentar...</textarea><?php 
+	} ?><a id="switchc1" href="#comments" class="hide clear"
+	onclick="showComments();" style="cursor: pointer; color: #54616E"></a>
 	<ul id="commentList"><?php
 	if (is_array ( $this->recipe->getComments() )) {
 		foreach ( $this->recipe->getComments() as $comment ) {
-			print '<li style="border-bottom: 1px solid rgb(170, 16, 97); margin-bottom: 0.5em;"><p>#'.($amountOfComments--).' von <em>' ;
+			print '<li style="border-bottom: 1px solid rgb(170, 16, 97); margin-bottom: 0.5em;"><p><!-- #'.
+				($amountOfComments--).' von --><em>' ;
 			if ($comment->memberId) {
 				$member = new Website_Model_Member ( $comment->memberId ) ;
 				print '<a href="mailto:' . $this->escape($member->email) . '">' . $this->escape(stripslashes($member->firstname)) . ' ' . $this->escape(stripslashes($member->lastname)) . '</a>' ;
+			} else if($comment->name){
+				if($comment->name && $comment->email){
+					print '<a href="mailto:' . $this->escape($comment->email) . '">' . $this->escape(stripslashes($comment->name)) . '</a>' ;
+				} else {
+					print $this->escape(stripslashes($comment->name));
+				}
 			} else {
 				print 'anonym' ;
 			}
-			print '</em> am '.$comment->insertDate;
-			print '<br />'.stripslashes(str_replace (array("\r\n", "\r", "\n",'\r\n', '\r', '\n'),'</p><p>',$this->escape($comment->comment))) . '</p></li>' ;
+			print '</em> schreibt: ';
+			$insertDate = new Zend_Date($comment->insertDate,Zend_Date::ISO_8601);
+			print ''.stripslashes(str_replace (array("\r\n", "\r", "\n",'\r\n', '\r', '\n'),
+				'</p><p>',$this->escape($comment->comment))).
+					' <span style="color: #888888">'.
+					$insertDate->get(Zend_Date::DATETIME_SHORT,new Zend_Locale('de_DE')).
+					' Uhr</span></p></li>' ;
 		}
 	} else {
 		print '<li>keine Kommentare vorhanden</li>' ;
@@ -472,28 +527,44 @@ if(!(location.hash=='#comment-insert' || location.hash=='#comments')){
 		<p class="success"><?php print $this->comment_success; ?></p>
 	<?php } 
 	if(!$this->comment_success) { ?>
+	<label for="name" class="clear pink left">Dein Name (optional):</label>  
+	<input name="name" id="name" class="clear text left abstand_unten big" 
+		value="<?php if($this->comment_error) { print $_POST['name']; } ?>" />
+	<label for="email" class="clear pink left">Deine E-Mail-Adresse (optional):</label>  
+	<input name="email" id="email" class="clear text left abstand_unten big" 
+		value="<?php if($this->comment_error) { print $_POST['email']; } ?>" />
 	<label for="comment" class="clear pink left">Dein Kommentar (reiner Text):</label>  
-	<textarea name="comment" id="comment" rows="10" cols="40" 
-		class="clear text pink left abstand_unten"><?php 
+	<textarea name="comment" id="comment" rows="10" cols="60" 
+		class="clear text left abstand_unten"><?php 
 		if($this->comment_error) { print $_POST['comment']; } ?></textarea>
-	<?php 
-	$captcha = new Zend_Captcha_ReCaptcha(array(
-	    'name' => 'captcha',
-		'privKey' => '6LdKvggAAAAAADoKDLXugjbiSxuTc7zdrAVm8-qC',
-		'pubKey' => '6LdKvggAAAAAAAhu1rSAwtIm1Ejzls4LDi0K27Td',
-		'width' => 100,
-		'height' => 50,
-		'font' => APPLICATION_PATH.'/modules/website/captcha/fonts/arial.ttf',
-		'imgDir' => realpath(APPLICATION_PATH.'/../public/img/captchas/'),
-		'imgUrl' => $this->baseUrl().'/img/captchas/',
-	    'expiration' => 300,
-	));
-	$captcha->getService()->setOption('lang','de');
-	echo $captcha->render($this);
-?><input type="hidden" name="recipe" value="<?php echo $this->recipe->id; ?>" />
-<input type="submit" class="right clear small-button"
-	style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png'); margin-top: 0.5em; margin-right: 3px;" value="abschicken"
-	name="submit" /><?php } ?></fieldset>
+	<label for="captcha" class="clear left" style="width: 130px; color: #444444">
+		<span class="pink">Spamschutz:</span><br />
+		<span class="left" id="captcha_span" style="margin-left:3px; margin-top:6px;"><?php
+			$captcha = new Zend_Captcha_Image(array(
+			    'name' => 'captcha',
+				'font' => realpath(APPLICATION_PATH.'/../public/fonts').'/teen____.ttf',
+				'imgDir' => realpath(APPLICATION_PATH.'/../public/img/captchas/'),
+				'imgUrl' => $this->baseUrl().'/img/captchas/',
+			    'expiration' => 300,
+				'wordLen' => 5,
+				'width' => 120
+			));
+			$captchaId = $captcha->generate();
+			echo $captcha->render($this); ?></span>
+	</label>
+	<span class="left" style="margin-top: 26px;"><input name="captcha[input]" 
+		id="captcha" value="" style="width:112px; margin-bottom: 0.7em;" 
+		class="clear text left" /></span>
+	<span class="left" style="margin-left: 1em; margin-top: 28px;"><span 
+		onclick="reloadCaptcha();" class="link">Spamschutz neu laden</span></span>
+	<span class="left" style="margin-left: 3px;">
+		Bitte die links angezeigten Zeichen angeben.</span>
+	<input type="hidden" id="captchaId" name="captcha[id]" value="<?php echo $captchaId; ?>" />
+	<input type="hidden" name="recipe" value="<?php echo $this->recipe->id; ?>" />
+	<input type="submit" class="right small-button" value="abschicken" name="submit"
+	style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png'); margin-top: 0.5em; margin-right: 3px;" />
+	
+<?php } ?></fieldset>
 </form>
 </div>
 <?php if($gesamt>1) { ?>

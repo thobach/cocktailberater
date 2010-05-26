@@ -49,17 +49,23 @@ dojo.addOnLoad(function() {
 	tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>Tooltip = new dijit.Tooltip({
 		connectId: ["tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>"], 
 		label: "<?php $list = Website_Model_Recipe::getRecipesByTag ( $tag->getTitle(), 5); ?>
-<h2 class=\"pink\" style=\"font-size: 1.2em; margin:0;\">Rezepte mit dem Tag &quot;<?php echo $tag->getTitle(); ?>&quot;:</h2><ul style=\"text-align:left\"><?php
-foreach ($list as $key => $recipe) {
+<h2 class=\"pink\" style=\"font-size: 1em; margin:0;\">Rezepte mit dem Tag &quot;<?php echo $tag->getTitle(); ?>&quot;:</h2><?php 
+?><ul style=\"text-align:left; width: 14em;\" class=\"clear\"><?php
+foreach ($list as $key => /* @var $recipe Website_Model_Recipe */$recipe) {
 	$photos = $recipe->getPhotos(1);
-	?><li style=\"width: 15em; padding: 0.2em; line-height: 2em;\"><?php 
-	?><p><img style=\"height: 1.5em; float: left; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" src=\"<?php print $this->_view->baseUrl();
+	?><li style=\"width: 6em; height: 13em; padding: 0.2em; font-size: 0.7em; clear: none;\" class=\"left center\"><?php 
+	?><img style=\"height: 80px; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" <?php 
+		?>src=\"<?php print $this->_view->baseUrl();
 			if(isset($photos[0]) && $photos[0]->id){
 				print '/img/recipes/'.$this->_view->escape($photos[0]->fileName);
 			} else { 
-				print '/img/wikilogo.png';
-			} ?>\" /><?php echo $this->_view->escape(str_replace('\\','',$recipe->name)) ?></p><?php 
-	?></li><?php } ?><li>...</li></ul>" });
+				$photos[0] = $recipe->getGlass()->getPhoto();
+				print '/img/glasses/'.$this->_view->escape($photos[0]->originalFileName);
+			} ?>\" /><br /><?php echo $this->_view->escape(str_replace('\\','',$recipe->name)) ?><?php 
+	?></li><?php 
+} if(count($list)==5){ ?><li style=\"width: 60px; height: 140px; padding: 0.2em; font-size: 0.7em; clear: none;\" class=\"left center\"><?php 
+		?><img style=\"height: 80px; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" <?php 
+		?>src=\"<?php print $this->_view->baseUrl(); ?>/img/wikilogo.png\" /><br />...</li><?php } ?><li></li></ul>" });
 });
 <?php $this->_view->headScript()->captureEnd();
 			$tagHtml = sprintf('<a href="%s" %s id="tag%s" rel="tag"><span>Dieses Rezept wurde %s mal mit dem Schlagwort </span>%s<span> versehen.</span></a>', htmlSpecialChars($tag->getParam('url')), $attribute,str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()), $tag->getWeight(), $tag->getTitle());

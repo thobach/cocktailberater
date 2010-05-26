@@ -8,6 +8,16 @@ class Website_Model_Comment {
 	// attributes
 	private $id;
 	private $memberId;
+	/**
+	 * name for non members
+	 * @var string
+	 */
+	private $name;
+	/**
+	 * email for non members
+	 * @var string
+	 */
+	private $email;
 	private $recipeId;
 	private $comment;
 	private $ip;
@@ -82,6 +92,8 @@ class Website_Model_Comment {
 			}
 			$this->id = $comment->id;
 			$this->memberId = $comment->member;
+			$this->name = $comment->name;
+			$this->email = $comment->email;
 			$this->recipeId = $comment->recipe;
 			$this->comment = $comment->comment;
 			$this->ip = $comment->ip;
@@ -128,11 +140,11 @@ class Website_Model_Comment {
 		);
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','comment');
 		if ($this->id) {
-			// update tag
+			// update comment
 			$table->update ( $this->dataBaseRepresentation (), 'id = ' . $this->id ) ;
 			$return = true ;
 		} else {
-			// insert new tag
+			// insert new comment
 			$data = $this->databaseRepresentation();
 			$data['insertDate'] = $this->insertDate = date(Website_Model_DateFormat::PHPDATE2MYSQLTIMESTAMP);
 			$this->id = $table->insert ( $data ) ;
@@ -156,6 +168,8 @@ class Website_Model_Comment {
 	 */
 	public function dataBaseRepresentation () {
 		$array [ 'member' ] = $this->memberId;
+		$array [ 'name' ] = $this->name;
+		$array [ 'email' ] = $this->email;
 		$array [ 'recipe' ] = $this->recipeId;
 		$array [ 'comment' ] = $this->comment ;
 		$array [ 'ip' ] = $this->ip ;
