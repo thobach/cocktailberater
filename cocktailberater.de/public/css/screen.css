@@ -444,6 +444,7 @@ input.big,textarea.big {
 input.text,textarea.text {
 	padding: 3px;
 	border: 1px solid #999999;
+	margin-left: 3px;
 }
 
 input.submit,#submit,#anmelden,#abmelden {
@@ -499,9 +500,8 @@ p.description {
 }
 
 textarea#comment {
-	width: 305px;
-	height: 100px;
-	margin-left: 3px;
+	width: 390px;
+	height: 60px;
 	margin-top: 0.5em;
 	font-size: 1.1em;
 }
@@ -542,6 +542,12 @@ div.wert ul li {
 div.wert ul.nolist li {
 	clear: none;
 	float: left;
+}
+
+div.wert ul.Zend_Tag_Cloud {
+	clear: both;
+	float: left;
+	margin-bottom: 1em;	
 }
 
 div.wert ul.Zend_Tag_Cloud li {
