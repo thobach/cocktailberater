@@ -13,7 +13,7 @@ class SitemapOutputTest extends ControllerTestCase {
 	 * @dataProvider testCaseProvider
 	 */
 	public function testContent($url) {
-		$info = get_headers('http://cocktailberater.local:10088'.$url);
+		$info = get_headers($url); // 'http://cocktailberater.local:10088'.
 		$status_code = $info[0];
 		$this->assertEquals($status_code,'HTTP/1.1 200 OK');
 	}
