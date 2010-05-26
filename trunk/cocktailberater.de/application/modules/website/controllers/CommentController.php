@@ -24,9 +24,7 @@ class Website_CommentController extends Wb_Controller_RestController {
 		} else {
 			// Kommentieren
 			if ($this->_hasParam ( 'comment' )) {
-				//$recaptcha = new Zend_Service_ReCaptcha('6LdKvggAAAAAAAhu1rSAwtIm1Ejzls4LDi0K27Td', '6LdKvggAAAAAADoKDLXugjbiSxuTc7zdrAVm8-qC');
 				$captcha = new Zend_Captcha_Image();
-				var_dump($this->_getParam('captcha'));
 				if($captcha->isValid($this->_getParam('captcha'))){
 					$comment = new Website_Model_Comment ( ) ;
 					$comment->recipeId = mysql_escape_string(strip_tags($this->_getParam ( 'recipe' )));
@@ -36,8 +34,6 @@ class Website_CommentController extends Wb_Controller_RestController {
 					$comment->email = $this->_getParam ( 'email' );
 					$comment->comment = mysql_escape_string(strip_tags($this->_getParam ( 'comment' )));
 					$comment->ip = mysql_escape_string(strip_tags($_SERVER [ 'REMOTE_ADDR' ]));
-					//Zend_Debug::dump($comment);
-					//exit;
 					$comment->save();
 					$this->view->comment_success = 'Vielen Dank für deinen Kommentar!';
 				} else {
