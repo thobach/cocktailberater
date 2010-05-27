@@ -1,0 +1,252 @@
+<?php
+$pdf = new Zend_Pdf();
+$page = $pdf->pages[0] = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
+
+$pageCount = 0;
+$recipeCount = 0;
+
+// default font size
+$fontSize = 14;
+
+// page size: 210x297mm
+// 1 in = 25.4 mm
+$width = round(72/25.4*210);
+$height = round(72/25.4*297);
+
+// image size
+$maxImageHeight = 280;
+$maxImageWidth = 170;
+$maxBottomImageHeight = 60;
+
+// page style
+$style = new Zend_Pdf_Style();
+$font = Zend_Pdf_Font::fontWithPath(realpath(APPLICATION_PATH.'/../public/fonts').'/teen____.ttf');
+$fontBold = Zend_Pdf_Font::fontWithPath(realpath(APPLICATION_PATH.'/../public/fonts').'/teenbold.ttf');
+$style->setFont($font,$fontSize);
+
+// black box
+$page->drawRectangle(0,$height-60,$width,$height,Zend_Pdf_Page::SHAPE_DRAW_FILL);
+// with headline (pink capital)
+$style->setFillColor(new Zend_Pdf_Color_Cmyk(0,1,0,0));
+$page->setStyle($style);
+$page->setFont($font, 38);
+$page->drawText('c',65+60,$height-45);
+$style->setFillColor(new Zend_Pdf_Color_Html('white'));
+$page->setStyle($style);
+$page->setFont($font, 38);
+$page->drawText('ocktailberater.de',86+60,$height-45);
+$page->setFont($font, $fontSize);
+$style->setFillColor(new Zend_Pdf_Color_Html('black'));
+$page->setStyle($style);
+$i++;
+$i++;
+$i++;
+
+// almost black
+$style->setFillColor(new Zend_Pdf_Color_Rgb(0.078,0.078,0.075));
+$page->setStyle($style);
+
+$page->setFont($font, $fontSize+4);
+$page->drawText($this->recipe->name, 50, $height-24*++$i);
+$page->setFont($font, $fontSize);
+
+// description
+if($this->recipe->description){
+	$lines = explode("\n",$this->wrappedPdfText('Beschreibung: '.$this->recipe->description,$style,$width-285)) ;
+	if(is_array($lines)){
+		foreach($lines as $line){
+			$page->drawText($line, 50, $height-24*++$i);
+		}
+	}
+}
+
+// ingredients
+$page->drawText('Zutaten:', 50, $height-24*++$i);
+foreach($this->recipe->getComponents() as /* @var $component Website_Model_Component*/ $component){
+	$page->drawText(str_replace('.',',',$component->amount).' '.$component->unit.' '.$component->getIngredient()->name, 60, $height-24*++$i);
+}
+$i++;
+
+// instruction
+$lines = explode("\n",$this->wrappedPdfText('Zubereitung: '.
+$this->recipe->instruction.' Zubereitungszeit: '.$this->recipe->workMin.
+	' min.',$style,$width-285)) ;
+if(is_array($lines)){
+	foreach($lines as $line){
+		$page->drawText($line, 50, $height-24*++$i);
+	}
+}
+
+// source
+if($this->recipe->source){
+	$lines = explode("\n",$this->wrappedPdfText('Quelle: '.
+	$this->recipe->source,$style,$width-70)) ;
+	if(is_array($lines)){
+		foreach($lines as $line){
+			$page->drawText($line, 50, $height-24*++$i);
+		}
+	}
+}
+
+// picture
+$photos = $this->recipe->getPhotos(1);
+$image = NULL;
+foreach($photos as /* @var $photo Website_Model_Photo */$photo){
+	if($photo->originalFileName){
+		$image = realpath(APPLICATION_PATH.'/../public/img/recipes').'/'.$photo->originalFileName;
+	}
+}
+// if no picture is present, take glass image
+if(!$image){
+	if($this->recipe->getGlass()->getPhoto()->originalFileName){
+		$image = realpath(APPLICATION_PATH.'/../public/img/glasses/non-interlaced').
+					'/'.$this->recipe->getGlass()->getPhoto()->originalFileName;
+	}
+}
+// get actual image size
+if($image){
+	$dimensions = getimagesize($image);
+} else {
+	$dimensions = NULL;
+}
+// shrink if too heigh
+if($dimensions && $dimensions[1]>$maxImageHeight){
+	$dimensions[0] = $dimensionsNew[0] = $maxImageHeight*$dimensions[0]/$dimensions[1];
+	$dimensions[1] = $dimensionsNew[1] = $maxImageHeight;
+}
+if($dimensions && $dimensions[0]>$maxImageWidth) {
+	$dimensionsNew[0] = $maxImageWidth;
+	$dimensionsNew[1] = $maxImageWidth*$dimensions[1]/$dimensions[0];
+}
+if(!$dimensionsNew) {
+	$dimensionsNew[0] = $dimensions[0];
+	$dimensionsNew[1] = $dimensions[1];
+}
+// draw image and rating
+if($image){
+	$image = Zend_Pdf_Image::imageWithPath($image);
+	$page->drawImage($image,
+	$width-140-$dimensionsNew[0]/2,
+	$height-100-$dimensionsNew[1],
+	$width-140-$dimensionsNew[0]/2+$dimensionsNew[0],
+	$height-100-$dimensionsNew[1]+$dimensionsNew[1]);
+	// rating
+	if($this->recipe->getRating()){
+		$page->drawText('Bewertung: ',$width-140-$dimensionsNew[0]/2,$height-100-$dimensionsNew[1]-27);
+		for($rating = 0; $rating < $this->recipe->getRating(); $rating++){
+			$image = realpath(APPLICATION_PATH.'/../public/img/').'/1_stars.png';
+			// draw image
+			if($image){
+				$image = Zend_Pdf_Image::imageWithPath($image);
+				$page->drawImage($image,
+				$width-145+20*$rating,
+				$height-100-$dimensionsNew[1]-10,
+				$width-145+20*($rating+1),
+				$height-100-$dimensionsNew[1]-30);
+			}
+		}
+	}
+}
+
+// glass
+if($this->recipe->getGlass()->getPhoto()->originalFileName){
+	$image = realpath(APPLICATION_PATH.'/../public/img/glasses/non-interlaced').
+				'/'.$this->recipe->getGlass()->getPhoto()->originalFileName;
+}
+// get actual image size
+if($image){
+	$dimensions = getimagesize($image);
+} else {
+	$dimensions = NULL;
+}
+// shrink if too heigh
+if($dimensions && $dimensions[1]>$maxBottomImageHeight){
+	$dimensionsNew[0] = $maxBottomImageHeight*$dimensions[0]/$dimensions[1];
+	$dimensionsNew[1] = $maxBottomImageHeight;
+}
+// draw image
+if($image){
+	$image = Zend_Pdf_Image::imageWithPath($image);
+	$page->drawImage($image,
+	90-$dimensionsNew[0]/2,
+	130-$dimensionsNew[1],
+	90-$dimensionsNew[0]/2+$dimensionsNew[0],
+	130);
+}
+$page->drawText($this->recipe->getGlass()->name,50,55);
+
+// volume
+$image = realpath(APPLICATION_PATH.'/../public/img/icons/').'/volumen_big.png';
+// get actual image size
+if($image){
+	$dimensions = getimagesize($image);
+} else {
+	$dimensions = NULL;
+}
+// shrink if too heigh
+if($dimensions && $dimensions[1]>$maxBottomImageHeight){
+	$dimensionsNew[0] = $maxBottomImageHeight*$dimensions[0]/$dimensions[1];
+	$dimensionsNew[1] = $maxBottomImageHeight;
+}
+// draw image
+if($image){
+	$image = Zend_Pdf_Image::imageWithPath($image);
+	$page->drawImage($image,
+	220,
+	130-$dimensionsNew[1],
+	220+$dimensionsNew[0],
+	130);
+}
+$page->drawText($this->recipe->getVolumeCl().' cl',230,55);
+
+// volume
+$image = realpath(APPLICATION_PATH.'/../public/img/icons/').'/alcohol_big.png';
+// get actual image size
+if($image){
+	$dimensions = getimagesize($image);
+} else {
+	$dimensions = NULL;
+}
+// shrink if too heigh
+if($dimensions && $dimensions[1]>$maxBottomImageHeight){
+	$dimensionsNew[0] = $maxBottomImageHeight*$dimensions[0]/$dimensions[1];
+	$dimensionsNew[1] = $maxBottomImageHeight;
+}
+// draw image
+if($image){
+	$image = Zend_Pdf_Image::imageWithPath($image);
+	$page->drawImage($image,
+	$width-260,
+	130-$dimensionsNew[1],
+	$width-260+$dimensionsNew[0],
+	130);
+}
+$page->drawText(number_format($this->recipe->getAlcoholLevel(),0,',','.').' %',$width-245,55);
+
+// kcal
+$image = realpath(APPLICATION_PATH.'/../public/img/icons/').'/calories_big.png';
+// get actual image size
+if($image){
+	$dimensions = getimagesize($image);
+} else {
+	$dimensions = NULL;
+}
+// shrink if too heigh
+if($dimensions && $dimensions[1]>$maxBottomImageHeight){
+	$dimensionsNew[0] = $maxBottomImageHeight*$dimensions[0]/$dimensions[1];
+	$dimensionsNew[1] = $maxBottomImageHeight;
+}
+// draw image
+if($image){
+	$image = Zend_Pdf_Image::imageWithPath($image);
+	$page->drawImage($image,
+	$width-120,
+	130-$dimensionsNew[1],
+	$width-120+$dimensionsNew[0],
+	130);
+}
+$page->drawText($this->recipe->getCaloriesKcal().' kcal',$width-125,55);
+
+// copyright
+$page->drawText('- erstellt von www.cocktailberater.de -',170,25);
+print $pdf->render();
