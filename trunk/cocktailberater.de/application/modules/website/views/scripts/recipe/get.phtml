@@ -211,10 +211,11 @@ $this->dojo()->enable()
 ->requireModule('dojo.parser')->requireModule('dojox.data.QueryReadStore')
 ->requireModule('dijit.form.ComboBox')->requireModule('custom.TagReadStore');
 // define url for autoCompletion
-$autoCompletionUrl = array('action'=>'index','controller'=>'recipe','module'=>'website','format'=>'ajax','index'=>'index');
+$autoCompletionUrl = array('action'=>'index','controller'=>'recipe',
+							'module'=>'website','format'=>'ajax','index'=>'index');
 $this->headScript()->captureStart(); ?>
 function initTagReadStore() {
-	var tagReadStore = new custom.TagReadStore({url:"<?php echo $this->url($autoCompletionUrl); ?>", requestMethod:"get"},dojo.byId('tagReadStore'));
+	var tagReadStore = new custom.TagReadStore({url:"<?php echo $this->url($autoCompletionUrl,null,true); ?>", requestMethod:"get"},dojo.byId('tagReadStore'));
 	var tagSearch = new dijit.form.ComboBox({store:tagReadStore, autoComplete:false, hasDownArrow:false},dojo.byId('tagvalue'));
 }
 dojo.addOnLoad(initTagReadStore);
