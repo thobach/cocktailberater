@@ -19,7 +19,7 @@ foreach ( $components as $component ) {
 // setting meta keywords
 $this->headMeta()->appendName('keywords', $recipe->name.', '.implode($ingredientList2,', ').', cocktail, rezept, cocktails, rezepte, cocktailrezepte, cocktailrezept, cocktailberater');
 // setting meta description
-$this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' Cocktails besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Anweisung, Fotos, Videos, Tags/Schlagworten, Kosten/Preisen, Kalorien und Kommentaren hier.');
+$this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' Cocktails besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Zubereitung, Fotos, Videos, Tags/Schlagworten, Kosten/Preisen, Kalorien und Kommentaren hier.');
 // rdf
 $this->headLink(array('rel' => 'alternate','type' => 'application/rdf+xml',
 					  'title' => $recipe->name.' - RDF',
@@ -191,12 +191,88 @@ if(!($alcoholLevel || $calories || $categories || $products)){
 	<?php
 } // foreach
 ?></ul><p class="abstand_oben"><strong>Dekoration</strong></p><ul><li>Früchte nach Belieben.</li></ul></div>
-<div class="attribut">Anweisung:</div>
+<div class="attribut">Zubereitung:</div>
 <div class="wert"><p><?php
 print str_replace("\n",'</p><p>',$recipe->instruction);
 ?></p></div>
+<?php $this->headScript()->captureStart(); ?>
+// sumbit the form 
+var ratingFormSubmit = function(e){
+    // prevent the form from actually submitting
+    e.preventDefault(); 
+    // submit the form in the background    
+    dojo.xhrPost({
+        url: "<?=$this->url(array('controller'=>'rating','action'=>'post','module'=>'website'),null,true)?>?format=json",
+        form: "rating_form",
+        handleAs: "json",
+        handle: function(data,args){
+            if (data.rsp["@attributes"].status == "ok"){
+            	clearRatingFormError();
+            	dojo.removeClass("rating_state");
+            	dojo.addClass("rating_state","success");
+            	dojo.byId("rating_state").innerHTML="Deine Bewertung wurde hinzugefügt.";
+            }
+            else if (data.rsp["@attributes"].status == "error"){
+            	clearRatingFormError();
+            	dojo.removeClass("rating_state");
+            	dojo.addClass("rating_state","error");
+            	dojo.byId("rating_state").innerHTML="Du hast schon abgestimmt!";
+            }
+            else {
+                clearRatingFormError();
+            	dojo.removeClass("rating_state");
+            	dojo.addClass("rating_state","error");
+            	dojo.byId("rating_state").innerHTML="Es ist ein Fehler aufgetreten. Bitte versuch es später nochmal.";
+            }
+        }
+    });
+};
+dojo.addOnLoad(function(){
+    var ratingForm = dojo.byId("rating_form");
+    // another dojo.connect syntax: call a function directly    
+    dojo.connect(ratingForm,"onsubmit",ratingFormSubmit);
+});
+function clearRatingFormError(){
+	dojo.removeClass("rating_form")
+	dojo.addClass("rating_form","hide")
+}
+<?php $this->headScript()->captureEnd(); ?>
+<div class="attribut">Bewertung:</div>
+<div class="wert"><?php $durchschnitt = $this->recipe->getRating(); ?>
+	<div id="rating_state" class="hide">&nbsp;</div>
+	<form id="rating_form" action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>" method="post">
+	<fieldset>
+		<?php for($rating = 1; $rating <= 5; $rating++){
+		?><button type="submit" id="rating<?php echo $rating; ?>"
+			onclick="document.getElementById('rating').value='<?php echo $rating; ?>';" 
+			onmouseover="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
+				for($rating2=1; $rating2 <= $rating; $rating2++){ 
+					echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars_pink.png';";
+				}
+			?>"
+			onmouseout="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
+				for($rating2=1; $rating2 <= $rating; $rating2++){ 
+					if($durchschnitt >= $rating2){
+						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars.png';";
+					} else {
+						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/not_yet_rated_1.png';";
+					}
+				}
+			?>">
+			<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rate.." /></button><?php } ?>
+		<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
+		<input name="rating" id="rating" type="hidden" value="" /> 
+			(Anzahl Stimmen: <?php print $this->recipe->ratingsCount.' - Ø ' . 
+			number_format ( $this->recipe->getRating(), 2, ',', '' ) ; ?>)
+	</fieldset>
+	</form></div>
+<div class="attribut">Rezeptquelle:</div>
+<div class="wert"><?php if($recipe->source) {
+	print $recipe->source;
+} else {
+	?>-keine angegeben-<?php } ?></div>	
 <div class="attribut">Schlagworte / Tags:</div>
-<div class="wert"><?php
+<div class="wert" style="width: 36em;"><?php
 $tagCloud =  Website_Model_Tag::getRecipeTagCloud($recipe->id);
 require_once(APPLICATION_PATH.'/Wb/Decorator/HtmlTag.php');
 $decorator = new Wb_Decorator_HtmlTag();
@@ -348,82 +424,6 @@ function insertTag(){
 </form>
 </div>
 <?php $this->headScript()->captureStart(); ?>
-// sumbit the form 
-var ratingFormSubmit = function(e){
-    // prevent the form from actually submitting
-    e.preventDefault(); 
-    // submit the form in the background    
-    dojo.xhrPost({
-        url: "<?=$this->url(array('controller'=>'rating','action'=>'post','module'=>'website'),null,true)?>?format=json",
-        form: "rating_form",
-        handleAs: "json",
-        handle: function(data,args){
-            if (data.rsp["@attributes"].status == "ok"){
-            	clearRatingFormError();
-            	dojo.removeClass("rating_state");
-            	dojo.addClass("rating_state","success");
-            	dojo.byId("rating_state").innerHTML="Deine Bewertung wurde hinzugefügt.";
-            }
-            else if (data.rsp["@attributes"].status == "error"){
-            	clearRatingFormError();
-            	dojo.removeClass("rating_state");
-            	dojo.addClass("rating_state","error");
-            	dojo.byId("rating_state").innerHTML="Du hast schon abgestimmt!";
-            }
-            else {
-                clearRatingFormError();
-            	dojo.removeClass("rating_state");
-            	dojo.addClass("rating_state","error");
-            	dojo.byId("rating_state").innerHTML="Es ist ein Fehler aufgetreten. Bitte versuch es später nochmal.";
-            }
-        }
-    });
-};
-dojo.addOnLoad(function(){
-    var ratingForm = dojo.byId("rating_form");
-    // another dojo.connect syntax: call a function directly    
-    dojo.connect(ratingForm,"onsubmit",ratingFormSubmit);
-});
-function clearRatingFormError(){
-	dojo.removeClass("rating_form")
-	dojo.addClass("rating_form","hide")
-}
-<?php $this->headScript()->captureEnd(); ?>
-<div class="attribut">Bewertung:</div>
-<div class="wert" style="width: 36em;"><?php $durchschnitt = $this->recipe->getRating(); ?>
-	<div id="rating_state" class="hide">&nbsp;</div>
-	<form id="rating_form" action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>" method="post">
-	<fieldset>
-		<?php for($rating = 1; $rating <= 5; $rating++){
-		?><button type="submit" id="rating<?php echo $rating; ?>"
-			onclick="document.getElementById('rating').value='<?php echo $rating; ?>';" 
-			onmouseover="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
-				for($rating2=1; $rating2 <= $rating; $rating2++){ 
-					echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars_pink.png';";
-				}
-			?>"
-			onmouseout="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
-				for($rating2=1; $rating2 <= $rating; $rating2++){ 
-					if($durchschnitt >= $rating2){
-						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars.png';";
-					} else {
-						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/not_yet_rated_1.png';";
-					}
-				}
-			?>">
-			<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rate.." /></button><?php } ?>
-		<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
-		<input name="rating" id="rating" type="hidden" value="" /> 
-			(Anzahl Stimmen: <?php print $this->recipe->ratingsCount.' - Ø ' . 
-			number_format ( $this->recipe->getRating(), 2, ',', '' ) ; ?>)
-	</fieldset>
-	</form></div>
-<div class="attribut">Rezeptquelle:</div>
-<div class="wert" style="width: 36em;"><?php if($recipe->source) {
-	print $recipe->source;
-} else {
-	?>-keine angegeben-<?php } ?></div>	
-	<?php $this->headScript()->captureStart(); ?>
 // hide all comments
 function hideComments() {
 	dojo.byId('commentList').style.display='none';
