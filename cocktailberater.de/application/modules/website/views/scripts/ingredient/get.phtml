@@ -27,6 +27,16 @@ echo $this->navigation($container)->breadcrumbs();
 <h2 class="left clear" style="margin-left: 25px; margin-top: 0;"><?php print $this->ingredient->name; ?></h2>
 <div style="margin-left: 25px;">
 <h3 class="clear left" style="margin-top: 0; margin-bottom: 0.5em;">Zutateninformationen (Durchschnittswerte)</h3>
+<?php if($this->ingredient->getIngredientCategories()) {?>
+<div class="attribut">Kategorie:</div>
+<div class="wert"><?php
+if(is_array($this->ingredient->getIngredientCategories())){
+	foreach($this->ingredient->getIngredientCategories() as $category){ ?>
+	<a href="<?php print $this->url(array('id'=>$category->getUniqueName(),
+		'controller'=>'ingredient-category')); ?>"><?php print $category->name; ?></a>
+<?php } ?></div>
+<?php }
+} ?>
 <?php if($this->ingredient->description) {?>
 <div class="attribut">Beschreibung:</div>
 <div class="wert"><?php print $this->ingredient->description; ?></div>
@@ -55,17 +65,6 @@ if($this->ingredient->getAveragePricePerKilogram()) {
 <?php if($this->ingredient->getAverageWeightGram()) {?>
 <div class="attribut">Gewicht pro Einheit:</div>
 <div class="wert"><?php print $this->ingredient->getAverageWeightGram(); ?> g</div>
-<?php } ?>
-<?php if($this->ingredient->getIngredientCategories()) {?>
-<div class="attribut">Kategorien:</div>
-<div class="wert"><?php
-if(is_array($this->ingredient->getIngredientCategories())){
-	foreach ($this->ingredient->getIngredientCategories() as $category) {
-
-		print $category->name.'<br />';
-	}
-}
-; ?></div>
 <?php }
 if($this->recipes) {?>
 <h3 class="clear left" style="margin-bottom: 1.7em;" id="recipes-list">Cocktailrezepte mit <?php print $this->ingredient->name; ?></h3>
@@ -125,4 +124,5 @@ if(is_array($products)){ ?>
 </ul>
 <?php } ?>
 </div>
-<?php } 
+<?php }  ?>
+</div>

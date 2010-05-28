@@ -151,7 +151,7 @@ class Website_Model_Ingredient {
 	/**
 	 * returns an array of IngredientCategory objects
 	 *
-	 * @return array Website_Model_IngredientCategory
+	 * @return array[int]Website_Model_IngredientCategory
 	 */
 	public function getIngredientCategories() {
 		if($this->ingredientCategoryArray === NULL){

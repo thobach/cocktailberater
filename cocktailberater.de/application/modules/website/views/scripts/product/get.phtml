@@ -37,9 +37,13 @@ echo $this->navigation($container)->breadcrumbs();
 	?>"
 	style="float: right; margin-right: 25px; max-width: 100px; max-height: 160px; margin-top: 2em; margin-bottom: 20px;" />
 <?php } ?>
+<?php if($this->product->getIngredient()->name){ ?>
+<div class="attribut">Zutat:</div>
+<div class="wert"><a href="<?php print $this->url(array('id'=>$this->product->getIngredient()->getUniqueName(),'controller'=>'ingredient')); ?>"><?php print $this->product->getIngredient()->name; ?></a></div>
+<?php } ?>
 <?php if($this->product->getManufacturer()->name){ ?>
 <div class="attribut">Marke/Hersteller:</div>
-<div class="wert"><?php print $this->product->getManufacturer()->name; ?></div>
+<div class="wert"><a href="<?php print $this->url(array('id'=>$this->product->getManufacturer()->getUniqueName(),'controller'=>'manufacturer')); ?>"><?php print $this->product->getManufacturer()->name; ?></a></div>
 <?php } ?>
 <div class="attribut">Göße:</div>
 <div class="wert"><?php print number_format($this->product->size,2,',','.'); ?> <?php print $this->product->unit; ?></div>
@@ -53,7 +57,7 @@ echo $this->navigation($container)->breadcrumbs();
 <?php } ?>
 <?php if($this->product->fruitConcentration){ ?>
 <div class="attribut">Fruchtgehalt:</div>
-<div class="wert"><?php print $this->product->fruitConcentration; ?></div>
+<div class="wert"><?php print $this->product->fruitConcentration; ?> %</div>
 <?php } ?>
 <?php if($this->product->color){ ?>
 <div class="attribut">Farbe:</div>
@@ -81,7 +85,7 @@ foreach ($this->product->getOffers() as $offer) {
 	print '<li style="text-align: left;'.
 	($i==1 ? 'clear: left;' : 'clear: none;').'">
 	<a href="'.$offer['shopUrl'].'">';
-	print ''.$offer['shop'].'</a> für '.number_format($offer['price'],2,',','.').' €</li>';
+	print ''.$offer['shop'].'</a> für '.number_format((double)$offer['price'],2,',','.').' €</li>';
 }
 ?>
 </ul>
