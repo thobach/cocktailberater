@@ -74,10 +74,10 @@ foreach($this->recipes as /* @var $recipe Website_Model_Recipe */$recipe){
 	$style->setFont($fontBold,$fontSize+2);
 	$page->setStyle($style);
 	if($recipeCount%2==0){
-		$page->drawText($recipe->name,45,$height-$i*12);
+		$page->drawText($recipe->name,45,$height-$i*12,'UTF-8');
 		$i++;
 	} else {
-		$page->drawText($recipe->name,90,$height-$i*12);
+		$page->drawText($recipe->name,90,$height-$i*12,'UTF-8');
 		$i++;
 	}
 	$style->setFont($font,$fontSize);
@@ -103,7 +103,7 @@ foreach($this->recipes as /* @var $recipe Website_Model_Recipe */$recipe){
 	if($recipeCount%2==0){
 		if(is_array($lines)){
 			foreach($lines as $line){
-				$page->drawText($line, 45, $height-$i*12-3);
+				$page->drawText($line, 45, $height-$i*12-3,'UTF-8');
 				$i++;
 				$imageOffset++;
 			}
@@ -113,7 +113,7 @@ foreach($this->recipes as /* @var $recipe Website_Model_Recipe */$recipe){
 	else {
 		if(is_array($lines)){
 			foreach($lines as $line){
-				$page->drawText($line, 90, $height-$i*12-3);
+				$page->drawText($line, 90, $height-$i*12-3,'UTF-8');
 				$i++;
 				$imageOffset++;
 			}
