@@ -55,7 +55,7 @@ if($this->recipe->description){
 	$lines = explode("\n",$this->wrappedPdfText('Beschreibung: '.$this->recipe->description,$style,$width-285)) ;
 	if(is_array($lines)){
 		foreach($lines as $line){
-			$page->drawText($line, 50, $height-24*++$i);
+			$page->drawText($line, 50, $height-24*++$i,'UTF-8');
 		}
 	}
 }
@@ -63,7 +63,8 @@ if($this->recipe->description){
 // ingredients
 $page->drawText('Zutaten:', 50, $height-24*++$i);
 foreach($this->recipe->getComponents() as /* @var $component Website_Model_Component*/ $component){
-	$page->drawText(str_replace('.',',',$component->amount).' '.$component->unit.' '.$component->getIngredient()->name, 60, $height-24*++$i);
+	$page->drawText(str_replace('.',',',$component->amount).' '.$component->unit.
+		' '.$component->getIngredient()->name, 60, $height-24*++$i,'UTF-8');
 }
 $i++;
 
@@ -73,7 +74,7 @@ $this->recipe->instruction.' Zubereitungszeit: '.$this->recipe->workMin.
 	' min.',$style,$width-285)) ;
 if(is_array($lines)){
 	foreach($lines as $line){
-		$page->drawText($line, 50, $height-24*++$i);
+		$page->drawText($line, 50, $height-24*++$i,'UTF-8');
 	}
 }
 
@@ -83,7 +84,7 @@ if($this->recipe->source){
 	$this->recipe->source,$style,$width-70)) ;
 	if(is_array($lines)){
 		foreach($lines as $line){
-			$page->drawText($line, 50, $height-24*++$i);
+			$page->drawText($line, 50, $height-24*++$i,'UTF-8');
 		}
 	}
 }
@@ -173,7 +174,7 @@ if($image){
 	90-$dimensionsNew[0]/2+$dimensionsNew[0],
 	130);
 }
-$page->drawText($this->recipe->getGlass()->name,50,55);
+$page->drawText($this->recipe->getGlass()->name,50,55,'UTF-8');
 
 // volume
 $image = realpath(APPLICATION_PATH.'/../public/img/icons/').'/volumen_big.png';
