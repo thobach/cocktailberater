@@ -68,7 +68,7 @@ dojo.addOnLoad(initLightbox0);
 	<a href="#videoAnchor"><img 
 		src="<?php print $this->baseUrl() ;	?>/img/video.png" alt="Video"
 		title="Video" height="22" width="26"
-		style="margin-bottom: 0.75em;"
+		style="margin-bottom: 0.75em; margin-right: 1em;"
 		onclick="document.getElementById('video').style.display='block';" /></a><?php
 	}
 	$imageCounter = 0;
@@ -77,7 +77,10 @@ dojo.addOnLoad(initLightbox0);
 			$imageCounter++;
 			$this->headScript()->captureStart();
 ?>function initLightbox<?php echo $imageCounter; ?>() {
-	var lightBox<?php echo $imageCounter; ?> = new dojox.image.Lightbox({group:"photo",href:"<?php echo $this->baseUrl() .'/img/recipes/' . $photo->originalFileName ; ?>", title:"<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"},dojo.byId('lightbox<?php echo $imageCounter; ?>'));
+	var lightBox<?php echo $imageCounter; ?> = new dojox.image.Lightbox({group:"photo",href:"<?php 
+	echo $this->baseUrl() .'/img/recipes/' . $photo->originalFileName ; ?>", title:"<?php 
+	print str_replace ( '\\', '', $recipe->name ) ; ?>"},dojo.byId('lightbox<?php 
+	echo $imageCounter; ?>'));
 	lightBox<?php echo $imageCounter; ?>.startup();
 }
 dojo.addOnLoad(initLightbox<?php echo $imageCounter; ?>);
@@ -88,7 +91,7 @@ dojo.addOnLoad(initLightbox<?php echo $imageCounter; ?>);
 			if ($imageCounter == 1) { ?>
 				<img src="<?php print $this->baseUrl(); ?>/img/foto.png" 
 					alt="Fotos" height="21" width="28" title="Fotos"
-					style="margin-left: 1em; margin-bottom: 0.7em;" />
+					style="margin-right: 1em; margin-bottom: 0.7em;" />
 			<?php } // if	?>
 			</a>
 		<?php } // foreach
@@ -96,29 +99,33 @@ dojo.addOnLoad(initLightbox<?php echo $imageCounter; ?>);
 
 ?><a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=atom"><img src="<?php 
-echo $this->baseUrl();?>/img/icons/atom_2.png" alt="Atom" style="margin-left: 1em;" /></a>
-<span class="link" onclick="dojo.toggleClass('alternate_options', 'hide'); this.style.visibility='hidden';" 
-style="margin-left: 1em; vertical-align: top; text-decoration: none;">&gt;</span>
-<span class="hide" id="alternate_options"><br /><a 
+echo $this->baseUrl();?>/img/icons/atom_2.png" alt="Atom" style="margin-right: 1em;" /></a>
+
+<span class="link" id="alternate_options_link" 
+onclick="dojo.toggleClass('alternate_options_link', 'hide'); dojo.toggleClass('alternate_options', 'hide');" 
+style="margin-right: 1em; vertical-align: top; text-decoration: none;">&gt;</span>
+
+<span class="hide" id="alternate_options"><a 
 href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=rss"><img 
-src="<?php echo $this->baseUrl();?>/img/icons/rss_2.png" alt="RSS" style="padding-top:6px;" /></a>
+src="<?php echo $this->baseUrl();?>/img/icons/rss_2.png" alt="RSS" 
+style="margin-right: 1.4em;" /></a>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=pdf"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/printer_2.png" alt="PDF Druck" 
-style="margin-left: 1.6em; margin-bottom: 0.3em;" /></a>
+style="margin-right: 1.4em; margin-bottom: 0.3em; margin-top: 0.6em;" /></a>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName()));?>?format=xml"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/xml.png" alt="XML" 
-style="margin-left: 1.6em; margin-right: 0.4em; margin-bottom: 0.3em;" /></a><br />
+style="margin-right: 1.4em; margin-bottom: 0.2em;" /></a>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=json"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/json.png" alt="JSON" 
-style="margin-top: 0.5em;" /></a><a href="<?php echo 
+style="margin-bottom: 0.2em; margin-right: 1.6em; margin-top: 0.6em;" /></a><a href="<?php echo 
 $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=rdf"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/rdf.png" alt="RDF" 
-style="margin-left: 1.8em; margin-top: 0.5em; margin-right: 1.6em;" /></a></span>
+style="margin-left: 0.4em; margin-top: 0.5em; margin-right: 1em; margin-bottom: 0.2em; " /></a></span>
 </div><!-- end of class="right" -->
 </div>
 <!-- end of class="right" -->
@@ -273,19 +280,22 @@ function clearRatingFormError(){
 }
 <?php $this->headScript()->captureEnd(); ?>
 <div class="attribut">Bewertung:</div>
-<div class="wert"><?php $durchschnitt = $this->recipe->getRating(); ?>
+<div class="wert"><?php $durchschnitt = $recipe->getRating(); ?>
 	<div id="rating_state" class="hide">&nbsp;</div>
 	<form id="rating_form" action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>" method="post">
 	<fieldset>
 		<?php for($rating = 1; $rating <= 5; $rating++){
 		?><button type="submit" id="rating<?php echo $rating; ?>"
 			onclick="document.getElementById('rating').value='<?php echo $rating; ?>';" 
-			onmouseover="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
+			onmouseover="document.getElementById('img_rating<?php 
+			echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
 				for($rating2=1; $rating2 <= $rating; $rating2++){ 
 					echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars_pink.png';";
 				}
 			?>"
-			onmouseout="document.getElementById('img_rating<?php echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
+			onmouseout="document.getElementById('img_rating<?php 
+			echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/<?php 
+			echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
 				for($rating2=1; $rating2 <= $rating; $rating2++){ 
 					if($durchschnitt >= $rating2){
 						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars.png';";
@@ -297,8 +307,8 @@ function clearRatingFormError(){
 			<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rate.." /></button><?php } ?>
 		<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
 		<input name="rating" id="rating" type="hidden" value="" /> 
-			(Anzahl Stimmen: <?php print $this->recipe->ratingsCount.' - Ø ' . 
-			number_format ( $this->recipe->getRating(), 2, ',', '' ) ; ?>)
+			(Anzahl Stimmen: <?php print $recipe->ratingsCount.' - Ø ' . 
+			number_format ( $recipe->getRating(), 2, ',', '' ) ; ?>)
 	</fieldset>
 	</form></div>
 <?php if($recipe->source){ ?>
@@ -547,7 +557,7 @@ dojo.addOnLoad(function(){
 });
 	<?php $this->headScript()->captureEnd(); ?>
 <div class="attribut"><a id="comments" class="nolink">Kommentare:</a></div>
-<div class="wert" style="width: 36em;">
+<div class="wert">
 	<ul id="commentList"><?php
 	if (is_array ( $this->recipe->getComments() )) {
 		$currentCommentNumber = 0;
@@ -587,7 +597,7 @@ dojo.addOnLoad(function(){
 	if(!$this->comment_success) { ?><textarea name="comment_prev" 
 		id="comment_prev" rows="2" cols="35" 
 		class="clear text left abstand_unten" onfocus="insertComment();" 
-		style="font-size: 1em; margin-left: 0; margin-top: 1em; width: 35.5em; color: #888888;">Was denkst du? Dein Kommentar...</textarea><?php 
+		style="font-size: 1em; margin-left: 0; margin-top: 1em; width: 22em; color: #888888;">Was denkst du? Dein Kommentar...</textarea><?php 
 	} ?>
 <form id="comment_form" class="regular_form clear"
 	style="margin-top: 1em;"
@@ -685,13 +695,78 @@ dojo.addOnLoad(function(){
 	}
 	else { ?><p>Kein Video gefunden.</p><?php	} ?></div>
 </div>
+<?php $this->headScript()->captureStart(); ?>
+function showStatistics() {
+	dojo.toggleClass('statistic_details_link','hide');
+	dojo.toggleClass('statistic_details','hide');
+}
+<?php $this->headScript()->captureEnd(); ?>
 <div class="attribut" id="statistics">Statistiken:</div>
-<div class="wert" style="width: 36em;"><?php print $recipe->getStatistics(); ?> Aufrufe, 
-<a href="#statistics" onclick="showStatistics();">mehr Details</a>
-<ul>
-<li>eingefügt von xy am xy</li>
-<li>zuletzt geändert am xy</li>
-</ul></div>
+<div class="wert" style="width: 36em;"><p>
+	Dieses Rezept wurde insgesamt <?php
+	$totalViews = 0; 
+	$htmlViews = 0;
+	$printViews = 0;
+	$feedViews = 0;
+	$appViews = 0;
+	foreach($recipe->getStatistics() as /* @var $statistic Website_Model_Statistic */ $statistic) {
+		if($statistic->format == Website_Model_Statistic::FORMAT_HTML){
+			$htmlViews += $statistic->views;
+		} else if($statistic->format == Website_Model_Statistic::FORMAT_RSS || 
+			$statistic->format == Website_Model_Statistic::FORMAT_ATOM){
+			$feedViews += $statistic->views;
+		} else if($statistic->format == Website_Model_Statistic::FORMAT_PDF) {
+			$printViews += $statistic->views;
+		} else {
+			$appViews += $statistic->views;
+		} 
+		$totalViews += $statistic->views;
+	}
+	print $totalViews; ?> mal angeschaut. <a id="statistic_details_link" 
+	href="#statistics" onclick="showStatistics();">mehr Details</a></p>
+	<div id="statistic_details" class="hide">
+		<p class="abstand_oben">Davon waren:</p>
+		<ul>
+			<li style="margin-left: 2em; list-style-type: circle;"><?php 
+				print ($htmlViews==1 ? '1 Aufruf' : $htmlViews.' Aufrufe'); ?> 
+				über diese Webseite,</li>
+			<li style="margin-left: 2em; list-style-type: circle;"><?php 
+				print ($printViews==1 ? '1 Aufruf' : $printViews.' Aufrufe'); ?> 
+				über die <a href="<?php echo $this->url(array(
+					'module'=>'website','controller'=>'recipe',
+					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					?>?format=pdf">Druckansicht</a> dieser Seite,</li>
+			<li style="margin-left: 2em; list-style-type: circle;"><?php 
+				print ($feedViews==1 ? '1 Aufruf' : $feedViews.' Aufrufe'); ?> 
+				über News-Reader (<a href="<?php echo $this->url(array(
+					'module'=>'website','controller'=>'recipe',
+					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					?>?format=atom">Atom</a> und <a href="<?php 
+				echo $this->url(array('module'=>'website','controller'=>'recipe',
+					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					?>?format=rss">RSS</a>) und</li>
+			<li style="margin-left: 2em; list-style-type: circle;"><?php 
+				print ($appViews==1 ? '1 Aufruf' : $appViews.' Aufrufe'); ?> 
+				über andere Programme (<a href="<?php echo $this->url(array(
+					'module'=>'website','controller'=>'recipe',
+					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					?>?format=xml">XML</a>, <a href="<?php 
+				echo $this->url(array('module'=>'website','controller'=>'recipe',
+					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					?>?format=json">JSON</a> und <a href="<?php 
+				echo $this->url(array('module'=>'website','controller'=>'recipe',
+					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					?>?format=rdf">RDF</a>).</li>
+		</ul>
+		<p class="abstand_oben">Eingefügt hat dieses Rezept <a href="mailto:<?php 
+		print $recipe->getMember()->email; ?>"><?php 
+		print $recipe->getMember()->firstname.' '.
+		$recipe->getMember()->lastname; ?></a> am <?php 
+		$date = new Zend_Date($recipe->insertDate); print $date; ?>. Zuletzt 
+		geändert wurde es am <?php $date = new Zend_Date($recipe->updateDate); 
+		print $date; ?>.</p>
+	</div><!-- END of id=statistic_details -->
+</div><!-- END of class=wert -->
 </div><!-- END of class=left -->
 <div id="recipe_info" class="left">
 <div class="left icon" style="left: 225px;"><img
