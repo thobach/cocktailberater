@@ -105,6 +105,7 @@ class Website_Model_Comment {
 	public static function commentsByRecipeId ($recipeId){
 		$commentTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','comment');
 		$comments = $commentTable->fetchAll('recipe = '.$recipeId,'updateDate DESC');
+		$commentArray = array();
 		foreach ($comments as $comment) {
 			$commentArray[] = Website_Model_CbFactory::factory('Website_Model_Comment',$comment['id']);
 		}

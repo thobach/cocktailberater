@@ -36,9 +36,12 @@ class Website_Model_Recipe {
 	private $_cocktail;
 	private $_member;
 	private $_glass;
+	private $_views;
+
 
 	// supporting variables
 	private $_components;
+	private $_alternatives;
 	private static $_recipes;
 	private static $_avgPrices;
 	private static $_avgCalories;
@@ -368,14 +371,14 @@ class Website_Model_Recipe {
 		$components = $this->getComponents();
 		$volumeCl=0;
 		if (is_array ( $components )) {
-			foreach ($components as $component) {
-				if ($component->unit == 'cl') {
-					$vol = $component->amount ;
-					$volumeCl += $vol ;
+			foreach ($components as /*@var $component Website_Model_Component*/ $component) {
+				if($component->getAmountInLiter()!==null){
+					$vol = $component->getAmountInLiter()*100;
+					$volumeCl += $vol;
 				}
 			}
 		}
-		return $volumeCl;
+		return round($volumeCl);
 	}
 
 	public function getAlcoholLevel() {
@@ -385,20 +388,41 @@ class Website_Model_Recipe {
 			$volume=0;
 			if (is_array ( $components )) {
 				foreach($components as $component){
-					$db = Zend_Db_Table::getDefaultAdapter();
-					$alcoholLevelSql = $db->fetchRow ( 'SELECT AVG(alcoholLevel) AS averageAlcoholLevel
-				FROM `product` 
-				WHERE ingredient='.$component->ingredientId);
-					if($alcoholLevelSql['averageAlcoholLevel']!="NULL"){
-						$alcoholLevel += $alcoholLevelSql['averageAlcoholLevel'] / 100 * $component->amount ;
-						//var_dump($alcoholLevel);
+					if($component->getIngredient()->aggregation == "liquid"){
+						$db = Zend_Db_Table::getDefaultAdapter();
+						$alcoholLevelSql = $db->fetchRow (
+							'SELECT AVG(alcoholLevel) AS averageAlcoholLevel '.
+							'FROM `product` '.
+							'WHERE ingredient='.$component->ingredientId);
+						if($alcoholLevelSql['averageAlcoholLevel']!="NULL"){
+							$alcoholLevel += $alcoholLevelSql['averageAlcoholLevel'] / 100 * $component->amount ;
+						}
+						$volume += $component->amount;
 					}
-					$volume += $component->amount;
 				}
 				$this->alcoholLevel = $alcoholLevel = round($alcoholLevel/$volume*100,1);
 			}
 		}
 		return $this->alcoholLevel;
+	}
+
+	/**
+	 * returns alternative recipes, from the same cocktail
+	 *
+	 * @return Website_Model_Recipe[]
+	 */
+	public function getAlternatives(){
+		if(!$this->_alternatives){
+			$this->_alternatives = array();
+			if(is_array($this->getCocktail()->getRecipes())){
+				foreach($this->getCocktail()->getRecipes() as $recipe){
+					if($recipe->id != $this->id){
+						$this->_alternatives[] = $recipe;
+					}
+				}
+			}
+		}
+		return $this->_alternatives;
 	}
 
 	public function isAlcoholic() {
@@ -465,9 +489,25 @@ class Website_Model_Recipe {
 		return $this->_components;
 	}
 
-	public function addComponent(Website_Model_Component $component)
-	{
+	public function addComponent(Website_Model_Component $component) {
 		$this->_components[] = $component;
+	}
+
+	/**
+	 * increases the view counter
+	 */
+	public function addView($format) {
+		$statistic = Website_Model_CbFactory::factory('Website_Model_Statistic',
+			Website_Model_Statistic::RESOURCE_RECIPE,$this->id,$format) ;
+		$statistic->addView();
+	}
+
+	/**
+	 * returns the statistic objects of this reciep
+	 * @return Website_Model_Statistic
+	 */
+	public function getStatistics() {
+		return Website_Model_Statistic::statisticsByRecipeId($this->id);
 	}
 
 	public function addRecipeCategory ($recipeCategoryId){
@@ -583,14 +623,14 @@ class Website_Model_Recipe {
 
 	/**
 	 * Returns an array with all elements of a feed entry
-	 * 
+	 *
 	 * @return array
 	 */
 	public function toFeedEntry(){
 		$view = new Zend_View();
-		
+
 		$date = new Zend_Date($this->updateDate,Zend_Date::ISO_8601);
-		
+
 		$categories = array();
 		if(is_array($this->getTags())){
 			foreach($this->getTags() as $tag){
@@ -790,6 +830,7 @@ class Website_Model_Recipe {
 		$array [ 'description' ] = $this->description ;
 		$array [ 'isOriginal' ] = $this->isOriginal ;
 		$array [ 'isAlcoholic' ] = $this->isAlcoholic ;
+		$array [ 'views' ] = $this->views ;
 		$array [ 'ratingsSum' ] = $this->ratingsSum ;
 		$array [ 'ratingsCount' ] = $this->ratingsCount ;
 		return $array ;

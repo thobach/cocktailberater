@@ -15,13 +15,18 @@ class Website_Model_CbFactory {
 	 * @param string $className
 	 * @param mixed $firstParam
 	 * @param mixed $secondParam
+	 * @param mixed $thirdParam
 	 * @return Object
 	 */
-	public static function factory($className,$firstParam=NULL,$secondParam=NULL)
-	{
+	public static function factory($className,$firstParam=NULL,$secondParam=NULL,$thirdParam=NULL) {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_Model_CbFactory->factory ('.$className.','.$firstParam.','.$secondParam.')',Zend_Log::DEBUG);
-		if($firstParam && $secondParam){
+		if($firstParam && $secondParam && $thirdParam){
+			if(!isset(self::$_hash[$className][$firstParam][$secondParam][$thirdParam])){
+				self::$_hash[$className][$firstParam][$secondParam][$thirdParam] = new $className($firstParam,$secondParam,$thirdParam);
+			}
+			return self::$_hash[$className][$firstParam][$secondParam][$thirdParam];
+		} elseif($firstParam && $secondParam){
 			if(!isset(self::$_hash[$className][$firstParam][$secondParam])){
 				self::$_hash[$className][$firstParam][$secondParam] = new $className($firstParam,$secondParam);
 			}
@@ -39,9 +44,10 @@ class Website_Model_CbFactory {
 		}
 	}
 
-	public static function destroy($className,$firstParam=NULL,$secondParam=NULL)
-	{
-		if($firstParam && $secondParam){
+	public static function destroy($className,$firstParam=NULL,$secondParam=NULL,$thirdParam=NULL) {
+		if($firstParam && $secondParam && $thirdParam){
+			unset(self::$_hash[$className][$firstParam][$secondParam][$thirdParam]);
+		} else if($firstParam && $secondParam){
 			unset(self::$_hash[$className][$firstParam][$secondParam]);
 		} else if($firstParam){
 			unset(self::$_hash[$className][$firstParam]);

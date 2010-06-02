@@ -1,8 +1,8 @@
 <?php
 
 class ErrorController extends Zend_Controller_Action {
-
-	public function preDispatch(){
+	
+	public function init(){
 		$contextSwitch = $this->_helper->contextSwitch();
 		$contextSwitch->setAutoJsonSerialization(false);
 		if(!$contextSwitch->hasContext('rss')){
@@ -21,13 +21,18 @@ class ErrorController extends Zend_Controller_Action {
 				'suffix'	=> 'pdf',
 				'headers'	=> array('Content-Type' => 'application/pdf')));
 		}
+		if(!$contextSwitch->hasContext('rdf')){
+			$contextSwitch->addContext('rdf',array(
+				'suffix'	=> 'rdf',
+				'headers'	=> array('Content-Type' => 'application/rdf+xml')));
+		}
 		if(!$contextSwitch->hasContext('ajax')){
 			$contextSwitch->addContext('ajax',array(
 				'suffix'	=> 'ajax',
 				'headers'	=> array('Content-Type' => 'text/html')));
 		}
 		$contextSwitch->addActionContext('error', true);
-		$contextSwitch->initContext();
+		$contextSwitch->initContext();	
 	}
 
 	public function errorAction() {
