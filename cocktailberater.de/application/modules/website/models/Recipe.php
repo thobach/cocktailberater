@@ -95,8 +95,7 @@ class Website_Model_Recipe {
 	/**
 	 * resolve Association and return an object of Member
 	 *
-	 * @return Member
-	 * @tested
+	 * @return Website_Model_Member
 	 */
 	public function getMember()
 	{

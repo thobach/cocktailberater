@@ -109,7 +109,7 @@ class Website_Model_Rating {
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','rating');
 		if(!$this->rated24hBefore()) {
 			$data = $this->databaseRepresentation();
-			$data['insertDate'] = $this->insertDate = date(Website_Model_DateFormat::PHPDATE2MYSQLTIMESTAMP);
+			//$data['insertDate'] = $this->insertDate = date(Website_Model_DateFormat::PHPDATE2MYSQLTIMESTAMP);
 			$this->id = $table->insert ( $data ) ;
 			$this->updateRecipeStatistics();
 			return $this->id ;
@@ -133,12 +133,16 @@ class Website_Model_Rating {
 		return ($ratingArray) ;
 	}
 
+	/**
+	 * @return boolean true if last rating from the user ip was less then 24 hours ago, false if not
+	 */
 	private function rated24hBefore (){
-		$table= Website_Model_CbFactory::factory('Website_Model_MysqlTable','rating');
-		$date = date(Website_Model_DateFormat::PHPDATE2MYSQLTIMESTAMP);
-		// TODO: Date-Funktion, die 24h vorher ausgibt
-		$date = '2008-09-08 08:34:23';
-		$result = $table->fetchAll('recipe='.$this->recipeId.' AND ip=\''.$this->ip.'\' AND insertDate>=\''.$date.'\'');
+		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','rating');
+		$date = new Zend_Date();
+		$date->subHour(24);
+		$result = $table->fetchAll('recipe='.$this->recipeId.' AND ip=\''.
+					$this->ip.'\' AND insertDate>=\''.
+					$date->toString(Website_Model_DateFormat::MYSQLTIMESTAMP).'\'');
 		if (count($result)>=1){
 			return true;
 		}
