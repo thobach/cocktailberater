@@ -204,7 +204,7 @@ echo $this->headScript()."\n";
 		</li>
 		
 		<!-- projekte -->
-		<li style="margin-left: 1.9em;">
+		<li style="margin-left: 1em;">
 			<a href="<?php if($currentShow=='projects') { $show = 'none'; } else { $show = 'projects'; } echo $this->url(array('show'=>$show)); ?>" 
 				onmouseover="return showDialog('tooltipDlg2', true);" onclick="return false;"
 				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">projekte</a>

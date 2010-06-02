@@ -12,10 +12,13 @@ class Website_Model_Component {
 	private $recipeId;
 	private $caloriesKcal;
 	private $averagePrice;
+	private $preferredProduct;
+	private $isDecoration;
 
 	// associations
 	private $_ingredient;
 	private $_recipe;
+	private $_preferredProduct;
 
 	// constants
 	const CENTILITRE = 'cl';
@@ -55,6 +58,18 @@ class Website_Model_Component {
 			$this->_ingredient = Website_Model_CbFactory::factory('Website_Model_Ingredient',$this->ingredientId);
 		}
 		return $this->_ingredient;
+	}
+	
+	/**
+	 * resolve association and return an object of Website_Model_Product
+	 * 
+	 * @return Website_Model_Product
+	 */
+	public function getPreferredProduct(){
+		if($this->preferredProduct && !$this->_preferredProduct){
+			$this->_preferredProduct = Website_Model_CbFactory::factory('Website_Model_Product',$this->preferredProduct);
+		}
+		return $this->_preferredProduct;
 	}
 
 	/**
@@ -101,6 +116,8 @@ class Website_Model_Component {
 			$this->ingredientId = $component->ingredient;
 			$this->amount = $component->amount ;
 			$this->unit = $component->unit ;
+			$this->preferredProduct = $component->preferredProduct ;
+			$this->isDecoration = $component->isDecoration ;
 		} else if($idIngredient && !$idRecipe){
 			throw new Website_Model_ComponentException('Id_Missing');
 		} else if(!$idIngredient && $idRecipe){
@@ -118,7 +135,6 @@ class Website_Model_Component {
 		 1 fl. oz. (fluid ounce) = 29 ml
 		 1 cm³ = 1 ml
 		 */
-		// TODO: umrechnungn prüfen
 		if($this->unit==Website_Model_Component::LITRE){ // l -> l
 			return $this->amount;
 		} elseif($this->unit==Website_Model_Component::CENTILITRE){ // 100 cl -> 1 l
@@ -132,34 +148,14 @@ class Website_Model_Component {
 			$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
 			return ($this->amount/$density);
 		} elseif($this->unit==Website_Model_Component::PIECE){
-			throw new Website_Model_ComponentException("Piece_Not_Convertable_To_Litre");
 			// piece is only possible in component, not in product
 			// and works only with solid ingredients that are measured in weight (g/kg)
 			$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
 			$weight = $this->getIngredient()->getAverageWeightGram();
-			$unitMostUsed = $this->getIngredient()->getMostUsedUnit();
-			//print "unit: $unitMostUsed weight: $weight density: $density";
-			if($density!=null && $weight!=null && $unitMostUsed!=null){
-				if($unitMostUsed == Website_Model_Component::KILOGRAM){
-					$weight = $weight;
-				} elseif($unitMostUsed == Website_Model_Component::GRAM){
-					$weight = $weight/1000;
-				} elseif($unitMostUsed == Website_Model_Component::PIECE){
-					// avgWeight*avgDensity
-					$density = $this->getIngredient()->getAverageDensityGramsPerCm3();
-					$weight = $this->getIngredient()->getAverageWeightGram()/1000;
-				} elseif($unitMostUsed == Website_Model_Component::MILLILITRE
-				|| $unitMostUsed == Website_Model_Component::CENTILITRE
-				|| $unitMostUsed == Website_Model_Component::LITRE
-				|| $unitMostUsed == Website_Model_Component::TEASPOON
-				|| $unitMostUsed == Website_Model_Component::FLUID_OUNCE){
-					// all volume measures
-					$volume = $this->getIngredient()->getAverageVolumeLitre();
-					return ($this->amount*$volume);
-				}
-				return ($this->amount*$weight*$density);
+			if($density!=null && $weight!=null){
+				return round((($this->amount*($weight/$density))/1000),4);
 			} else {
-				return null;
+				throw new Website_Model_ComponentException("Piece_Not_Convertable");
 			}
 		} elseif($this->unit==Website_Model_Component::WHOLE){
 			throw new Website_Model_ComponentException("Whole_Not_Convertable_To_Litre");
@@ -181,42 +177,30 @@ class Website_Model_Component {
 	 */
 	public function getCaloriesKcal (){
 		if(!$this->caloriesKcal){
-			// log to debug
-			//$logger = Zend_Registry::get('logger');
+			// case: no calories information available
+			// calories can be 0, e.g. soda or ice cubes
 			if($this->getIngredient()->getAverageCaloriesKcal() === null && $this->getIngredient()->getAverageCaloriesKcal() !== 0){
 				$this->caloriesKcal = null;
 			} elseif($this->unit == Website_Model_Component::CENTILITRE){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal() / 100 * $this->amount;
-				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::MILLILITRE){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal() / 1000 * $this->amount;
-				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::LITRE){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal() * $this->amount;
-				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::GRAM){
-				// TODO:
-				throw new Zend_Exception('Recipes with Component::GRAM cannot be converted right now!');
-				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::GRAM) * $this->amount;
 			} elseif($this->unit == Website_Model_Component::KILOGRAM){
-				// TODO:
-				throw new Zend_Exception('Recipes with Component::KILOGRAM cannot be converted right now!');
-				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::KILOGRAM) * $this->amount;
 			} elseif($this->unit == Website_Model_Component::PIECE){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::PIECE) * $this->amount;
-				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::WHOLE){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::WHOLE) * $this->amount;
-				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::TEASPOON){
 				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::TEASPOON) * $this->amount;
-				// print $this->amount.' TL ' .$this->getIngredient()->name.' teaspoon hit: '.$caloriesKcal.' <br />';
-				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
 			} elseif($this->unit == Website_Model_Component::FLUID_OUNCE){
-				// TODO:
-				//$logger->log('RECIPE:getCaloriesKcal '.$this->getIngredient()->name.', amount: '.$this->amount.', unit: '.$this->unit.', kcal: '.$caloriesKcal.', my: '.$this->getIngredient()->getAverageCaloriesKcal(), Zend_Log::INFO);
+				$this->caloriesKcal = $this->getIngredient()->getAverageCaloriesKcal(Website_Model_Component::FLUID_OUNCE) * $this->amount;
 			} else {
-				throw new Website_Model_RecipeException('Unsupported_Unit');
+				throw new Website_Model_ComponentException('Unsupported_Unit');
 			}
 		}
 		return $this->caloriesKcal;
@@ -406,6 +390,8 @@ class Website_Model_Component {
 		$array [ 'recipe' ] = $this->recipeId;
 		$array [ 'amount' ] = $this->amount;
 		$array [ 'unit' ] = $this->unit ;
+		$array [ 'preferredProduct' ] = $this->preferredProduct;
+		$array [ 'isDecoration' ] = $this->isDecoration ;
 		return $array ;
 	}
 

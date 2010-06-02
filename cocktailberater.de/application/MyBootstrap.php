@@ -93,6 +93,8 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		Zend_Registry::set ('cache',$cache);
 		// Register the Cache object for Zend_Locale
 		Zend_Locale::setCache($cache);
+		// register cache for meta data of database tables
+		//Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
 	}
 
 	/**

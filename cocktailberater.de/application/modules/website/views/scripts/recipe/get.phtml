@@ -5,6 +5,7 @@ print $this->partial('template/search.phtml',$this);
 $this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
 
 // rename variables & fetch required data
+/* @var $recipe Website_Model_Recipe */
 $recipe = $this->recipe;
 $photos = $recipe->getPhotos();
 $videos = $recipe->getVideos();
@@ -12,7 +13,7 @@ $alternatives = $this->alternatives;
 $components = $recipe->getComponents();
 $gesamt = count($alternatives);
 // ingredient list
-foreach ( $components as $component ) {
+foreach ( $components as /* @var $component Website_Model_Component */ $component ) {
 	$ingredientList[] = $component->amount.' '.$component->unit.' '.$component->getIngredient()->name;
 	$ingredientList2[] = $component->getIngredient()->name;
 }
@@ -140,13 +141,16 @@ print str_replace("\n",'</p><p>',$recipe->description);
 <div class="wert"><p><strong>Cocktail</strong></p><ul><?php
 // dojo tooltip
 $this->dojo()->enable()->requireModule('dijit.Tooltip');
-
-foreach ( $components as $component ) {
-	print '<li>';
-	print ''.$component->amount.'';
-	print ' ' ;
-	print ''.$component->unit.'';
-	print ' ' ;
+$decorations = "";
+$ingredients = "";
+foreach ( $components as /* @var $component Website_Model_Component */ $component ) {
+	$componentString = '<li>';
+	$componentString .= ''.$component->amount.'';
+	$componentString .= ' ' ;
+	$componentString .= ''.$component->unit.'';
+	$componentString .= ' ' ;
+	
+	// ingredient tooltip
 	$this->headScript()->captureStart(); ?>
 	dojo.addOnLoad(function() {
 		zutat<?php print $component->getIngredient()->id ;?>Tooltip = new dijit.Tooltip({
@@ -182,15 +186,46 @@ if(!($alcoholLevel || $calories || $categories || $products)){
 ?></div>"
         });
     });
-	<?php $this->headScript()->captureEnd(); ?>
-	<a id="zutat<?php print $component->getIngredient()->id ;?>"
-	href="<?php print $this->url(array('module'=>'website','controller'=>'ingredient',
-		'id'=>$component->getIngredient()->getUniqueName()),null,true); ?>"
-	title="<?php echo $this->escape ( str_replace ( '\\', '', $component->getIngredient()->name ) ) ?>">
-	<?php print $component->getIngredient()->name ; ?></a></li>
-	<?php
+	<?php $this->headScript()->captureEnd();
+	// end of ingredient tooltip
+	
+	$componentString .= '<a id="zutat'.$component->getIngredient()->id.'" '.
+							'href="'.$this->url(array('module'=>'website',
+							'controller'=>'ingredient',
+							'id'=>$component->getIngredient()->getUniqueName()),
+							null,true).'">'.
+							$component->getIngredient()->name.'</a>';
+	if($component->getPreferredProduct()){
+		$componentString .= '<ul style="margin-left: 1.9em;"><li>empfohlen <a href="'.$this->url(array('module'=>'website',
+							'controller'=>'product',
+							'id'=>$component->getPreferredProduct()->getUniqueName()),
+							null,true).'">'.$component->getPreferredProduct()->name.
+							'</a> von <a href="'.$this->url(array('module'=>'website',
+							'controller'=>'manufacturer',
+							'id'=>$component->getPreferredProduct()->getManufacturer()->getUniqueName()),
+							null,true).'">'.
+							$component->getPreferredProduct()->getManufacturer()->name.'</a></li></ul>'; 
+	} 
+	$componentString .= '</li>';
+	
+	if($component->isDecoration){
+		$decorations .= $componentString;
+	} else {
+		$ingredients .= $componentString;
+	}
 } // foreach
-?></ul><p class="abstand_oben"><strong>Dekoration</strong></p><ul><li>Früchte nach Belieben.</li></ul></div>
+
+print $ingredients;
+
+?></ul><?php 
+if($decorations) { ?>
+	<p class="abstand_oben"><strong>Dekoration</strong></p>
+	<ul>
+	<?php print $decorations; ?>
+	</ul>
+<?php 
+} ?>
+</div>
 <div class="attribut">Zubereitung:</div>
 <div class="wert"><p><?php
 print str_replace("\n",'</p><p>',$recipe->instruction);
@@ -266,20 +301,47 @@ function clearRatingFormError(){
 			number_format ( $this->recipe->getRating(), 2, ',', '' ) ; ?>)
 	</fieldset>
 	</form></div>
+<?php if($recipe->source){ ?>
 <div class="attribut">Rezeptquelle:</div>
-<div class="wert"><?php if($recipe->source) {
-	print $recipe->source;
-} else {
-	?>-keine angegeben-<?php } ?></div>	
-<div class="attribut">Schlagworte / Tags:</div>
-<div class="wert" style="width: 36em;"><?php
-$tagCloud =  Website_Model_Tag::getRecipeTagCloud($recipe->id);
-require_once(APPLICATION_PATH.'/Wb/Decorator/HtmlTag.php');
-$decorator = new Wb_Decorator_HtmlTag();
-$decorator->setView($this);
-$tagCloud->setTagDecorator($decorator);
-echo $tagCloud;
-?>
+<div class="wert"><?php print $recipe->source; ?></div>
+<?php } ?>	
+<!-- Tags -->
+<div class="attribut">Schlagworte:</div>
+<div class="wert"><ul id="tagList"><?php
+$tags =  Website_Model_Tag::tagsByRecipeId($recipe->id,true);
+foreach($tags as $tag){
+	$this->headScript()->captureStart(); ?>
+dojo.addOnLoad(function() { 
+	tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>Tooltip = new dijit.Tooltip({
+		connectId: ["tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>"], 
+		label: "<?php $list = Website_Model_Recipe::getRecipesByTag ( $tag->getTitle(), 5); ?>
+<h2 class=\"pink\" style=\"font-size: 1em; margin:0;\">Rezepte mit dem Tag &quot;<?php echo $tag->getTitle(); ?>&quot;:</h2><?php 
+?><ul style=\"text-align:left; width: 14em;\" class=\"clear\"><?php
+foreach ($list as $key => /* @var $taggedRecipe Website_Model_Recipe */$taggedRecipe) {
+	$photos = $taggedRecipe->getPhotos(1);
+	?><li style=\"width: 6em; height: 13em; padding: 0.2em; font-size: 0.7em; clear: none;\" class=\"left center\"><?php 
+	?><img style=\"height: 80px; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" <?php 
+		?>src=\"<?php print $this->baseUrl();
+			if(isset($photos[0]) && $photos[0]->id){
+				print '/img/recipes/'.$this->escape($photos[0]->fileName);
+			} else { 
+				$photos[0] = $taggedRecipe->getGlass()->getPhoto();
+				print '/img/glasses/'.$this->escape($photos[0]->originalFileName);
+			} ?>\" /><br /><?php echo $this->escape(str_replace('\\','',$taggedRecipe->name)) ?><?php 
+	?></li><?php 
+} if(count($list)==5){ ?><li style=\"width: 60px; height: 140px; padding: 0.2em; font-size: 0.7em; clear: none;\" class=\"left center\"><?php 
+		?><img style=\"height: 80px; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" <?php 
+		?>src=\"<?php print $this->baseUrl(); ?>/img/wikilogo.png\" /><br />...</li><?php } ?><li></li></ul>" });
+});
+<?php $this->headScript()->captureEnd();
+	?>
+	<li class="left" style="clear: none; margin-right: 0.4em;"><a href="<?php print $this->url(array('controller'=>'recipe',
+	'action'=>'index','index'=>'index','search_type'=>'tag',
+	'search'=>$tag->getTitle())); ?>" rel="tag" 
+	id="tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()); ?>"><?php print $tag->name; ?></a></li>
+	<?php 
+}
+?><li class="left" style="clear: none;"><a name="tag_prev" id="tag_prev" onclick="insertTag();" href="#tags" style="margin-top: 1em; text-decoration: underline;">Schlagwort hinzufügen</a></li></ul>
 <?php
 // enable dojo with custom module (readStore), parser, and comboBox
 $this->dojo()->enable()
@@ -296,8 +358,7 @@ function initTagReadStore() {
 }
 dojo.addOnLoad(initTagReadStore);
 <?php $this->headScript()->captureEnd(); ?>
-<input name="tag_prev" id="tag_prev" value="Dein Tag" class="text medium left" 
-	onfocus="insertTag();" style="margin-left: 1em; margin-top: 2px;" />
+
 <div id="tagReadStore"></div>
 <?php $this->headScript()->captureStart(); ?>
 // configure query
@@ -323,12 +384,14 @@ function newSubmit(){
 	var listEntry = document.createElement("li");
 	var listEntryLink = document.createElement("a");
 	var listEntryText = document.createTextNode(" " + dojo.byId("tagvalue").value);
+	listEntry.style.float = "left";
+	listEntry.style.clear = "none";
+	listEntry.style.marginRight = "0.4em";
 	listEntryLink.rel = "tag";
-	listEntryLink.style.fontSize = "10px";
 	listEntryLink.href = "/website/recipe/index/search_type/tag/search/" + dojo.byId("tagvalue").value;
 	listEntryLink.appendChild(listEntryText);
 	listEntry.appendChild(listEntryLink);
-	dojo.query(".Zend_Tag_Cloud").forEach(function(node, index, arr){
+	dojo.query("#tagList").forEach(function(node, index, arr){
 		node.appendChild(listEntry);
 	});
     // clear form and tag_state
@@ -409,37 +472,44 @@ function insertTag(){
 <?php $this->headScript()->captureEnd(); ?>
 
 <form id="tag_form" class="regular_form hide abstand_unten clear" method="post"
-	action="<?php print $this->url(array('module'=>'website','controller'=>'tag'),null,true); ?>">
+	action="<?php print $this->url(array('module'=>'website','controller'=>'tag'),null,true); ?>" style="padding-top: 1em;">
 	<fieldset>
-		<legend>Schlagwort / Tag hinzufügen</legend>
+		<legend>Schlagwort hinzufügen</legend>
 		<div id="tag_state" class="hide">&nbsp;</div>
-		<label for="tagvalue" class="hide">Dein Tag:</label>
+		<label for="tagvalue" class="hide">Dein Schlagwort:</label>
 		<!-- text input w/ autocompletion -->
 		<input id="tagvalue" name="" type="text" />
 		<input name="newtag" id="newtag" value="" type="hidden" />
 		<input name="recipe" value="<?php print $recipe->id; ?>" type="hidden" />
-		<input type="submit" class="small-button" value="Tag hinzufügen"
+		<input type="submit" class="small-button" value="hinzufügen"
 			style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png'); font-size: 0.9em;" />
 	</fieldset>
 </form>
 </div>
 <?php $this->headScript()->captureStart(); ?>
 // hide all comments
-function hideComments() {
-	dojo.byId('commentList').style.display='none';
+function hideCommentForm() {
 	dojo.byId('comment_form').style.display='none';
 	dojo.byId('switchc1').style.display='block';
-	dojo.byId('switchc1').innerHTML='<?php $amountOfComments = count($this->recipe->getComments()); echo $amountOfComments; ?> Kommentar(e) anzeigen';
+	dojo.byId('switchc1').innerHTML='<?php 
+	$amountOfComments = count($recipe->getComments()); 
+	if($amountOfComments == 4) {
+		?>weiteren Kommentar anzeigen<?php 
+	} elseif($amountOfComments>3) { 
+		?> weitere <?php echo ($amountOfComments-3); ?> Kommentare anzeigen<?php 
+	} ?>';
 }
 // show all comments and new comment form 
 function showComments() {
 	dojo.byId('commentList').style.display='block';
 	dojo.byId('switchc1').innerHTML='';
-	dojo.byId('comment_form').style.display='block';
+	// dojo.byId('comment_form').style.display='block';
+	dojo.query('ul#commentList li').removeClass('hide');
 }
 // display full comment form
 function insertComment(){
-	showComments();
+	//showComments();
+	dojo.byId('comment_form').style.display='block';
 	if(dojo.byId('comment')){
 		dojo.toggleClass('comment_prev','hide');
 		dojo.byId('comment').focus();
@@ -464,10 +534,8 @@ function reloadCaptcha(){
 	
 }
 dojo.addOnLoad(function(){
-	// only hide comments when anchor is not set in url
-	if(!(location.hash=='#comment-insert' || location.hash=='#comments')){ 
-		hideComments();
-	}
+	// default hide comment form
+	hideCommentForm();
 	// open form and focus input
 	if(location.hash=='#comment-insert'){
 		insertComment();
@@ -479,17 +547,14 @@ dojo.addOnLoad(function(){
 });
 	<?php $this->headScript()->captureEnd(); ?>
 <div class="attribut"><a id="comments" class="nolink">Kommentare:</a></div>
-<div class="wert" style="width: 36em;"><?php
-	if(!$this->comment_success) { ?><textarea name="comment_prev" 
-		id="comment_prev" rows="2" cols="35" 
-		class="clear text left abstand_unten" onfocus="insertComment();" 
-		style="font-size: 1em; margin-left: 0; margin-top: 3px;">Was denkst du? Dein Kommentar...</textarea><?php 
-	} ?><a id="switchc1" href="#comments" class="hide clear"
-	onclick="showComments();" style="cursor: pointer; color: #54616E"></a>
+<div class="wert" style="width: 36em;">
 	<ul id="commentList"><?php
 	if (is_array ( $this->recipe->getComments() )) {
+		$currentCommentNumber = 0;
 		foreach ( $this->recipe->getComments() as $comment ) {
-			print '<li style="border-bottom: 1px solid rgb(170, 16, 97); margin-bottom: 0.5em;"><p><!-- #'.
+			$currentCommentNumber++;
+			print '<li style="border-bottom: 1px solid rgb(170, 16, 97); margin-bottom: 0.5em;"'.
+			($currentCommentNumber>3 ? ' class="hide"' : '').'><p><!-- #'.
 				($amountOfComments--).' von --><em>' ;
 			if ($comment->memberId) {
 				$member = new Website_Model_Member ( $comment->memberId ) ;
@@ -515,7 +580,16 @@ dojo.addOnLoad(function(){
 		print '<li>keine Kommentare vorhanden</li>' ;
 	}
 	?></ul>
-<form id="comment_form" class="regular_form"
+	<a id="switchc1" href="#comments" 
+	class="hide clear" onclick="showComments();" 
+	style="text-align: right"></a>
+	<?php
+	if(!$this->comment_success) { ?><textarea name="comment_prev" 
+		id="comment_prev" rows="2" cols="35" 
+		class="clear text left abstand_unten" onfocus="insertComment();" 
+		style="font-size: 1em; margin-left: 0; margin-top: 1em; width: 35.5em; color: #888888;">Was denkst du? Dein Kommentar...</textarea><?php 
+	} ?>
+<form id="comment_form" class="regular_form clear"
 	style="margin-top: 1em;"
 	action="<?php print $this->url(array('module'=>'website','controller'=>'comment'),null,true); ?>#comment-insert"
 	method="post">
@@ -568,59 +642,58 @@ dojo.addOnLoad(function(){
 <?php } ?></fieldset>
 </form>
 </div>
-<?php if($gesamt>1) { ?>
+<?php if($gesamt) { ?>
 	<div class="attribut">Rezept- alternativen:</div>
 	<div class="wert" style="width: 36em;">
 	<ul class="nolist">
 	<?php
 	foreach ($alternatives as $alternative) { ?>
 		<li><?php $this->cocktailPreview($alternative); ?></li>
-	<?php 
-	} ?>
+	<?php } ?>
 	</ul>
 	</div>
 	<?php } ?>
-</div>
-<!-- class=left -->
-<div id="video" style="display: none;"><?php
-if ($videos) {
-	$i = 0 ;
-	foreach ( $videos as $video ) {
-		?>
-<div id="box"
-	style="float: left; clear: both; width: 440px; margin-left: 110px">
-	<p style="text-align: left; padding: 0.5em;">
-			<strong>
-				<?php echo $video->name; ?></strong></p><object
-	width="425" height="350" type="application/x-shockwave-flash">
-	<param name="movie"
-		value="<?php
-		echo $this->escape ( $video->url ) ;
-		?>" />
-	<param name="wmode" value="transparent" />
-	<embed src="<?php
-		echo $this->escape ( $video->url ) ;
-		?>"
-		type="application/x-shockwave-flash" wmode="transparent" width="425"
-		height="350" /></object>
-		<?php if($video->description!='') { ?>
-		<p style="text-align: left; padding: 0.5em;">
-			<em><strong>Videohinweis:</strong>
-				<?php echo $video->description; ?></em>
-		</p>
-		<?php } ?>
-</div><?php
+<div id="video" style="display: none;">
+	<a id="videoAnchor"></a>
+	<div class="attribut">Videoanleitung:</div>
+	<div class="wert" style="width: 36em;"><?php
+	if ($videos) {
+		$i = 0 ;
+		foreach ( $videos as $video ) {
+			?>
+		<p><strong><?php echo $video->name; ?></strong></p>
+		<object	width="425" height="350" type="application/x-shockwave-flash">
+		<param name="movie"
+			value="<?php
+			echo $this->escape ( $video->url ) ;
+			?>" />
+		<param name="wmode" value="transparent" />
+		<embed src="<?php
+			echo $this->escape ( $video->url ) ;
+			?>"
+			type="application/x-shockwave-flash" wmode="transparent" width="425"
+			height="350" /></object>
+			<?php 
+			if($video->description!='') { ?>
+			<p style="text-align: left; padding: 0.5em;">
+				<em><strong>Videohinweis:</strong>
+					<?php echo $video->description; ?></em>
+			</p>
+			<?php 
+			}
+		} // foreach
 	}
-} else {
-	?>
-<div id="box"
-	style="float: left; clear: both; width: 440px; margin-left: 110px">Kein
-Video gefunden.</div>
-	<?php
-}
-?></div>
+	else { ?><p>Kein Video gefunden.</p><?php	} ?></div>
+</div>
+<div class="attribut" id="statistics">Statistiken:</div>
+<div class="wert" style="width: 36em;"><?php print $recipe->getStatistics(); ?> Aufrufe, 
+<a href="#statistics" onclick="showStatistics();">mehr Details</a>
+<ul>
+<li>eingefügt von xy am xy</li>
+<li>zuletzt geändert am xy</li>
+</ul></div>
+</div><!-- END of class=left -->
 <div id="recipe_info" class="left">
-<a id="videoAnchor"></a>
 <div class="left icon" style="left: 225px;"><img
 	src="<?php
 	print $this->baseUrl() ;

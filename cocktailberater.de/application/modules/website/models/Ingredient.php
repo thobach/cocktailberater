@@ -492,7 +492,8 @@ class Website_Model_Ingredient {
 	}
 
 	/**
-	 * returns the average weight in gram of the product
+	 * returns the average weight in gram of the product, if there are
+	 * multiple pieces in a whole, returns the weight in gram of one piece
 	 *
 	 * @return int|null weight in gram
 	 */
@@ -501,13 +502,31 @@ class Website_Model_Ingredient {
 			// TODO: not only accept GRAM as unit here, also do some conversion
 			$db = Zend_Db_Table::getDefaultAdapter();
 			$res = $db->fetchRow ( 'SELECT
-			AVG(size) AS averageSize
-			FROM `product` 
-			WHERE unit=\''.Website_Model_Component::GRAM.'\' AND ingredient='.$this->id);
+				AVG(size) AS averageSize
+				FROM `product` 
+				WHERE unit=\''.Website_Model_Component::GRAM.'\' AND ingredient='.$this->id);
 			if($res['averageSize']){
-				$this->averageWeightGram = round($res['averageSize']);
-			} else {
-				$this->averageWeightGram = NULL;
+				if($this->pieces_in_whole){
+					$this->averageWeightGram = round($res['averageSize']/$this->pieces_in_whole);
+				} else{
+					$this->averageWeightGram = round($res['averageSize']);
+				}
+			} else{
+				$res = $db->fetchRow ( 'SELECT
+					AVG(size) AS averageSize
+					FROM `product` 
+					WHERE unit=\''.Website_Model_Component::KILOGRAM.'\' AND ingredient='.$this->id);
+				if($res['averageSize']){
+					if($this->pieces_in_whole){
+						$this->averageWeightGram = round($res['averageSize']*1000/$this->pieces_in_whole);
+					} else{
+						$this->averageWeightGram = round($res['averageSize']*1000);
+					}
+				}
+				else {
+					$this->averageWeightGram = NULL;
+				}
+				
 			}
 		}
 		return $this->averageWeightGram;

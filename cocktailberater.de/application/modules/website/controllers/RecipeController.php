@@ -113,6 +113,7 @@ class Website_RecipeController extends Wb_Controller_RestController {
 	 * 
 	 * @representation html, xml, json, atom, rss
 	 * @param id int or string with ID or unique name
+	 * @param comments any show comments only
 	 */
 	public function getAction(){
 		// check if recipe id / name was given
@@ -130,7 +131,10 @@ class Website_RecipeController extends Wb_Controller_RestController {
 		if($this->_hasParam('comments')){
 			$this->view->commentsOnly = true;
 		}
-		$this->view->recipe =  Website_Model_CbFactory::factory('Website_Model_Recipe',$this->_getParam('id'));
+		$this->view->recipe = Website_Model_CbFactory::factory(
+		'Website_Model_Recipe',$this->_getParam('id'));
+		// increase view counter for recipe at requested format
+		$this->view->recipe->addView($this->_getParam('format','html'));
 		
 		// ??
 		$this->view->xmlLink = array(
@@ -143,11 +147,11 @@ class Website_RecipeController extends Wb_Controller_RestController {
 		// ??
 		$this->view->headLink($this->view->xmlLink);
 		
-		$this->view->alternatives = $this->view->recipe->getCocktail()->getRecipes();
+		$this->view->alternatives = $this->view->recipe->getAlternatives();
 		// html page title
 		$this->view->title = $this->view->recipe->name.' Cocktailrezept' ;
 		// for feed.phtml -> rss or atom
-		$this->view->format = $this->_getParam('format');
+		$this->view->format = $this->_getParam('format','html');
 	}
 
 }
