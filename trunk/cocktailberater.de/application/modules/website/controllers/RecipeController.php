@@ -133,6 +133,7 @@ class Website_RecipeController extends Wb_Controller_RestController {
 		}
 		$this->view->recipe = Website_Model_CbFactory::factory(
 		'Website_Model_Recipe',$this->_getParam('id'));
+		
 		// increase view counter for recipe at requested format
 		$this->view->recipe->addView($this->_getParam('format','html'));
 		

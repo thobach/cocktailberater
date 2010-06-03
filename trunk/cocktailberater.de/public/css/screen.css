@@ -518,6 +518,8 @@ div#recaptcha_widget_div{
 	margin: 2px;
 	padding: 1px;
 	width: 100px;
+	font-size: 1em;
+	font-weight: normal;
 }
 
 div.wert p {
@@ -533,6 +535,7 @@ div.wert p {
 	text-align: left;
 	margin: 2px;
 	padding: 1px;
+	font-size: 1em;
 }
 
 div.wert ul li {

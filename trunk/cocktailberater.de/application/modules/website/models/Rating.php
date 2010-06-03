@@ -1,5 +1,12 @@
 <?php
+/**
+ * Rating class for Recipes
+ * 
+ * @author thobach
+ *
+ */
 class Website_Model_Rating {
+	
 	// attributes
 	private $id;
 	private $memberId;
@@ -110,8 +117,7 @@ class Website_Model_Rating {
 		if(!$this->rated24hBefore()) {
 			$data = $this->databaseRepresentation();
 			//$data['insertDate'] = $this->insertDate = date(Website_Model_DateFormat::PHPDATE2MYSQLTIMESTAMP);
-			$this->id = $table->insert ( $data ) ;
-			$this->updateRecipeStatistics();
+			$this->id = $table->insert ( $data );
 			return $this->id ;
 		} else {
 			return false;
@@ -149,16 +155,6 @@ class Website_Model_Rating {
 		else {
 			return false;
 		}
-	}
-
-	/**
-	 * saves the rating to the recipe table (for statistics and performance)
-	 *
-	 */
-	private function updateRecipeStatistics(){
-		$this->getRecipe()->ratingsSum += $this->mark;
-		$this->getRecipe()->ratingsCount += 1;
-		$this->getRecipe()->save();
 	}
 
 	/**
