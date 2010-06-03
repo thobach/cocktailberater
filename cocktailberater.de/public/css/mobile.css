@@ -202,11 +202,7 @@ div#header a h1 {
 div#pre-header {
 	padding-top: 0.5em;
 	margin-bottom: 0.8em;
-	text-align: left;
-	height: 1em;
-	margin-left: auto;
-	margin-right: auto;
-	width: 98%;
+	width: 100%;
 }
 
 div#pre-header ul {
@@ -728,11 +724,16 @@ table.table td,table.table th {
 	background-image     : url(/img/social-media/sprites.png);
 	background-color     : transparent;
 	background-repeat    : no-repeat;
-	float				 : left;
 	display				 : block;
+	float				 : left;
 	margin-right		 : 0.2em;
 	height               : 16px;
 	width                : 16px;
+ }
+ 
+ .social_sprites_text {
+ 	float: left;
+ 	margin-right: 1em;
  }
 
  #spr_delicious {
@@ -759,11 +760,11 @@ table.table td,table.table th {
 	background-position  : -80px -0px;
  }
 
- #spr_facebook_fan_gray, #spr_facebook_share_gray {
+ #spr_facebook_fan, #spr_facebook_share {
 	background-position  : -96px -0px;
  }
 
- #spr_facebook_fan, #spr_facebook_share {
+ #spr_facebook_fan:hover, #spr_facebook_share:hover {
 	background-position  : -112px -0px;
  }
 

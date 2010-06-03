@@ -1,2 +1,42 @@
 <?php
-require_once 'index.phtml';
+$this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
+					  'title' => 'Liste aller Cocktailrezepte - Atom',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=atom'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
+					  'title' => 'Liste aller Cocktailrezepte - RSS',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=rss'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/json',
+					  'title' => 'Liste aller Cocktailrezepte - JSON',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=json'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/xml',
+					  'title' => 'Liste aller Cocktailrezepte - XML',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=xml'));
+$this->headLink(array('rel' => 'alternate','type' => 'application/pdf',
+					  'title' => 'Cocktailkarte mit allen Rezepten - PDF',
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=pdf'));
+
+echo $this->partial ('template/search.mobile.phtml');
+if ($this->recipes) { ?>
+<h2 style="margin-bottom: 1.5em; margin-top: 0; maring-left: 2em; margin-right: 2em;"><?php 
+	if(!$this->title) { ?>Cocktailrezepte<?php } 
+	else { echo $this->title; } ?></h2>
+<div id="ergebnisse" style="clear: left;"><?php
+foreach ($this->recipes as $recipe){
+	if($this->top10){
+		echo $this->cocktailPreview ($recipe,++$i);
+	} else {
+		echo $this->cocktailPreview ($recipe);
+	}
+}
+?></div>
+<!-- div: ergebnisse -->
+<?php } else { ?>
+<p>Bitte geben Sie einen Suchbegriff ein.</p>
+<?php } ?>
+<?php 
+$urlParams = Zend_Controller_Front::getInstance()->getParams();
+$urlParams['index'] = 'index';
+unset($urlParams['bootstrap']);
+unset($urlParams['search_type_value']);
+unset($urlParams['disableOutputBuffering']);
+?>

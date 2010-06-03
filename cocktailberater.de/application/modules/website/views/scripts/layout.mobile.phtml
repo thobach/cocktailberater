@@ -53,127 +53,66 @@ echo $this->headLink()."\n";
 </head>
 <body>
 <div id="wrapper">
-	<div id="header" style="background-image: url('<?php print $this->baseUrl(); ?>/img/logo.mobile.png'); height: 50px;"><a href="<?php 
+<div id="header" style="background-image: url('<?php print $this->baseUrl(); ?>/img/logo.mobile.png'); height: 50px;"><a
+	href="<?php 
 	print $this->url(array('module'=>'website',
 							'controller'=>'index',
-							'action'=>'index'),null,true); ?>?format=mobile" 
-							style="display:block; width: 100%; height: 50px;"><span class="hide">Startseite</span></a></div><!-- id:header -->
-	<div id="homepage">
-		<div id="content"><?php echo $this->layout()->content ?></div>
-	</div><!-- id:homepage -->
-</div><!-- id:wrapper -->
+							'action'=>'index'),null,true); ?>?format=mobile"
+	style="display: block; width: 100%; height: 50px;"><span class="hide">Startseite</span></a></div>
+<!-- id:header -->
+<div id="homepage">
+<div id="content"><?php echo $this->layout()->content ?></div>
 <!-- begin: top links -->
-<div id="pre-header">
-	<ul>
-		<!-- social bookmarking & RSS -->
-		<li style="margin-left: 1em; list-style-type: none;">
-			<a href="http://www.facebook.com/cocktailberater" style="padding-top: 0.2em; padding-bottom: 0.2em;" title="auf facebook Fan werden">
-				<span class="social_sprites" id="spr_facebook_fan_gray"></span> Fan werden
-			</a></li>
-		<li style="margin-left: 1em; list-style-type: none;">
-			<a style="padding-top: 0.2em; padding-bottom: 0.2em;"
-				href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>" title="auf facebook teilen">
-				<span class="social_sprites" id="spr_facebook_share_gray"></span> Teilen</a></li>
-		<li style="margin-left: 1em; list-style-type: none;">
-			<a href="http://del.icio.us/post?url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf delicious bookmarken">
-				<span class="social_sprites" id="spr_delicious"></span>delicious
-			</a></li>
-		<li style="margin-left: 1em; list-style-type: none;">
-			<a href="http://digg.com/submit?phase=2&amp;url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf Digg bookmarken">
-				<span class="social_sprites" id="spr_digg"></span>Digg
-			</a></li>
-		<li style="margin-left: 1em; list-style-type: none;">
-			<a href="http://www.stumbleupon.com/submit?url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf StumbleUpon bookmarken">
-			<span class="social_sprites" id="spr_su"></span>StumbleUpon
-			</a></li>
-		<li style="margin-left: 1em; list-style-type: none;">
-			<a href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>" title="auf Twitter posten">
-				<span class="social_sprites" id="spr_twitter"></span>Twitter
-			</a></li>
-		<li style="margin-left: 1em; list-style-type: none;"><a href="http://blog.cocktailberater.de/feeds/posts/default" title="Blog als RSS-Feed abonnieren">
-				<span class="social_sprites" id="spr_rss"></span>Blog
-			</a></li>
-			
-		<!-- kontakt -->
-		<li>
-			kontakt
-			<div>
-			    <ul>
-			    	<li><a href="<?php print $this->url(array(
+<a class="social_sprites_text"
+	href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
-							'action'=>'imprint'),'default',true); ?>">impressum</a></li>
-					<li><a href="<?php print $this->url(array(
+							'action'=>'about'),'default',true); ?>">über cocktailberater</a>
+<a href="http://www.facebook.com/cocktailberater"
+	style="padding-top: 0.2em; padding-bottom: 0.2em;"
+	title="auf facebook Fan werden"><span class="social_sprites"
+	id="spr_facebook_fan"></span> <span class="social_sprites_text">Fan
+werden</span></a> <a style="padding-top: 0.2em; padding-bottom: 0.2em;"
+	href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>"
+	title="auf facebook teilen"> <span class="social_sprites"
+	id="spr_facebook_share"></span> <span class="social_sprites_text">Teilen</span></a>
+<a
+	href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>"
+	title="auf Twitter posten"> <span class="social_sprites"
+	id="spr_twitter"></span><span class="social_sprites_text">Twitter(n)</span></a>
+<a href="http://blog.cocktailberater.de/feeds/posts/default"
+	title="Blog als RSS-Feed abonnieren"> <span class="social_sprites"
+	id="spr_rss"></span><span class="social_sprites_text">Blog</span></a> <a class="social_sprites_text"
+	href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
-							'action'=>'contact'),'default',true); ?>">kontakt</a></li>
-					<li><a href="http://www.thobach.de">thomas bachmann (entwickler)</a></li>
-					<li><a href="http://www.carolinebock.de">caroline bock (designer)</a></li>
-					<li><a href="http://www.leo-meissen.de">kay leonhardt (designer)</a></li>
-				</ul>
-			</div>
-		</li>
-		
-		<!-- über cocktailberater -->
-		<li>
-			über cocktailberater
-			<div>
-			    <ul>
-			    	<li><a href="<?php print $this->url(array(
+							'action'=>'imprint'),'default',true); ?>">impressum</a> <a class="social_sprites_text"
+	href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
-							'action'=>'about'),'default',true); ?>">das projekt</a></li>
-			    	<li><a href="http://www.facebook.com/cocktailberater">cb auf facebook</a></li>
-					<li><a href="http://twitter.com/cocktailberater">cb auf twitter</a></li>
-					<li><a href="http://ohloh.net/p/cocktailberater">cb auf ohloh</a></li>
-					<li><a href="http://code.google.com/p/cocktailberater/">cb auf google code</a></li>
-					<li><a href="http://code.google.com/p/cocktailberater/issues/entry">fehler gefunden?</a></li>
-					<li><a href="http://code.google.com/p/cocktailberater/wiki/API">api dokumentation</a></li>
-			    </ul>
-			</div>
-		</li>
-		
-		<!-- projekte -->
-		<li>
-			projekte
-			<div>
-		    	<ul>
-		    		<li><a href="<?php print $this->url(array(
-						'module'=>'website',
-						'controller'=>'index',
-						'action'=>'index'),'default',true); ?>">rezeptdatenbank</a></li>
-		    		<li><a href="http://blog.cocktailberater.de">entwickler blog</a></li>
-		    		<li><a href="<?php print $this->url(array(
-						'module'=>'website',
-						'controller'=>'portal',
-						'action'=>'barkunde'),'default',true); ?>">barkunde</a></li>
-					<li><a href="<?php print $this->url(array(
-						'module'=>'website',
-						'controller'=>'portal',
-						'action'=>'hausbar'),'default',true); ?>">hausbar</a></li>
-					<li><a href="<?php print $this->url(array(
-						'module'=>'website',
-						'controller'=>'portal',
-						'action'=>'community'),'default',true); ?>">community</a></li>
-		    	</ul>
-			</div>
-		</li>
-	</ul>
-</div>
+							'action'=>'contact'),'default',true); ?>">kontakt</a>
 <!-- end: top links -->
-<?php if(APPLICATION_ENV=='production') {?>
+</div>
+<!-- id:homepage --></div>
+<!-- id:wrapper -->
+	<?php if(APPLICATION_ENV=='production') {?>
 <!-- Piwik -->
 <script type="text/javascript">
 var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.thobach.de/" : "http://stats.thobach.de/");
 document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
+</script>
+<script type="text/javascript">
 try {
 var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
 piwikTracker.trackPageView();
 piwikTracker.enableLinkTracking();
 } catch( err ) {}
-</script><noscript><p><img src="http://stats.thobach.de/piwik.php?idsite=4" style="border:0" alt=""/></p></noscript>
+</script>
+<noscript>
+<p><img src="http://stats.thobach.de/piwik.php?idsite=4"
+	style="border: 0" alt="" /></p>
+</noscript>
 <!-- End Piwik Tag -->
-<?php } ?>
+	<?php } ?>
 </body>
 </html>
