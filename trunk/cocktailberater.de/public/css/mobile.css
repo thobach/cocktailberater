@@ -14,23 +14,11 @@ website:   www.cocktailberater.de
 * {
 	margin: 0;
 	padding: 0;
-	border: 0;
 	font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif;
 }
 
 /* Styles for layout
 -----------------------------------------------------------------------------*/
-.clear {
-}
-
-.right {
-
-}
-
-.left {
-
-}
-
 .center {
 	text-align: center;
 }
@@ -125,15 +113,8 @@ h3 {
 	margin-top: 0.8em;
 }
 
-p,q,cite {
-}
-
 ul,ol,dl {
 	list-style: none;
-}
-
-ul li,dd,dt {
-	clear: both;
 }
 
 ul ul li {
@@ -193,38 +174,8 @@ div#header a {
 	width: 100%;
 }
 
-div#header a h1 {
-	display: none;
-}
-
 /* Navigation
 -----------------------------------------------------------------------------*/
-	/* pre-header
------------------------------------------------------------------------------*/
-div#pre-header {
-	padding-top: 0.5em;
-	margin-bottom: 0.8em;
-	width: 100%;
-}
-
-div#pre-header ul {
-	
-}
-
-div#pre-header ul li {
-	list-style-type: circle;
-	margin-left: 2em;
-}
-
-div#pre-header ul li ul { 
-
-}
-
-div#pre-header ul li ul li { 
-	margin-left:0;
-	font-size: smaller;
-}
-
 
 /* Homepage
 -----------------------------------------------------------------------------*/
@@ -322,9 +273,6 @@ div.sub_nav ul.textLeft>li>a {
 	color: black;
 }
 
-div.sub_nav ul.textLeft>li>ul {
-}
-
 /* Your template
 -----------------------------------------------------------------------------*/
 	/* Forms
@@ -371,19 +319,6 @@ input.medium {
 
 input.big,textarea.big {
 	width: 25em;
-}
-
-input.text,textarea.text {
-}
-
-input[type="submit"]{
-	border-style: inset;
-	background-color: buttonface;
-	border: 2px outset buttonface;
-	color: buttontext;
-	cursor: default;
-	padding: 2px 6px 3px 6px;
-	text-align: center;
 }
 
 input.medium-button {
@@ -553,6 +488,10 @@ form#suche_name label {
 	margin-top: 0.9em;
 }
 
+form#suche_name fieldset {
+	border: none;	
+}
+
 form#suche_name div.search_options label {
 	margin-top: 0;
 	margin-right: 0.8em;
@@ -562,6 +501,12 @@ div.search_options {
 	padding-top: 1em;
 	margin-bottom: 1em;
 }
+
+input#search {
+	border: 1px solid grey;
+	font-size: large;
+}
+
 
 input[type="radio"] { 
 	margin-right: 0.2em;
