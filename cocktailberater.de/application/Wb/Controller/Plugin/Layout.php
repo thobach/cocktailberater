@@ -2,9 +2,14 @@
 class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 
 	// display mobile page if 'mobile' or 'webos' is found in user agent
+	// see http://en.wikipedia.org/wiki/List_of_user_agents_for_mobile_phones
 	private $_agents = array(
-        'mobile'	=> array('ipad'),
-        'webos'		=> false
+        'mobile'		=> array('ipad'),
+        'webos'			=> false,
+		'iphone'		=> false,
+		'windows ce'	=> false,
+		'palm'			=> false,
+		'midp'			=> false,
 	);
 
 	public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)	{
