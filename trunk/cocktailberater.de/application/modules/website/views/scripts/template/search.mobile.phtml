@@ -8,20 +8,14 @@ print $this->url($searchLink,null,true); ?>">
 	<!-- visible -->
 	<label for="search">Cocktail:</label>
 	<!-- text input w/ autocompletion -->
-	<input type="text" name="search" id="search" value="" />
+	<input type="search" name="search" id="search" value="" />
 	<!-- submit button -->
 	<input type="submit" value="Suchen" id="search_button" />
 	<!-- search options -->
 	<div class="search_options">
-		<!-- Name -->
-		<input id="search_type1" name="search_type" value="name" checked="checked" type="radio" class="left" />
-		<label for="search_type1">über Name</label> <br />
-		<!-- Zutat -->
-		<input id="search_type2" name="search_type" value="ingredient" type="radio" class="left" /> 
-		<label for="search_type2">über Zutat</label><br /> 
-		<!-- Tag -->
-		<input id="search_type3" name="search_type" value="tag" type="radio" class="left" /> 
-		<label for="search_type3">über Schlagwort / Tag</label>
+		<!-- Name --><input id="search_type1" name="search_type" value="name" checked="checked" type="radio" class="left" /><label for="search_type1">über Name</label>
+		<!-- Zutat --><input id="search_type2" name="search_type" value="ingredient" type="radio" class="left" /><label for="search_type2">über Zutat</label>
+		<!-- Tag --><input id="search_type3" name="search_type" value="tag" type="radio" class="left" /><label for="search_type3">über Schlagwort / Tag</label>
 	</div>
 </fieldset>
 </form>
