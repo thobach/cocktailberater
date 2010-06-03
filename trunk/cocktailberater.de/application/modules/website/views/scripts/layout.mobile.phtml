@@ -63,39 +63,45 @@ echo $this->headLink()."\n";
 <div id="homepage">
 <div id="content"><?php echo $this->layout()->content ?></div>
 <!-- begin: top links -->
-<a class="social_sprites_text"
-	href="<?php print $this->url(array(
+<h2>Social</h2>
+<ul>
+	<li><a href="http://www.facebook.com/cocktailberater"
+		style="padding-top: 0.2em; padding-bottom: 0.2em;"
+		title="auf facebook Fan werden"><span class="social_sprites"
+		id="spr_facebook_fan"></span> Fan werden</a></li>
+	<li><a style="padding-top: 0.2em; padding-bottom: 0.2em;"
+		href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>"
+		title="auf facebook teilen"> <span class="social_sprites"
+		id="spr_facebook_share"></span> Teilen</a></li>
+	<li><a
+		href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>"
+		title="auf Twitter posten"> <span class="social_sprites"
+		id="spr_twitter"></span>Twitter(n)</a></li>
+</ul>
+<h2>Weitere Informationen</h2>
+<ul>
+	<li><a href="http://blog.cocktailberater.de" title="Entwickler Blog">Blog</a></li>
+	<li><a
+		href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
-							'action'=>'about'),'default',true); ?>">über cocktailberater</a>
-<a href="http://www.facebook.com/cocktailberater"
-	style="padding-top: 0.2em; padding-bottom: 0.2em;"
-	title="auf facebook Fan werden"><span class="social_sprites"
-	id="spr_facebook_fan"></span> <span class="social_sprites_text">Fan
-werden</span></a> <a style="padding-top: 0.2em; padding-bottom: 0.2em;"
-	href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>"
-	title="auf facebook teilen"> <span class="social_sprites"
-	id="spr_facebook_share"></span> <span class="social_sprites_text">Teilen</span></a>
-<a
-	href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>"
-	title="auf Twitter posten"> <span class="social_sprites"
-	id="spr_twitter"></span><span class="social_sprites_text">Twitter(n)</span></a>
-<a href="http://blog.cocktailberater.de/feeds/posts/default"
-	title="Blog als RSS-Feed abonnieren"> <span class="social_sprites"
-	id="spr_rss"></span><span class="social_sprites_text">Blog</span></a> <a class="social_sprites_text"
-	href="<?php print $this->url(array(
+							'action'=>'about'),'default',true); ?>">über cocktailberater</a></li>
+	<li><a class="social_sprites_text"
+		href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
-							'action'=>'imprint'),'default',true); ?>">impressum</a> <a class="social_sprites_text"
-	href="<?php print $this->url(array(
+							'action'=>'imprint'),'default',true); ?>">impressum</a></li>
+	<li><a class="social_sprites_text"
+		href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
-							'action'=>'contact'),'default',true); ?>">kontakt</a>
-<!-- end: top links -->
-</div>
+							'action'=>'contact'),'default',true); ?>">kontakt</a></li>
+</ul>
+<p class="abstand_oben">[ <a href="?format=html">Desktop-Version</a> ]</p>
+<!-- end: top links --></div>
 <!-- id:homepage --></div>
 <!-- id:wrapper -->
-	<?php if(APPLICATION_ENV=='production') {?>
+		<?php if(APPLICATION_ENV=='production') {?>
 <!-- Piwik -->
 <script type="text/javascript">
 var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.thobach.de/" : "http://stats.thobach.de/");
@@ -113,6 +119,6 @@ piwikTracker.enableLinkTracking();
 	style="border: 0" alt="" /></p>
 </noscript>
 <!-- End Piwik Tag -->
-	<?php } ?>
+		<?php } ?>
 </body>
 </html>
