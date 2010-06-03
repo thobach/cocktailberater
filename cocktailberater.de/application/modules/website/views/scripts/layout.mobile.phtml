@@ -60,7 +60,7 @@ echo $this->headLink()."\n";
 	<div id="header" style="<?php echo $headStyle; ?>"<?php print $homeStyleHover; ?>>
 		<h1 style="margin: 0;"><a href="<?php 
 		$mainPage = array('controller'=>'index','action'=>'index','module'=>'website');
-		print $this->url($mainPage,null,true); ?>" style="<?php echo $linkStyle;?>"><span class="hide">cocktailberater</span><?php print $homeStyle; ?></a></h1>
+		print $this->url($mainPage,null,true); ?>?format=mobile" style="<?php echo $linkStyle;?>"><span class="hide">cocktailberater</span><?php print $homeStyle; ?></a></h1>
 	</div><!-- id:header -->
 	<div id="homepage">
 		<div id="content"><?php echo $this->layout()->content ?></div>

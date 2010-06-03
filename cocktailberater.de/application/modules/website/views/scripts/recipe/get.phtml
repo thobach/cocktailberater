@@ -712,7 +712,8 @@ function showStatistics() {
 	$feedViews = 0;
 	$appViews = 0;
 	foreach($recipe->getStatistics() as /* @var $statistic Website_Model_Statistic */ $statistic) {
-		if($statistic->format == Website_Model_Statistic::FORMAT_HTML){
+		if($statistic->format == Website_Model_Statistic::FORMAT_HTML ||
+			$statistic->format == Website_Model_Statistic::FORMAT_MOBILE){
 			$htmlViews += $statistic->views;
 		} else if($statistic->format == Website_Model_Statistic::FORMAT_RSS || 
 			$statistic->format == Website_Model_Statistic::FORMAT_ATOM){

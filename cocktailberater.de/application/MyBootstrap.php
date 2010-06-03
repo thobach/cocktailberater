@@ -13,13 +13,13 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			   'lifetime' => 7200,
 			   'debug_header' => $debug, // für das Debuggen
 			   'regexps' => array(
-			       // cache den gesamten IndexController
+			// cache den gesamten IndexController
 			       '^/website' => array(
 			       		'cache' => true,
 						'cache_with_cookie_variables' => true,
 					 	'cache_with_session_variables' => true
-					)
-			   )
+			)
+			)
 			);
 			$backendOptionsPage = array(
 			    'cache_dir' => realpath(APPLICATION_PATH.'/../tmp/')
@@ -28,7 +28,7 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			$cachePage->start();
 		}
 	}
-	
+
 	/**
 	 * Initialize Logger
 	 *
@@ -36,7 +36,7 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	 */
 	protected function _initLogger(){
 		date_default_timezone_set('Europe/Berlin');
-		
+
 		$logOption = $this->getOption('logger');
 		//Zend_Debug::dump($logOption['enabled']);
 		if($logOption['enabled']=='true') {
@@ -60,7 +60,7 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		}
 		Zend_Registry::set('logger',$log);
 	}
-	
+
 	/**
 	 * Initialize Cache
 	 *
@@ -136,13 +136,15 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		// Returns the router resource to bootstrap resource registry
 		return $router;
 	}
-	
+
 	/**
 	 * Sets the baseUrl
-	 * 
+	 *
 	 * @return void
 	 */
 	public function _initUrl(){
 		Zend_Controller_Front::getInstance()->setBaseUrl('http://'.$_SERVER['HTTP_HOST']);
 	}
+
+	
 }
