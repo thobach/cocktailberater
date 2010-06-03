@@ -43,7 +43,7 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/xml',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'));
 ?>
 <!-- class="right" -->
-<div style="float: right; clear: both;">
+<div class="right clear">
 <?php
 $this->dojo()->enable()->requireModule('dojox.image.Lightbox');
 $this->dojo()->addStylesheet($this->dojo()->getCdnBase().$this->dojo()->getCdnVersion().'/dojox/image/resources/Lightbox.css');
