@@ -29,6 +29,7 @@ class Website_Model_Statistic {
 	const FORMAT_PDF	= 'pdf';
 	const FORMAT_RSS	= 'rss';
 	const FORMAT_ATOM	= 'atom';
+	const FORMAT_MOBILE	= 'mobile';
 
 	// associations
 	private $_resource;
@@ -146,7 +147,7 @@ class Website_Model_Statistic {
 			if(!($format == self::FORMAT_ATOM || $format == self::FORMAT_HTML ||
 			$format == self::FORMAT_JSON || $format == self::FORMAT_PDF ||
 			$format == self::FORMAT_RDF || $format == self::FORMAT_RSS ||
-			$format == self::FORMAT_XML)){
+			$format == self::FORMAT_XML || $format == self::FORMAT_MOBILE)){
 				throw new Website_Model_StatisticException('Format_Wrong');
 			}
 			// check if resourceId of resourceTyp exists

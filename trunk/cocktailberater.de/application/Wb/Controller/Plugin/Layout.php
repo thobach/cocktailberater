@@ -8,19 +8,23 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 	);
 
 	public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)	{
+		// set layout path for each module
 		$layout = Zend_Layout::getMvcInstance();
 		$layout->setLayoutPath(APPLICATION_PATH . '/modules/' .
 		$request->getModuleName() . '/layouts');
-		// skip if normal layout is wanted explicitly
-		if($request->getUserParam('display') == 'normal'){
+		
+		
+		/**
+		 * skip mobile detection
+		 */
+		// skip mobile browser detection if normal layout is wanted explicitly
+		if($request->getParam('format') == 'html'){
 			return;
 		}
-		// check if mobile layout is wanted explicitly
-		if($request->getUserParam('display') == 'mobile'){
-			// set mobile layout
-			Zend_Layout::getMvcInstance()->setLayout('mobilelayout');
-			return;
-		}
+		
+		/**
+		 * mobile detection
+		 */
 		// get user agent
 		$uAgent = $request->HTTP_USER_AGENT;
 		// check if useragent contains 'mobile' or 'webos'
@@ -30,16 +34,24 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 				if ($negation) {
 					foreach ($negation as $neg) {
 						// check if anything is excluded from 'mobile' or 'webos'
-						// like a normal page for ipad
+						// like a normal page for ipad, the use default
 						if (stripos($uAgent, $neg) !== false) {
+							$request->setParam('format','html');
 							return;
 						}
 					}
 				}
 				// set mobile layout
-				Zend_Layout::getMvcInstance()->setLayout('mobilelayout');
+				$request->setParam('format','mobile');
 				return;
 			}
 		}
+		
+		// set default context		
+		if($request->getParam('format') == null){
+			$request->setParam('format','html');
+			return;
+		}
+		
 	}
 }

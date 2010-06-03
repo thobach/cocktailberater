@@ -31,8 +31,17 @@ class ErrorController extends Zend_Controller_Action {
 				'suffix'	=> 'ajax',
 				'headers'	=> array('Content-Type' => 'text/html')));
 		}
+		if(!$contextSwitch->hasContext('mobile')){
+			$contextSwitch->addContext('mobile',array(
+				'suffix'	=> 'mobile',
+				'headers'	=> array('Content-Type' => 'text/html')));
+		}
 		$contextSwitch->addActionContext('error', true);
-		$contextSwitch->initContext();	
+		try{
+			$contextSwitch->initContext();
+		} catch (Zend_Controller_Action_Exception $e){
+			// ignore and use default context (html)
+		}	
 	}
 
 	public function errorAction() {
