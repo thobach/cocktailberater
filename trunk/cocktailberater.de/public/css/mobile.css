@@ -506,12 +506,16 @@ div.search_options {
 
 input#search {
 	border: 1px solid grey;
-	font-size: large;
+	font-size: larger;
 	width: 6em;
 }
 
+input[type=text] {
+	font-size: larger;
+}
 
-input[type="radio"] { 
+
+input[type=radio] { 
 	margin-right: 0.2em;
 }
 
