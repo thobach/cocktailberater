@@ -407,27 +407,19 @@ input.big,textarea.big {
 }
 
 input.text,textarea.text {
-	padding: 3px;
-	border: 1px solid #999999;
-	margin-left: 3px;
 }
 
 input.submit,#submit,#anmelden,#abmelden {
-	padding-left: 20px;
-	padding-right: 20px;
-	background-color: gray;
 }
 
 input.medium-button {
 	text-align: center;
-	color: white;
 	width:137px;
 	height:32px;
 }
 
 input.small-button {
 	text-align: center;
-	color: white;
 	width:94px;
 	height:22px;
 }
@@ -622,18 +614,12 @@ form#suche_name .dijitTextBox, input#search {
 	margin-top: 1.5em;
 }
 
-ul.dijitMenu li.dijitMenuItem {
-}
-
 input#search {
 	border: 1px solid rgb(179, 179, 179);
 	margin-top: 1em;
 }
 
 input#search_button {
-	background-color: white;
-	height: 58px;
-	width: 137px;
 	margin-left: 30px;
 }
 
@@ -644,12 +630,9 @@ div.search_options {
 }
 
 div.form {
-	clear: left;
 }
 
 textarea#message {
-	width: 300px;	
-	height: 150px;
 }
 
 dl.zend_form>dd>pre {
