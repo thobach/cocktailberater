@@ -1,0 +1,189 @@
+<?php
+// for JS-fallback
+$currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('show');
+// HTML 5 header
+echo $this->doctype('HTML5')."\n";
+?>
+<html lang="de-DE">
+<head>
+<?php
+// title
+$title = 'Cocktail Rezepte vom cocktailberater';
+if($this->layout()->getView()->title!='') {
+	$title =  $this->layout()->getView()->title. ' vom cocktailberater';
+}
+echo $this->headTitle($title)."\n";
+// meta
+// setting content type and character set
+$this->headMeta()->appendHttpEquiv('Content-Type',
+                                   'text/html; charset=UTF-8');
+// setting meta generator
+$this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
+// setting meta robots
+$this->headMeta()->setName('robots', 'index,follow');
+// setting google verification
+$this->headMeta()->setName('google-site-verification', 'L3zaslftTHZhIO01_Og9b-KvBNM7mecVfIyMMcj2IdM');
+echo $this->headMeta();
+// echo styles
+echo $this->headStyle()."\n";
+// css style sheets
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/mobile.css');
+// faveicon
+$this->headLink(array('rel' => 'shortcut icon',
+                      'href' => $this->baseUrl().'/favicon.ico'),
+                      'PREPEND');
+// feed of blog (rss & atom)
+$this->headLink(array('rel' => 'alternate',
+					  'type' => 'application/atom+xml',
+					  'title' => 'cocktailberater.de Blog - Atom',
+                      'href' => 'http://blog.cocktailberater.de/feeds/posts/default'));
+$this->headLink(array('rel' => 'alternate',
+					  'type' => 'application/rss+xml',
+					  'title' => 'cocktailberater.de Blog - RSS',
+                      'href' => 'http://blog.cocktailberater.de/feeds/posts/default?alt=rss'));
+// e.g. for facebook sharing
+$this->headLink(array('rel' => 'image_src',
+					  'type' => 'image/jpeg',
+                      'href' => 'http://www.cocktailberater.de/img/logo.png'));
+// echo css, faveicon and feeds
+echo $this->headLink()."\n";
+?>
+</head>
+<body>
+<div id="wrapper">
+<?php
+	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header-detail.png\'); height: 50px;';
+	$linkStyle = 'height: 50px;'; 
+	$homeStyle = '<span id="home_hover" style="position: relative; background: url(\''.$this->baseUrl().'/img/home.png'.'\') no-repeat; height: 40px; left: 270px; top: 6px; display: none;">&nbsp;</span>';
+	$homeStyleHover = ' onmouseover="document.getElementById(\'home_hover\').style.display=\'block\';"  onmouseout="document.getElementById(\'home_hover\').style.display=\'none\';"';
+?>
+	<div id="header" style="<?php echo $headStyle; ?>"<?php print $homeStyleHover; ?>>
+		<h1 style="margin: 0;"><a href="<?php 
+		$mainPage = array('controller'=>'index','action'=>'index','module'=>'website');
+		print $this->url($mainPage,null,true); ?>" style="<?php echo $linkStyle;?>"><span class="hide">cocktailberater</span><?php print $homeStyle; ?></a></h1>
+	</div><!-- id:header -->
+	<div id="homepage">
+		<div id="content"><?php echo $this->layout()->content ?></div>
+	</div><!-- id:homepage -->
+	<div class="clear"></div>
+</div><!-- id:wrapper -->
+<!-- begin: top links -->
+<div id="pre-header">
+	<ul>
+		<!-- social bookmarking & RSS -->
+		<li style="margin-left: 1em;">
+			<a href="http://www.facebook.com/cocktailberater" style="padding-top: 0.2em; padding-bottom: 0.2em;" title="auf facebook Fan werden">
+				<span class="social_sprites" id="spr_facebook_fan_gray"></span> Fan werden
+			</a></li>
+		<li style="margin-left: 1em;">
+			<a style="padding-top: 0.2em; padding-bottom: 0.2em;"
+				href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>" title="auf facebook teilen">
+				<span class="social_sprites" id="spr_facebook_share_gray"></span> Teilen</a></li>
+		<li style="margin-left: 1em;">
+			<a href="http://del.icio.us/post?url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf delicious bookmarken">
+				<span class="social_sprites" id="spr_delicious"></span> <span class="hide">delicious</span>
+			</a></li>
+		<li style="margin-left: 1em;">
+			<a href="http://digg.com/submit?phase=2&amp;url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf Digg bookmarken">
+				<span class="social_sprites" id="spr_digg"></span> <span class="hide">Digg</span>
+			</a></li>
+		<li style="margin-left: 1em;">
+			<a href="http://www.stumbleupon.com/submit?url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf StumbleUpon bookmarken">
+			<span class="social_sprites" id="spr_su"></span> <span class="hide">StumbleUpon</span>
+			</a></li>
+		<li style="margin-left: 1em;">
+			<a href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>" title="auf Twitter posten">
+				<span class="social_sprites" id="spr_twitter"></span> <span class="hide">Twitter</span>
+			</a></li>
+		<li><a href="http://blog.cocktailberater.de/feeds/posts/default" title="Blog als RSS-Feed abonnieren">
+				<span class="social_sprites" id="spr_rss"></span> <span class="hide">Blog</span>
+			</a></li>
+			
+		<!-- kontakt -->
+		<li>
+			<a href="<?php if($currentShow=='contact') { $show = 'none'; } 
+				else { $show = 'contact'; } echo $this->url(array('show'=>$show)); ?>" 
+				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">kontakt</a>
+			<div id="tooltipDlg3" style="<?php if($currentShow!='contact') { ?>display: none;<?php } ?> position: absolute; margin-left: -17em; padding: 0 4em 4em 4em;">
+			    <ul class="noJS">
+			    	<li><a href="<?php print $this->url(array(
+							'module'=>'website',
+							'controller'=>'portal',
+							'action'=>'imprint'),'default',true); ?>">impressum</a></li>
+					<li><a href="<?php print $this->url(array(
+							'module'=>'website',
+							'controller'=>'portal',
+							'action'=>'contact'),'default',true); ?>">kontakt</a></li>
+					<li><a href="http://www.thobach.de">thomas bachmann (entwickler)</a></li>
+					<li><a href="http://www.carolinebock.de">caroline bock (designer)</a></li>
+					<li><a href="http://www.leo-meissen.de">kay leonhardt (designer)</a></li>
+				</ul>
+			</div>
+		</li>
+		
+		<!-- über cocktailberater -->
+		<li>
+			<a href="<?php if($currentShow=='partner') { $show = 'none'; } 
+				else { $show = 'partner'; } echo $this->url(array('show'=>$show)); ?>" 
+				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">über cocktailberater</a>
+			<div id="tooltipDlg1" style="<?php if($currentShow!='partner') { ?>display: none;<?php } ?> position: absolute; margin-left: -4.5em; padding: 0 4em 4em 4em;">
+			    <ul class="noJS">
+			    	<li><a href="<?php print $this->url(array(
+							'module'=>'website',
+							'controller'=>'portal',
+							'action'=>'about'),'default',true); ?>">das projekt</a></li>
+			    	<li><a href="http://www.facebook.com/cocktailberater">cb auf facebook</a></li>
+					<li><a href="http://twitter.com/cocktailberater">cb auf twitter</a></li>
+					<li><a href="http://ohloh.net/p/cocktailberater">cb auf ohloh</a></li>
+					<li><a href="http://code.google.com/p/cocktailberater/">cb auf google code</a></li>
+					<li><a href="http://code.google.com/p/cocktailberater/issues/entry">fehler gefunden?</a></li>
+					<li><a href="http://code.google.com/p/cocktailberater/wiki/API">api dokumentation</a></li>
+			    </ul>
+			</div>
+		</li>
+		
+		<!-- projekte -->
+		<li style="margin-left: 1em;">
+			<a href="<?php if($currentShow=='projects') { $show = 'none'; } else { $show = 'projects'; } echo $this->url(array('show'=>$show)); ?>" 
+				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">projekte</a>
+			<div id="tooltipDlg2" style="<?php if($currentShow!='projects') { ?>display: none;<?php } ?> position: absolute; margin-left: -9em; padding: 0 4em 4em 4em;">
+		    	<ul class="noJS">
+		    		<li><a href="<?php print $this->url(array(
+						'module'=>'website',
+						'controller'=>'index',
+						'action'=>'index'),'default',true); ?>">rezeptdatenbank</a></li>
+		    		<li><a href="http://blog.cocktailberater.de">entwickler blog</a></li>
+		    		<li><a href="<?php print $this->url(array(
+						'module'=>'website',
+						'controller'=>'portal',
+						'action'=>'barkunde'),'default',true); ?>">barkunde</a></li>
+					<li><a href="<?php print $this->url(array(
+						'module'=>'website',
+						'controller'=>'portal',
+						'action'=>'hausbar'),'default',true); ?>">hausbar</a></li>
+					<li><a href="<?php print $this->url(array(
+						'module'=>'website',
+						'controller'=>'portal',
+						'action'=>'community'),'default',true); ?>">community</a></li>
+		    	</ul>
+			</div>
+		</li>
+	</ul>
+</div>
+<!-- end: top links -->
+<?php if(APPLICATION_ENV=='production') {?>
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.thobach.de/" : "http://stats.thobach.de/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://stats.thobach.de/piwik.php?idsite=4" style="border:0" alt=""/></p></noscript>
+<!-- End Piwik Tag -->
+<?php } ?>
+</body>
+</html>

@@ -1,0 +1,894 @@
+/*
+cocktailberater.de mobile Screen Stylesheet
+
+version:   1.0
+date:      03/06/10
+author:    Thomas Bachmann
+email:     info@thobach.de
+
+website:   www.cocktailberater.de
+-----------------------------------------------------------------------------*/
+
+/* Remove margin, padding and border from everything 
+-----------------------------------------------------------------------------*/
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif;
+}
+
+/* Styles for layout
+-----------------------------------------------------------------------------*/
+.clear {
+	clear: both;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
+
+.center {
+	text-align: center;
+}
+
+.textLeft {
+	text-align: left;
+}
+
+.textRight, table.table td.textRight, table.table th.textRight {
+	text-align: right;
+}
+
+.hide {
+	display: none;
+}
+
+.abstand {
+	padding: 0.2em;
+}
+
+.abstand_links {
+	margin-left: 1em;
+}
+
+.abstand_links_doppelt {
+	margin-left: 2em;
+}
+
+.abstand_links_halb {
+	margin-left: 0.2em;
+}
+
+.abstand_rechts {
+	margin-right: 1em;
+}
+
+.abstand_rechts_doppelt {
+	margin-right: 2em;
+}
+
+.abstand_rechts_halb {
+	margin-right: 0.2em;
+}
+
+.abstand_oben {
+	margin-top: 1em;
+}
+
+.abstand_oben_doppelt {
+	margin-top: 2em;
+}
+
+.abstand_unten {
+	margin-bottom: 1em;
+}
+
+.abstand_unten_doppelt {
+	margin-bottom: 2em;
+}
+
+/* Set up the document
+-----------------------------------------------------------------------------*/
+body {
+	font: 62.5%/ 1.5 "Lucida Grande", "Lucida Sans", Tahoma, Verdana,
+		sans-serif;
+	color: #000000;
+	text-align: center;
+}
+
+#wrapper {
+	width: 98%; /* Set page width here - you can also use percentage */
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 1em;
+	margin-bottom: 3em;
+	background-color: #FFFFFF;
+	padding-bottom: 1em;
+}
+
+/* Typography
+-----------------------------------------------------------------------------*/
+h1 {
+	font-size: 2.2em; /* Equivalent to 22pt */
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+h2 {
+	font-size: 2.0em; /* Equivalent to 20pt */
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+h3 {
+	font-size: 1.4em; /* Equivalent to 18pt */
+	margin-top: 0.8em;
+}
+
+h4 {
+	font-size: 1.2em; /* Equivalent to 18pt */
+}
+
+h5 {
+	font-size: 1.4em; /* Equivalent to 14pt */
+}
+
+p,q,cite {
+	font-size: 1.2em; /* Equivalent to 12pt */
+}
+
+ul,ol,dl {
+	list-style: none;
+	font-size: 1.2em; /* Equivalent to 12pt */
+}
+
+ul li,dd,dt {
+	font-size: 0.9em; /* Equivalent to 12pt */
+	clear: both;
+}
+
+ul ul li {
+	font-size: 0.7em;
+	font-weight: normal;
+}
+
+a:link {
+	color: #54616E;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #54616E;
+	text-decoration: none;
+}
+
+a:active {
+	color: #54616E;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #000000;
+	text-decoration: none;
+}
+
+a.nolink:hover {
+	color: #CF0060;
+}
+
+a.tip {
+	border-bottom: 1px dotted gray;
+}
+
+a.pink:hover, a.pink:active, a.pink:visited, a.pink:link {
+	color: #cf0060;
+}
+
+.link {
+	text-decoration: underline;
+	color: #54616E;
+	cursor: pointer;
+}
+
+hr {
+	border-bottom: 1px solid #aa1061;
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	clear: both;
+}
+
+/* Header
+-----------------------------------------------------------------------------*/
+#header {
+	margin-left: auto;
+	margin-right: auto;
+	width: 98%;
+}
+
+div#header a {
+	width: 98%;
+	display: block;
+}
+
+div#header a h1 {
+	display: none;
+}
+
+/* Navigation
+-----------------------------------------------------------------------------*/
+	/* pre-header
+-----------------------------------------------------------------------------*/
+div#pre-header {
+	padding-top: 0.5em;
+	margin-bottom: 0.8em;
+	text-align: left;
+	height: 1em;
+	margin-left: auto;
+	margin-right: auto;
+	width: 98%;
+	font-size: 1em;
+}
+
+div#pre-header ul {
+	
+}
+
+div#pre-header ul li {
+	clear: none;
+	float: right;
+	/*list-style-type: circle;*/
+	margin-left: 2em;
+}
+
+div#pre-header ul li ul { 
+	clear: none;
+}
+
+div#pre-header ul li ul li { 
+	float: none;
+	text-align: right;
+	margin-left:0;
+	font-size: 0.8em;
+}
+
+div#pre-header ul li  div ul.noJS {
+	background-color: white;
+	padding: 0.5em;
+	border: 1px solid #808080;
+	font-size: 1.4em;
+}
+
+/* Homepage
+-----------------------------------------------------------------------------*/
+#homepage {
+	clear: left;
+	width: 98%;
+	text-align: center;
+	font-size: 1.2em;
+}
+
+#wiki {
+	text-align: justify;
+}
+
+#spacing-left {
+	margin-left: 16px;
+	margin-right: 16px;
+	margin-top: 1.0em;
+	text-align: justify;
+}
+
+div.sub_nav {
+	float: left;
+	margin-right: 12px;
+	margin-top: 1em;
+	width:140px;
+	margin-left: 1em;	
+}
+
+div.browse {
+	text-align: left;
+	margin-left: 4em;
+	margin-right: 3em;
+	margin-top: 3em;
+	clear: left;
+}
+
+div.browse h2 {
+	font-size: 1.5em;
+	font-weight: normal;
+}
+
+div.browse ul {
+	margin-left: 0em;
+}
+
+div.browse ul li {
+	clear: none;
+	float: left;
+	width: 30%;
+	margin-top: 1em;
+	margin-bottom: 2em;
+	height: 3em;
+	margin-left: 1.3em;
+}
+
+div.browse ul li a img {
+	margin-right: 0.6em;
+	float: left;
+}
+
+div.browse ul li a {
+	text-decoration: underline;
+}
+
+div.content {
+	text-align: left;
+	float: left;
+	width: 98%;
+}
+
+div.content ul {
+	margin-left: 1em;
+	margin-top: 1em;
+	list-style-type: circle;
+	list-style-position: inside;
+}
+
+div.content ul.horizontal li {
+	clear: none;
+	float: left;
+	width: 43%;
+	margin-right: 1em;
+	list-style-type: none;
+	list-style-position: outside;
+	margin-top: 1em;
+	padding: 0.5em;
+}
+
+div.content ul.glas {
+	margin: 0;
+}
+
+div.content ul.glas li {
+	height: 5em;
+	border: 1px solid #54616E;
+}
+
+div.content ul.glas li img {
+	margin-right: 0.4em;
+	float: left;
+}
+
+div.content ul.noBullet{
+	list-style-type: none;	
+}
+
+div.sub_nav ul.textLeft>li:FIRST-CHILD{
+	margin-top: 0em;
+}
+
+div.sub_nav ul.textLeft>li{
+	margin-top: 1em;
+}
+
+div.sub_nav ul.textLeft>li>a {
+	font-weight: bold;
+	color: black;
+}
+
+div.sub_nav ul.textLeft>li>ul {
+	font-size: 1.35em;
+}
+
+/* Your template
+-----------------------------------------------------------------------------*/
+	/* Forms
+-----------------------------------------------------------------------------*/
+.regular_form fieldset {
+	border: 1px solid #54616E;
+	background-color: #F2F2F2;
+	padding: 1em;
+	margin-bottom: 1em;
+}
+
+.regular_form legend {
+	border: 1px solid #999999;
+	background-color: #D6D6D6;
+	margin-left: 1em;
+	padding: 0.3em;
+	font-weight: bold;
+}
+
+#hinweis,#achtung {
+	background-color: white;
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+	padding: 0.3em;
+	font-weight: bold;
+}
+
+#hinweis {
+	border: 1px solid blue;
+	color: blue;
+}
+
+#achtung {
+	border: 1px solid red;
+}
+
+input.small {
+	width: 3em;
+}
+
+input.medium {
+	width: 6em;
+}
+
+input.big,textarea.big {
+	width: 25em;
+}
+
+input.text,textarea.text {
+	padding: 3px;
+	border: 1px solid #999999;
+	margin-left: 3px;
+}
+
+input.submit,#submit,#anmelden,#abmelden {
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: 1.5em;
+	background-color: gray;
+}
+
+input.medium-button {
+	font-size: 1.5em;
+	text-align: center;
+	color: white;
+	width:137px;
+	height:32px;
+}
+
+input.small-button {
+	font-size: 1em;
+	text-align: center;
+	color: white;
+	width:94px;
+	height:22px;
+}
+
+form#tag_form .dijitTextBox, input#newtag {
+	border: 1px solid rgb(179, 179, 179);
+	font-size: 1.2em;
+	width: 6em;
+}
+
+form#tag_form label {
+	font-size: 1.2em;		
+}
+
+p.description {
+	font-size: 0.8em;
+	color: gray;
+	margin-top: 0.2em;
+	text-align: left;
+}
+
+.cocktail {
+	float: left;
+	padding-right: 1em;
+	padding-bottom: 2.5em;
+}
+
+#ergebnisse {
+	width: 98%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+textarea#comment {
+	width: 390px;
+	height: 60px;
+	margin-top: 0.5em;
+	font-size: 1.1em;
+}
+
+div#recaptcha_widget_div{
+	clear: left;	
+}
+
+.attribut, dt {
+	clear: left;
+	float: left;
+	color: #cf0060;
+	text-align: left;
+	margin: 2px;
+	padding: 1px;
+	width: 15%;
+	font-size: 1em;
+	font-weight: normal;
+}
+
+div.wert p {
+	font-size: 1em;
+	text-align: left;
+	margin-bottom: 0.4em;
+}
+
+.wert, dd {
+	clear: none;
+	float: left;
+	width: 70%;
+	text-align: left;
+	margin: 2px;
+	padding: 1px;
+	font-size: 1em;
+}
+
+div.wert ul li {
+	clear: both;
+}
+
+div.wert ul.nolist li {
+	clear: none;
+	float: left;
+}
+
+div.wert ul.Zend_Tag_Cloud {
+	clear: both;
+	float: left;
+	margin-bottom: 1em;	
+}
+
+div.wert ul.Zend_Tag_Cloud li {
+	display: inline;
+	float: none;
+	clear: both;
+}
+
+div.wert ul.Zend_Tag_Cloud li span {
+	display: none;	
+}
+
+div.wert ul.Zend_Tag_Cloud li a {
+}
+
+label {
+	text-align: left;
+}
+
+label.small {
+	width: 10em;
+}
+
+#pointer {
+	cursor: pointer;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.icon {
+	position: absolute;
+	bottom: 0;
+	width: 100px;
+}
+
+.error, .notice, .success {
+	padding:.8em;
+	border:2px solid #ddd;
+	margin-bottom: .8em;
+}
+
+.error {
+	background:#FBE3E4;
+	color:#8a1f11;
+	border-color:#FBC2C4;
+}
+
+.notice {
+	background:#FFF6BF;
+	color:#514721;
+	border-color:#FFD324;
+}
+
+.success {
+	background:#E6EFC2;
+	color:#264409;
+	border-color:#C6D880;
+}
+
+.error a {
+	color:#8a1f11;
+}
+
+.notice a {
+	color:#514721;
+}
+
+.success a {
+	color:#264409;
+}
+
+#box {
+	padding: 5px;
+	border: 1px solid black;
+	margin: 5px;
+}
+
+.highlight:hover {
+	background-color: white;
+}
+
+.pink {
+	color: #cf0060;
+}
+
+/* Suche
+-----------------------------------------------------------------------------*/
+form#suche_name {
+	margin-left: 4em;
+	margin-top: 2em;
+	text-align: left;
+}
+
+form#suche_name legend {
+	display: none;
+}
+
+form#suche_name label {
+	font-size: 1.5em;
+	float: left;
+	margin-top: 0.9em;
+}
+
+form#suche_name div.search_options label {
+	margin-top: 0;
+}
+
+form#suche_name div.search_options input {
+	margin-top: 0.4em;
+}
+
+form#suche_name .dijitTextBox, input#search {
+	width: 220px;
+	margin-left: 30px;
+	display: block;
+	float: left;
+	margin-top: 1.5em;
+}
+
+ul.dijitMenu li.dijitMenuItem {
+	font-size: 1.5em;
+}
+
+input#search {
+	border: 1px solid rgb(179, 179, 179);
+	font-size: 1.5em;
+	margin-top: 1em;
+}
+
+input#search_button {
+	background-color: white;
+	height: 58px;
+	width: 137px;
+	font-size: 0;
+	margin-left: 30px;
+}
+
+div.search_options {
+	font-size: 0.8em;
+	padding-top: 1em;
+	margin-bottom: 2em;
+	margin-left: 4em;
+}
+
+div.form {
+	clear: left;
+}
+
+textarea#message {
+	width: 300px;	
+	height: 150px;
+}
+
+dl.zend_form>dd>pre {
+	font-family: monospace;
+}
+
+input[type="radio"] { margin-right: 0.5em; }
+
+button {
+	background-color: white;
+}
+
+/* Tables 
+-----------------------------------------------------------------------------*/
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+	border: 1px solid gray;
+}
+
+td {
+	font-weight: normal;
+}
+
+table.table {
+	padding: 0.2em;
+}
+
+table.table thead {
+	color: #CF0060;
+	border: 1px solid gray;
+	background-color: #DDDDDD;
+}
+
+table.table tbody tr:nth-child(2n+1) {
+	background-color: #EEEEEE;
+}
+
+table.table td,table.table th {
+	border: 1px dotted gray;
+	padding: 0.3em;
+	text-align: left;
+	vertical-align: top;
+}
+
+/* Recipe page
+-----------------------------------------------------------------------------*/
+
+#photo_video {
+	clear: both;
+	margin-left: 2em;
+	margin-right: 0;
+	width: 160px;
+	text-align: left;
+}
+
+#recipe_info {
+	clear: both; 
+	position: relative; 
+	height: 110px; 
+	margin-left: 25px;
+}
+
+/* Sprites
+-----------------------------------------------------------------------------*/
+
+.stoebern_sprites {
+	background-image     : url(/img/sprites.png);
+	background-color     : transparent;
+	background-repeat    : no-repeat;
+	float: left;
+	display: block;
+	margin-right: 0.4em;
+ }
+
+ #spr_alcoholic {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -0px -0px;
+ }
+
+ #spr_non_alcoholic {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -38px -0px;
+ }
+
+ #spr_barkunde {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -76px -0px;
+ }
+
+ #spr_top10 {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -114px -0px;
+ }
+
+ #spr_beginner {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -152px -0px;
+ }
+
+ #spr_community {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -190px -0px;
+ }
+
+ #spr_image {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -228px -0px;
+ }
+
+ #spr_rum {
+	height               : 32px;
+	width                : 32px;
+	background-position  : -266px -0px;
+	margin-top			 : 3px;
+	margin-left			 : 3px;
+	padding-right		 : 3px;
+ }
+
+ #spr_vodka {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -298px -0px;
+ }
+ 
+ .social_sprites {
+	background-image     : url(/img/social-media/sprites.png);
+	background-color     : transparent;
+	background-repeat    : no-repeat;
+	float				 : left;
+	display				 : block;
+	margin-right		 : 0.2em;
+	height               : 16px;
+	width                : 16px;
+ }
+
+ #spr_delicious {
+	background-position  : -0px -0px;
+ }
+
+ #spr_delicious:hover {
+	background-position  : -16px -0px;
+ }
+
+ #spr_rss {
+	background-position  : -32px -0px;
+ }
+
+ #spr_rss:hover {
+	background-position  : -48px -0px;
+ }
+
+ #spr_digg {
+	background-position  : -64px -0px;
+ }
+
+ #spr_digg:hover {
+	background-position  : -80px -0px;
+ }
+
+ #spr_facebook_fan_gray, #spr_facebook_share_gray {
+	background-position  : -96px -0px;
+ }
+
+ #spr_facebook_fan, #spr_facebook_share {
+	background-position  : -112px -0px;
+ }
+
+ #spr_su {
+	background-position  : -128px -0px;
+ }
+
+ #spr_su:hover {
+	background-position  : -144px -0px;
+ }
+
+ #spr_twitter {
+	height               : 16px;
+	width                : 16px;
+	background-position  : -160px -0px;
+ }
+
+ #spr_twitter:hover {
+	background-position  : -176px -0px;
+ }
+ 
