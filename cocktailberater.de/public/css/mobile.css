@@ -376,7 +376,14 @@ input.big,textarea.big {
 input.text,textarea.text {
 }
 
-input.submit,#submit,#anmelden,#abmelden {
+input[type="submit"]{
+	border-style: inset;
+	background-color: buttonface;
+	border: 2px outset buttonface;
+	color: buttontext;
+	cursor: default;
+	padding: 2px 6px 3px 6px;
+	text-align: center;
 }
 
 input.medium-button {
@@ -542,33 +549,13 @@ label.small {
 
 /* Suche
 -----------------------------------------------------------------------------*/
-form#suche_name {
-
-}
-
-form#suche_name legend {
-	display: none;
-}
-
 form#suche_name label {
 	margin-top: 0.9em;
 }
 
 form#suche_name div.search_options label {
 	margin-top: 0;
-	margin-right: 1em;
-}
-
-form#suche_name div.search_options input {
-	margin-top: 0.4em;
-}
-
-input#search {
-	border: 1px solid rgb(179, 179, 179);
-	margin-top: 1em;
-}
-
-input#search_button {
+	margin-right: 0.8em;
 }
 
 div.search_options {
@@ -576,17 +563,9 @@ div.search_options {
 	margin-bottom: 1em;
 }
 
-div.form {
+input[type="radio"] { 
+	margin-right: 0.2em;
 }
-
-textarea#message {
-}
-
-dl.zend_form>dd>pre {
-	font-family: monospace;
-}
-
-input[type="radio"] { margin-right: 0.5em; }
 
 button {
 	background-color: white;
