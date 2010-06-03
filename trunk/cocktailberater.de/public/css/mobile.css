@@ -227,28 +227,19 @@ div#pre-header ul {
 }
 
 div#pre-header ul li {
-	clear: none;
-	float: right;
-	/*list-style-type: circle;*/
+	list-style-type: circle;
 	margin-left: 2em;
 }
 
 div#pre-header ul li ul { 
-	clear: none;
+
 }
 
 div#pre-header ul li ul li { 
-	float: none;
-	text-align: right;
 	margin-left:0;
 	font-size: smaller;
 }
 
-div#pre-header ul li  div ul.noJS {
-	background-color: white;
-	padding: 0.5em;
-	border: 1px solid #808080;
-}
 
 /* Homepage
 -----------------------------------------------------------------------------*/
