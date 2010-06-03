@@ -194,6 +194,15 @@ div#header a {
 	text-align: justify;
 }
 
+div {
+	clear: left;	
+}
+
+div.cocktail {
+	clear: none;	
+}
+
+
 div.sub_nav {
 	margin-right: 12px;
 	margin-top: 1em;
@@ -233,15 +242,6 @@ div.content ul {
 	list-style-position: inside;
 }
 
-div.content ul.horizontal li {
-	clear: none;
-	width: 43%;
-	margin-right: 1em;
-	list-style-type: none;
-	list-style-position: outside;
-	margin-top: 1em;
-	padding: 0.5em;
-}
 
 div.content ul.glas {
 	margin: 0;
@@ -282,6 +282,14 @@ div.sub_nav ul.textLeft>li>a {
 	background-color: #F2F2F2;
 	padding: 1em;
 	margin-bottom: 1em;
+}
+
+#rating_form fieldset{
+	border: none;
+}
+
+button {
+	border: none;	
 }
 
 .regular_form legend {
@@ -353,6 +361,7 @@ p.description {
 	float: left;
 	padding-right: 1em;
 	padding-bottom: 2.5em;
+	text-align: center;
 }
 
 #ergebnisse {
@@ -389,29 +398,6 @@ div.wert p {
 	text-align: left;
 	margin: 2px;
 	padding: 1px;
-}
-
-div.wert ul li {
-	clear: both;
-}
-
-div.wert ul.nolist li {
-}
-
-div.wert ul.Zend_Tag_Cloud {
-	clear: both;
-	margin-bottom: 1em;	
-}
-
-div.wert ul.Zend_Tag_Cloud li {
-	display: inline;
-}
-
-div.wert ul.Zend_Tag_Cloud li span {
-	display: none;	
-}
-
-div.wert ul.Zend_Tag_Cloud li a {
 }
 
 label {
@@ -507,7 +493,7 @@ div.search_options {
 input#search {
 	border: 1px solid grey;
 	font-size: larger;
-	width: 6em;
+	width: 6.5em;
 }
 
 input[type=text] {
