@@ -275,12 +275,13 @@ class Website_Model_Recipe {
 			} elseif($filter=='non-alcoholic'){
 				$whereSQL .= ' AND recipe.isAlcoholic=0 ';
 			} elseif($filter=='top10'){
-				$orderBySql = '(ratingsSum/ratingsCount) desc';
+				$fromSQL = ' INNER JOIN rating on recipe.id = rating.recipe ';
+				$orderBySql = ' AVG(rating.mark) DESC ';
 				$limitSql = ' LIMIT 10';
 			}
 		}
 		// look for perfect match
-		$result = $db->fetchAll ( 'SELECT id,name FROM recipe'.$fromSQL.' WHERE name LIKE \''.mysql_escape_string($name).'%\''.$whereSQL.' GROUP BY name ORDER BY  '.$orderBySql.' '.$limitSql);
+		$result = $db->fetchAll ( 'SELECT recipe.id,recipe.name FROM recipe'.$fromSQL.' WHERE name LIKE \''.mysql_escape_string($name).'%\''.$whereSQL.' GROUP BY name ORDER BY  '.$orderBySql.' '.$limitSql);
 		// if perfect match has not reached the maximum limit, continue with fuzzy search
 		if($limit && count($result)<$limit){
 			$names = '';
@@ -337,7 +338,7 @@ class Website_Model_Recipe {
 		if(in_array($difficulty,$difficulties)){
 			$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe');
 			// search for recipes with certain difficulty, order by rating
-			$recipes = $recipeTable->fetchAll ( 'difficulty=\'' . $difficulty .'\'', '(ratingsSum / ratingsCount) DESC');
+			$recipes = $recipeTable->fetchAll ( 'difficulty=\'' . $difficulty .'\'');
 			foreach($recipes as $recipe){
 				$recipeArray[$recipe['id']] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipe->id);
 			}
@@ -807,14 +808,8 @@ class Website_Model_Recipe {
 	 */
 	public function delete (){
 		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe');
-		/*$components = $this->getComponents();
-		 if(is_array($components)){
-			foreach ($components as $component){
-			$component->delete();
-			}
-			}*/
 		$recipeTable->delete('id='.$this->id);
-		CbFactory::destroy('Recipe',$this->id);
+		Website_Model_CbFactory::destroy('Website_Model_Recipe',$this->id);
 		unset($this);
 	}
 
@@ -837,8 +832,8 @@ class Website_Model_Recipe {
 		$array [ 'isOriginal' ] = $this->isOriginal ;
 		$array [ 'isAlcoholic' ] = $this->isAlcoholic ;
 		$array [ 'views' ] = $this->views ;
-		$array [ 'ratingsSum' ] = $this->ratingsSum ;
-		$array [ 'ratingsCount' ] = $this->ratingsCount ;
+		//$array [ 'ratingsSum' ] = $this->ratingsSum ;
+		//$array [ 'ratingsCount' ] = $this->ratingsCount ;
 		return $array ;
 	}
 
