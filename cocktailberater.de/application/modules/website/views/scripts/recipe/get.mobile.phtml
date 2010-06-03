@@ -54,7 +54,7 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/xml',
 <!-- end of class="right" -->
 </div>
 <!-- end of class="right" -->
-<div style="margin-left: 25px; margin-top: 15px; clear: none;">
+<div>
 <div class="attribut">Name:</div>
 <div class="wert"><?php
 print str_replace ( '\\', '', $recipe->name ) ;
@@ -370,8 +370,7 @@ foreach($tags as $tag){	?>
 	src="<?php
 	print $this->baseUrl() ;
 	?>/img/prozent.png" alt="Alkoholgehalt"
-	title="Alkoholgehalt" /><br />
-	<?php
+	title="Alkoholgehalt" /><?php
 	print round($recipe->getAlcoholLevel());
 	?> % Alkohol</li>
 	
