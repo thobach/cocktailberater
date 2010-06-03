@@ -179,10 +179,6 @@ a.pink:hover, a.pink:active, a.pink:visited, a.pink:link {
 
 hr {
 	border-bottom: 1px solid #aa1061;
-	width: 95%;
-	margin-left: auto;
-	margin-right: auto;
-	clear: both;
 }
 
 /* Header
@@ -273,7 +269,6 @@ div.browse ul {
 div.browse ul li {
 	margin-top: 1em;
 	margin-bottom: 2em;
-	margin-left: 1.3em;
 }
 
 div.browse ul li a img {
@@ -512,9 +507,6 @@ label.small {
 }
 
 .icon {
-	position: absolute;
-	bottom: 0;
-	width: 100px;
 }
 
 .error, .notice, .success {
@@ -606,7 +598,6 @@ input#search_button {
 div.search_options {
 	padding-top: 1em;
 	margin-bottom: 2em;
-	margin-left: 4em;
 }
 
 div.form {
@@ -662,7 +653,6 @@ table.table td,table.table th {
 -----------------------------------------------------------------------------*/
 
 #photo_video {
-	clear: both;
 	margin-left: 2em;
 	margin-right: 0;
 	width: 160px;
@@ -670,10 +660,7 @@ table.table td,table.table th {
 }
 
 #recipe_info {
-	clear: both; 
-	position: relative; 
-	height: 110px; 
-	margin-left: 25px;
+	margin-left: 1em;
 }
 
 /* Sprites
