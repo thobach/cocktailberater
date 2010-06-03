@@ -13,25 +13,10 @@ class Website_IndexController extends Zend_Controller_Action {
 
 	public function init() {
 		$log = Zend_Registry::get('logger');
-		$log->log('Wb_Controller_RestController->init',Zend_Log::DEBUG);
+		$log->log('Website_IndexController->init',Zend_Log::DEBUG);
 
 		$contextSwitch = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch');
 		$contextSwitch->setAutoJsonSerialization(false);
-		$contextSwitch->addContext('rss',array(
-				'suffix'	=> 'rss',
-				'headers'	=> array('Content-Type' => 'application/rss+xml')));
-		$contextSwitch->addContext('atom',array(
-				'suffix'	=> 'atom',
-				'headers'	=> array('Content-Type' => 'application/atom+xml')));
-		$contextSwitch->addContext('pdf',array(
-				'suffix'	=> 'pdf',
-				'headers'	=> array('Content-Type' => 'application/pdf')));
-		$contextSwitch->addContext('rdf',array(
-				'suffix'	=> 'rdf',
-				'headers'	=> array('Content-Type' => 'application/rdf+xml')));
-		$contextSwitch->addContext('ajax',array(
-				'suffix'	=> 'ajax',
-				'headers'	=> array('Content-Type' => 'text/html')));
 		$contextSwitch->addContext('mobile',array(
 				'suffix'	=> 'mobile',
 				'headers'	=> array('Content-Type' => 'text/html'),
@@ -48,10 +33,6 @@ class Website_IndexController extends Zend_Controller_Action {
 
 		$contextSwitch = $this->_helper->getHelper('contextSwitch');
 		$contextSwitch->addActionContext('index', true);
-		$contextSwitch->addActionContext('get', true);
-		$contextSwitch->addActionContext('post', true);
-		$contextSwitch->addActionContext('put', true);
-		$contextSwitch->addActionContext('delete', true);
 		$contextSwitch->initContext();
 	}
 

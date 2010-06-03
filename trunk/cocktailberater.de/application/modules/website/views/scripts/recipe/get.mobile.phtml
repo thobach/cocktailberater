@@ -41,7 +41,7 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/xml',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'));
 ?>
 <!-- class="right" -->
-<div class="right clear">
+<div class="right clear center">
 	<img src="<?php
 	if(isset($photos[0]) && $photos[0]->fileName) { 
 		echo $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName ;
@@ -205,40 +205,22 @@ function clearRatingFormError(){
 <?php } ?>	
 <!-- Tags -->
 <div class="attribut">Schlagworte:</div>
-<div class="wert"><ul id="tagList"><?php
+<div class="wert"><?php
 $tags =  Website_Model_Tag::tagsByRecipeId($recipe->id,true);
 foreach($tags as $tag){	?>
-	<li class="left" style="clear: none; margin-right: 0.4em;"><a href="<?php print $this->url(array('controller'=>'recipe',
+	<a href="<?php print $this->url(array('controller'=>'recipe',
 	'action'=>'index','index'=>'index','search_type'=>'tag',
 	'search'=>$tag->getTitle())); ?>" rel="tag" 
-	id="tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()); ?>"><?php print $tag->name; ?></a></li>
+	id="tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()); ?>"><?php print $tag->name; ?></a>
 	<?php 
 }
-?><li class="left" style="clear: none;"><a name="tag_prev" id="tag_prev" onclick="insertTag();" href="#tags" style="margin-top: 1em; text-decoration: underline;">Schlagwort hinzufügen</a></li></ul>
-
-
-
-
-<form id="tag_form" class="regular_form hide abstand_unten clear" method="post"
-	action="<?php print $this->url(array('module'=>'website','controller'=>'tag'),null,true); ?>" style="padding-top: 1em;">
-	<fieldset>
-		<legend>Schlagwort hinzufügen</legend>
-		<div id="tag_state" class="hide">&nbsp;</div>
-		<label for="tagvalue" class="hide">Dein Schlagwort:</label>
-		<!-- text input w/ autocompletion -->
-		<input id="tagvalue" name="" type="text" />
-		<input name="newtag" id="newtag" value="" type="hidden" />
-		<input name="recipe" value="<?php print $recipe->id; ?>" type="hidden" />
-		<input type="submit" class="small-button" value="hinzufügen"
-			style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png'); font-size: 0.9em;" />
-	</fieldset>
-</form>
+?>
 </div>
 
 <div class="attribut"><a id="comments" class="nolink">Kommentare:</a></div>
 <div class="wert">
 	<ul id="commentList"><?php
-	if (is_array ( $this->recipe->getComments() )) {
+	if (count ( $this->recipe->getComments() )) {
 		$currentCommentNumber = 0;
 		foreach ( $this->recipe->getComments() as $comment ) {
 			$currentCommentNumber++;
@@ -273,7 +255,7 @@ foreach($tags as $tag){	?>
 <?php if($gesamt) { ?>
 	<div class="attribut">Rezeptalternativen:</div>
 	<div class="wert">
-	<ul class="nolist">
+	<ul>
 	<?php
 	foreach ($alternatives as $alternative) { ?>
 		<li><?php $this->cocktailPreview($alternative); ?></li>
@@ -281,70 +263,25 @@ foreach($tags as $tag){	?>
 	</ul>
 	</div>
 	<?php } ?>
-<div class="attribut" id="statistics">Statistiken:</div>
-<div class="wert" style="width: 36em;"><p>
-	Dieses Rezept wurde insgesamt <?php
-	$totalViews = 0; 
-	$htmlViews = 0;
-	$printViews = 0;
-	$feedViews = 0;
-	$appViews = 0;
-	foreach($recipe->getStatistics() as /* @var $statistic Website_Model_Statistic */ $statistic) {
-		if($statistic->format == Website_Model_Statistic::FORMAT_HTML ||
-			$statistic->format == Website_Model_Statistic::FORMAT_MOBILE){
-			$htmlViews += $statistic->views;
-		} else if($statistic->format == Website_Model_Statistic::FORMAT_RSS || 
-			$statistic->format == Website_Model_Statistic::FORMAT_ATOM){
-			$feedViews += $statistic->views;
-		} else if($statistic->format == Website_Model_Statistic::FORMAT_PDF) {
-			$printViews += $statistic->views;
-		} else {
-			$appViews += $statistic->views;
-		} 
-		$totalViews += $statistic->views;
-	}
-	print $totalViews; ?> mal angeschaut.</p>
-</div><!-- END of class=wert -->
 </div><!-- END of class=left -->
+<div class="attribut">Weitere Informationen:</div>
+<div class="wert content">
 <ul>
-<li class="left icon"><img
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/zeit.png" alt="Zeitaufwand"
-	title="Zeitaufwand" height="42" width="43" /><?php
-	print $recipe->workMin;
-	?> min</li>
-<li class="left icon"><img
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/<?php
+<li class="left icon">Zubereitungszeit: <?php print $recipe->workMin; ?> min</li>
+<li class="left icon">Schwierigkeitsgrad: <?php
 	if ($recipe->difficulty == Website_Model_Recipe::BEGINNER) {
-		print "difficulty/beginner.png" ;
 		$difficultyMessage = 'Anfänger';
 	}
 	else if ($recipe->difficulty == Website_Model_Recipe::ADVANCED) {
-		print "difficulty/advanced.png" ;
 		$difficultyMessage = 'Fortgeschritten';
 	}
 	else if ($recipe->difficulty == Website_Model_Recipe::PROFI) {
-		print "difficulty/professional.png" ;
 		$difficultyMessage = 'Profi';
 	} else {
-		// TODO: Bild erstellen, welches ausdrückt, dass es keine Information dazu gibt...
-		print "difficulty/unknown.png" ;
 		$difficultyMessage = 'nicht eingestuft';
 	}
-	?>" 
-	alt="Schwierigkeitsgrad <?php
-	print $difficultyMessage;
-	?>"
-	title="Schwierigkeitsgrad <?php
-	print $difficultyMessage;
-	?>" /><?php
-	print $difficultyMessage
-	;
-	?></li>
-<li class="left icon"><img
+	print $difficultyMessage; ?></li>
+<li class="left icon">Glas: <img
 	src="<?php
 	echo $this->baseUrl() .'/img/glasses/'. $recipe->getGlass()->getPhoto()->fileName ;
 	?>"
@@ -357,40 +294,22 @@ foreach($tags as $tag){	?>
 	print $recipe->getGlass()->name ;
 	?></li>
 	
-<li class="left icon" id="caloriesInfo"><img
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/calories.png" alt="Kalorien" height="48" width="33"
-	title="Kalorien" />
-	<span style="text-decoration: underline; text-underline-style: dotted; cursor: pointer; color: rgb(84, 97, 110);"><?php
+<li class="left icon" id="caloriesInfo">Kalorien: <?php
 	if(!$caloriesComplete){
 		print 'über ';
-	} ?><span style="white-space: nowrap"><?php print $recipe->getCaloriesKcal(); ?> kcal</span></span></li>
-<li class="left icon" ><img  height="42" width="34"
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/prozent.png" alt="Alkoholgehalt"
-	title="Alkoholgehalt" /><?php
+	}
+	print $recipe->getCaloriesKcal(); ?> kcal</li>
+<li class="left icon" >Alkoholgehalt: <?php
 	print round($recipe->getAlcoholLevel());
 	?> % Alkohol</li>
-	
-<li class="left icon" id="priceInfo"><img  height="42" width="34"
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/icons/money.png" alt="Preis / Kosten"
-	title="Preis / Kosten" />
-	<span style="text-decoration: underline; text-underline-style: dotted; cursor: pointer; color: rgb(84, 97, 110);">
-	<?php
+<li class="left icon" id="priceInfo">Kosten: <?php
 	if(!$priceComplete){
 		print 'über ';
 	}
 	print number_format($recipe->getAveragePrice(),2,',','.');
-	?> €</span></li>
-<li class="left icon" ><img  height="47" width="25"
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/volumen.png" alt="Volumen"
-	title="Volumen" /><?php
+	?> €</li>
+<li class="left icon" >Volumen: <?php
 	print $recipe->getVolumeCl() ;
 	?> cl</li>
 </ul>
+</div>

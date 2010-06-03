@@ -6,14 +6,37 @@
 
 class Website_PortalController extends Zend_Controller_Action {
 
+	public function init() {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_IndexController->init',Zend_Log::DEBUG);
+
+		$contextSwitch = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch');
+		$contextSwitch->setAutoJsonSerialization(false);
+		$contextSwitch->addContext('mobile',array(
+				'suffix'	=> 'mobile',
+				'headers'	=> array('Content-Type' => 'text/html'),
+				'callbacks' => array(
+					'init'	=> array(__CLASS__, 'enableLayout'),
+		            'post' => array(__CLASS__, 'setLayoutContext'))));
+		$contextSwitch->addContext('html',array(
+				'suffix'	=> '',
+				'headers'	=> array('Content-Type' => 'text/html'),
+				'callbacks' => array(
+					'init'	=> array(__CLASS__, 'enableLayout'),
+		            'post' => array(__CLASS__, 'setLayoutContext'))));
+		$contextSwitch = $this->_helper->getHelper('contextSwitch');
+		$contextSwitch->addActionContext('about', true);
+		$contextSwitch->initContext();
+	}
+
 	public function indexAction () {
 
 	}
-	
+
 	public function aboutAction () {
 
 	}
-	
+
 	public function barkundeAction () {
 
 	}
@@ -21,27 +44,27 @@ class Website_PortalController extends Zend_Controller_Action {
 	public function hausbarAction () {
 
 	}
-	
+
 	public function communityAction () {
 
 	}
-	
+
 	public function cocktailDerWocheAction () {
 
 	}
-	
+
 	public function top10DrinksAction () {
 
 	}
-	
+
 	public function forumAction () {
 
 	}
-	
+
 	public function loginAction () {
 
 	}
-	
+
 	public function meineHausbarAction () {
 		//Zend_Debug::dump($this->_getAllParams());
 		//fetch all products from the current bar
@@ -67,58 +90,58 @@ class Website_PortalController extends Zend_Controller_Action {
 			//print 'get-methode<br />';
 		}
 	}
-	
+
 	public function meineHausbarPrintAction () {
 		//fetch all products from the current bar
 		$this->view->bar = $bar = new Bar(1);
 		$this->view->currentProducts = $bar->getProducts();
 	}
-	
+
 	public function meineFavoritenAction () {
 
 	}
-	
+
 	public function meineCocktailsAction () {
 
 	}
-	
+
 	public function meinCocktailbuchAction () {
 
 	}
-	
+
 	public function glasAction () {
 
 	}
-	
+
 	public function utensilienAction () {
 
 	}
-	
+
 	public function nutritionAction () {
 		$this->view->cocktails = Website_Model_Cocktail::listCocktails('');
 		//Zend_Debug::dump($cocktails);
 	}
-	
+
 	public function mixtechnikenAction () {
 
 	}
-	
+
 	public function grundausstattungAction () {
 
 	}
-	
+
 	public function zutatenAction () {
 
 	}
-	
+
 	public function buecherAction () {
 
 	}
-	
+
 	public function andereSeitenAction () {
 
 	}
-	
+
 	// Impressum
 	public function imprintAction () {
 	}
@@ -197,6 +220,21 @@ class Website_PortalController extends Zend_Controller_Action {
 		$form = new Website_Form_Contact();
 		$form->setAction($this->_helper->url('contact'));
 		return $form;
+	}
+
+	public static function enableLayout() {
+		$layout = Zend_Layout::getMvcInstance();
+		$layout->enableLayout();
+	}
+
+	public static function setLayoutContext() {
+		$layout = Zend_Layout::getMvcInstance();
+		if (null !== $layout && $layout->isEnabled()) {
+			$context = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch')->getCurrentContext();
+			if (null !== $context) {
+				$layout->setLayout($layout->getLayout() . '.' . $context);
+			}
+		}
 	}
 
 }
