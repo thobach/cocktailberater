@@ -489,7 +489,8 @@ form#suche_name label {
 }
 
 form#suche_name fieldset {
-	border: none;	
+	border: none;
+	margin-top: 1em;
 }
 
 form#suche_name div.search_options label {
@@ -505,6 +506,7 @@ div.search_options {
 input#search {
 	border: 1px solid grey;
 	font-size: large;
+	width: 6em;
 }
 
 
