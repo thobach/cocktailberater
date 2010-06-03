@@ -71,41 +71,39 @@ echo $this->headLink()."\n";
 <div id="pre-header">
 	<ul>
 		<!-- social bookmarking & RSS -->
-		<li style="margin-left: 1em;">
+		<li style="margin-left: 1em; list-style-type: none;">
 			<a href="http://www.facebook.com/cocktailberater" style="padding-top: 0.2em; padding-bottom: 0.2em;" title="auf facebook Fan werden">
 				<span class="social_sprites" id="spr_facebook_fan_gray"></span> Fan werden
 			</a></li>
-		<li style="margin-left: 1em;">
+		<li style="margin-left: 1em; list-style-type: none;">
 			<a style="padding-top: 0.2em; padding-bottom: 0.2em;"
 				href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>" title="auf facebook teilen">
 				<span class="social_sprites" id="spr_facebook_share_gray"></span> Teilen</a></li>
-		<li style="margin-left: 1em;">
+		<li style="margin-left: 1em; list-style-type: none;">
 			<a href="http://del.icio.us/post?url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf delicious bookmarken">
-				<span class="social_sprites" id="spr_delicious"></span> <span class="hide">delicious</span>
+				<span class="social_sprites" id="spr_delicious"></span>delicious
 			</a></li>
-		<li style="margin-left: 1em;">
+		<li style="margin-left: 1em; list-style-type: none;">
 			<a href="http://digg.com/submit?phase=2&amp;url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf Digg bookmarken">
-				<span class="social_sprites" id="spr_digg"></span> <span class="hide">Digg</span>
+				<span class="social_sprites" id="spr_digg"></span>Digg
 			</a></li>
-		<li style="margin-left: 1em;">
+		<li style="margin-left: 1em; list-style-type: none;">
 			<a href="http://www.stumbleupon.com/submit?url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf StumbleUpon bookmarken">
-			<span class="social_sprites" id="spr_su"></span> <span class="hide">StumbleUpon</span>
+			<span class="social_sprites" id="spr_su"></span>StumbleUpon
 			</a></li>
-		<li style="margin-left: 1em;">
+		<li style="margin-left: 1em; list-style-type: none;">
 			<a href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>" title="auf Twitter posten">
-				<span class="social_sprites" id="spr_twitter"></span> <span class="hide">Twitter</span>
+				<span class="social_sprites" id="spr_twitter"></span>Twitter
 			</a></li>
-		<li><a href="http://blog.cocktailberater.de/feeds/posts/default" title="Blog als RSS-Feed abonnieren">
-				<span class="social_sprites" id="spr_rss"></span> <span class="hide">Blog</span>
+		<li style="margin-left: 1em; list-style-type: none;"><a href="http://blog.cocktailberater.de/feeds/posts/default" title="Blog als RSS-Feed abonnieren">
+				<span class="social_sprites" id="spr_rss"></span>Blog
 			</a></li>
 			
 		<!-- kontakt -->
 		<li>
-			<a href="<?php if($currentShow=='contact') { $show = 'none'; } 
-				else { $show = 'contact'; } echo $this->url(array('show'=>$show)); ?>" 
-				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">kontakt</a>
-			<div id="tooltipDlg3" style="<?php if($currentShow!='contact') { ?>display: none;<?php } ?> position: absolute; margin-left: -17em; padding: 0 4em 4em 4em;">
-			    <ul class="noJS">
+			kontakt
+			<div>
+			    <ul>
 			    	<li><a href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
@@ -123,11 +121,9 @@ echo $this->headLink()."\n";
 		
 		<!-- über cocktailberater -->
 		<li>
-			<a href="<?php if($currentShow=='partner') { $show = 'none'; } 
-				else { $show = 'partner'; } echo $this->url(array('show'=>$show)); ?>" 
-				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">über cocktailberater</a>
-			<div id="tooltipDlg1" style="<?php if($currentShow!='partner') { ?>display: none;<?php } ?> position: absolute; margin-left: -4.5em; padding: 0 4em 4em 4em;">
-			    <ul class="noJS">
+			über cocktailberater
+			<div>
+			    <ul>
 			    	<li><a href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
@@ -143,11 +139,10 @@ echo $this->headLink()."\n";
 		</li>
 		
 		<!-- projekte -->
-		<li style="margin-left: 1em;">
-			<a href="<?php if($currentShow=='projects') { $show = 'none'; } else { $show = 'projects'; } echo $this->url(array('show'=>$show)); ?>" 
-				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">projekte</a>
-			<div id="tooltipDlg2" style="<?php if($currentShow!='projects') { ?>display: none;<?php } ?> position: absolute; margin-left: -9em; padding: 0 4em 4em 4em;">
-		    	<ul class="noJS">
+		<li>
+			projekte
+			<div>
+		    	<ul>
 		    		<li><a href="<?php print $this->url(array(
 						'module'=>'website',
 						'controller'=>'index',
