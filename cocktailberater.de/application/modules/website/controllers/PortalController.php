@@ -10,6 +10,10 @@ class Website_PortalController extends Zend_Controller_Action {
 
 	}
 	
+	public function aboutAction () {
+
+	}
+	
 	public function barkundeAction () {
 
 	}

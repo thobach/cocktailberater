@@ -27,8 +27,8 @@ class Website_Model_Recipe {
 	private $averagePrice; // calculated
 	private $caloriesKcal; // calculated
 	private $volumeCl; // calculated
-	private $ratingsSum;
-	private $ratingsCount;
+	private $ratingsSum; // calculated
+	private $ratingsCount; // calculated
 	private $insertDate;
 	private $updateDate;
 
@@ -71,6 +71,13 @@ class Website_Model_Recipe {
 				$this->averagePrice = $this->getAveragePrice();
 			} elseif($name=='volumeCl' && $this->volumeCl === NULL){
 				$this->volumeCl = $this->getVolumeCl();
+			} elseif($name=='ratingsSum' && $this->ratingsSum === NULL){
+				$this->ratingsSum = 0;
+				foreach($this->getRatings() as /* @var $rating Website_Model_Rating */$rating){
+					$this->ratingsSum += $rating->mark;
+				}
+			} elseif($name=='ratingsCount' && $this->ratingsCount === NULL){
+				$this->ratingsCount = count($this->getRatings());
 			}
 			return $this->$name;
 		} else {
@@ -141,7 +148,7 @@ class Website_Model_Recipe {
 
 
 	public function getRating(){
-		return round(@($this->ratingsSum/$this->ratingsCount),2);
+		return round(@($this->__get('ratingsSum')/$this->__get('ratingsCount')),2);
 	}
 
 	/**
@@ -216,8 +223,8 @@ class Website_Model_Recipe {
 			//$this->alcoholLevel = $this->getAlcoholLevel();
 			//$this->caloriesKcal = $this->getCaloriesKcal();
 			//$this->volumeCl = $this->getVolumeCl();
-			$this->ratingsCount = $recipe->ratingsCount;
-			$this->ratingsSum = $recipe->ratingsSum;
+			//$this->ratingsCount = $recipe->ratingsCount;
+			//$this->ratingsSum = $recipe->ratingsSum;
 			$this->insertDate =  $recipe->insertDate;
 			$this->updateDate =  $recipe->updateDate;
 
@@ -545,7 +552,7 @@ class Website_Model_Recipe {
 	public function recipesByCocktailId ( $idcocktail ) {
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe');
 		try {
-			$recipes = $table->fetchAll ( 'cocktail=' . $idcocktail , '(ratingsSum / ratingsCount) DESC') ; }
+			$recipes = $table->fetchAll ( 'cocktail=' . $idcocktail) ; }
 			catch (Exception $e) {
 				throw new Website_Model_RecipeException('Id_Wrong');
 			}

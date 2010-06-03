@@ -181,11 +181,12 @@ echo $this->headScript()."\n";
 							'action'=>'contact'),'default',true); ?>">kontakt</a></li>
 					<li><a href="http://www.thobach.de">thomas bachmann (entwickler)</a></li>
 					<li><a href="http://www.carolinebock.de">caroline bock (designer)</a></li>
+					<li><a href="http://www.leo-meissen.de">kay leonhardt (designer)</a></li>
 				</ul>
 			</div>
 		</li>
 		
-		<!-- cocktailberater auf -->
+		<!-- über cocktailberater -->
 		<li>
 			<a href="<?php if($currentShow=='partner') { $show = 'none'; } 
 				else { $show = 'partner'; } echo $this->url(array('show'=>$show)); ?>" 
@@ -193,6 +194,10 @@ echo $this->headScript()."\n";
 				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">über cocktailberater</a>
 			<div id="tooltipDlg1" style="<?php if($currentShow!='partner') { ?>display: none;<?php } ?> position: absolute; margin-left: -4.5em; padding: 0 4em 4em 4em;">
 			    <ul class="noJS">
+			    	<li><a href="<?php print $this->url(array(
+							'module'=>'website',
+							'controller'=>'portal',
+							'action'=>'about'),'default',true); ?>">das projekt</a></li>
 			    	<li><a href="http://www.facebook.com/cocktailberater">cb auf facebook</a></li>
 					<li><a href="http://twitter.com/cocktailberater">cb auf twitter</a></li>
 					<li><a href="http://ohloh.net/p/cocktailberater">cb auf ohloh</a></li>
