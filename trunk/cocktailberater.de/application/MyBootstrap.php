@@ -1,6 +1,8 @@
 <?php
 class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
+	/*
+	// bad idea -> home page w/o /website and counter doesn't work
 	protected function _initPageCache(){
 		$config = $this->getOptions();
 		if($config['pagecache']['enabled']=='true') {
@@ -28,6 +30,7 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			$cachePage->start();
 		}
 	}
+	*/
 
 	/**
 	 * Initialize Logger
@@ -139,12 +142,12 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
 	/**
 	 * Sets the baseUrl
-	 *
+	 * bad idea to do it this way
 	 * @return void
 	 */
-	public function _initUrl(){
+	/*public function _initUrl(){
 		Zend_Controller_Front::getInstance()->setBaseUrl('http://'.$_SERVER['HTTP_HOST']);
-	}
+	}*/
 
 	
 }

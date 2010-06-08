@@ -17,7 +17,7 @@ class IndexController extends Zend_Controller_Action{
 		$this->_redirect($this->view->url(array(
 							'module'=>'website',
 							'controller'=>'index',
-							'action'=>'index'),null,true));
+							'action'=>'index'),null,true).'?format='.$this->_getParam('format','html'));
 		/* 
 		 * a simple forward made the url() helper work wrong (didn't accept 
 		 * the actions)

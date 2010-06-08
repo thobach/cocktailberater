@@ -10,6 +10,7 @@ class Website_PortalController extends Zend_Controller_Action {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_IndexController->init',Zend_Log::DEBUG);
 
+		/* @var $contextSwitch Zend_Controller_Action_Helper_ContextSwitch */
 		$contextSwitch = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch');
 		$contextSwitch->setAutoJsonSerialization(false);
 		$contextSwitch->addContext('mobile',array(
@@ -25,7 +26,8 @@ class Website_PortalController extends Zend_Controller_Action {
 					'init'	=> array(__CLASS__, 'enableLayout'),
 		            'post' => array(__CLASS__, 'setLayoutContext'))));
 		$contextSwitch = $this->_helper->getHelper('contextSwitch');
-		$contextSwitch->addActionContext('about', true);
+		$contextSwitch->addActionContexts(array('about'=>true,'imprint'=>true,
+		'contact'=>true,'contacted'=>true));
 		$contextSwitch->initContext();
 	}
 
@@ -218,7 +220,7 @@ class Website_PortalController extends Zend_Controller_Action {
 	protected function _getContactForm()
 	{
 		$form = new Website_Form_Contact();
-		$form->setAction($this->_helper->url('contact'));
+		$form->setAction($this->_helper->url('contact')."?format=".$this->_getParam('format'));
 		return $form;
 	}
 

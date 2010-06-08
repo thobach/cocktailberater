@@ -63,17 +63,17 @@ echo $this->headLink()."\n";
 <div id="homepage">
 <div id="content"><?php echo $this->layout()->content ?></div>
 <!-- begin: top links -->
-<h2 style="clear: left;">Social</h2>
+<h2 style="padding-top: 1em;">Social</h2>
 <ul>
-	<li><a href="http://www.facebook.com/cocktailberater"
+	<li style="clear: left;"><a href="http://www.facebook.com/cocktailberater"
 		style="padding-top: 0.2em; padding-bottom: 0.2em;"
 		title="auf facebook Fan werden"><span class="social_sprites"
 		id="spr_facebook_fan"></span> Fan werden</a></li>
-	<li><a style="padding-top: 0.2em; padding-bottom: 0.2em;"
+	<li style="clear: left;"><a style="padding-top: 0.2em; padding-bottom: 0.2em;"
 		href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>"
 		title="auf facebook teilen"> <span class="social_sprites"
 		id="spr_facebook_share"></span> Teilen</a></li>
-	<li><a
+	<li style="clear: left;"><a
 		href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>"
 		title="auf Twitter posten"> <span class="social_sprites"
 		id="spr_twitter"></span>Twitter(n)</a></li>
@@ -85,17 +85,17 @@ echo $this->headLink()."\n";
 		href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
-							'action'=>'about'),'default',true); ?>">über cocktailberater</a></li>
+							'action'=>'about'),'default',true); ?>?format=mobile">über cocktailberater</a></li>
 	<li><a class="social_sprites_text"
 		href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
-							'action'=>'imprint'),'default',true); ?>">impressum</a></li>
+							'action'=>'imprint'),'default',true); ?>?format=mobile">impressum</a></li>
 	<li><a class="social_sprites_text"
 		href="<?php print $this->url(array(
 							'module'=>'website',
 							'controller'=>'portal',
-							'action'=>'contact'),'default',true); ?>">kontakt</a></li>
+							'action'=>'contact'),'default',true); ?>?format=mobile">kontakt</a></li>
 </ul>
 <p class="abstand_oben">[ <a href="?format=html">Desktop-Version</a> ]</p>
 <!-- end: top links --></div>
