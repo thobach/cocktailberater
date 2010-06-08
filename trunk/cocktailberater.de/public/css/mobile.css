@@ -495,7 +495,7 @@ div.search_options {
 }
 
 input#search {
-	border: 1px solid grey;
+	border: 1px solid gray;
 	font-size: larger;
 	width: 6.5em;
 }
