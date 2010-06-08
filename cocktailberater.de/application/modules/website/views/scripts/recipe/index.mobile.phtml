@@ -1,4 +1,20 @@
-<?php
+<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Rezepte',
+                'module'     => 'website',
+                'controller' => 'recipe'
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+?></p><?php
 $this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
 					  'title' => 'Liste aller Cocktailrezepte - Atom',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=atom'));

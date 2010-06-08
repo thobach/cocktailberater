@@ -1,2 +1,72 @@
-<?php
-require_once 'index.phtml';
+<p style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Zutaten',
+                'module'     => 'website',
+                'controller' => 'ingredient'
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+?></p>
+<div>
+<h2 style="margin-top: 0;">Zutaten für Cocktailrezepte</h2>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Zutat</th>
+			<th>Kategorie</th>
+			<th>Kalorien</th>
+			<th>Preis</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->ingredients as $ingredient){ /* @var $ingredient Website_Model_Ingredient */ ?>
+		<tr>
+			<td><?php 
+			$categories = '';
+			if(is_array($ingredient->getIngredientCategories())){
+				foreach($ingredient->getIngredientCategories() as $cagetory){
+					$cagetory = '<a href="'.$this->url(array('controller'=>'ingredient-category','action'=>'get','module'=>'website','id'=>$cagetory->getUniqueName())).'?format=mobile">'.$cagetory->name.'</a>';
+					$categories	= ($categories ? $categories.', '.$cagetory : $cagetory);
+				}
+			} ?> <a
+				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>?format=mobile">
+				<?php print $ingredient->name; ?></a> (<?php if($ingredient->getAverageAlcoholLevel()) { print $ingredient->getAverageAlcoholLevel().' %'; } else { print '0 %'; } ?>)<?php 
+			$numberOfRecipes = $ingredient->getNumberOfRecipes();
+			if($numberOfRecipes) { ?>, <a href="<?php print $this->url(array(
+				'controller'=>'ingredient','action'=>'get','module'=>'website',
+				'id'=>$ingredient->getUniqueName())); ?>?format=mobile#recipes-list">
+				<?php print $numberOfRecipes; ?> Rezepte</a><?php
+			} 
+			$products = Website_Model_Product::numberOfProductsByIngredientId($ingredient->id);
+			if($products>0) { ?>, <a href="<?php print $this->url(array(
+				'controller'=>'ingredient','action'=>'get','module'=>'website',
+				'id'=>$ingredient->getUniqueName())); ?>?format=mobile#products-list"><?php print $products; ?>
+				Produkte</a><?php 
+			} ?></td>
+			<td><?php print $categories; ?></td>
+			<td><?php if($ingredient->getAverageCaloriesKcal()) { print round($ingredient->getAverageCaloriesKcal()/10); ?>&nbsp;kcal<?php } else { print 'k.A.'; } ?></td>
+			<td><?php 
+			if($ingredient->getAveragePricePerLitre() || $ingredient->getAveragePricePerKilogram()) {
+				if($ingredient->getAveragePricePerLitre()) {
+					print number_format($ingredient->getAveragePricePerLitre(),2,',','.').'&nbsp;€&nbsp;/&nbsp;l ';
+				}
+				if($ingredient->getAveragePricePerLitre() && $ingredient->getAveragePricePerKilogram()) {
+					print ' bzw. ';
+				}
+				if($ingredient->getAveragePricePerKilogram()) {
+					print number_format($ingredient->getAveragePricePerKilogram(),2,',','.').'&nbsp;€&nbsp;/&nbsp;kg';
+				}
+			} ?></td>
+		</tr>
+		<?php } ?>
+	</tbody>
+</table>
+</div>

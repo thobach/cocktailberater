@@ -1,3 +1,28 @@
+<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Rezepte',
+                'module'     => 'website',
+                'controller' => 'recipe',
+                'pages'      => array(
+                    array(
+                        'label'      => $this->recipe->name,
+                        'module'     => 'website',
+                        'controller' => 'recipe',
+                        'action'     => 'get'
+                    )
+                )
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+?></p>
 <?php
 print $this->partial('template/search.mobile.phtml',$this);
 
@@ -86,17 +111,17 @@ foreach ( $components as /* @var $component Website_Model_Component */ $componen
 							'href="'.$this->url(array('module'=>'website',
 							'controller'=>'ingredient',
 							'id'=>$component->getIngredient()->getUniqueName()),
-							null,true).'">'.
+							null,true).'?format=mobile">'.
 							$component->getIngredient()->name.'</a>';
 	if($component->getPreferredProduct()){
 		$componentString .= '<ul style="margin-left: 1.9em;"><li>empfohlen <a href="'.$this->url(array('module'=>'website',
 							'controller'=>'product',
 							'id'=>$component->getPreferredProduct()->getUniqueName()),
-							null,true).'">'.$component->getPreferredProduct()->name.
+							null,true).'?format=mobile">'.$component->getPreferredProduct()->name.
 							'</a> von <a href="'.$this->url(array('module'=>'website',
 							'controller'=>'manufacturer',
 							'id'=>$component->getPreferredProduct()->getManufacturer()->getUniqueName()),
-							null,true).'">'.
+							null,true).'?format=mobile">'.
 							$component->getPreferredProduct()->getManufacturer()->name.'</a></li></ul>'; 
 	} 
 	$componentString .= '</li>';
@@ -210,7 +235,7 @@ $tags =  Website_Model_Tag::tagsByRecipeId($recipe->id,true);
 foreach($tags as $tag){	?>
 	<a href="<?php print $this->url(array('controller'=>'recipe',
 	'action'=>'index','index'=>'index','search_type'=>'tag',
-	'search'=>$tag->getTitle())); ?>" rel="tag" 
+	'search'=>$tag->getTitle())); ?>?format=mobile" rel="tag" 
 	id="tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()); ?>"><?php print $tag->name; ?></a>
 	<?php 
 }

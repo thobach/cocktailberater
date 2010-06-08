@@ -52,7 +52,7 @@ $log->log('cocktailPreview, middle 4',Zend_Log::DEBUG);
 <div class="cocktail" style="width: 107px; height: 150px"><a
 	href="<?php $uniqueName = $recipe->getUniqueName();
 	print $this->view->url(
-	array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>"><img
+	array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>?format=<?php print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"><img
 	style="height: 100px;" alt="<?php print $recipe->name; ?>"
 	src="<?php print $this->view->baseUrl();
 	if(isset($photos[0]) && $photos[0]->id){
@@ -61,11 +61,11 @@ $log->log('cocktailPreview, middle 4',Zend_Log::DEBUG);
 		print '/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
 	} ?>" /></a><a id="recipe<?php print $recipe->id.'_'.
 	Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id]; ?>"
-	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>"
+	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>?format=<?php print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"
 	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>"><img alt="Info"
 	src="<?php print $this->view->baseUrl(); ?>/img/info.png" style="vertical-align: top;" height="17" width="20" /></a><br />
 <a
-	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>">
+	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>?format=<?php print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>">
 	<?php 
 	if($top10Position) {
 		print '#'.$top10Position.' - ';

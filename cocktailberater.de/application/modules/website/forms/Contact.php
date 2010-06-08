@@ -160,11 +160,21 @@ class Website_Form_Contact extends Zend_Form
 		)
 		));
 
+		$captcha = new Zend_Captcha_Image(array(
+			    'name' => 'captcha',
+				'font' => realpath(APPLICATION_PATH.'/../public/fonts').'/teen____.ttf',
+				'imgDir' => realpath(APPLICATION_PATH.'/../public/img/captchas/'),
+				'imgUrl' => '/img/captchas/',
+			    'expiration' => 300,
+				'wordLen' => 5,
+				'width' => 120
+			));
+		
 		$this->addElement('captcha','captcha',array(
             'label'      => 'Bitte geben Sie die 5 unten dargestellten Buchstaben ein'.'*:',
             'required'   => true,
 			'class'		 => 'text',
-            'captcha'    => array('captcha' => 'Figlet', 'wordLen' => 5, 'timeout' => 300)
+            'captcha'    => $captcha
 		));
 
 		$getCopyField = new Zend_Form_Element_Checkbox('getCopy');
