@@ -6,6 +6,7 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 	private $_agents = array(
         'mobile'		=> array('ipad'),
         'webos'			=> false,
+		'symbian'		=> false,
 		'iphone'		=> false,
 		'windows ce'	=> false,
 		'palm'			=> false,
