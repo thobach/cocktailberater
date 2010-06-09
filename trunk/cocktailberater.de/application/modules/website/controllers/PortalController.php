@@ -26,8 +26,15 @@ class Website_PortalController extends Zend_Controller_Action {
 					'init'	=> array(__CLASS__, 'enableLayout'),
 		            'post' => array(__CLASS__, 'setLayoutContext'))));
 		$contextSwitch = $this->_helper->getHelper('contextSwitch');
-		$contextSwitch->addActionContexts(array('about'=>true,'imprint'=>true,
-		'contact'=>true,'contacted'=>true));
+		$contextSwitch->addActionContexts(array('about'=>true,
+		'andere-seiten'=>true,'barkunde'=>true,'bucher'=>true,
+		'cocktail-der-woche'=>true,'contact'=>true,'contacted'=>true,
+		'community'=>true,'forum'=>true,'glas'=>true,'grundausstattung'=>true,
+		'hausbar'=>true,'imprint'=>true,'index'=>true,'login'=>true,
+		'mein-cocktailbuch'=>true,'meine-cocktails'=>true,
+		'meine-favoriten'=>true,'meine-hausbar'=>true,'mixtechniken'=>true,
+		'nutrition'=>true,'top10-drinks'=>true,'utensilien'=>true,
+		'zutaten'=>true));
 		$contextSwitch->initContext();
 	}
 
