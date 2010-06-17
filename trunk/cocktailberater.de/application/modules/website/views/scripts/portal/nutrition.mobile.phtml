@@ -1,2 +1,69 @@
-<?php
-require_once 'nutrition.phtml';
+<div class="content">
+<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+                'pages'      => array(
+                    array(
+                        'label'      => 'Barkunde',
+                        'module'     => 'website',
+                        'controller' => 'portal',
+                        'action'     => 'barkunde',
+                    	'pages'      => array(
+		                    array(
+		                        'label'      => 'Nährwerttabelle',
+		                        'module'     => 'website',
+		                        'controller' => 'portal',
+		                        'action'     => 'nutrition'
+		                    )
+		                )
+                    )
+                )
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+?></p>
+<h2>Barkunde - Nährwerte</h2>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Kalorien</th>
+			<th>Alkoholisch</th>
+			<th>Volumen</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php
+	$count = 0;
+	if(is_array($this->cocktails)){
+		foreach ($this->cocktails as $cocktail){
+			$recipes = $cocktail->getRecipes();
+			if(is_array($recipes)){
+				foreach ($recipes as $recipe){
+					$count++;
+					?>
+		<tr>
+			<td><?php echo $recipe->name;?></td>
+			<td><?php echo $recipe->getCaloriesKcal();?> kcal</td>
+			<td><?php echo $recipe->isAlcoholic() ? 'ja' : 'nein';?></td>
+			<td><?php echo $recipe->getVolumeCl();?> cl</td>
+		</tr>
+		<?php
+				}
+			}
+		}
+	}
+	?>
+	</tbody>
+</table>
+</div>

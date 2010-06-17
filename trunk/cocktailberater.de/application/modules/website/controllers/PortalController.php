@@ -8,34 +8,49 @@ class Website_PortalController extends Zend_Controller_Action {
 
 	public function init() {
 		$log = Zend_Registry::get('logger');
-		$log->log('Website_IndexController->init',Zend_Log::DEBUG);
+		$log->log('Website_PortalController->init',Zend_Log::DEBUG);
 
+		/*
+		 * use $this->_helper->getHelper('contextSwitch') instead of static call
+		 * Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch')
+		 * otherwise controller is not registered
+		 */
 		/* @var $contextSwitch Zend_Controller_Action_Helper_ContextSwitch */
-		$contextSwitch = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch');
+		$contextSwitch = $this->_helper->getHelper('contextSwitch');
 		$contextSwitch->setAutoJsonSerialization(false);
-		$contextSwitch->addContext('mobile',array(
+		if(!$contextSwitch->hasContext('mobile')){
+			$contextSwitch->addContext('mobile',array(
 				'suffix'	=> 'mobile',
 				'headers'	=> array('Content-Type' => 'text/html'),
 				'callbacks' => array(
 					'init'	=> array(__CLASS__, 'enableLayout'),
 		            'post' => array(__CLASS__, 'setLayoutContext'))));
-		$contextSwitch->addContext('html',array(
+		}
+		if(!$contextSwitch->hasContext('html')){
+			$contextSwitch->addContext('html',array(
 				'suffix'	=> '',
 				'headers'	=> array('Content-Type' => 'text/html'),
 				'callbacks' => array(
 					'init'	=> array(__CLASS__, 'enableLayout'),
 		            'post' => array(__CLASS__, 'setLayoutContext'))));
-		$contextSwitch = $this->_helper->getHelper('contextSwitch');
+		}
+		if(!$contextSwitch->hasContext('pdf')){
+			$contextSwitch->addContext('pdf',array(
+				'suffix'	=> 'pdf',
+				'headers'	=> array('Content-Type' => 'application/pdf')));
+		}
 		$contextSwitch->addActionContexts(array('about'=>true,
-		'andere-seiten'=>true,'barkunde'=>true,'bucher'=>true,
+		'andere-seiten'=>true,'barkunde'=>true,'buecher'=>true,
 		'cocktail-der-woche'=>true,'contact'=>true,'contacted'=>true,
 		'community'=>true,'forum'=>true,'glas'=>true,'grundausstattung'=>true,
 		'hausbar'=>true,'imprint'=>true,'index'=>true,'login'=>true,
-		'mein-cocktailbuch'=>true,'meine-cocktails'=>true,
-		'meine-favoriten'=>true,'meine-hausbar'=>true,'mixtechniken'=>true,
-		'nutrition'=>true,'top10-drinks'=>true,'utensilien'=>true,
-		'zutaten'=>true));
+		'mein-cocktailbuch'=>true,'mein-cocktailbuch-erstellen'=>true,
+		'meine-cocktails'=>true,'meine-favoriten'=>true,'meine-hausbar'=>true,
+		'meine-hausbar-mixen'=>true,'mixtechniken'=>true,'nutrition'=>true,
+		'top10-drinks'=>true,'utensilien'=>true,'zutaten'=>true));
+		$contextSwitch->addActionContext('meine-hausbar',array('mobile','html'));
 		$contextSwitch->initContext();
+
 	}
 
 	public function indexAction () {
@@ -75,34 +90,50 @@ class Website_PortalController extends Zend_Controller_Action {
 	}
 
 	public function meineHausbarAction () {
-		//Zend_Debug::dump($this->_getAllParams());
-		//fetch all products from the current bar
-		$this->view->bar = $bar = new Website_Model_Bar(1);
-		$this->view->currentProducts = $bar->getProducts();
-		//Zend_Debug::dump($this->view->currentProducts);
-		//if form was posted, insert into database
+		$defaultNamespace = new Zend_Session_Namespace('Default');
+		// load default bar
+		if($defaultNamespace->bar == null){
+			$defaultNamespace->bar = new Website_Model_Bar();
+			// assume that every bar has ice cubes and crushed ice
+			$iceCubes = new Website_Model_Ingredient(113);
+			$crushedIce = new Website_Model_Ingredient(114);
+			$defaultNamespace->bar->addIngredient($iceCubes);
+			$defaultNamespace->bar->addIngredient($crushedIce);
+		}
+		$this->view->bar = $defaultNamespace->bar;
+
+		/* @var $contextSwitch Zend_Controller_Action_Helper_ContextSwitch */
+		$contextSwitch = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch');
+	}
+
+	public function meineHausbarMixenAction () {
+		$defaultNamespace = new Zend_Session_Namespace('Default');
+		if($defaultNamespace->bar == null){
+			return $this->_forward('meine-hausbar');
+		}
+		// load default bar
+		$this->view->bar = $defaultNamespace->bar;
+		// if form was posted, insert into "database" or "session"
 		if($this->getRequest()->isPost()){
-			$bar->removeProducts();
-			$this->view->message='Die abgewählten Produkte wurden aus Ihrer Hausbar entfernt.';
-			$products = $this->_getParam('product2bar');
-			if(is_array($products)) {
-				foreach($products as $product) {
-					$bar->addProduct($product);
+			$this->view->bar->removeIngredients();
+			$this->view->message='Die abgewählten Zutaten wurden aus Ihrer Hausbar entfernt.';
+			if(!$this->_hasParam('reset_ingredient2bar')){
+				$ingredients = $this->_getParam('ingredient2bar');
+				if(is_array($ingredients)) {
+					foreach($ingredients as $ingredient) {
+						$this->view->bar->addIngredient(Website_Model_CbFactory::factory('Website_Model_Ingredient',$ingredient));
+					}
+					$this->view->message='Die ausgewählten Zutaten wurden in Ihrer Hausbar angelegt.';
 				}
-				//print 'neue produkte hinzugefügt<br />';
-				$this->view->message='Die ausgewählten Produkte wurden in Ihrer Hausbar angelegt.';
 			} else {
-				//print 'keine produkte wieder hinzugefügt<br />';
+				return $this->_redirect($this->view->url(array('module'=>'website','controller'=>'portal','action'=>'meine-hausbar')).'?format='.$this->_getParam('format'));
 			}
-			//print 'post-methode<br />';
-		} else {
-			//print 'get-methode<br />';
 		}
 	}
 
 	public function meineHausbarPrintAction () {
 		//fetch all products from the current bar
-		$this->view->bar = $bar = new Bar(1);
+		$this->view->bar = $bar = new Website_Model_Bar(1);
 		$this->view->currentProducts = $bar->getProducts();
 	}
 
@@ -115,7 +146,43 @@ class Website_PortalController extends Zend_Controller_Action {
 	}
 
 	public function meinCocktailbuchAction () {
+		$defaultNamespace = new Zend_Session_Namespace('Default');
+		// load default menu
+		if($defaultNamespace->menu == null){
+			$defaultNamespace->menu = new Website_Model_Menu();
+		}
+		$this->view->recipes = Website_Model_Recipe::searchByName('%');
+		$this->view->menu = $defaultNamespace->menu;
+	}
 
+	public function meinCocktailbuchErstellenAction () {
+		$defaultNamespace = new Zend_Session_Namespace('Default');
+		if($defaultNamespace->menu == null){
+			return $this->_forward('mein-cocktalbuch');
+		}
+		// load default menu
+		$this->view->menu = $defaultNamespace->menu;
+		if($this->getRequest()->isPost()){
+			// create pdf menu
+			if($this->_hasParam('submit_recipe2menu_pdf')){
+				$this->view->recipes = $this->view->menu->listRecipes();
+				$this->view->name = $this->_getParam('name');
+			}
+			// return to selection page
+			else if($this->_hasParam('submit_recipe2menu_reset')){
+				$this->_redirect($this->view->url(array('module'=>'website','controller'=>'portal','action'=>'mein-cocktailbuch')).'?format='.$this->_getParam('myformat'));
+			}
+			// show list of added recipes
+			else {
+				$this->view->menu->removeRecipes();
+				$recipes = $this->_getParam('recipe2menu');
+				if(is_array($recipes)) {
+					foreach($recipes as $recipe) {
+						$this->view->menu->addRecipe($recipe);
+					}
+				}
+			}
+		}
 	}
 
 	public function glasAction () {

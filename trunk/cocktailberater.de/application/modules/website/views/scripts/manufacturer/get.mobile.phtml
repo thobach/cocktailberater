@@ -5,23 +5,40 @@ $pages = array(
         'controller' => 'index',
     	'pages'      => array(
             array(
-                'label'      => 'Hersteller',
+                'label'      => 'Portal',
                 'module'     => 'website',
-                'controller' => 'manufacturer',
-                'pages'      => array(
-                    array(
-                        'label'      => $this->manufacturer->name,
-                        'module'     => 'website',
-                        'controller' => 'manufacturer',
-                        'action'     => 'get'
-                    )
-                )
-            )
-        )
+                'controller' => 'portal',
+            	'action'	 => 'index',
+            	'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+		    			'pages'      => array(
+				            array(
+				                'label'      => 'Hersteller',
+				                'module'     => 'website',
+				            	'action'	 => 'index',
+				                'controller' => 'manufacturer',
+				            	'pages'      => array(
+				                    array(
+				                        'label'      => $this->manufacturer->name,
+				                        'module'     => 'website',
+				                        'controller' => 'manufacturer',
+				                        'action'     => 'get'
+				                    )
+				                )
+				            )
+				    	)
+					)
+				)
+        	)
+    	)
     )
 );
 $container = new Zend_Navigation($pages);
-echo $this->navigation($container)->breadcrumbs();
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
 ?> (<a href="#recipes-list">Cocktailrezepte</a> und 
 <a href="#products-list">Produkte</a>)</p>
 <h2 style="margin-top: 0;"><?php print $this->manufacturer->name; ?></h2>

@@ -1,20 +1,27 @@
-<h3>HausBar</h3>
-<p>Cocktailparties benötigen ein wenig Organisation. Hier hilft die
-virtuelle HausBar zum Verwalten von Rezepten, Vorräten und Favoriten.</p>
-<ul>
-	<li><a
+<p>Cocktailpartys benötigen ein wenig Organisation. Hier hilft die
+virtuelle Hausbar zum Verwalten von Vorräten und Rezepten.</p>
+<ul class="noBullet" style="margin-left: 0; margin-top: 0.4em;">
+	<!-- <li><a
 		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'login')); ?>">Login / Anmeldung</a>
-	zum Registrieren einer virtuellen HausBar.</li>
-	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'meine-hausbar')); ?>">Meine HausBar</a>
-	verwalten.</li>
-	<li><a
+	zum Registrieren einer virtuellen HausBar.</li> -->
+	<li class="clear left" style="width: 14em; margin-right: 3em;"><a
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'meine-hausbar')); ?>"><img
+		src="/img/portal/hausbar.jpg"
+		alt="Mechanismus der Hausbar, erst Zutaten auswählen, dann Rezepte angezeigt bekommen"
+		class="box" style="margin-top: 0.3em;" /></a><p style="font-size: 1em; margin-bottom: 1em;">Vorhandene
+	Zutaten in der virtuellen <a
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'meine-hausbar')); ?>">Hausbar</a>
+	angeben und mögliche Rezepte ermitteln.</p></li>
+	<!-- <li><a
 		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'meine-favoriten')); ?>">Meine Favoriten</a>
-	verwalten.</li>
-	<li><a
+	verwalten.</li> -->
+	<!-- <li><a
 		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'meine-cocktails')); ?>">Meine Cocktails</a>
-	verwalten.</li>
-	<li><a
-		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'mein-cocktailbuch')); ?>">Cocktailbuch erstellen</a>
-	aus meinen Cocktailrezepten meiner HausBar.</li>
+	verwalten.</li> -->
+	<li class="left" style="width: 14em; clear: none;"><a
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'mein-cocktailbuch')); ?>"><img
+		src="/img/portal/karte.jpg" alt="3 Seiten einer Cocktailkarte"
+		class="box" style="margin-top: 0.3em;" /></a><p style="font-size: 1em;"><a
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'mein-cocktailbuch')); ?>">Cocktailkarte
+	erstellen</a> mit ausgewählten Rezepten, z.B. aus deiner Hausbar.</p></li>
 </ul>

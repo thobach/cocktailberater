@@ -4,7 +4,7 @@
  *
  */
 class Website_Model_Bar {
-	
+
 	// attributes
 	private $id;
 	private $name;
@@ -19,6 +19,8 @@ class Website_Model_Bar {
 	// associations
 	private $_owner;
 	private $_newsletter;
+	private $_ingredients;
+	private $_recipes;
 
 	/**
 	 * magic getter for all attributes
@@ -91,7 +93,7 @@ class Website_Model_Bar {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Bar constructor returns a Bar object by an id, or an empty one
 	 *
@@ -133,32 +135,114 @@ class Website_Model_Bar {
 		}
 		return $barArray;
 	}
-	
+
 	public function addProduct ($idProduct){
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product2bar');
 		$data['bar'] = $this->id;
 		$data['product'] = $idProduct;
 		try{
-		$table->insert($data);
+			$table->insert($data);
 		} catch (Zend_Db_Statement_Exception $e){
 			Zend_Debug::dump("Fehler bei $idProduct");
 			Zend_Debug::dump($e);
 		}
 	}
-	
+
+	/**
+	 * adds an ingredient to the inventory og this bar
+	 *
+	 * @param $ingredient
+	 */
+	public function addIngredient(Website_Model_Ingredient $ingredient){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Bar->addIngredient',Zend_Log::DEBUG);
+		$this->_ingredients[$ingredient->id] = $ingredient;
+	}
+
+	/**
+	 * returns all recipies which can be mixed by the ingredients or
+	 * products from the inventory
+	 */
+	public function getPossibleRecipies(){
+		if(count($this->_ingredients)>0){
+			$ingredients = implode(",",array_keys($this->_ingredients));
+			$this->_recipes = array();
+			$db = Zend_Db_Table::getDefaultAdapter();
+			$recipes = $db->fetchAll("
+			SELECT 
+  				c1.recipe
+			FROM
+  				`component` AS c1 
+			WHERE
+  				c1.ingredient IN (".$ingredients.")
+			GROUP BY 
+  				c1.recipe 
+			HAVING
+ 				COUNT(c1.recipe)= 
+  					(
+  					SELECT 
+    					COUNT(c2.recipe) 
+  					FROM 
+    					`component` AS c2 
+  					WHERE 
+    					c1.recipe=c2.recipe 
+  					GROUP BY 
+    					c2.recipe
+  					) 
+			ORDER BY
+  				c1.recipe
+  		");
+
+			foreach($recipes as $recipe){
+				$this->_recipes[$recipe['recipe']] =
+				Website_Model_CbFactory::factory('Website_Model_Recipe',
+				$recipe['recipe']);
+			}
+			return $this->_recipes;
+		} else {
+			return array();
+		}
+	}
+
 	public function getProducts (){
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product2bar');
 		return $table->fetchAll('bar='.$this->id);
 	}
-	
-	public function removeProducts (){
+
+	/**
+	 * Returns all ingredients from the inventory
+	 *
+	 * @return array[int]Website_Model_Ingredient
+	 */
+	public function getIngredients(){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Bar->getIngredients',Zend_Log::DEBUG);
+		return $this->_ingredients;
+	}
+
+	public function removeProducts(){
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product2bar');
 		$table->delete('bar='.$this->id);
 	}
-	
+
+	public function removeIngredients(){
+		$this->_ingredients = array();
+	}
+
 	public function hasProduct ($idProduct){
+		if($idProduct<1 || $this->id<1){
+			return false;
+		}
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product2bar');
 		if($table->fetchRow('bar='.$this->id.' and product='.$idProduct)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function hasIngredient(Website_Model_Ingredient $ingredient){
+		if($this->_ingredients[$ingredient->id]){
 			return true;
 		} else {
 			return false;
@@ -176,14 +260,14 @@ class Website_Model_Bar {
 			$table->update($this->databaseRepresentation(),'id='.$this->id);
 		}
 	}
-	
+
 	public function delete (){
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'bar');
 		$table->delete('id='.$this->id);
 		Website_Model_CbFactory::destroy('Website_Model_Bar',$this->id);
 		unset($this);
 	}
-	
+
 	/**
 	 * returns an array to save the object in a database
 	 *
@@ -198,14 +282,14 @@ class Website_Model_Bar {
 		$array['newsletter'] = $this->newsletterId;
 		return $array;
 	}
-	
+
 	/**
 	 * adds the xml representation of the object to a xml branch
 	 *
 	 * @param DomDocument $xml
 	 * @param XmlElement $branch
 	 */
-	public function toXml($xml, $branch) {
+	public function toXml(DomDocument $xml, XmlElement $branch) {
 		$bar = $xml->createElement('bar');
 		$branch->appendChild($bar);
 		$bar->setAttribute('id', $this->id);

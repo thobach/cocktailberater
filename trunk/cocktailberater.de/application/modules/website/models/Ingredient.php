@@ -85,16 +85,17 @@ class Website_Model_Ingredient {
 	 * @return Ingredient
 	 * @tested
 	 */
-	public function __construct ($ingredientId = NULL)
-	{
+	public function __construct ($ingredientId = NULL)	{
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Ingredient->__construct',Zend_Log::DEBUG);
 		if(!empty($ingredientId)){
 			$ingredientTable 	= Website_Model_CbFactory::factory('Website_Model_MysqlTable','ingredient');
 			$ingredient 		= $ingredientTable->fetchRow('id='.$ingredientId);
+			
 			// if ingredient does not exist
 			if(!$ingredient){
 				throw new Website_Model_IngredientException('Id_Wrong');
 			}
-
 			// attributes
 			$this->id					= $ingredient['id'];
 			$this->name					= $ingredient['name'];

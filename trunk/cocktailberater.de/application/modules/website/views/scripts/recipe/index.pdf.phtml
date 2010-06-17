@@ -27,7 +27,7 @@ $style->setFillColor(new Zend_Pdf_Color_Cmyk(0,0,0,0));
 $pdf->pages[0]->setStyle($style);
 // bar name
 $pdf->pages[0]->setFont($font, 48);
-$pdf->pages[0]->drawText('Tabas Bar',35,100);
+$pdf->pages[0]->drawText($this->name,35,100);
 $pdf->pages[0]->setFont($font, $fontSize);
 // copyright
 $pdf->pages[0]->drawText('- Cocktailkarte erstellt von www.cocktailberater.de -',30,25);

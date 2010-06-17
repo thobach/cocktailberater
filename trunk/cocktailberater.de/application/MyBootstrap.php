@@ -33,15 +33,16 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	*/
 
 	/**
-	 * Initialize Logger
+	 * Initialize Logger depending on application settings / environment
 	 *
 	 * @return void
 	 */
 	protected function _initLogger(){
 		date_default_timezone_set('Europe/Berlin');
-
+		
+		// get application settings for logging
 		$logOption = $this->getOption('logger');
-		//Zend_Debug::dump($logOption['enabled']);
+		// logging enabled
 		if($logOption['enabled']=='true') {
 			try{
 				if($logOption['type']=='firebug'){
@@ -50,17 +51,22 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					$writer = new Zend_Log_Writer_Stream(realpath($logOption['logfile']));
 				}
 				$log = new Zend_Log($writer);
-				$log->log('logger started',Zend_Log::DEBUG);
+				$log->log('MyBootstrap->_initLogger: logger started',Zend_Log::DEBUG);
 				//$log->addFilter(new Zend_Log_Filter_Priority(Zend_Log::CRIT));
-			} catch (Zend_Exception $e){
+			} 
+			// log file not writeable
+			catch (Zend_Exception $e){
 				$writer = new Zend_Log_Writer_Null();
 				$log = new Zend_Log($writer);
 				echo $e->getMessage(). ' -> note: chmod 666 would solve it ;)';
 			}
-		} else {
+		}
+		// logging disabled
+		else {
 			$writer = new Zend_Log_Writer_Null();
 			$log = new Zend_Log($writer);
 		}
+		// register logger in registry
 		Zend_Registry::set('logger',$log);
 	}
 
@@ -70,13 +76,13 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	 * @return void
 	 */
 	protected function _initCache(){
-		$config = $this->getOptions();
+		$cacheOptions = $this->getOption('cache');
 		$log = Zend_Registry::get('logger');
-		if($config['cache']['enabled']=='true') {
-			$log->log('cache enabled',Zend_Log::DEBUG);
+		if($cacheOptions['enabled']=='true') {
+			$log->log('MyBootstrap->_initCache: cache enabled',Zend_Log::DEBUG);
 			$cacheEnabled = true;
 		} else {
-			$log->log('cache disabled',Zend_Log::DEBUG);
+			$log->log('MyBootstrap->_initCache: cache disabled',Zend_Log::DEBUG);
 			$cacheEnabled = false;
 		}
 
@@ -101,7 +107,7 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	/**
-	 * Initialize Plugins
+	 * Initialize Plugins like layout switch
 	 *
 	 * @return void
 	 */
@@ -118,7 +124,7 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 
 	/**
-	 * Initialze Routes, dcntains a list of all REST Controllers which should
+	 * Initialze Routes, contains a list of all REST Controllers which should
 	 * be affected by the rest route
 	 *
 	 * @return void
@@ -128,8 +134,7 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		// when adding a new rest controller, add it here to the list
 		$restControllers = array(
 			'bar','cocktail','comment','component','glass',
-			'guest',
-		    'ingredient','ingredient-category',
+			'guest','ingredient','ingredient-category',
 		    'manufacturer','member','menue','order','party',
 		    'photo','photoCategory','product','rating',
 		    'recipe','recipeCategory','session','tag','video');

@@ -1,2 +1,109 @@
+<p class="left textLeft" style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+            	'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+				    	'pages'      => array(
+				            array(
+				                'label'      => 'Produkte',
+				                'module'     => 'website',
+				                'controller' => 'product',
+				                'pages'      => array(
+				                    array(
+				                        'label'      => $this->product->name.' ('.$this->product->getManufacturer()->name.')',
+				                        'module'     => 'website',
+				                        'controller' => 'product',
+				                        'action'     => 'get'
+				                    )
+				                )
+				            )
+						)
+					)
+				)
+			)
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+?> (<a href="#recipes-list">Cocktailrezepte</a> und 
+<a href="#offer-list">Anbieter</a>)</p>
+<div class="content">
+<h2 class="left clear"><?php print $this->product->name.' ('.$this->product->getManufacturer()->name.')'; ?></h2>
+<h3 class="clear left" style="margin-top: 0; margin-bottom: 0.5em;">Produkt-Informationen</h3>
+<?php if($this->product->getImage()) { ?><img 
+	src="<?php echo $this->product->getImage(); ?>"
+	alt="<?php
+	print str_replace ( '\\', '', $this->product->name ) ;
+	?>"
+	title="<?php
+	print str_replace ( '\\', '', $this->product->name ) ;
+	?>"
+	style="float: right; margin-right: 25px; max-width: 100px; max-height: 160px; margin-top: 2em; margin-bottom: 20px;" />
+<?php } ?>
+<?php if($this->product->getIngredient()->name){ ?>
+<div class="attribut">Zutat:</div>
+<div class="wert"><a href="<?php print $this->url(array('id'=>$this->product->getIngredient()->getUniqueName(),'controller'=>'ingredient')); ?>?format=mobile"><?php print $this->product->getIngredient()->name; ?></a></div>
+<?php } ?>
+<?php if($this->product->getManufacturer()->name){ ?>
+<div class="attribut">Marke/Hersteller:</div>
+<div class="wert"><a href="<?php print $this->url(array('id'=>$this->product->getManufacturer()->getUniqueName(),'controller'=>'manufacturer')); ?>?format=mobile"><?php print $this->product->getManufacturer()->name; ?></a></div>
+<?php } ?>
+<div class="attribut">Göße:</div>
+<div class="wert"><?php print number_format($this->product->size,2,',','.'); ?> <?php print $this->product->unit; ?></div>
+<?php if($this->product->alcoholLevel){ ?>
+<div class="attribut">Alkoholgehalt:</div>
+<div class="wert"><?php print $this->product->alcoholLevel; ?>%</div>
+<?php } ?>
+<?php if($this->product->caloriesKcal){ ?>
+<div class="attribut">Kalorien:</div>
+<div class="wert"><?php print $this->product->caloriesKcal; ?> kcal / <?php print number_format($this->product->size,2,',','.'); ?> <?php print $this->product->unit; ?></div>
+<?php } ?>
+<?php if($this->product->fruitConcentration){ ?>
+<div class="attribut">Fruchtgehalt:</div>
+<div class="wert"><?php print $this->product->fruitConcentration; ?> %</div>
+<?php } ?>
+<?php if($this->product->color){ ?>
+<div class="attribut">Farbe:</div>
+<div class="wert"><?php print $this->product->color; ?></div>
+<?php } ?>
+<?php if($this->product->getAveragePrice()){ ?>
+<div class="attribut">Preis:</div>
+<div class="wert"><?php print number_format($this->product->getAveragePrice(),2,',','.'); ?> Euro</div>
+<?php } ?>
+<?php if($this->product->getRecipes()){ ?>
+<h3 class="clear left" style="margin-bottom: 1.7em;" id="recipes-list">Cocktailrezepte mit <?php print $this->product->name; ?></h3>
+<ul class="clear noBullet">
+<?php foreach ($this->product->getRecipes() as $recipe){ ?>
+	<li style="float: left; clear: none;"><?php $this->cocktailPreview($recipe)?></li>
+	<?php } ?>
+</ul>
+<?php } ?>
+<?php if($this->product->getOffers()) { ?>
+<h3 class="clear left" id="offer-list"><?php print $this->ingredient->name; ?> Anbieter</h3>
+<ul style="clear: left; margin-top: 0.2em; list-style-type: circle; margin-left: 25px;">
 <?php
-require_once 'get.phtml';
+$i=0;
+foreach ($this->product->getOffers() as $offer) {
+	$i++;
+	print '<li style="text-align: left;'.
+	($i==1 ? 'clear: left;' : 'clear: none;').'">
+	<a href="'.$offer['shopUrl'].'">';
+	print ''.$offer['shop'].'</a> für '.number_format((double)$offer['price'],2,',','.').' €</li>';
+}
+?>
+</ul>
+<?php } ?>
+</div>

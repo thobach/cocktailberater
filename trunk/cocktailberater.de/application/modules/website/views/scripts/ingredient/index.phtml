@@ -5,11 +5,28 @@ $pages = array(
         'controller' => 'index',
     	'pages'      => array(
             array(
-                'label'      => 'Zutaten',
+                'label'      => 'Portal',
                 'module'     => 'website',
-                'controller' => 'ingredient'
-            )
-        )
+                'controller' => 'portal',
+            	'action'	 => 'index',
+            	'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+		    			'pages'      => array(
+				            array(
+				                'label'      => 'Zutaten',
+				                'module'     => 'website',
+				            	'action'	 => 'index',
+				                'controller' => 'ingredient'
+				            )
+				    	)
+					)
+				)
+        	)
+    	)
     )
 );
 $container = new Zend_Navigation($pages);

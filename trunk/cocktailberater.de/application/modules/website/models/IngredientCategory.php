@@ -74,22 +74,29 @@ class Website_Model_IngredientCategory extends Website_Model_Category {
 	 * returns a sorted array of all ingredients of one or more categories
 	 *
 	 * @param integer|array $idzutaten_kategorie
+	 * @param boolean used show only used ingredients
 	 * @return array Zutat
 	 */
-	public static function getIngredientsByCategory ( $ingredientCategoryId ) {
-		$ingredientHasIngredientCategoryTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','ingredient2ingredientcategory');
+	public static function getIngredientsByCategory ( $ingredientCategoryId, $used = false ) {
+		$select = Zend_Db_Table::getDefaultAdapter()->select();
+		$select->distinct();
+		$select->from('ingredient2ingredientcategory','ingredient');
+		if($used){
+			$select->from('component','');
+			$select->where('component.ingredient = ingredient2ingredientcategory.ingredient');
+		}
 		if (is_array ( $ingredientCategoryId )) {
-			$select = new Zend_Db_Table_Select($ingredientHasIngredientCategoryTable);
 			foreach ( $ingredientCategoryId as $value ) {
-				$where = $select->orWhere('ingredientCategory = '.$value);
+				$select->orWhere('ingredientCategory = '.$value);
 			}
 		} else {
-			$where = 'ingredientCategory=' . $ingredientCategoryId;
+			$select->where('ingredientCategory=' . $ingredientCategoryId);
 		}
-		$ingredients = $ingredientHasIngredientCategoryTable->fetchAll ( $where ) ;
+		$ingredients = Zend_Db_Table::getDefaultAdapter()->fetchAll($select);
+		
 		$ingredientsArray = array ( ) ;
 		foreach ( $ingredients as $ingredient ) {
-			$ingredientsArray [] = Website_Model_CbFactory::factory('Website_Model_Ingredient', $ingredient->ingredient ) ;
+			$ingredientsArray [] = Website_Model_CbFactory::factory('Website_Model_Ingredient', $ingredient['ingredient'] ) ;
 		}
 		// sort array by name
 		usort ( $ingredientsArray, array ( "Website_Model_Ingredient" , "cmp_obj" ) ) ;

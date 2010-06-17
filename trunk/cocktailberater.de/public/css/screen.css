@@ -123,25 +123,30 @@ h1 {
 	font-size: 2.2em; /* Equivalent to 22pt */
 	margin-top: 10px;
 	margin-bottom: 10px;
+	clear: both;
 }
 
 h2 {
 	font-size: 2.0em; /* Equivalent to 20pt */
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
+	clear: both;
 }
 
 h3 {
 	font-size: 1.4em; /* Equivalent to 18pt */
 	margin-top: 0.8em;
+	clear: both;
 }
 
 h4 {
 	font-size: 1.2em; /* Equivalent to 18pt */
+	clear: both;
 }
 
 h5 {
 	font-size: 1.4em; /* Equivalent to 14pt */
+	clear: both;
 }
 
 p,q,cite {
@@ -347,31 +352,6 @@ div.content ul {
 	list-style-position: inside;
 }
 
-div.content ul.horizontal li {
-	clear: none;
-	float: left;
-	width: 43%;
-	margin-right: 1em;
-	list-style-type: none;
-	list-style-position: outside;
-	margin-top: 1em;
-	padding: 0.5em;
-}
-
-div.content ul.glas {
-	margin: 0;
-}
-
-div.content ul.glas li {
-	height: 5em;
-	border: 1px solid #54616E;
-}
-
-div.content ul.glas li img {
-	margin-right: 0.4em;
-	float: left;
-}
-
 div.content ul.noBullet{
 	list-style-type: none;	
 }
@@ -455,19 +435,21 @@ input.submit,#submit,#anmelden,#abmelden {
 }
 
 input.medium-button {
-	font-size: 1.5em;
 	text-align: center;
 	color: white;
-	width:137px;
-	height:32px;
+	width:220px;
+	height:22px;
+	background-image: url('/img/general-button-medium.png'); 
+	font-size: 1.1em;
 }
 
 input.small-button {
-	font-size: 1em;
 	text-align: center;
 	color: white;
 	width:94px;
 	height:22px;
+	background-image: url('/img/general-button-small4.png');
+	font-size: 1.1em;
 }
 
 form#tag_form .dijitTextBox, input#newtag {
@@ -624,10 +606,23 @@ label.small {
 	color:#264409;
 }
 
-#box {
+.two_column {
+	-moz-column-count: 2; 
+	-moz-column-gap: 1em; 
+	/*-moz-column-rule: 1px solid black;*/
+	-webkit-column-count: 2; 
+	-webkit-column-gap: 1em; 
+	/*-webkit-column-rule: 1px solid black;*/
+	column-count: 2;
+    column-gap: 1em;
+	
+}
+
+#box, .box {
 	padding: 5px;
 	border: 1px solid black;
-	margin: 5px;
+	margin-top: 5px;
+	margin-right: 5px;
 }
 
 .highlight:hover {
@@ -834,6 +829,17 @@ table.table td,table.table th {
 	height               : 38px;
 	width                : 38px;
 	background-position  : -298px -0px;
+ }
+ 
+ #spr_tools {
+	background-image     : url(/img/icons/tools.png);
+	background-color     : transparent;
+	background-repeat    : no-repeat;
+	float				 : left;
+	display				 : block;
+	margin-right		 : 0.6em;
+	height               : 38px;
+	width                : 38px;
  }
  
  .social_sprites {

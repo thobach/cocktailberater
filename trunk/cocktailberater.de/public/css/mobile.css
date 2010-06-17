@@ -629,6 +629,17 @@ table.table td,table.table th {
 	background-position  : -298px -0px;
  }
  
+ #spr_tools {
+	background-image     : url(/img/icons/tools.png);
+	background-color     : transparent;
+	background-repeat    : no-repeat;
+	float				 : left;
+	display				 : block;
+	margin-right		 : 0.6em;
+	height               : 38px;
+	width                : 38px;
+ }
+  
  .social_sprites {
 	background-image     : url(/img/social-media/sprites.png);
 	background-color     : transparent;

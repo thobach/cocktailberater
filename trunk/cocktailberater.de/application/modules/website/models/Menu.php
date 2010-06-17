@@ -6,6 +6,9 @@ class Website_Model_Menu {
 	private $name;
 	private $insertDate;
 	private $updateDate;
+	
+	// associations
+	private $_recipes;
 
 
 	/**
@@ -95,6 +98,8 @@ class Website_Model_Menu {
 	 * @tested
 	 */
 	public function listRecipes() {
+		return $this->_recipes;
+		/*
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe2menue');
 		$where = $table->select()->where('menue=?',$this->id);
 		$recipes = $table->fetchAll($where);
@@ -104,9 +109,12 @@ class Website_Model_Menu {
 			}
 		}
 		return $menuArray;
+		*/
 	}
 
 	public function addRecipe ($recipeId){
+		$this->_recipes[$recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipeId);
+		/*
 		// TODO: write unit test
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe2menue');
 		$select = $table->select()->where('recipe=?',$recipeId)->where('menue=?',$this->id);
@@ -118,6 +126,7 @@ class Website_Model_Menu {
 		} else {
 			throw new MenuException("Recipe_Alread_In_Menue");
 		}
+		*/
 	}
 	
 	public function removeRecipe ($recipeId){
@@ -130,6 +139,20 @@ class Website_Model_Menu {
 		} else {
 			throw new MenuException("Recipe_Not_In_Menue");
 		}
+	}
+	
+	public function removeRecipes(){
+		$this->_recipes = null;
+		// TODO: write unit test
+		/*
+		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe2menue');
+		$select = $table->select()->where('menue=?',$this->id);
+		if(count($res)>0){
+			$table->delete($select);
+		} else {
+			throw new Website_Model_MenuException("Id_Wrong");
+		}
+		*/
 	}
 	
 	public function recipeInside($recipeId){

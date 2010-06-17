@@ -13,17 +13,24 @@ class Zend_View_Helper_CocktailPreview extends Zend_View_Helper_Abstract {
 	 *
 	 * @param 	Website_Model_Recipe	recipe
 	 * @param	int						top 10 position or null
+	 * @param 	boolean					true if select box should be displayed under the recipe
+	 * @param	array					array with recipes which checkboxes' should be checked 
 	 * @return 	string 					html content
 	 */
-	public function cocktailPreview(Website_Model_Recipe $recipe,$top10Position=null) {
+	public function cocktailPreview(Website_Model_Recipe $recipe,$top10Position = null, $selectable = false, $preselected = null) {
 		$log = Zend_Registry::get('logger');
 		$log->log('cocktailPreview, ID: '.$recipe->id,Zend_Log::DEBUG);
-		$this->view->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
-		$this->view->dojo()->enable()->requireModule('dijit.Tooltip');
+		$format = Zend_Controller_Front::getInstance()->getRequest()->getParam('format');
+		// no dojo/js for mobile
+		if($format != 'mobile'){
+			$this->view->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+			$this->view->dojo()->enable()->requireModule('dijit.Tooltip');
+		}
 		$photos = Website_Model_Photo::photosByRecipeId($recipe->id,1);
 		Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id] = 
 			Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id] + 1;
 		
+		if($format != 'mobile'){
 		$this->view->headScript()->captureStart(); ?>
 dojo.addOnLoad(function() {
 	recipe<?php print $recipe->id.'_'.
@@ -47,26 +54,38 @@ if (is_array ( $components )) {
 });
 <?php
 $this->view->headScript()->captureEnd();
-$log->log('cocktailPreview, middle 4',Zend_Log::DEBUG);
+		} // end no JS for mobile
 ?>
-<div class="cocktail" style="width: 107px; height: 150px"><a
-	href="<?php $uniqueName = $recipe->getUniqueName();
-	print $this->view->url(
-	array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>?format=<?php print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"><img
+<div class="cocktail<?php if($selectable){ ?> center<?php } ?>" 
+	style="<?php if($selectable){ ?>width: 130px; padding-right: 0.5em; <?php } else 
+	{ ?>width: 107px; <?php } ?>height: 150px;"><?php 
+	if(!$selectable){ ?><a
+		href="<?php $uniqueName = $recipe->getUniqueName();
+			print $this->view->url(array('module'=>'website','controller'=>'recipe',
+			'action'=>'get','id'=>$uniqueName),'rest',true); ?>?format=<?php 
+			print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"><?php 
+	} else { ?><label for="recipe_<?php print $recipe->id; ?>"><?php } ?><img
 	style="height: 100px;" alt="<?php print $recipe->name; ?>"
 	src="<?php print $this->view->baseUrl();
 	if(isset($photos[0]) && $photos[0]->id){
 		print '/img/recipes/'.$this->view->escape($photos[0]->fileName);
 	} else { 
 		print '/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
-	} ?>" /></a><a id="recipe<?php print $recipe->id.'_'.
+	} ?>" /><?php if(!$selectable){ ?></a><?php }
+	if($format != 'mobile' && !$selectable){ ?><a id="recipe<?php print $recipe->id.'_'.
 	Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id]; ?>"
-	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>?format=<?php print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"
+	href="<?php print $this->view->url(array('module'=>'website',
+		'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'rest',true); ?>?format=<?php 
+	print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"
 	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>"><img alt="Info"
-	src="<?php print $this->view->baseUrl(); ?>/img/info.png" style="vertical-align: top;" height="17" width="20" /></a><br />
-<a
-	href="<?php print $this->view->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$uniqueName),null,true); ?>?format=<?php print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>">
-	<?php 
+	src="<?php print $this->view->baseUrl(); ?>/img/info.png" 
+	style="vertical-align: top;" height="17" width="20" /></a><?php } ?><br /><?php 
+	if(!$selectable){ ?><a
+		href="<?php print $this->view->url(array('module'=>'website',
+			'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'rest',true); ?>?format=<?php 
+		print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"><?php 
+	} else { 
+	}
 	if($top10Position) {
 		print '#'.$top10Position.' - ';
 	}
@@ -75,12 +94,25 @@ $log->log('cocktailPreview, middle 4',Zend_Log::DEBUG);
 			echo ' (alkoholfrei)';
 	}
 	if($recipe->isOriginal==1){
-		echo ' (original)';
+		echo ' (orig.)';
 	}
 	if(isset($mode) && $mode=='top10') {
 		//print ' - Bewertung: '.number_format($cocktail->bewertungs_summe/$cocktail->bewertungs_anzahl,2,',',NULL);
 	}
-	?></a></div><?php 
+	if(!$selectable){ 
+		?></a><?php 
+	} else { 
+		?>&nbsp;<span id="recipe<?php print $recipe->id.'_'.
+	Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id]; ?>"
+	href="<?php print $this->view->url(array('module'=>'website',
+		'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'rest',true); ?>?format=<?php 
+	print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"
+	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>" class="pointer"><img alt="Info"
+		src="<?php print $this->view->baseUrl(); ?>/img/info.png" 
+		style="vertical-align: top;" height="17" width="20" /></span></label><br />
+		<input type="checkbox" name="recipe2menu[]" value="<?php print $recipe->id; ?>" 
+		<?php if($preselected[$recipe->id]) { print ' checked="checked"'; } ?> id="recipe_<?php print $recipe->id; ?>" /><?php 
+	} ?></div><?php 
 	$log->log('cocktailPreview, exiting',Zend_Log::DEBUG);
 }
 
