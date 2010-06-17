@@ -589,7 +589,7 @@ dojo.addOnLoad(function(){
 			$insertDate = new Zend_Date($comment->insertDate,Zend_Date::ISO_8601);
 			print ''.stripslashes(str_replace (array("\r\n", "\r", "\n",'\r\n', '\r', '\n'),
 				'<br />',$this->escape($comment->comment))).
-					'</span> <span style="color: #888888" itemprop="dtreviewed" datetime="'.$insertDate->get(Zend_Date::ISO_8601,new Zend_Locale('de_DE')).'">'.
+					'</span> <span style="color: #888888" itemprop="dtreviewed" datetime="'.$insertDate->get(Zend_Date::DATE_SHORT,new Zend_Locale('de_DE')).'">'.
 					$insertDate->get(Zend_Date::DATETIME_SHORT,new Zend_Locale('de_DE')).
 					' Uhr</span></p></li>';
 		}
@@ -782,7 +782,7 @@ function showStatistics() {
 	print $this->baseUrl() ;
 	?>/img/zeit.png" alt="Zeitaufwand"
 	title="Zeitaufwand" height="42" width="43" /><br />
-	<time itemprop="totalTime" datetime="PT0H<?php print $recipe->workMin; ?>M">
+	<time itemprop="totalTime" datetime="00:0<?php print $recipe->workMin; ?>">
 	<?php print $recipe->workMin; ?> min</time>
 	<span class="hide" itemprop="yield">1 Glas</span></div>
 <div class="left icon" style="left: 140px;"><img
