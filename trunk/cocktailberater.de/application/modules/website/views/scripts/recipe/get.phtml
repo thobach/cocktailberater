@@ -354,7 +354,7 @@ foreach ($list as $key => /* @var $taggedRecipe Website_Model_Recipe */$taggedRe
 	id="tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()); ?>"><?php print $tag->name; ?></a></li>
 	<?php 
 }
-?><li class="left" style="clear: none;"><a name="tag_prev" id="tag_prev" onclick="insertTag();" href="#tags" style="margin-top: 1em; text-decoration: underline;">Schlagwort hinzufügen</a></li></ul>
+?><li class="left" style="clear: none;"><a id="tag_prev" onclick="insertTag();" href="#tags" style="margin-top: 1em; text-decoration: underline;">Schlagwort hinzufügen</a></li></ul>
 <?php
 // enable dojo with custom module (readStore), parser, and comboBox
 $this->dojo()->enable()
@@ -589,7 +589,7 @@ dojo.addOnLoad(function(){
 			$insertDate = new Zend_Date($comment->insertDate,Zend_Date::ISO_8601);
 			print ''.stripslashes(str_replace (array("\r\n", "\r", "\n",'\r\n', '\r', '\n'),
 				'<br />',$this->escape($comment->comment))).
-					'</span> <span style="color: #888888" itemprop="dtreviewed" datetime="'.$insertDate->get(Zend_Date::DATE_SHORT,new Zend_Locale('de_DE')).'">'.
+					'</span> <span style="color: #888888" itemprop="dtreviewed" datetime="'.$insertDate->get(Zend_Date::ISO_8601,new Zend_Locale('de_DE')).'">'.
 					$insertDate->get(Zend_Date::DATETIME_SHORT,new Zend_Locale('de_DE')).
 					' Uhr</span></p></li>';
 		}
