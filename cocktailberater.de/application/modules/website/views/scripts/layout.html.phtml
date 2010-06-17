@@ -199,6 +199,7 @@ echo $this->headScript()."\n";
 							'module'=>'website',
 							'controller'=>'portal',
 							'action'=>'about'),'default',true); ?>">das projekt</a></li>
+					<li><a href="http://blog.cocktailberater.de">entwickler blog</a></li>
 			    	<li><a href="http://www.facebook.com/cocktailberater">cb auf facebook</a></li>
 					<li><a href="http://twitter.com/cocktailberater">cb auf twitter</a></li>
 					<li><a href="http://ohloh.net/p/cocktailberater">cb auf ohloh</a></li>
@@ -224,19 +225,11 @@ echo $this->headScript()."\n";
 						'module'=>'website',
 						'controller'=>'index',
 						'action'=>'index'),'default',true); ?>?format=mobile">mobile seite</a></li>
-		    		<li><a href="http://blog.cocktailberater.de">entwickler blog</a></li>
+		    		
 		    		<li><a href="<?php print $this->url(array(
 						'module'=>'website',
 						'controller'=>'portal',
-						'action'=>'barkunde'),'default',true); ?>">barkunde</a></li>
-					<li><a href="<?php print $this->url(array(
-						'module'=>'website',
-						'controller'=>'portal',
-						'action'=>'hausbar'),'default',true); ?>">hausbar</a></li>
-					<li><a href="<?php print $this->url(array(
-						'module'=>'website',
-						'controller'=>'portal',
-						'action'=>'community'),'default',true); ?>">community</a></li>
+						'action'=>'index'),'default',true); ?>">portal</a></li>
 		    	</ul>
 			</div>
 		</li>

@@ -1,15 +1,32 @@
-<p style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
 $pages = array(
     array(
         'label'      => 'Start',
         'controller' => 'index',
     	'pages'      => array(
             array(
-                'label'      => 'Zutaten',
+                'label'      => 'Portal',
                 'module'     => 'website',
-                'controller' => 'ingredient'
-            )
-        )
+                'controller' => 'portal',
+            	'action'	 => 'index',
+            	'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+		    			'pages'      => array(
+				            array(
+				                'label'      => 'Zutaten',
+				                'module'     => 'website',
+				            	'action'	 => 'index',
+				                'controller' => 'ingredient'
+				            )
+				    	)
+					)
+				)
+        	)
+    	)
     )
 );
 $container = new Zend_Navigation($pages);
@@ -21,7 +38,6 @@ echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcru
 	<thead>
 		<tr>
 			<th>Zutat</th>
-			<th>Kategorie</th>
 			<th>Kalorien</th>
 			<th>Preis</th>
 		</tr>
@@ -29,14 +45,7 @@ echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcru
 	<tbody>
 	<?php foreach ($this->ingredients as $ingredient){ /* @var $ingredient Website_Model_Ingredient */ ?>
 		<tr>
-			<td><?php 
-			$categories = '';
-			if(is_array($ingredient->getIngredientCategories())){
-				foreach($ingredient->getIngredientCategories() as $cagetory){
-					$cagetory = '<a href="'.$this->url(array('controller'=>'ingredient-category','action'=>'get','module'=>'website','id'=>$cagetory->getUniqueName())).'?format=mobile">'.$cagetory->name.'</a>';
-					$categories	= ($categories ? $categories.', '.$cagetory : $cagetory);
-				}
-			} ?> <a
+			<td><a
 				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>?format=mobile">
 				<?php print $ingredient->name; ?></a> (<?php if($ingredient->getAverageAlcoholLevel()) { print $ingredient->getAverageAlcoholLevel().' %'; } else { print '0 %'; } ?>)<?php 
 			$numberOfRecipes = $ingredient->getNumberOfRecipes();
@@ -51,7 +60,6 @@ echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcru
 				'id'=>$ingredient->getUniqueName())); ?>?format=mobile#products-list"><?php print $products; ?>
 				Produkte</a><?php 
 			} ?></td>
-			<td><?php print $categories; ?></td>
 			<td><?php if($ingredient->getAverageCaloriesKcal()) { print round($ingredient->getAverageCaloriesKcal()/10); ?>&nbsp;kcal<?php } else { print 'k.A.'; } ?></td>
 			<td><?php 
 			if($ingredient->getAveragePricePerLitre() || $ingredient->getAveragePricePerKilogram()) {

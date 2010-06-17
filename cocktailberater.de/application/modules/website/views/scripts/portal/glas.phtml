@@ -1,97 +1,116 @@
 <?php print $this->partial('template/portal_nav.phtml'); ?>
 <div class="content">
-<h2>Barkunde - Gläser</h2>
+<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'module'     => 'website',
+    	'action'	 => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+	            'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+		            	'pages'      => array(
+				            array(
+				                'label'      => 'Gläser',
+				                'module'     => 'website',
+				                'controller' => 'portal',
+				            	'action'	 => 'glas'
+				            )
+			        	)
+		            )
+	        	)
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+?></p>
+<h2>Gläser</h2>
 <h3>Glaskategorien</h3>
-<ul class="horizontal glas">
+<ul class="horizontal">
 	<li>
-	<p><img src="<?php print $this->baseUrl(); ?>/img/glasses/highball.png"
-		alt="Longdrinkglas" /><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/collins.png"
-		alt="Longdrinkglas" />Longdrinkglas<br />
-	ca. 25 cl</p>
+	<p><img src="<?php print $this->baseUrl(); ?>/img/glasses/longdrink.png"
+		alt="Longdrinkglas" />Longdrink, ca. 25cl</p>
 	</li>
 	<li>
-	<p><img src="<?php print $this->baseUrl(); ?>/img/glasses/red_wine.png"
-		alt="Longdrinkglas" />Stielglas<br />
-	</p>
+	<p><img src="<?php print $this->baseUrl(); ?>/img/glasses/highball.png"
+		alt="Highball" />Highball</p>
+	</li>
+	<li>
+	<p><img
+		src="<?php print $this->baseUrl(); ?>/img/glasses/collins.png"
+		alt="Collins" />Collins</p>
 	</li>
 	<li>
 	<p><img
 		src="<?php print $this->baseUrl(); ?>/img/glasses/hurricane.png"
-		alt="Longdrinkglas" />Fancyglas<br />
-	30-50 cl</p>
+		alt="Fancyglas" />Fancyglas, 30-50 cl</p>
 	</li>
 	<li>
 	<p><img src="<?php print $this->baseUrl(); ?>/img/glasses/cocktail.png"
-		alt="Longdrinkglas" />Cocktailglas / -schale<br />
-	6-10 cl</p>
+		alt="Cocktailglas" />Cocktailglas / -schale, 6-10 cl</p>
 	</li>
 	<li>
 	<p><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/old_fashioned.png"
-		alt="Longdrinkglas" />Tumbler<br />
-	20 cl</p>
+		src="<?php print $this->baseUrl(); ?>/img/glasses/tumbler_klein.png"
+		alt="Tumbler" />Tumbler klein, 20 cl</p>
+	</li>
+	<li>
+	<p><img
+		src="<?php print $this->baseUrl(); ?>/img/glasses/tumbler_gross.png"
+		alt="Tumbler" />Tumbler groß</p>
 	</li>
 	<li>
 	<p><img
 		src="<?php print $this->baseUrl(); ?>/img/glasses/irish_coffee_cup.png"
-		alt="Longdrinkglas" />Glas für Heißgetränke<br />
-	ca. 20 cl</p>
+		alt="Heißgetränke" />Glas für Heißgetränke, ca. 20 cl</p>
 	</li>
 	<li>
-	<p><img src="<?php print $this->baseUrl(); ?>/img/glasses/red_wine.png"
-		alt="Longdrinkglas" /><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/white_wine.png"
-		alt="Longdrinkglas" />kleines / großes Weinglas<br />
-	</p>
+	<p><img src="<?php print $this->baseUrl(); ?>/img/glasses/wine.png"
+		alt="Weinglas" />Stielglas</p>
 	</li>
 	<li>
 	<p><img
 		src="<?php print $this->baseUrl(); ?>/img/glasses/brandy_sniffer.png"
-		alt="Longdrinkglas" /><img
+		alt="Schwenker" /><img
 		src="<?php print $this->baseUrl(); ?>/img/glasses/keine_ahnung_5.png"
-		alt="Longdrinkglas" />Schwenker<br />
-	4 cl</p>
+		alt="Schwenker" />Schwenker, 4 cl</p>
 	</li>
 	<li>
 	<p><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/keine_ahnung_3.png"
-		alt="Longdrinkglas" /><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/champagne_flute.png"
-		alt="Longdrinkglas" /><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/keine_ahnung_7.png"
-		alt="Longdrinkglas" />Sektkelch<br />
-	10-20 cl</p>
+		src="<?php print $this->baseUrl(); ?>/img/glasses/sekt.png"
+		alt="Sektkelch" />Sektkelch, 10-20 cl</p>
 	</li>
 	<li>
 	<p><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/unbekannt.png"
-		alt="Longdrinkglas" />Schnapsglas<br />
-	2-4 cl</p>
+		src="<?php print $this->baseUrl(); ?>/img/glasses/champagnerfloete.png"
+		alt="Champagnerflöte" />Champagnerflöte</p>
+	</li>
+	<li>
+	<p><img
+		src="<?php print $this->baseUrl(); ?>/img/glasses/shooter.png"
+		alt="Schnapsglas" />Schnapsglas, 2-4 cl</p>
 	</li>
 	<li>
 	<p><img
 		src="<?php print $this->baseUrl(); ?>/img/glasses/margarita.png"
-		alt="Longdrinkglas" />Margaritaglas<br />
-	ca. 25 cl</p>
+		alt="Margaritaglas" />Margaritaglas, ca. 25 cl</p>
 	</li>
 	<li>
 	<p><img
 		src="<?php print $this->baseUrl(); ?>/img/glasses/sherry_glass.png"
-		alt="Longdrinkglas" />Sherryglas<br />
-	5 cl</p>
-	</li>
-	<li>
-	<p><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/keine_ahnung_1.png"
-		alt="Longdrinkglas" /><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/keine_ahnung_2.png"
-		alt="Longdrinkglas" /><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/keine_ahnung_4.png"
-		alt="Longdrinkglas" /><img
-		src="<?php print $this->baseUrl(); ?>/img/glasses/keine_ahnung_6.png"
-		alt="Longdrinkglas" />nicht zugeordnet<br />
-	</p>
+		alt="Sherryglas, 5 cl" />Sherryglas, 5 cl</p>
 	</li>
 </ul>
 <div class="clear"></div>

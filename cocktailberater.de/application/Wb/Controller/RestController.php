@@ -11,7 +11,13 @@ abstract class Wb_Controller_RestController extends Zend_Rest_Controller {
 		$log = Zend_Registry::get('logger');
 		$log->log('Wb_Controller_RestController->init',Zend_Log::DEBUG);
 
-		$contextSwitch = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch');
+		/*
+		 * use $this->_helper->getHelper('contextSwitch') instead of static call 
+		 * Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch')
+		 * otherwise controller is not registered
+		 */
+		/* @var $contextSwitch Zend_Controller_Action_Helper_ContextSwitch */
+		$contextSwitch = $this->_helper->getHelper('contextSwitch');
 		$contextSwitch->setAutoJsonSerialization(false);
 		if(!$contextSwitch->hasContext('rss')){
 			$contextSwitch->addContext('rss',array(
@@ -54,8 +60,6 @@ abstract class Wb_Controller_RestController extends Zend_Rest_Controller {
 					'init'	=> array(__CLASS__, 'enableLayout'),
 		            'post' => array(__CLASS__, 'setLayoutContext'))));
 		}
-
-		$contextSwitch = $this->_helper->getHelper('contextSwitch');
 		$contextSwitch->addActionContext('index', true);
 		$contextSwitch->addActionContext('get', true);
 		$contextSwitch->addActionContext('post', true);

@@ -15,7 +15,13 @@ class Website_IndexController extends Zend_Controller_Action {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_IndexController->init',Zend_Log::DEBUG);
 
-		$contextSwitch = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch');
+		/*
+		 * use $this->_helper->getHelper('contextSwitch') instead of static call 
+		 * Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch')
+		 * otherwise controller is not registered
+		 */
+		/* @var $contextSwitch Zend_Controller_Action_Helper_ContextSwitch */
+		$contextSwitch = $this->_helper->getHelper('contextSwitch');
 		$contextSwitch->setAutoJsonSerialization(false);
 		$contextSwitch->addContext('mobile',array(
 				'suffix'	=> 'mobile',
@@ -29,9 +35,6 @@ class Website_IndexController extends Zend_Controller_Action {
 				'callbacks' => array(
 					'init'	=> array(__CLASS__, 'enableLayout'),
 		            'post' => array(__CLASS__, 'setLayoutContext'))));
-
-
-		$contextSwitch = $this->_helper->getHelper('contextSwitch');
 		$contextSwitch->addActionContext('index', true);
 		$contextSwitch->initContext();
 	}

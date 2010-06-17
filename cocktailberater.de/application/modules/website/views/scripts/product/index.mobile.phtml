@@ -1,2 +1,76 @@
-<?php
-require_once 'index.phtml';
+<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+            	'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+		    			'pages'      => array(
+				            array(
+				                'label'      => 'Produkte',
+				                'module'     => 'website',
+				            	'action'	 => 'index',
+				                'controller' => 'product'
+				            )
+				    	)
+					)
+				)
+        	)
+    	)
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+?></p>
+<div class="content">
+<h2 class="clear left" style="margin-top: 0;">Produkte für Cocktailrezepte</h2>
+<table class="table clear">
+	<thead>
+		<tr>
+			<th>Produkt (Hersteller / Marke)</th>
+			<th>Zutat</th>
+			<th class="textRight">Rezepte</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->products as $product){ ?>
+	<tr>
+		<td><a href="<?php print $this->url(
+			array('id'=>$product->getUniqueName(),'controller'=>'product',
+			'action'=>'get','module'=>'website')); ?>?format=mobile"><?php print $product->name; ?></a> 
+		<?php if($product->getManufacturer() && $product->getManufacturer()->name){ ?>
+			(<a href="<?php print $this->url(array('controller'=>'manufacturer',
+			'id'=>$product->getManufacturer()->getUniqueName())); ?>?format=mobile"><?php 
+			print $product->getManufacturer()->name; ?></a>)
+		<?php } ?> 
+		<?php print number_format($product->size,2,',','.').'&nbsp;'.$product->unit; ?></td>
+		<td>
+		<?php if($product->getIngredient()) { ?>
+			<a href="<?php print $this->url(array('id'=>$product->getIngredient()->getUniqueName(),
+			'controller'=>'ingredient','action'=>'get','module'=>'website')); ?>?format=mobile"><?php 
+			print $product->getIngredient()->name; ?></a>
+		<?php } ?></td>
+		<td class="textRight"><?php $numberOfRecipes = $product->getNumberOfRecipes(); 
+		if($numberOfRecipes>0){ ?>
+			<a href="<?php echo $this->url(array('controller'=>'product',
+				'id'=>$product->getUniqueName(),'action'=>'get','module'=>'website')); ?>?format=mobile#recipes-list"><?php 
+			echo $numberOfRecipes; ?>&nbsp;Stk.</a>
+		<?php } 
+		else { ?>
+			keine
+		<?php } ?></td>
+	</tr>
+	<?php } ?>
+	</tbody>
+</table>
+</div>

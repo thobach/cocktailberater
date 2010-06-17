@@ -1,5 +1,33 @@
 <?php print $this->partial('template/portal_nav.phtml'); ?>
 <div class="content">
-<h2>Portal</h2>
+<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'module'     => 'website',
+    	'action'	 => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+	            'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde'
+		            )
+	        	)
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo $this->navigation($container)->breadcrumbs();
+?></p>
+<h2 style="margin-bottom:0;">Barkunde</h2>
 <?php print $this->partial('template/barkunde.phtml'); ?>
 </div>

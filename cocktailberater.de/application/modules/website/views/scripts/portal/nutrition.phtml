@@ -1,7 +1,42 @@
 <?php print $this->partial('template/portal_nav.phtml'); ?>
 <div class="content">
-<h2>Barkunde - Nährwerte</h2>
-<p>Hinweis: Die Daten sind noch nicht alle 100% korrekt. Wir arbeiten daran ;)</p>
+<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'module'     => 'website',
+    	'action'	 => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+	            'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+		            	'pages'      => array(
+				            array(
+				                'label'      => 'Nährwerte',
+				                'module'     => 'website',
+				                'controller' => 'portal',
+				            	'action'	 => 'nutrition'
+				            )
+			        	)
+		            )
+	        	)
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+?></p>
+<h2 style="margin-bottom: 0">Nährwerte</h2>
 <table class="table" id="nutritionData" style="display: none;">
 	<thead>
 		<tr>
@@ -46,14 +81,14 @@ $this->dojo()->requireModule('dojox.data.HtmlTableStore')
 $this->headScript()->appendScript('var layoutCocktails = [
     [
       { field: "Name", name: "Name", width: \'auto\' },
-      { field: "Kalorien", name: "Kalorien (kcal)", width: \'70px\' },
-      { field: "Alkoholisch", name: "Alkoholisch", width: \'85px\' },
-      { field: "Volumen", name: "Volumen (cl)", width: \'70px\' }
+      { field: "Kalorien", name: "Kalorien (kcal)", width: \'90px\' },
+      { field: "Alkoholisch", name: "Alkoholisch", width: \'80px\' },
+      { field: "Volumen", name: "Volumen (cl)", width: \'75px\' }
     ]
   ];');
 ?>
 <div dojoType="dojox.data.HtmlTableStore" tableId="nutritionData" jsId="gridStore"></div>
-<div style="width: 410px; height: <?php echo (23*($count)+40); ?>px;">
+<div style="width: 420px; height: <?php echo (23*($count)+40); ?>px;">
   <div id="grid"
     dojoType="dojox.grid.DataGrid"
     store="gridStore"

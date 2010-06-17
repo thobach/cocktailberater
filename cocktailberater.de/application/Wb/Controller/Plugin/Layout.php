@@ -19,12 +19,12 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 		$layout->setLayoutPath(APPLICATION_PATH . '/modules/' .
 		$request->getModuleName() . '/layouts');
 		
-		
 		/**
 		 * skip mobile detection
 		 */
-		// skip mobile browser detection if normal layout is wanted explicitly
-		if($request->getParam('format') == 'html'){
+		// skip mobile browser detection if normal or mobile layout is wanted explicitly
+		if($request->getParam('format') == 'html' || 
+			$request->getParam('format') == 'mobile'){
 			return;
 		}
 		
@@ -52,7 +52,7 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 				return;
 			}
 		}
-		
+
 		// set default context		
 		if($request->getParam('format') == null){
 			$request->setParam('format','html');

@@ -1,22 +1,38 @@
-<p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
+<p class="left textLeft" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
 $pages = array(
     array(
         'label'      => 'Start',
         'controller' => 'index',
     	'pages'      => array(
             array(
-                'label'      => 'Produkte',
+                'label'      => 'Portal',
                 'module'     => 'website',
-                'controller' => 'product',
-                'pages'      => array(
-                    array(
-                        'label'      => $this->product->name.' ('.$this->product->getManufacturer()->name.')',
-                        'module'     => 'website',
-                        'controller' => 'product',
-                        'action'     => 'get'
-                    )
-                )
-            )
+                'controller' => 'portal',
+            	'action'	 => 'index',
+            	'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+				    	'pages'      => array(
+				            array(
+				                'label'      => 'Produkte',
+				                'module'     => 'website',
+				                'controller' => 'product',
+				                'pages'      => array(
+				                    array(
+				                        'label'      => $this->product->name.' ('.$this->product->getManufacturer()->name.')',
+				                        'module'     => 'website',
+				                        'controller' => 'product',
+				                        'action'     => 'get'
+				                    )
+				                )
+				            )
+						)
+					)
+				)
+			)
         )
     )
 );

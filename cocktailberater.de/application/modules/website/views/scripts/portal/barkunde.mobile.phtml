@@ -1,2 +1,59 @@
-<?php
-require_once 'barkunde.phtml';
+<div class="content">
+<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'module'     => 'website',
+    	'action'	 => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+	            'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde'
+		            )
+	        	)
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+?></p>
+<h2>Barkunde</h2>
+<p>Um Barkeeper zu werden bedarf es einer Menge Wissen. Alles Wissen
+rund um die Bar wird in unserer Barkunde festgehalten.</p>
+<ul>
+	<li><a
+		href="<?php echo $this->url(
+		array('module'=>'website','controller'=>'portal',
+		'action'=>'nutrition')); ?>?format=mobile">Nährwerttabelle</a> mit den Kalorien für
+	alle Cocktails.</li>
+	<li><a
+		href="<?php echo $this->url(
+		array('module'=>'website','controller'=>'portal',
+		'action'=>'glas')); ?>?format=mobile">Gläserkunde</a> mit den passenden Gläsern zu
+	jedem Cocktail.</li>
+	<li><a
+		href="<?php echo $this->url(
+		array('module'=>'website','controller'=>'ingredient',
+		'action'=>'index')); ?>?format=mobile">Zutaten</a> mit Beschreibungen, passenden
+	Produkten und Rezepten</li>
+	<li><a
+		href="<?php echo $this->url(
+		array('module'=>'website','controller'=>'manufacturer',
+		'action'=>'index')); ?>?format=mobile">Hersteller</a> mit Beschreibungen, ihren
+	Produkten und Rezepten</li>
+	<li><a
+		href="<?php echo $this->url(
+		array('module'=>'website','controller'=>'product',
+		'action'=>'index')); ?>?format=mobile">Warenkunde</a> mit Beschreibungen und Rezepten</li>
+</ul>
+</div>

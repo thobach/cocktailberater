@@ -3,20 +3,36 @@ $pages = array(
     array(
         'label'      => 'Start',
         'controller' => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Zutatenkategorien',
-                'module'     => 'website',
-                'controller' => 'ingredient-category',
-                'pages'      => array(
-                    array(
-                        'label'      => $this->ingredientCategory->name,
-                        'module'     => 'website',
-                        'controller' => 'ingredient-category',
-                        'action'     => 'get'
-                    )
-                )
-            )
+	    'pages'      => array(
+	            array(
+	                'label'      => 'Portal',
+	                'module'     => 'website',
+	                'controller' => 'portal',
+	            	'action'	 => 'index',
+	            	'pages'      => array(
+			            array(
+			                'label'      => 'Barkunde',
+			                'module'     => 'website',
+			                'controller' => 'portal',
+			            	'action'	 => 'barkunde',
+					    	'pages'      => array(
+					            array(
+					                'label'      => 'Zutatenkategorien',
+					                'module'     => 'website',
+					                'controller' => 'ingredient-category',
+					                'pages'      => array(
+					                    array(
+					                        'label'      => $this->ingredientCategory->name,
+					                        'module'     => 'website',
+					                        'controller' => 'ingredient-category',
+					                        'action'     => 'get'
+					                    )
+					                )
+					            )
+						)
+					)
+				)
+			)
         )
     )
 );

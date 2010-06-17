@@ -1,4 +1,3 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
 <div class="content">
 <p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
 $pages = array(
@@ -24,7 +23,7 @@ $pages = array(
 				                'label'      => 'Cocktailkarte',
 				                'module'     => 'website',
 				                'controller' => 'portal',
-				            	'action'	 => 'mein-cocktailbuch'
+				            	'action'	 => 'mein-cocktailbuch-erstellen'
 				            )
 			        	)
 		            )
@@ -34,16 +33,25 @@ $pages = array(
     )
 );
 $container = new Zend_Navigation($pages);
-echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
 ?></p>
 <h2 style="margin-bottom: 0">Cocktailkarte</h2>
-<p class="abstand_unten">Wähle die gewünschten Cocktails für deine Cocktailkarte aus:</p>
+<p>Verpasse deiner Cocktailkarte noch einen kurzen Namen, z.B. den Name deiner Bar.</p>
 <form id="recipe2menu" name="recipe2menu" method="post"
-	action="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'mein-cocktailbuch-erstellen')); ?>?format=html">
-<?php foreach($this->recipes as $recipe){ 
-	// selectable
-	$this->cocktailPreview($recipe,null,true,$this->menu->listRecipes());
-} ?><hr style="visibility: hidden;" /><input style="margin-top: 1em; margin-bottom: 1em;" class="medium-button right" type="submit"
-	value="Cocktailkarte erstellen" name="submit_recipe2menu" />
+	action="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'mein-cocktailbuch-erstellen')); ?>?format=pdf">
+<div class="abstand_oben">
+	<label for="name" class="pink">Name deiner Bar:</label> <input id="name" style="" class="text" type="text" value="   Foo Bar" name="name" />
+	</div>
+<p class="abstand_unten abstand_oben">Du hast folgende Rezepte ausgewählt:</p>
+<ul><?php foreach ($this->menu->listRecipes() as $recipe){
+	?><li><?php print $recipe->name; ?></li><?php
+} ?></ul>
+	
+	<input style="margin-top: 1em; margin-bottom: 1em;" class="" type="submit"
+	value="Cocktailkarte als PDF erstellen" name="submit_recipe2menu_pdf" />
+	<input type="hidden" value="mobile" name="myformat" />
+	<input style="margin-top: 1em; margin-bottom: 1em;" class="" type="submit"
+	value="zurück" name="submit_recipe2menu_reset" />
+	
 </form>
 </div>

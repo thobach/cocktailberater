@@ -1,2 +1,64 @@
+<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+            	'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+		    			'pages'      => array(
+				            array(
+				                'label'      => 'Hersteller',
+				                'module'     => 'website',
+				            	'action'	 => 'index',
+				                'controller' => 'manufacturer'
+				            )
+				    	)
+					)
+				)
+        	)
+    	)
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+?></p>
+<div class="content">
+<h2 style="margin-top: 0; text-align: left;">Hersteller und Marken von Cocktailzutaten</h2>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Hersteller/Marke</th>
+			<th>Produkte</th>
+			<th>Rezepte</th>
+		</tr>
+	</thead>
+	<tbody>
 <?php
-require_once 'index.phtml';
+foreach ($this->manufacturers as $manufacturer){
+	print '<tr>';
+	$products = $manufacturer->getProducts();
+	$recipes = $manufacturer->getRecipes();
+	print '<td><a href="'.$this->url(
+	array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website')).'?format=mobile">'.
+	$manufacturer->name.'</a></td>';
+	print '</td>';
+	print '<td>'.($products!==false ? '<a href="'.$this->url(
+		array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website')).'?format=mobile#products-list">'.count($products).' Stk.</a>' : 'keine').'</td>';
+	print '<td>'.(count($recipes)>0 ? '<a href="'.$this->url(
+		array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website')).'?format=mobile#recipes-list">'.count($recipes).' Stk.</a>' : 'keine').'</td>';
+	print '</tr>';
+}
+?>
+	</tbody>
+</table>
+</div>
