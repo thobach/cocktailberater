@@ -1,4 +1,4 @@
-<?php
+<!-- layout.html.phtml --><?php
 // for JS-fallback
 $currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('show');
 // HTML 5 header
@@ -15,8 +15,8 @@ if($this->layout()->getView()->title!='') {
 echo $this->headTitle($title)."\n";
 // meta
 // setting content type and character set
-$this->headMeta()->appendHttpEquiv('Content-Type',
-                                   'text/html; charset=UTF-8');
+//$this->headMeta()->appendHttpEquiv('Content-Type','text/html; charset=UTF-8');
+$this->headMeta()->setName('charset', 'UTF-8');
 // setting meta generator
 $this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
 // setting meta robots
