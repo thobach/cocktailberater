@@ -140,7 +140,7 @@ if($recipe->isOriginal){
 if(!$recipe->isAlcoholic()){
 	print  ' (alkoholfrei)';
 }
-?><span class="hide" recipeType="Getränk">Getränk</span><span class="hide" recipeType="Cocktail">Cocktail</span></div>
+?></div>
 <?php if($recipe->description){?><div class="attribut">Beschreibung:</div>
 <div class="wert" itemprop="summary"><p><?php
 print str_replace("\n",'</p><p>',$recipe->description);
@@ -201,8 +201,8 @@ if(!($alcoholLevel || $calories || $categories || $products)){
 							'href="'.$this->url(array('module'=>'website',
 							'controller'=>'ingredient',
 							'id'=>$component->getIngredient()->getUniqueName()),
-							null,true).'" itemprop="name">'.
-							$component->getIngredient()->name.'</a>';
+							null,true).'"><span itemprop="name">'.
+							$component->getIngredient()->name.'</span></a>';
 	if($component->getPreferredProduct()){
 		$componentString .= '<ul style="margin-left: 1.9em;"><li>empfohlen <a href="'.$this->url(array('module'=>'website',
 							'controller'=>'product',
@@ -784,7 +784,9 @@ function showStatistics() {
 	title="Zeitaufwand" height="42" width="43" /><br />
 	<time itemprop="totalTime" datetime="PT0H<?php print $recipe->workMin; ?>M">
 	<?php print $recipe->workMin; ?> min</time>
-	<span class="hide" itemprop="yield">1 Glas</span></div>
+	<span class="hide" itemprop="yield">1 Glas</span>
+	<span class="hide" recipeType="Getränk">Getränk</span>
+	<span class="hide" recipeType="Cocktail">Cocktail</span></div>
 <div class="left icon" style="left: 140px;"><img
 	src="<?php
 	print $this->baseUrl() ;
