@@ -42,6 +42,7 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/xml',
 					  'title' => $recipe->name.' - XML',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'));
 ?>
+<div itemscope itemtype="http://www.data-vocabulary.org/Recipe">
 <!-- class="right" -->
 <div class="right clear">
 <?php
@@ -54,7 +55,7 @@ $this->headScript()->captureStart();
 }
 dojo.addOnLoad(initLightbox0);
 <?php $this->headScript()->captureEnd();?>
-	<img src="<?php
+	<img itemprop="photo" src="<?php
 	if(isset($photos[0]) && $photos[0]->fileName) { 
 		echo $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName ;
 	} else {
@@ -131,7 +132,7 @@ style="margin-left: 0.4em; margin-top: 0.5em; margin-right: 1em; margin-bottom: 
 <!-- end of class="right" -->
 <div style="margin-left: 25px; margin-top: 15px; clear: none;">
 <div class="attribut">Name:</div>
-<div class="wert"><?php
+<div class="wert" itemprop="name"><?php
 print str_replace ( '\\', '', $recipe->name ) ;
 if($recipe->isOriginal){
 	print  ' (original)';
@@ -141,7 +142,7 @@ if(!$recipe->isAlcoholic()){
 }
 ?></div>
 <?php if($recipe->description){?><div class="attribut">Beschreibung:</div>
-<div class="wert"><p><?php
+<div class="wert"><p itemprop="summary"><?php
 print str_replace("\n",'</p><p>',$recipe->description);
 ?></p></div><?php } ?>
 <div class="attribut">Zutaten:</div>
@@ -151,10 +152,10 @@ $this->dojo()->enable()->requireModule('dijit.Tooltip');
 $decorations = "";
 $ingredients = "";
 foreach ( $components as /* @var $component Website_Model_Component */ $component ) {
-	$componentString = '<li>';
-	$componentString .= ''.$component->amount.'';
+	$componentString = '<li itemprop="ingredient" itemscope itemtype="http://www.data-vocabulary.org/RecipeIngredient">';
+	$componentString .= '<span itemprop="amount">'.$component->amount.'';
 	$componentString .= ' ' ;
-	$componentString .= ''.$component->unit.'';
+	$componentString .= ''.$component->unit.'</span>';
 	$componentString .= ' ' ;
 	
 	// ingredient tooltip
@@ -200,7 +201,7 @@ if(!($alcoholLevel || $calories || $categories || $products)){
 							'href="'.$this->url(array('module'=>'website',
 							'controller'=>'ingredient',
 							'id'=>$component->getIngredient()->getUniqueName()),
-							null,true).'">'.
+							null,true).'" itemprop="name">'.
 							$component->getIngredient()->name.'</a>';
 	if($component->getPreferredProduct()){
 		$componentString .= '<ul style="margin-left: 1.9em;"><li>empfohlen <a href="'.$this->url(array('module'=>'website',
@@ -234,7 +235,7 @@ if($decorations) { ?>
 } ?>
 </div>
 <div class="attribut">Zubereitung:</div>
-<div class="wert"><p><?php
+<div class="wert"><p itemprop="instructions"><?php
 print str_replace("\n",'</p><p>',$recipe->instruction);
 ?></p></div>
 <?php $this->headScript()->captureStart(); ?>
@@ -280,7 +281,7 @@ function clearRatingFormError(){
 }
 <?php $this->headScript()->captureEnd(); ?>
 <div class="attribut">Bewertung:</div>
-<div class="wert"><?php $durchschnitt = $recipe->getRating(); ?>
+<div class="wert" itemprop="review" itemscope itemtype="http://www.data-vocabulary.org/Review-aggregate"><?php $durchschnitt = $recipe->getRating(); ?>
 	<div id="rating_state" class="hide">&nbsp;</div>
 	<form id="rating_form" method="post" style="margin-top: 0.3em;"
 	action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>">
@@ -309,13 +310,13 @@ function clearRatingFormError(){
 		<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
 		<input name="rating" id="rating" type="hidden" value="" /> 
 			<span style="vertical-align: top;">(<?php print ($recipe->ratingsCount==1 ? 
-				$recipe->ratingsCount.' Stimme' : $recipe->ratingsCount.' Stimmen');
-			print ' - Ø '.number_format ( $recipe->getRating(), 2, ',', '' ) ; ?>)</span>
+				'<span class="count">'.$recipe->ratingsCount.'</span> Stimme' : '<span class="count">'.$recipe->ratingsCount.'</span> Stimmen');
+			print ' - Ø <span itemprop="rating">'.number_format ( $recipe->getRating(), 2, ',', '' ).'</span>' ; ?>)</span>
 	</fieldset>
 	</form></div>
 <?php if($recipe->source){ ?>
 <div class="attribut">Rezeptquelle:</div>
-<div class="wert"><?php print $recipe->source; ?></div>
+<div class="wert" itemprop="author"><?php print $recipe->source; ?></div>
 <?php } ?>	
 <!-- Tags -->
 <div class="attribut">Schlagworte:</div>
@@ -494,7 +495,7 @@ function insertTag(){
 		<input name="newtag" id="newtag" value="" type="hidden" />
 		<input name="recipe" value="<?php print $recipe->id; ?>" type="hidden" />
 		<input type="submit" class="small-button" value="hinzufügen"
-			style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png'); font-size: 0.9em;" />
+			style="font-size: 0.9em;" />
 	</fieldset>
 </form>
 </div>
@@ -649,7 +650,7 @@ dojo.addOnLoad(function(){
 	<input type="hidden" id="captchaId" name="captcha[id]" value="<?php echo $captchaId; ?>" />
 	<input type="hidden" name="recipe" value="<?php echo $this->recipe->id; ?>" />
 	<input type="submit" class="right small-button" value="abschicken" name="submit"
-	style="background-image: url('<?php echo $this->baseUrl(); ?>/img/general-button-small4.png'); margin-top: 0.5em; margin-right: 3px;" />
+	style="margin-top: 0.5em; margin-right: 3px;" />
 	
 <?php } ?></fieldset>
 </form>
@@ -777,9 +778,9 @@ function showStatistics() {
 	print $this->baseUrl() ;
 	?>/img/zeit.png" alt="Zeitaufwand"
 	title="Zeitaufwand" height="42" width="43" /><br />
-	<?php
-	print $recipe->workMin;
-	?> min</div>
+	<time itemprop="totalTime" datetime="PT0H<?php print $recipe->workMin; ?>M">
+	<?php print $recipe->workMin; ?> min</time>
+	<span class="hide" itemprop="yield">1 Glas</span></div>
 <div class="left icon" style="left: 140px;"><img
 	src="<?php
 	print $this->baseUrl() ;
@@ -845,7 +846,7 @@ function showStatistics() {
 				if(!$caloriesComplete){
 					print 'über ';
 				}
-				print $calories; ?> kcal<br /><?php
+				print '<span itemprop="calories">'.$calories.'</span>'; ?> kcal<br /><?php
 				?><span class=\"pink\">Kalorienaufteilung:</span><ul style=\"font-size: 0.9em; list-style-type: circle; margin-left: 2em;\"><?php
 					print $caloriesList;
 				?></ul></div>"
@@ -918,4 +919,5 @@ function showStatistics() {
 	<?php
 	print $recipe->getVolumeCl() ;
 	?> cl</div>
+</div>
 </div>
