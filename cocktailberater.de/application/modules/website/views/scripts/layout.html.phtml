@@ -6,10 +6,11 @@ echo $this->doctype('HTML5')."\n";
 ?>
 <html lang="de-DE">
 <head>
+<meta charset=utf-8>
 <?php
 // meta
 // setting content type and character set
-$this->headMeta()->setCharset('UTF-8');
+//$this->headMeta()->setCharset('UTF-8');
 // title
 $title = 'Cocktail Rezepte vom cocktailberater';
 if($this->layout()->getView()->title!='') {
