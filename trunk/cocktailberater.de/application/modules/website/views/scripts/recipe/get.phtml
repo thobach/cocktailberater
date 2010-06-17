@@ -140,9 +140,9 @@ if($recipe->isOriginal){
 if(!$recipe->isAlcoholic()){
 	print  ' (alkoholfrei)';
 }
-?></div>
+?><span class="hide" recipeType="Getränk">Getränk</span><span class="hide" recipeType="Cocktail">Cocktail</span></div>
 <?php if($recipe->description){?><div class="attribut">Beschreibung:</div>
-<div class="wert"><p itemprop="summary"><?php
+<div class="wert" itemprop="summary"><p><?php
 print str_replace("\n",'</p><p>',$recipe->description);
 ?></p></div><?php } ?>
 <div class="attribut">Zutaten:</div>
@@ -235,7 +235,7 @@ if($decorations) { ?>
 } ?>
 </div>
 <div class="attribut">Zubereitung:</div>
-<div class="wert"><p itemprop="instructions"><?php
+<div class="wert" itemprop="instructions"><p><?php
 print str_replace("\n",'</p><p>',$recipe->instruction);
 ?></p></div>
 <?php $this->headScript()->captureStart(); ?>
@@ -310,8 +310,8 @@ function clearRatingFormError(){
 		<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
 		<input name="rating" id="rating" type="hidden" value="" /> 
 			<span style="vertical-align: top;">(<?php print ($recipe->ratingsCount==1 ? 
-				'<span class="count">'.$recipe->ratingsCount.'</span> Stimme' : '<span class="count">'.$recipe->ratingsCount.'</span> Stimmen');
-			print ' - Ø <span itemprop="rating">'.number_format ( $recipe->getRating(), 2, ',', '' ).'</span>' ; ?>)</span>
+				'<span itemprop="count" style="vertical-align: top;">'.$recipe->ratingsCount.'</span> Stimme' : '<span class="count" style="vertical-align: top;">'.$recipe->ratingsCount.'</span> Stimmen');
+			print ' - Ø <span itemprop="rating" style="vertical-align: top;">'.number_format ( $recipe->getRating(), 2, ',', '' ).'</span>' ; ?>)</span>
 	</fieldset>
 	</form></div>
 <?php if($recipe->source){ ?>
@@ -567,27 +567,31 @@ dojo.addOnLoad(function(){
 		foreach ( $this->recipe->getComments() as $comment ) {
 			$currentCommentNumber++;
 			print '<li style="border-bottom: 1px solid rgb(170, 16, 97); margin-bottom: 0.5em;"'.
-			($currentCommentNumber>3 ? ' class="hide"' : '').'><p><!-- #'.
+			($currentCommentNumber>3 ? ' class="hide"' : '').'  itemscope itemtype="http://data-vocabulary.org/Review">
+				<span class="hide" itemprop="itemreviewed">'.
+				str_replace ( '\\', '', $recipe->name ).
+				($recipe->isOriginal ? ' (original)' : '').
+				(!$recipe->isAlcoholic() ? ' (alkoholfrei)' : '').'</span><p><!-- #'.
 				($amountOfComments--).' von --><em>' ;
 			if ($comment->memberId) {
 				$member = new Website_Model_Member ( $comment->memberId ) ;
-				print '<a href="mailto:' . $this->escape($member->email) . '">' . $this->escape(stripslashes($member->firstname)) . ' ' . $this->escape(stripslashes($member->lastname)) . '</a>' ;
+				print '<a href="mailto:' . $this->escape($member->email) . '" itemprop="reviewer">' . $this->escape(stripslashes($member->firstname)) . ' ' . $this->escape(stripslashes($member->lastname)) . '</a>' ;
 			} else if($comment->name){
 				if($comment->name && $comment->email){
-					print '<a href="mailto:' . $this->escape($comment->email) . '">' . $this->escape(stripslashes($comment->name)) . '</a>' ;
+					print '<a href="mailto:' . $this->escape($comment->email) . '" itemprop="reviewer">' . $this->escape(stripslashes($comment->name)) . '</a>' ;
 				} else {
 					print $this->escape(stripslashes($comment->name));
 				}
 			} else {
 				print 'anonym' ;
 			}
-			print '</em> schreibt: ';
+			print '</em> schreibt: <span itemprop="description">';
 			$insertDate = new Zend_Date($comment->insertDate,Zend_Date::ISO_8601);
 			print ''.stripslashes(str_replace (array("\r\n", "\r", "\n",'\r\n', '\r', '\n'),
-				'</p><p>',$this->escape($comment->comment))).
-					' <span style="color: #888888">'.
+				'<br />',$this->escape($comment->comment))).
+					'</span> <span style="color: #888888" itemprop="dtreviewed" datetime="'.$insertDate->get(Zend_Date::DATE_SHORT,new Zend_Locale('de_DE')).'">'.
 					$insertDate->get(Zend_Date::DATETIME_SHORT,new Zend_Locale('de_DE')).
-					' Uhr</span></p></li>' ;
+					' Uhr</span></p></li>';
 		}
 	} else {
 		print '<li>keine Kommentare vorhanden</li>' ;
