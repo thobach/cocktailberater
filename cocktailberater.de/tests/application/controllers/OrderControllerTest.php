@@ -177,7 +177,7 @@ class OrderControllerTest extends ControllerTestCase
 		$this->assertController("order");
 		$this->assertAction("get");
 		$this->assertResponseCode(200);
-		$this->assertXpathContentContains('/html/body/div[@id=\'wrapper\']/div[@id=\'homepage\']/div[@id=\'content\']/div[@id=\'ergebnisse\']/ul/h2', "Mojito für Max Mustermann");
+		$this->assertContains("Mojito für Max Mustermann",$this->response->outputBody());
 	}
 
 	public function testGetWithWrongIdAction() {
