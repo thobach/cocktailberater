@@ -1,41 +1,10 @@
-<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;"><?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Rezepte',
-                'module'     => 'website',
-                'controller' => 'recipe',
-            	'action'	 => 'index'
-            )
-    	)
-    )
-);
-$container = new Zend_Navigation($pages);
-echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?></p><?php
-$this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
-					  'title' => 'Liste aller Cocktailrezepte - Atom',
-                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=atom'));
-$this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
-					  'title' => 'Liste aller Cocktailrezepte - RSS',
-                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=rss'));
-$this->headLink(array('rel' => 'alternate','type' => 'application/json',
-					  'title' => 'Liste aller Cocktailrezepte - JSON',
-                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=json'));
-$this->headLink(array('rel' => 'alternate','type' => 'application/xml',
-					  'title' => 'Liste aller Cocktailrezepte - XML',
-                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=xml'));
-$this->headLink(array('rel' => 'alternate','type' => 'application/pdf',
-					  'title' => 'Cocktailkarte mit allen Rezepten - PDF',
-                      'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=pdf'));
-
-echo $this->partial ('template/search.mobile.phtml');
+<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;"><a
+	href="/?format=mobile">Start</a> &gt; Rezepte</p>
+<?php echo $this->partial ('template/search.mobile.phtml');
 if ($this->recipes) { ?>
-<h2 style="margin-bottom: 1.5em; margin-top: 0; maring-left: 2em; margin-right: 2em;"><?php 
-	if(!$this->title) { ?>Cocktailrezepte<?php } 
+<h2
+	style="margin-bottom: 1.5em; margin-top: 0; maring-left: 2em; margin-right: 2em;"><?php 
+	if(!$this->title) { ?>Cocktailrezepte<?php }
 	else { echo $this->title; } ?></h2>
 <div id="ergebnisse" style="clear: left;"><?php
 foreach ($this->recipes as $recipe){
@@ -50,7 +19,7 @@ foreach ($this->recipes as $recipe){
 <?php } else { ?>
 <p>Bitte geben Sie einen Suchbegriff ein.</p>
 <?php } ?>
-<?php 
+<?php
 $urlParams = Zend_Controller_Front::getInstance()->getParams();
 $urlParams['index'] = 'index';
 unset($urlParams['bootstrap']);
