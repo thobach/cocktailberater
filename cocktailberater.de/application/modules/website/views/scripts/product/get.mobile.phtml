@@ -93,7 +93,7 @@ echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcru
 <?php } ?>
 <?php if($this->product->getOffers()) { ?>
 <h3 class="clear left" id="offer-list"><?php print $this->ingredient->name; ?> Anbieter</h3>
-<ul style="clear: left; margin-top: 0.2em; list-style-type: circle; margin-left: 25px;">
+<ul style="clear: left; margin-top: 0.2em; margin-left: 1.5em; list-style-position: outside;">
 <?php
 $i=0;
 foreach ($this->product->getOffers() as $offer) {
