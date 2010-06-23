@@ -7,6 +7,32 @@
  */
 ?>
 <div class="content abstand_links_doppelt" style="width: 600px">
+<p style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+	    'pages'      => array(
+	            array(
+	                'label'      => 'Portal',
+	                'module'     => 'website',
+	                'controller' => 'portal',
+	            	'action'	 => 'index',
+	            	'pages'      => array(
+			            array(
+			                'label'      => 'Kontakt',
+			                'module'     => 'website',
+			                'controller' => 'portal',
+			            	'action'	 => 'contact'
+					)
+				)
+			)
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+?></p>
 <h2>Nehmen Sie mit uns Kontakt auf!</h2>
 <p class="abstand_unten">Mit diesem Formular können Sie schnell und einfach mit uns in Kontakt
 treten.<br />

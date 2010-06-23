@@ -122,8 +122,8 @@ ul,ol,dl {
 }
 
 ul ul li {
-	font-size: smaller;
-	font-weight: normal;
+	margin-top: 0.25em;
+	margin-bottom: 0.25em;
 }
 
 a:link {
@@ -184,7 +184,8 @@ div#header a {
 /* Homepage
 -----------------------------------------------------------------------------*/
 #homepage {
-	margin-left: 1em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
 }
 
 #wiki {

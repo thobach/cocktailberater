@@ -18,16 +18,17 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 		$layout = Zend_Layout::getMvcInstance();
 		$layout->setLayoutPath(APPLICATION_PATH . '/modules/' .
 		$request->getModuleName() . '/layouts');
-		
+
 		/**
 		 * skip mobile detection
 		 */
-		// skip mobile browser detection if normal or mobile layout is wanted explicitly
-		if($request->getParam('format') == 'html' || 
-			$request->getParam('format') == 'mobile'){
+		// skip mobile browser detection if normal, mobile or pdf layout is wanted explicitly
+		if($request->getParam('format') == 'html' ||
+			$request->getParam('format') == 'mobile' ||
+			$request->getParam('format') == 'pdf'){
 			return;
 		}
-		
+
 		/**
 		 * mobile detection
 		 */
@@ -53,11 +54,11 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 			}
 		}
 
-		// set default context		
+		// set default context
 		if($request->getParam('format') == null){
 			$request->setParam('format','html');
 			return;
 		}
-		
+
 	}
 }

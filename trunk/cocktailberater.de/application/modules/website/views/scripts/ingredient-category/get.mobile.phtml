@@ -1,4 +1,4 @@
-<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;"><?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -54,7 +54,7 @@ echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcru
 		<tr>
 			<td><a
 				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>?format=mobile">
-				<?php print $ingredient->name; ?></a> (<?php if($ingredient->getAverageAlcoholLevel()) { print $ingredient->getAverageAlcoholLevel().' %'; } else { print '0 %'; } ?>)<?php 
+				<?php print $ingredient->name; ?></a> (<?php if($ingredient->getAverageAlcoholLevel()) { print $ingredient->getAverageAlcoholLevel().'&nbsp;%'; } else { print '0&nbsp;%'; } ?>)<?php 
 			if($ingredient->getRecipes()) {
 				$i=0;
 				foreach($ingredient->getRecipes() as $recipe){

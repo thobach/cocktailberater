@@ -42,7 +42,15 @@ class Website_RatingController extends Wb_Controller_RestController {
 				$rating->mark = $this->_getParam('rating');
 				$rating->ip = $_SERVER [ 'REMOTE_ADDR' ];
 				$rating->save();
-				$this->_forward('get','rating','website',array('id'=>$rating->id));
+				if($this->_getParam('myformat')=='mobile' || $this->_getParam('myformat')=='html'){
+					$this->_redirect($this->view->url(array(
+							'module'=>'website',
+							'controller'=>'recipe',
+							'action'=>'get',
+							'id'=>$this->_getParam('recipe')),'rest',true)."?format=".$this->_getParam('myformat'));
+				} else {
+					$this->_forward('get','rating','website',array('id'=>$rating->id)); 
+				}
 			} else {
 				throw new Website_Model_RatingException('Value_Missing');
 			}

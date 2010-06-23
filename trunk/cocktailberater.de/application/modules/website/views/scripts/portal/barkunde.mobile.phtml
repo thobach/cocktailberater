@@ -1,5 +1,5 @@
 <div class="content">
-<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;"><?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -30,7 +30,7 @@ echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcru
 <h2>Barkunde</h2>
 <p>Um Barkeeper zu werden bedarf es einer Menge Wissen. Alles Wissen
 rund um die Bar wird in unserer Barkunde festgehalten.</p>
-<ul>
+<ul style="list-style-position: outside;">
 	<li><a
 		href="<?php echo $this->url(
 		array('module'=>'website','controller'=>'portal',

@@ -1,4 +1,4 @@
-<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;"><?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -60,28 +60,28 @@ if(is_array($this->ingredient->getIngredientCategories())){
 <?php } ?>
 <?php if($this->ingredient->getAverageAlcoholLevel()) {?>
 <div class="attribut">Alkoholgehalt:</div>
-<div class="wert"><?php print $this->ingredient->getAverageAlcoholLevel(); ?> %</div>
+<div class="wert"><?php print $this->ingredient->getAverageAlcoholLevel(); ?>&nbsp;%</div>
 <?php } ?>
 <?php if($this->ingredient->getAverageCaloriesKcal()) {?>
 <div class="attribut">Kalorien:</div>
-<div class="wert"><?php print round($this->ingredient->getAverageCaloriesKcal()/10); ?> kcal / 100g bzw. 100 ml</div>
+<div class="wert"><?php print round($this->ingredient->getAverageCaloriesKcal()/10); ?>&nbsp;kcal / 100g bzw. 100 ml</div>
 <?php } ?>
 <?php if($this->ingredient->getAveragePricePerLitre() || $this->ingredient->getAveragePricePerKilogram()) {?>
 <div class="attribut">Preis:</div>
 <div class="wert"><?php 
 if($this->ingredient->getAveragePricePerLitre()) { 
-	print number_format($this->ingredient->getAveragePricePerLitre(),2,',','.'); ?> € / Liter <?php
+	print number_format($this->ingredient->getAveragePricePerLitre(),2,',','.'); ?> €&nbsp;/&nbsp;Liter <?php
 }
 if($this->ingredient->getAveragePricePerLitre() && $this->ingredient->getAveragePricePerKilogram()) {
 	print '<br />';
 }
 if($this->ingredient->getAveragePricePerKilogram()) {
-	print number_format($this->ingredient->getAveragePricePerKilogram(),2,',','.'); ?> € / kg <?php 
+	print number_format($this->ingredient->getAveragePricePerKilogram(),2,',','.'); ?>&nbsp;€&nbsp;/&nbsp;kg <?php 
 } ?></div>
 <?php } ?>
 <?php if($this->ingredient->getAverageWeightGram()) {?>
 <div class="attribut">Gewicht pro Einheit:</div>
-<div class="wert"><?php print $this->ingredient->getAverageWeightGram(); ?> g</div>
+<div class="wert"><?php print $this->ingredient->getAverageWeightGram(); ?>&nbsp;g</div>
 <?php }
 if($this->recipes) {?>
 <h3 style="margin-bottom: 1.7em;" id="recipes-list">Cocktailrezepte mit <?php print $this->ingredient->name; ?></h3>
@@ -117,9 +117,9 @@ if(is_array($products)){ ?>
 		print $this->url(array('controller'=>'manufacturer',
 		'id'=>$product->getManufacturer()->getUniqueName())); ?>?format=mobile"><?php 
 		print $product->getManufacturer()->name; ?></a><?php } ?> 
-		(<?php print str_replace('.',',',round($product->size,2)).' '.
+		(<?php print str_replace('.',',',round($product->size,2)).'&nbsp;'.
 		$product->unit;?>) <?php  print (count($offers)>0 ? 'gibt es '.($avgPrice ? 'für durchschnittlich '.
-		number_format($avgPrice,2,',','.').' € ' : '').' bei:<br />' : ''); ?>
+		number_format($avgPrice,2,',','.').'&nbsp;€ ' : '').' bei:<br />' : ''); ?>
 		<?php if(count($offers)>0){ ?>
 			<ul style="margin-top: 0.2em; list-style-type: circle; margin-left: 25px; float: left;  width: 20em;">
 			<?php 
@@ -129,7 +129,7 @@ if(is_array($products)){ ?>
 				<li style="text-align: left; <?php ($i==1 ? 'clear: left;' : 'clear: none;'); ?>">
 					<a href="<?php print $offer['shopUrl']; ?>"><?php print $offer['shop']; ?></a>
 					<?php if($offer['price']>0){ ?>
-						für <?php print number_format($offer['price'],2,',','.').' €'; ?>
+						für <?php print number_format($offer['price'],2,',','.').'&nbsp;€'; ?>
 					<?php } ?>
 				</li>
 			
