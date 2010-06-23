@@ -369,12 +369,6 @@ p.description {
 	text-align: center;
 }
 
-#ergebnisse {
-	width: 98%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
 textarea#comment {
 	width: 390px;
 	height: 60px;
