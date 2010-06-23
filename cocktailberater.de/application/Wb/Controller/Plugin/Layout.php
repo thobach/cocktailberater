@@ -14,6 +14,10 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 		'wm5'			=> false,
 		'pie'			=> false,
 		'iemobile'		=> false,
+		'nokia'			=> false,
+		'mobi'			=> false,
+		'symbos'		=> false,
+		'mini'			=> false
 	);
 
 	public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)	{
