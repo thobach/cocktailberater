@@ -11,6 +11,9 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 		'windows ce'	=> false,
 		'palm'			=> false,
 		'midp'			=> false,
+		'wm5'			=> false,
+		'pie'			=> false,
+		'iemobile'		=> false,
 	);
 
 	public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)	{
