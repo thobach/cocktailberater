@@ -287,9 +287,9 @@ class Website_Model_Bar {
 	 * adds the xml representation of the object to a xml branch
 	 *
 	 * @param DomDocument $xml
-	 * @param XmlElement $branch
+	 * @param DOMElement $branch
 	 */
-	public function toXml(DomDocument $xml, XmlElement $branch) {
+	public function toXml(DomDocument $xml, DOMElement $branch) {
 		$bar = $xml->createElement('bar');
 		$branch->appendChild($bar);
 		$bar->setAttribute('id', $this->id);
