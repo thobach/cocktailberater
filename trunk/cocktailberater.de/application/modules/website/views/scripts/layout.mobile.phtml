@@ -1,12 +1,11 @@
 <?php
 // for JS-fallback
 $currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('show');
-// HTML 5 header
-echo $this->doctype('HTML5')."\n";
+echo '<?xml version="1.0" encoding="utf-8"?>';
 ?>
-<html lang="de-DE">
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset=utf-8>
 <?php
 // title
 $title = 'Cocktail Rezepte vom cocktailberater';
@@ -18,7 +17,18 @@ echo $this->headTitle($title)."\n";
 // setting content type and character set
 //$this->headMeta()->appendHttpEquiv('Content-Type',
  //                                  'text/html; charset=UTF-8');
-// setting meta generator
+// setting client-side cache
+$this->headMeta()->appendHttpEquiv('expires',
+                                   gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT')
+                 ->appendHttpEquiv('pragma', 'private')
+                 ->appendHttpEquiv('Cache-Control', 'private');
+// also enable caching in HTTP header
+// seconds, minutes, hours, days
+$expires = 60*60*24*7;
+header("Pragma: private");
+header("Cache-Control: maxage=".$expires);
+header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+ // setting meta generator
 $this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
 // setting meta robots
 $this->headMeta()->setName('robots', 'index,follow');
