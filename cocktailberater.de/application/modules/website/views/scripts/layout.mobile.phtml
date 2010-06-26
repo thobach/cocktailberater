@@ -1,7 +1,7 @@
 <?php
 // for JS-fallback
 $currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('show');
-echo '<?xml version="1.0" encoding="utf-8"?>';
+echo '<?xml version="1.0" encoding="utf-8"?>'."\n";
 ?>
 <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -18,13 +18,13 @@ echo $this->headTitle($title)."\n";
 //$this->headMeta()->appendHttpEquiv('Content-Type',
  //                                  'text/html; charset=UTF-8');
 // setting client-side cache
+// seconds, minutes, hours, days
+$expires = 60*60*24*7;
 $this->headMeta()->appendHttpEquiv('expires',
                                    gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT')
                  ->appendHttpEquiv('pragma', 'private')
                  ->appendHttpEquiv('Cache-Control', 'private');
 // also enable caching in HTTP header
-// seconds, minutes, hours, days
-$expires = 60*60*24*7;
 header("Content-Type: text/html");
 header("Pragma: private");
 header("Cache-Control: maxage=".$expires);
