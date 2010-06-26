@@ -15,19 +15,18 @@ if($this->layout()->getView()->title!='') {
 echo $this->headTitle($title)."\n";
 // meta
 // setting content type and character set
-$this->headMeta()->appendHttpEquiv('Content-Type',
-                                   'text/html; charset=UTF-8');
+$this->headMeta()->appendHttpEquiv('Content-Type','text/html; charset=utf-8');
 header('Content-Type: text/html; charset=utf-8');
 // setting client-side cache
+// also enable caching in HTTP header
 // seconds, minutes, hours, days
 $expires = 60*60*24*7;
-$this->headMeta()->appendHttpEquiv('expires',
-                                   gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT')
-                 ->appendHttpEquiv('Cache-Control', 'private')
-                 ->appendHttpEquiv('Cache-Control', 'max-age='.$expires);
-// also enable caching in HTTP header
-header('Cache-Control: max-age='.$expires);
+$this->headMeta()->appendHttpEquiv('Expires', 
+					gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
 header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+$this->headMeta()->appendHttpEquiv('Cache-Control',
+                 	'private; max-age='.$expires);
+header('Cache-Control: private,;max-age='.$expires);
  // setting meta generator
 $this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
 // setting meta robots
