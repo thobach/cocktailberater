@@ -79,8 +79,7 @@ class Website_Model_Menu {
 	/**
 	 * returns an array of all Menu objects
 	 *
-	 * @return array Manufacturer
-	 * @tested
+	 * @return array Menu
 	 */
 	public static function listMenu()
 	{
@@ -92,30 +91,28 @@ class Website_Model_Menu {
 	}
 
 	/**
-	 * returns an array of all Menu objects
+	 * returns an array with all recipe objects of the menu
 	 *
-	 * @return array Manufacturer
-	 * @tested
+	 * @return array Menu
 	 */
 	public function listRecipes() {
-		return $this->_recipes;
-		/*
-		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe2menue');
-		$where = $table->select()->where('menue=?',$this->id);
-		$recipes = $table->fetchAll($where);
-		if(count($recipes)>0){
-			foreach ($recipes as $recipe) {
-				$menuArray[] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipe->recipe);
+		if($this->_recipes == null){
+			$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe2menue');
+			$where = $table->select()->where('menue=?',$this->id);
+			$recipes = $table->fetchAll($where);
+			if(count($recipes)>0){
+				foreach ($recipes as $recipe) {
+					$this->_recipes[$recipe->recipe] = 
+						Website_Model_CbFactory::factory('Website_Model_Recipe',$recipe->recipe);
+				}
 			}
 		}
-		return $menuArray;
-		*/
+		return $this->_recipes;
 	}
 
 	public function addRecipe ($recipeId){
 		$this->_recipes[$recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipeId);
-		/*
-		// TODO: write unit test
+		
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe2menue');
 		$select = $table->select()->where('recipe=?',$recipeId)->where('menue=?',$this->id);
 		$res = $table->fetchRow($select);
@@ -126,7 +123,6 @@ class Website_Model_Menu {
 		} else {
 			throw new MenuException("Recipe_Alread_In_Menue");
 		}
-		*/
 	}
 	
 	public function removeRecipe ($recipeId){
