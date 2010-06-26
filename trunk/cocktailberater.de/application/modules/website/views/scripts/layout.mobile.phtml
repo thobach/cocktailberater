@@ -2,8 +2,8 @@
 // for JS-fallback
 $currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('show');
 echo '<?xml version="1.0" encoding="utf-8"?>'."\n";
+echo $this->doctype('<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">')."\n";
 ?>
-<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php
@@ -65,12 +65,12 @@ echo $this->headLink()."\n";
 </head>
 <body>
 <div id="wrapper">
-<div id="header" style="background-image: url('<?php print $this->baseUrl(); ?>/img/logo.mobile.png'); height: 50px;"><a
+<div id="header" style="background-image: url('<?php print $this->baseUrl(); ?>/img/logo.mobile.png'); height: 3em;"><a
 	href="<?php 
 	print $this->url(array('module'=>'website',
 							'controller'=>'index',
 							'action'=>'index'),null,true); ?>?format=mobile"
-	style="display: block; width: 100%; height: 50px;"><span class="hide">Startseite</span></a></div>
+	style="display: block; width: 100%; height: 3em;"><span class="hide">Startseite</span></a></div>
 <!-- id:header -->
 <div id="homepage">
 <div id="content"><?php echo $this->layout()->content ?></div>
