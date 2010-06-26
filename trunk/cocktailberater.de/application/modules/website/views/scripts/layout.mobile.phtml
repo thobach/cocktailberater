@@ -15,8 +15,8 @@ if($this->layout()->getView()->title!='') {
 echo $this->headTitle($title)."\n";
 // meta
 // setting content type and character set
-//$this->headMeta()->appendHttpEquiv('Content-Type',
- //                                  'text/html; charset=UTF-8');
+$this->headMeta()->appendHttpEquiv('Content-Type',
+                                   'text/html; charset=UTF-8');
 // setting client-side cache
 // seconds, minutes, hours, days
 $expires = 60*60*24*7;
@@ -25,7 +25,7 @@ $this->headMeta()->appendHttpEquiv('expires',
                  ->appendHttpEquiv('pragma', 'private')
                  ->appendHttpEquiv('Cache-Control', 'private');
 // also enable caching in HTTP header
-header("Content-Type: text/html");
+header("Content-Type: text/html; charset=UTF-8");
 header("Pragma: private");
 header("Cache-Control: maxage=".$expires);
 header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
