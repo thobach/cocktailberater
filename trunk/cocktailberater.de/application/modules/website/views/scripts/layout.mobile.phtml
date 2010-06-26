@@ -17,6 +17,7 @@ echo $this->headTitle($title)."\n";
 // setting content type and character set
 $this->headMeta()->appendHttpEquiv('Content-Type',
                                    'text/html; charset=UTF-8');
+header("Content-Type: text/html; charset=UTF-8");
 // setting client-side cache
 // seconds, minutes, hours, days
 $expires = 60*60*24*7;
@@ -25,9 +26,8 @@ $this->headMeta()->appendHttpEquiv('expires',
                  ->appendHttpEquiv('pragma', 'private')
                  ->appendHttpEquiv('Cache-Control', 'private');
 // also enable caching in HTTP header
-header("Content-Type: text/html; charset=UTF-8");
 header("Pragma: private");
-header("Cache-Control: maxage=".$expires);
+header("Cache-Control: max-age=".$expires);
 header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
  // setting meta generator
 $this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
@@ -65,27 +65,26 @@ echo $this->headLink()."\n";
 </head>
 <body>
 <div id="wrapper">
-<div id="header" style="background-image: url('<?php print $this->baseUrl(); ?>/img/logo.mobile.gif'); height: 3em;"><a
+<div id="header"><a
 	href="<?php 
 	print $this->url(array('module'=>'website',
 							'controller'=>'index',
-							'action'=>'index'),null,true); ?>?format=mobile"
-	style="display: block; width: 100%; height: 3em;"><span class="hide">Startseite</span></a></div>
+							'action'=>'index'),null,true); ?>?format=mobile"><span 
+							class="hide">Startseite</span></a></div>
 <!-- id:header -->
 <div id="homepage">
 <div id="content"><?php echo $this->layout()->content ?></div>
 <!-- begin: top links -->
-<h2 style="padding-top: 1em;">Social</h2>
+<h2 id="social">Social</h2>
 <ul>
-	<li style="clear: left;"><a href="http://www.facebook.com/cocktailberater"
-		style="padding-top: 0.2em; padding-bottom: 0.2em;"
+	<li id="social_become_fan"><a href="http://www.facebook.com/cocktailberater"
 		title="auf facebook Fan werden"><span class="social_sprites"
 		id="spr_facebook_fan"></span> Fan werden</a></li>
-	<li style="clear: left;"><a style="padding-top: 0.2em; padding-bottom: 0.2em;"
+	<li id="social_share"><a 
 		href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>"
 		title="auf facebook teilen"> <span class="social_sprites"
 		id="spr_facebook_share"></span> Teilen</a></li>
-	<li style="clear: left;"><a
+	<li id="social_twitter"><a
 		href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>"
 		title="auf Twitter posten"> <span class="social_sprites"
 		id="spr_twitter"></span>Twitter(n)</a></li>
@@ -113,7 +112,7 @@ echo $this->headLink()."\n";
 <!-- end: top links --></div>
 <!-- id:homepage --></div>
 <!-- id:wrapper -->
-		<?php if(APPLICATION_ENV=='production') {?>
+<?php if(APPLICATION_ENV=='production') {?>
 <!-- Piwik -->
 <script type="text/javascript">
 var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.thobach.de/" : "http://stats.thobach.de/");
@@ -127,10 +126,9 @@ piwikTracker.enableLinkTracking();
 } catch( err ) {}
 </script>
 <noscript>
-<p><img src="http://stats.thobach.de/piwik.php?idsite=4"
-	style="border: 0" alt="" /></p>
+<p><img src="http://stats.thobach.de/piwik.php?idsite=4" id="piwik" alt="" /></p>
 </noscript>
 <!-- End Piwik Tag -->
-		<?php } ?>
+<?php } ?>
 </body>
 </html>
