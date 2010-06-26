@@ -4,7 +4,7 @@ $currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('sh
 echo '<?xml version="1.0" encoding="utf-8"?>'."\n";
 echo $this->doctype('<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">')."\n";
 ?>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php
 // title
@@ -65,7 +65,7 @@ echo $this->headLink()."\n";
 </head>
 <body>
 <div id="wrapper">
-<div id="header" style="background-image: url('<?php print $this->baseUrl(); ?>/img/logo.mobile.png'); height: 3em;"><a
+<div id="header" style="background-image: url('<?php print $this->baseUrl(); ?>/img/logo.mobile.gif'); height: 3em;"><a
 	href="<?php 
 	print $this->url(array('module'=>'website',
 							'controller'=>'index',
