@@ -26,7 +26,7 @@ $this->headMeta()->appendHttpEquiv('Expires',
 header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
 $this->headMeta()->appendHttpEquiv('Cache-Control',
                  	'private; max-age='.$expires);
-header('Cache-Control: private,;max-age='.$expires);
+header('Cache-Control: private; max-age='.$expires);
  // setting meta generator
 $this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
 // setting meta robots
