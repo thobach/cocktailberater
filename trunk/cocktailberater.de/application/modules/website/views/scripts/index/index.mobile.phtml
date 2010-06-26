@@ -10,49 +10,50 @@ $this->headMeta()->appendName(	'description', 'Mobile Datenbank mit '.
 								'alkoholfreien und alkoholischen '. 
 								'Cocktailrezepten');
 // atom comments
-$this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
-					  'title' => 'Alle Kommentare - Atom',
-                      'href' => $this->url(array('module'=>'website',
-                      'controller'=>'comment','action'=>'index')).
-                      '?format=atom'));
+$this->headLink(array(	'rel' => 'alternate','type' => 'application/atom+xml',
+						'title' => 'Alle Kommentare - Atom',
+						'href' => $this->url(array('module'=>'website',
+							'controller'=>'comment','action'=>'index')).
+							'?format=atom'));
 // rss comments
-$this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
-					  'title' => 'Alle Kommentare - RSS',
-                      'href' => $this->url(array('module'=>'website',
-                      'controller'=>'comment','action'=>'index')).
-                      '?format=rss'));
+$this->headLink(array(	'rel' => 'alternate','type' => 'application/rss+xml',
+						'title' => 'Alle Kommentare - RSS',
+						'href' => $this->url(array('module'=>'website',
+							'controller'=>'comment','action'=>'index')).
+							'?format=rss'));
 // atom tags
-$this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
-					  'title' => 'Alle Tags - Atom',
-                      'href' => $this->url(array('module'=>'website',
-                      'controller'=>'tag','action'=>'index')).'?format=atom'));
+$this->headLink(array(	'rel' => 'alternate','type' => 'application/atom+xml',
+						'title' => 'Alle Tags - Atom',
+						'href' => $this->url(array('module'=>'website',
+							'controller'=>'tag','action'=>'index')).
+							'?format=atom'));
 // rss tags
-$this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
-					  'title' => 'Alle Tags - RSS',
-                      'href' => $this->url(array('module'=>'website',
-                      'controller'=>'tag','action'=>'index')).'?format=rss'));
+$this->headLink(array(	'rel' => 'alternate','type' => 'application/rss+xml',
+						'title' => 'Alle Tags - RSS',
+						'href' => $this->url(array('module'=>'website',
+						  'controller'=>'tag','action'=>'index')).'?format=rss'));
 // atom ratings
-$this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
-					  'title' => 'Alle Bewertungen - Atom',
-                      'href' => $this->url(array('module'=>'website',
-                      'controller'=>'rating','action'=>'index')).
-                      '?format=atom'));
+$this->headLink(array(	'rel' => 'alternate','type' => 'application/atom+xml',
+						'title' => 'Alle Bewertungen - Atom',
+						'href' => $this->url(array('module'=>'website',
+							'controller'=>'rating','action'=>'index')).
+							'?format=atom'));
 // rss ratings
-$this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
-					  'title' => 'Alle Bewertungen - RSS',
-                      'href' => $this->url(array('module'=>'website',
-                      'controller'=>'rating','action'=>'index')).
-                      '?format=rss'));
+$this->headLink(array(	'rel' => 'alternate','type' => 'application/rss+xml',
+						'title' => 'Alle Bewertungen - RSS',
+						'href' => $this->url(array('module'=>'website',
+							'controller'=>'rating','action'=>'index')).
+							'?format=rss'));
 // atom recipes
-$this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
-					  'title' => 'Alle Cocktailrezepte - Atom',
-                      'href' => $this->url(array('module'=>'website',
-                      	'controller'=>'recipe')).'?format=atom'));
+$this->headLink(array(	'rel' => 'alternate','type' => 'application/atom+xml',
+						'title' => 'Alle Cocktailrezepte - Atom',
+						'href' => $this->url(array('module'=>'website',
+							'controller'=>'recipe')).'?format=atom'));
 // rss recipes
-$this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
-					  'title' => 'Alle Cocktailrezepte - RSS',
-                      'href' => $this->url(array('module'=>'website',
-                      	'controller'=>'recipe')).'?format=rss'));
+$this->headLink(array(	'rel' => 'alternate','type' => 'application/rss+xml',
+						'title' => 'Alle Cocktailrezepte - RSS',
+						'href' => $this->url(array('module'=>'website',
+							'controller'=>'recipe')).'?format=rss'));
 
 ?>
 <div class="abstand_oben"><?php 
@@ -68,8 +69,8 @@ array('uri' => $this->baseUrl())); ?></div>
 	<li><a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe','search_type'=>'ingredient','search'=>'Vodka')); ?>?format=mobile"> <span class="stoebern_sprites" id="spr_vodka"></span>Cocktailrezepte mit Vodka</a></li>
 	<li><a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe','search_type'=>'ingredient','search'=>'Rum')); ?>?format=mobile"> <span class="stoebern_sprites" id="spr_rum"></span>Cocktailrezepte mit Rum</a></li>
 	<li><a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe','search_type'=>'image')); ?>?format=mobile"> <span class="stoebern_sprites" id="spr_image"></span>Cocktailrezepte mit Bildern</a></li>
-	<li><a href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'barkunde')); ?>?format=mobile"> <span class="stoebern_sprites" id="spr_barkunde"></span>Wissen &amp;	Barkunde</a></li>
-	<li><a href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'hausbar')); ?>?format=mobile"> <span id="spr_tools"></span>Party	Helferlein</a></li>
+	<li><a href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'barkunde')); ?>?format=mobile"> <span class="stoebern_sprites" id="spr_barkunde"></span>Wissen &amp; Barkunde</a></li>
+	<li><a href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'hausbar')); ?>?format=mobile"> <span id="spr_tools"></span>Party Helferlein</a></li>
 </ul>
 <div class="clear"></div>
 </div>
