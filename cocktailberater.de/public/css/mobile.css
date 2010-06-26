@@ -165,7 +165,10 @@ a.pink:hover, a.pink:active, a.pink:visited, a.pink:link {
 }
 
 hr {
-	border-bottom: 1px solid #aa1061;
+	border-bottom: 0.1em solid #aa1061;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
 }
 
 /* Header
