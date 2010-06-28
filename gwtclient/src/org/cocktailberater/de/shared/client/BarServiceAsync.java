@@ -34,4 +34,6 @@ public interface BarServiceAsync {
 
 	void completeOrder(Integer orderId, AsyncCallback<Boolean> callback);
 
+	void register(String email, String password, AsyncCallback<Boolean> callback);
+
 }

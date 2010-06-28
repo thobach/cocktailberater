@@ -1,5 +1,7 @@
 package org.cocktailberater.de.shared.server;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -79,7 +81,7 @@ public class BarServiceImpl extends RemoteServiceServlet implements BarService {
 					+ URLEncoder.encode(email, "UTF-8");
 			data += "&" + URLEncoder.encode("password", "UTF-8") + "="
 					+ URLEncoder.encode(password, "UTF-8");
-			// get content from url
+			// post content to url
 			URL url = new URL(AUTH_URL);
 			URLConnection conn = url.openConnection();
 			// enable http post
@@ -104,6 +106,8 @@ public class BarServiceImpl extends RemoteServiceServlet implements BarService {
 			if ((rsp.getAttributes().getNamedItem("status").getNodeValue())
 					.equals("ok")) {
 				authenticated = true;
+			} else {
+				System.out.println("could not log in");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -146,11 +150,11 @@ public class BarServiceImpl extends RemoteServiceServlet implements BarService {
 			// post data
 			String data = URLEncoder.encode("hashCode", "UTF-8") + "="
 					+ URLEncoder.encode(hashCode, "UTF-8");
-			data += "&" + URLEncoder.encode("recipeId", "UTF-8") + "="
+			data += "&" + URLEncoder.encode("recipe", "UTF-8") + "="
 					+ URLEncoder.encode(recipeId.toString(), "UTF-8");
-			data += "&" + URLEncoder.encode("partyId", "UTF-8") + "="
+			data += "&" + URLEncoder.encode("party", "UTF-8") + "="
 					+ URLEncoder.encode(partyId.toString(), "UTF-8");
-			data += "&" + URLEncoder.encode("memberId", "UTF-8") + "="
+			data += "&" + URLEncoder.encode("member", "UTF-8") + "="
 					+ URLEncoder.encode(memberId.toString(), "UTF-8");
 			data += "&" + URLEncoder.encode("format", "UTF-8") + "="
 					+ URLEncoder.encode("xml", "UTF-8");
@@ -174,6 +178,15 @@ public class BarServiceImpl extends RemoteServiceServlet implements BarService {
 			if ((rsp.getAttributes().getNamedItem("status").getNodeValue())
 					.equals("ok")) {
 				successful = true;
+			} else {
+				String response = "";
+				BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				String inputLine;
+				while ((inputLine = in.readLine()) != null){ 
+					response += inputLine;
+				}
+				in.close();
+				System.out.println("could not order: "+ url.toString() + " w/ data " + data + " response " + response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -235,7 +248,7 @@ public class BarServiceImpl extends RemoteServiceServlet implements BarService {
 						.getNamedItem("id").getNodeValue());
 				String orderString = orders.item(i).getAttributes()
 						.getNamedItem("recipeName").getNodeValue();
-				orderString += " fŸr "
+				orderString += " fï¿½r "
 						+ getMemberName(Integer.parseInt(orders.item(i)
 								.getAttributes().getNamedItem("member")
 								.getNodeValue()));
@@ -319,5 +332,47 @@ public class BarServiceImpl extends RemoteServiceServlet implements BarService {
 			e.printStackTrace();
 		}
 		return successful;
+	}
+
+	@Override
+	public boolean register(String email, String password) {
+		// init return variable
+		boolean registered = false;
+		try {
+			// post data
+			String data = URLEncoder.encode("email", "UTF-8") + "="
+					+ URLEncoder.encode(email, "UTF-8");
+			data += "&" + URLEncoder.encode("password", "UTF-8") + "="
+					+ URLEncoder.encode(password, "UTF-8");
+			// post content to url
+			URL url = new URL(MEMBER_URL);
+			URLConnection conn = url.openConnection();
+			// enable http post
+			conn.setDoOutput(true);
+			OutputStreamWriter wr = new OutputStreamWriter(conn
+					.getOutputStream());
+			wr.write(data);
+			wr.flush();
+			// parse xml content
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(conn.getInputStream());
+
+			// load node rsp node
+			Node rsp = doc.getFirstChild();
+			hashCode = rsp.getFirstChild().getAttributes().getNamedItem(
+					"hashCode").getNodeValue();
+			System.out.println("new hash code: " + hashCode);
+			memberId = rsp.getFirstChild().getAttributes().getNamedItem("id")
+					.getNodeValue();
+			System.out.println("new memberId: " + memberId);
+			if ((rsp.getAttributes().getNamedItem("status").getNodeValue())
+					.equals("ok")) {
+				registered = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return registered;
 	}
 }
