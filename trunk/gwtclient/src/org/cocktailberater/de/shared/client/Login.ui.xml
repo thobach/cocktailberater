@@ -11,21 +11,29 @@
 			</div>
 			<fieldset class='{res.style.smallContainer}'>
 				<legend>Login</legend>
-				<g:HTML>
-					E-Mail
-					<span class='{res.style.required}'>*</span>
-					:
-				</g:HTML>
+				<g:Label ui:field="emailLabel">E-Mail:</g:Label>
 				<g:TextBox ui:field="email"></g:TextBox>
 				<br />
-				<g:HTML>
-					Password
-					<span class='{res.style.required}'>*</span>
-					:
-				</g:HTML>
+
+				<g:Label ui:field="pwdLabel">Password:</g:Label>
 				<g:PasswordTextBox ui:field="password"></g:PasswordTextBox>
 				<br />
 				<g:Button ui:field="login" />
+			</fieldset>
+			<fieldset class='{res.style.smallContainer}'>
+				<legend>Registriere dich als Gast!</legend>
+				<g:Label ui:field="emailRegisterLabel">E-Mail:</g:Label>
+				<g:TextBox ui:field="emailRegister"></g:TextBox>
+				<br />
+				<g:Label ui:field="pwd1Label">Password:</g:Label>
+				<g:PasswordTextBox ui:field="password1"></g:PasswordTextBox>
+				<g:Label ui:field="pwd2Label">Password:</g:Label>
+				<g:PasswordTextBox ui:field="password2"></g:PasswordTextBox>
+				<br />
+				<span class='{res.style.pink}'>Datenschutzhinweis:</span>
+				Dein Passwort wird verschlüsselt gespeichert und deine Daten 
+				werden nicht an Dritte weitergegeben.
+				<g:Button ui:field="register" />
 			</fieldset>
 		</div>
 	</g:HTMLPanel>

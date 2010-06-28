@@ -48,6 +48,15 @@ public interface BarService extends RemoteService {
 	 * @return true if credentials are correct, false otherwise
 	 */
 	boolean authenticate(String email, String password);
+	
+	/**
+	 * Registeres a user by email and password.
+	 * 
+	 * @param email
+	 * @param password
+	 * @return true if registration was successful, false otherwise
+	 */
+	boolean register(String email, String password);
 
 	/**
 	 * Returns all available recipes of a bar (from the first available menue).

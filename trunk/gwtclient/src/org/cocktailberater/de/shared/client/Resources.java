@@ -13,7 +13,13 @@ public interface Resources extends ClientBundle {
 
 	@Source("header-detail.png")
 	ImageResource logo();
+	
+	@Source("general-button-small4.png")
+	ImageResource button();
 
+	@Source("general-button.png")
+	ImageResource longbutton();
+	
 	public interface Style extends CssResource {
 		String container();
 		
@@ -22,6 +28,19 @@ public interface Resources extends ClientBundle {
 		String mediumContainer();
 
 		String required();
+		
+		String pink();
+		
+		String large();
+		
+		@ClassName("label")
+		String label();
+		
+		@ClassName("button")
+		String button();
+		
+		@ClassName("longbutton")
+		String longbutton();
 	}
 
 }
