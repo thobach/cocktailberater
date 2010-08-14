@@ -7,6 +7,33 @@
 class  Website_AdminController extends Zend_Controller_Action {
 
 
+	public function init() {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_AdminController->init',Zend_Log::DEBUG);
+
+		/*
+		 * use $this->_helper->getHelper('contextSwitch') instead of static call
+		 * Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch')
+		 * otherwise controller is not registered
+		 */
+		/* @var $contextSwitch Zend_Controller_Action_Helper_ContextSwitch */
+		$contextSwitch = $this->_helper->getHelper('contextSwitch');
+		$contextSwitch->setAutoJsonSerialization(false);
+		if(!$contextSwitch->hasContext('html')){
+			$contextSwitch->addContext('html',array(
+				'suffix'	=> '',
+				'headers'	=> array('Content-Type' => 'text/html'),
+				'callbacks' => array(
+					'init'	=> array(__CLASS__, 'enableLayout'),
+		            'post' => array(__CLASS__, 'setLayoutContext'))));
+		}
+		$contextSwitch->addActionContexts(array('propose-cocktail'=>true,
+		'propose-cocktail-submitted'=>true,'add-product'=>true,
+		'add-ingredient'=>true,'delete-cache'=>true,'find-popular'=>true));
+		$contextSwitch->initContext();
+
+	}
+
 	public function proposeCocktailAction () {
 		/*
 		 * If form has been submitted, spit all data :-)
@@ -91,7 +118,7 @@ class  Website_AdminController extends Zend_Controller_Action {
 	public function proposeCocktailSubmittedAction() {
 
 	}
-	
+
 
 	public function addProductAction(){
 		$this->view->message = $this->_getParam('message');
@@ -146,9 +173,66 @@ class  Website_AdminController extends Zend_Controller_Action {
 		}
 
 	}
-	
+
 	public function deleteCacheAction(){
 		$cache = Zend_Registry::get('cache');
 		$cache->clean(Zend_Cache::CLEANING_MODE_ALL);
 	}
+
+	private function my_fetch($url,$user_agent='Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'){
+		print '<br />look for: '.$url;
+		$ch = curl_init();
+		curl_setopt ($ch, CURLOPT_URL, $url);
+		curl_setopt ($ch, CURLOPT_USERAGENT, $user_agent);
+		curl_setopt ($ch, CURLOPT_HEADER, 0);
+		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt ($ch, CURLOPT_REFERER, 'http://www.google.com/');
+		$result = curl_exec ($ch);
+		curl_close ($ch);
+		return $result;
+	}
+
+	public function findPopularAction(){
+		$db = Zend_Db_Table::getDefaultAdapter();
+		$result = $db->fetchAll ( 'SELECT recipeName FROM betaRecipeStats WHERE cocktailRezeptOhneBar IS NULL');
+		foreach($result as $row){
+			$data = $this->my_fetch('http://www.google.de/search?q=%22'.str_replace(array(' ','&'),array('+','%26'),$row['recipeName']).'%22+cocktail+rezept+-bar');
+			$find1=utf8_decode('ungefähr <b>');
+			$find2=utf8_decode('</b> für');
+			//have text beginning from $find1
+			$pos1=strpos($data,$find1);
+			//find position of $find2
+			$pos2=strpos($data,$find2);
+			//take substring out, which'd be the number we want
+			$search_number=substr($data,$pos1+strlen($find1), $pos2-$pos1-strlen($find2));
+			$search_number=str_replace(',','',$search_number);
+			
+			if($search_number>0){
+				print '<br />$search_number: '.$search_number;
+			}
+			if(!($search_number>0)){
+				$search_number = 0;
+			}
+				$db->update('betaRecipeStats',
+				array('cocktailRezeptOhneBar'=>$search_number),
+		    				'recipeName=\''.str_replace('\'','\\\'',$row['recipeName']).'\'');
+		}
+		exit;
+	}
+
+	public static function enableLayout() {
+		$layout = Zend_Layout::getMvcInstance();
+		$layout->enableLayout();
+	}
+
+	public static function setLayoutContext() {
+		$layout = Zend_Layout::getMvcInstance();
+		if (null !== $layout && $layout->isEnabled()) {
+			$context = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch')->getCurrentContext();
+			if (null !== $context) {
+				$layout->setLayout($layout->getLayout() . '.' . $context);
+			}
+		}
+	}
+
 }

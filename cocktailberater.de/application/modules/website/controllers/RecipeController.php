@@ -96,6 +96,16 @@ class Website_RecipeController extends Wb_Controller_RestController {
 					$list = Website_Model_Recipe::searchByName($this->_getParam('search')) ;
 					$this->view->title = 'Cocktailrezepte mit dem Namen '.$this->_getParam('search');
 					break;
+				case 'source':
+					$log->log('Website_RecipeController->indexAction -> source',Zend_Log::DEBUG);
+					$list = Website_Model_Recipe::searchBySource(urldecode($this->_getParam('search'))) ;
+					$this->view->title = 'Cocktailrezepte aus '.urldecode($this->_getParam('search'));
+					break;
+				case 'author':
+					$log->log('Website_RecipeController->indexAction -> source',Zend_Log::DEBUG);
+					$list = Website_Model_Recipe::searchByName('% nach '.urldecode($this->_getParam('search'))) ;
+					$this->view->title = 'Cocktailrezepte von '.urldecode($this->_getParam('search'));
+					break;
 			}
 		}
 		// list all

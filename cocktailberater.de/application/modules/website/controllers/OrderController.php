@@ -1,4 +1,4 @@
-<?php
+#<?php
 /**
  * Context sensitive Controller for order matters
  *
@@ -8,27 +8,44 @@
 require_once(APPLICATION_PATH.'/Wb/Controller/RestController.php');
 class Website_OrderController extends Wb_Controller_RestController {
 
+	/**
+	 * Check authoritation
+	 */
 	public function preDispatch(){
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_OrderController->preDispatch',Zend_Log::DEBUG);
-
+		// hashCode is always needed
 		if(!$this->_hasParam('hashCode')){
 			$log->log('Website_OrderController->preDispatch: Website_Model_OrderException (HashCode missing!)',Zend_Log::DEBUG);
 			throw new Website_Model_OrderException('HashCode missing!');
 		}
+		// member is always needed
 		if(!$this->_hasParam('member')){
 			$log->log('Website_OrderController->preDispatch: Website_Model_OrderException (Member missing!)',Zend_Log::DEBUG);
 			throw new Website_Model_OrderException('Member missing!');
 		}
-
+		// check if hashCode is correct
 		$auth = Website_Model_Member::loggedIn($this->_getParam('member'),$this->_getParam('hashCode'));
-		if(!$auth ||
-		($this->_getParam('id') &&
-		!Website_Model_CbFactory::factory('Website_Model_Order',$this->_getParam('id'))->memberHasAccess($this->_getParam('member'))) ||
-		($this->_getParam('party') &&
-		!Website_Model_CbFactory::factory('Website_Model_Party',$this->_getParam('party'))->memberHasAccess($this->_getParam('member'))))	{
+		// check: authorized?
+		if(!$auth) {
 			$log->log('Website_OrderController->preDispatch: Website_Model_MemberException(INVALID_CREDENTIALS)',Zend_Log::DEBUG);
 			throw new Website_Model_MemberException(Website_Model_MemberException::INVALID_CREDENTIALS);
+		}
+		// id given -> means user wants to modify an order
+		// ckeck: has member acces to order?
+		if($this->_getParam('id') && !Website_Model_CbFactory::factory(
+			'Website_Model_Order',$this->_getParam('id'))->memberHasAccess(
+			$this->_getParam('member'))) {
+			$log->log('Website_OrderController->preDispatch: Website_Model_OrderException(MEMBER_HAS_NO_ACCESS)',Zend_Log::DEBUG);
+			throw new Website_Model_OrderException(Website_Model_OrderException::MEMBER_HAS_NO_ACCESS);
+		}
+		// party given -> means user wants to make an order
+		// check: is member guest or host at given party?
+		if($this->_getParam('party') && !Website_Model_CbFactory::factory(
+			'Website_Model_Party',$this->_getParam('party'))->memberHasAccess(
+			$this->_getParam('member'))) {
+			$log->log('Website_OrderController->preDispatch: Website_Model_PartyException(MEMBER_IS_NOT_GUEST_OR_HOST)',Zend_Log::DEBUG);
+			throw new Website_Model_PartyException(Website_Model_PartyException::MEMBER_IS_NOT_GUEST_OR_HOST);
 		}
 	}
 

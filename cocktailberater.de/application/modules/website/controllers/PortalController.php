@@ -39,7 +39,7 @@ class Website_PortalController extends Zend_Controller_Action {
 				'suffix'	=> 'pdf',
 				'headers'	=> array('Content-Type' => 'application/pdf')));
 		}
-		$contextSwitch->addActionContexts(array('about'=>true,
+		$contextSwitch->addActionContexts(array('about'=>true,'authors'=>true,
 		'andere-seiten'=>true,'barkunde'=>true,'buecher'=>true,
 		'cocktail-der-woche'=>true,'contact'=>true,'contacted'=>true,
 		'community'=>true,'forum'=>true,'glas'=>true,'grundausstattung'=>true,
@@ -71,6 +71,21 @@ class Website_PortalController extends Zend_Controller_Action {
 
 	public function communityAction () {
 
+	}
+	
+	public function authorsAction () {
+		 $this->view->format = $this->_getParam('format');
+		 $recipes = array();
+		 $recipes['schumann'] = Website_Model_Recipe::searchByName('%nach Schumann');
+		 $recipes['brandl'] = Website_Model_Recipe::searchByName('%nach Brandl');
+		 $recipes['trader_vic'] = Website_Model_Recipe::searchByName('%nach Trader Vic');
+		 $recipes['beach'] = Website_Model_Recipe::searchByName('%nach Beach');
+		 $this->view->recipes = $recipes;
+		 
+		 // get sources
+		 // $this->view->sources
+		 // 
+		 $this->view->sources = Website_Model_Recipe::listSources();
 	}
 
 	public function cocktailDerWocheAction () {

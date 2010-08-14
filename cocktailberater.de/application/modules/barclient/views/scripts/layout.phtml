@@ -1,0 +1,58 @@
+<?php
+$isiPad = (bool) strpos($_SERVER['HTTP_USER_AGENT'],'iPad');
+$controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+// HTML 5 header
+echo $this->doctype('HTML5')."\n";
+?>
+<html lang="de-DE">
+<head>
+<meta charset=utf-8>
+<?php if($isiPad){ ?>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style"
+	content="black-translucent" />
+<meta name="viewport"
+	content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no" />
+<?php } ?>
+<title>Barclient - cocktailberater</title>
+<style>
+@import url(/css/barclient.css);
+@font-face {
+  font-family: 'cbfont';
+  <?php if($isiPad){ ?>
+  src: url('http://cocktailberater.local:10088/fonts/teenlite.svg#MySVGFont') format(svg);
+  <?php } else { ?>
+  src: url('http://cocktailberater.local:10088/fonts/teenlite.ttf');
+  <?php } ?>
+}
+
+#wrapper {
+	<?php if(!$isiPad){ ?>
+	position:relative;
+	top: 50%;
+	margin-top: -345px;
+	<?php } ?>
+}
+</style>
+</head>
+<body>
+<div id="wrapper">
+<h1><span class="pink">c</span>ocktail<span class="pink">b</span>erater</h1>
+<ul class="navigation">
+	<li style="width: 6.5em; margin-top: 4em; margin-left: -2.65em;"
+		<?php if($controller=='orders') { ?> class="active"<?php } ?>><a href="/barclient/orders">Bestellungen</a></li>
+	<li style="width: 3.5em; margin-top: 10em; margin-left: -5.15em;"><a
+		<?php if($controller=='cash') { ?> class="active"<?php } ?>href="#cash">Kasse</a></li>
+	<li style="width: 5em; margin-top: 15em; margin-left: -5.9em;"><a
+		<?php if($controller=='guests') { ?> class="active"<?php } ?>href="/barclient/guests">Gästeliste</a></li>
+	<li style="width: 4em; margin-top: 20.5em; margin-left: -5.4em;"><a
+		<?php if($controller=='invetory') { ?> class="active"<?php } ?>href="#inventory">Inventar</a></li>
+	<li style="width: 3em; margin-top: 25em; margin-left: -4.9em;"><a
+		<?php if($controller=='menue') { ?> class="active"<?php } ?>href="#menu">Karte</a></li>
+	<li style="width: 4em; margin-top: 29.5em; margin-left: -5.4em;"><a
+		<?php if($controller=='statistic') { ?> class="active"<?php } ?>href="#statistic">Statistik</a></li>
+</ul>
+<div id="content"><?php echo $this->layout()->content; ?></div>
+</div>
+</body>
+</html>

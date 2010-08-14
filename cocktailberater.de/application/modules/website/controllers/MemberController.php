@@ -42,6 +42,7 @@ class Website_MemberController extends Wb_Controller_RestController {
 		$member->setPassword($this->_getParam('password'));
 		$member->save();
 
+		// created
 		$this->getResponse()->setHttpResponseCode(201);
 
 		$this->_forward('get','member','website',array('id'=>$member->id));

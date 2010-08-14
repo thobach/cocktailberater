@@ -20,16 +20,19 @@ class Website_GuestController extends Wb_Controller_RestController {
 			$log->log('Website_OrderController->preDispatch: Website_Model_PartyException (Guest missing!)',Zend_Log::DEBUG);
 			throw new Website_Model_PartyException('Guest missing!');
 		}
+		// hashCode of the barkeeper
 		if(!$this->_hasParam('hashCode')){
 			$log->log('Website_OrderController->preDispatch: Website_Model_OrderException (HashCode missing!)',Zend_Log::DEBUG);
 			throw new Website_Model_PartyException('HashCode missing!');
 		}
+		// id of the barkeeper
 		if(!$this->_hasParam('member')){
 			$log->log('Website_OrderController->preDispatch: Website_Model_OrderException (Member missing!)',Zend_Log::DEBUG);
 			throw new Website_Model_OrderException('Member missing!');
 		}
-
+		// auth the barkeeper
 		$auth = Website_Model_Member::loggedIn($this->_getParam('member'),$this->_getParam('hashCode'));
+		// check: auth, member is barkeeper for given party
 		if(!$auth && !Website_Model_CbFactory::factory('Website_Model_Party',$this->_getParam('party'))->memberHasAccess($this->_getParam('member'))) {
 			$log->log('Website_OrderController->preDispatch: Website_Model_MemberException(INVALID_CREDENTIALS)',Zend_Log::DEBUG);
 			throw new Website_Model_MemberException(Website_Model_MemberException::INVALID_CREDENTIALS);
