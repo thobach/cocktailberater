@@ -345,6 +345,42 @@ class Website_Model_Recipe {
 		}
 		return $recipeArray;
 	}
+	
+	/**
+	 * Searches for recipes with given source
+	 *
+	 * @param String $source
+	 * @return Website_Model_Recipe[] array with unique recipes (id as key)
+	 */
+	public static function searchBySource ($source){
+		$recipeArray = array();
+		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe');
+		// search for recipes with certain source
+		$recipes = $recipeTable->fetchAll ( 'source LIKE ' . $recipeTable->getAdapter()->quote('%'.$source.'%'));
+		foreach($recipes as $recipe){
+			$recipeArray[$recipe['id']] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipe->id);
+		}
+		return $recipeArray;
+	}
+	
+	/**
+	 * Returns all sources
+	 *
+	 * @return string[] array with unique sources (int as key)
+	 */
+	public static function listSources (){
+		$sourcesArray = array();
+		$recipeTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe');
+		$select= $recipeTable->select()->group('source');
+		$recipes = $recipeTable->fetchAll($select);
+		$i=0;
+		foreach($recipes as $recipe){
+			if(!empty($recipe->source)){
+				$sourcesArray[$i++] = $recipe->source;
+			}
+		}
+		return $sourcesArray;
+	}
 
 	public function getCaloriesKcal() {
 		// check if data is already calculated
@@ -831,7 +867,7 @@ class Website_Model_Recipe {
 		$array [ 'description' ] = $this->description ;
 		$array [ 'isOriginal' ] = $this->isOriginal ;
 		$array [ 'isAlcoholic' ] = $this->isAlcoholic ;
-		$array [ 'views' ] = $this->views ;
+		//$array [ 'views' ] = $this->views ;
 		//$array [ 'ratingsSum' ] = $this->ratingsSum ;
 		//$array [ 'ratingsCount' ] = $this->ratingsCount ;
 		return $array ;

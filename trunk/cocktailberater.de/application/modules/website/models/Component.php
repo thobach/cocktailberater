@@ -392,6 +392,10 @@ class Website_Model_Component {
 		$array [ 'unit' ] = $this->unit ;
 		$array [ 'preferredProduct' ] = $this->preferredProduct;
 		$array [ 'isDecoration' ] = $this->isDecoration ;
+		// ensure backwards compatability
+		if($array ['isDecoration']===null){
+			$array ['isDecoration'] = 0;
+		}
 		return $array ;
 	}
 

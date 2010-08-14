@@ -1,6 +1,10 @@
 <p>Um Barkeeper zu werden bedarf es einer Menge Wissen. Alles Wissen
 rund um die Bar wird in unserer Barkunde festgehalten.</p>
 <ul style="list-style-position: outside; margin-left: 1.5em;">
+	<li><a 
+		href="<?php print $this->url(
+		array('module'=>'website','controller'=>'portal',
+		'action'=>'authors'),null,true); ?>">Originalrezepte</a></li>
 	<li><a
 		href="<?php echo $this->url(
 		array('module'=>'website','controller'=>'portal',

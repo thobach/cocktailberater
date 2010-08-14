@@ -16,6 +16,7 @@
 	</ul></li>
 	<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'barkunde'),null,true); ?>?format=<?php echo Zend_Controller_Front::getInstance()->getRequest()->getParam('format','html'); ?>">Barkunde</a>
 	<ul>
+		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'authors'),null,true); ?>?format=<?php echo Zend_Controller_Front::getInstance()->getRequest()->getParam('format','html'); ?>">Originalrezepte</a></li>
 		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'nutrition'),null,true); ?>?format=<?php echo Zend_Controller_Front::getInstance()->getRequest()->getParam('format','html'); ?>">Nährwerte</a></li>
 		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'glas'),null,true); ?>?format=<?php echo Zend_Controller_Front::getInstance()->getRequest()->getParam('format','html'); ?>">Gläser</a></li>
 		<!-- <li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'utensilien'),null,true); ?>?format=<?php echo Zend_Controller_Front::getInstance()->getRequest()->getParam('format','html'); ?>">Utensilien</a></li>-->

@@ -5,8 +5,11 @@ $this->headMeta()->appendName(	'keywords', 'cocktail, rezept, cocktails, '.
 								'alkoholisch, alkoholfrei, top10, '.
 								'cocktailberater');
 // setting meta description
-$this->headMeta()->appendName(	'description', 'Datenbank alkoholfreien und '.
-								'alkoholischen Cocktailrezepten');
+$this->headMeta()->appendName(	'description', 'Alkoholfreie und '.
+								'alkoholische Cocktailrezepte, Top 10 '.
+								'Cocktails, Rum-Cocktails, Vodka-Cocktails, '.
+								'Cocktails mit Bildern, Cocktailkarten, '.
+								'Barkunde und vieles mehr.');
 // atom comments
 $this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
 					  'title' => 'Alle Kommentare - Atom',
@@ -92,15 +95,18 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
 	Barkunde</a></li>
 	<li><a
 		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'hausbar')); ?>">
-	<span id="spr_tools"></span>Party <br />
+	<span class="stoebern_sprites" id="spr_tools"></span>Party <br />
 	Helferlein</a></li>
-	<!-- <li><a
+	<li><a
+		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'authors')); ?>">
+	<span class="stoebern_sprites" id="spr_original"></span>Original-<br />Rezepte</a></li>
+	 <!-- <li><a
 		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'community')); ?>">
 	<span class="stoebern_sprites" id="spr_community"></span>Cocktail-<br />
-	Community</a></li> -->
-	<!-- <li><a
+	Community</a></li> --> 
+	 <li><a
 		href="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'about')); ?>">
-	<img src="/img/icon.png" style="width: 38px; height: 38px; display: block;" />Über das Projekt <br />cocktailberater</a></li> -->
+	<span class="stoebern_sprites" id="spr_icon"></span>Über das Projekt <br />cocktailberater</a></li> 
 </ul>
 <div class="clear"></div>
 </div>

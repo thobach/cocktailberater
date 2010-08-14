@@ -589,6 +589,7 @@ table.table td,table.table th {
 	float: left;
 	display: block;
 	margin-right: 0.4em;
+	margin-top: -0.5em;
  }
 
  #spr_alcoholic {
@@ -637,7 +638,7 @@ table.table td,table.table th {
 	height               : 32px;
 	width                : 32px;
 	background-position  : -266px -0px;
-	margin-top			 : 3px;
+	margin-top			 : -0.4em;;
 	margin-left			 : 3px;
 	padding-right		 : 3px;
  }
@@ -655,8 +656,21 @@ table.table td,table.table th {
 	float				 : left;
 	display				 : block;
 	margin-right		 : 0.6em;
+	margin-top			 : -0.5em;
 	height               : 38px;
 	width                : 38px;
+ }
+ 
+ #spr_original {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -336px -0px;
+ }
+ 
+ #spr_icon {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -374px -0px;
  }
   
  .social_sprites {
