@@ -849,6 +849,12 @@ table.table td,table.table th {
 	background-position  : -412px -0px;
  }
  
+ #spr_classics {
+	height               : 38px;
+	width                : 38px;
+	background-position  : -450px -0px;
+ }
+ 
  .social_sprites {
 	background-image     : url(/img/social-media/sprites.png);
 	background-color     : transparent;
