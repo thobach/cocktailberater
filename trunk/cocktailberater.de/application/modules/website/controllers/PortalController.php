@@ -221,6 +221,12 @@ class Website_PortalController extends Zend_Controller_Action {
 		}
 	}
 
+	
+	public function membersAction () {
+		// html page title
+		$this->view->title = 'Mitglieder der cocktailberater Community';
+	}
+	
 	public function glasAction () {
 		// html page title
 		$this->view->title = 'Barwissen / Barkunde - Gläser';
