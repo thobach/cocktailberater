@@ -27,7 +27,12 @@ $this->headMeta()->setName('google-site-verification', 'L3zaslftTHZhIO01_Og9b-Kv
 echo $this->headMeta();
 // setting meta data for facebook
 print '<meta property="og:title" content="'.str_replace(' vom cocktailberater','',$title).'" />';
-print '<meta property="og:type" content="website" />';
+// type
+$type = 'website';
+if($this->placeholder('type')!='') {
+	$type =  $this->placeholder('type');
+}
+print '<meta property="og:type" content="'.$type.'" />';
 print '<meta property="og:url" content="http://www.cocktailberater.de'.$_SERVER['REQUEST_URI'].'" />';
 print '<meta property="og:site_name" content="cocktailberater" />';
 // image
