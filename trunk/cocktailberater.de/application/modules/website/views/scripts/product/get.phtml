@@ -43,7 +43,7 @@ echo $this->navigation($container)->breadcrumbs();
 <h2 class="left clear" style="margin-left: 25px; margin-top: 0;"><?php print $this->product->name.' ('.$this->product->getManufacturer()->name.')'; ?></h2>
 <div style="margin-left: 25px;">
 <h3 class="clear left" style="margin-top: 0; margin-bottom: 0.5em;">Produkt-Informationen</h3>
-<?php if($this->product->getImage()) { ?><img 
+<?php if($this->product->getImage()) { $this->placeholder('image')->set($this->product->getImage()); ?><img 
 	src="<?php echo $this->product->getImage(); ?>"
 	alt="<?php
 	print str_replace ( '\\', '', $this->product->name ) ;

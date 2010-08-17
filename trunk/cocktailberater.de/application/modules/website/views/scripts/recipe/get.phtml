@@ -57,10 +57,12 @@ dojo.addOnLoad(initLightbox0);
 <?php $this->headScript()->captureEnd();?>
 	<img itemprop="photo" src="<?php
 	if(isset($photos[0]) && $photos[0]->fileName) { 
-		echo $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName ;
+		$photoUrl = $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName;
 	} else {
-	 	echo $this->baseUrl().'/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
-	} 
+	 	$photoUrl = $this->baseUrl().'/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
+	}
+	$this->placeholder('image')->set('http://www.cocktailberater.de'.$photoUrl);
+	echo $photoUrl;
 	?>" id="recipe_image" alt="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"
 	title="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"
 	style="margin-right: 1.6em; width: 160px; margin-top: 0.2em; margin-bottom: 20px;" />
