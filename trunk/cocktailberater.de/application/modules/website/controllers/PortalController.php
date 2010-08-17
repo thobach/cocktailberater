@@ -46,11 +46,13 @@ class Website_PortalController extends Zend_Controller_Action {
 		'hausbar'=>true,'imprint'=>true,'index'=>true,'login'=>true,
 		'mein-cocktailbuch'=>true,'mein-cocktailbuch-erstellen'=>true,
 		'meine-cocktails'=>true,'meine-favoriten'=>true,'meine-hausbar'=>true,
-		'meine-hausbar-mixen'=>true,'mixtechniken'=>true,'nutrition'=>true,
-		'top10-drinks'=>true,'utensilien'=>true,'zutaten'=>true));
+		'meine-hausbar-mixen'=>true,'members'=>true,'mixtechniken'=>true,
+		'nutrition'=>true,'top10-drinks'=>true,'utensilien'=>true,
+		'zutaten'=>true));
 		$contextSwitch->addActionContext('meine-hausbar',array('mobile','html'));
 		$contextSwitch->initContext();
-
+		// set page format
+		$this->view->format = $this->_getParam('format','html');
 	}
 
 	public function indexAction () {
@@ -81,8 +83,6 @@ class Website_PortalController extends Zend_Controller_Action {
 	public function authorsAction () {
 		// html page title
 		$this->view->title = 'Cocktails nach Autor und Quelle/Buch';
-		// set page format
-		$this->view->format = $this->_getParam('format');
 		// get recipes by author
 		$recipes = array();
 		$recipes['schumann'] = Website_Model_Recipe::searchByName('%nach Schumann');
@@ -221,7 +221,6 @@ class Website_PortalController extends Zend_Controller_Action {
 		}
 	}
 
-	
 	public function membersAction () {
 		// html page title
 		$this->view->title = 'Mitglieder der cocktailberater Community';
