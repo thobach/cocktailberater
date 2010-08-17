@@ -24,14 +24,14 @@ $this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_V
 $this->headMeta()->setName('robots', 'index,follow');
 // setting google verification
 $this->headMeta()->setName('google-site-verification', 'L3zaslftTHZhIO01_Og9b-KvBNM7mecVfIyMMcj2IdM');
-// setting meta data for facebook
-$this->headMeta()->setName('og:title', $this->layout()->getView()->title);
-$this->headMeta()->setName('og:type', 'website');
-$this->headMeta()->setName('og:site_name', 'cocktailberater');
-$this->headMeta()->setName('og:image', 'http://www.cocktailberater.de/img/logo.png');
-$this->headMeta()->setName('fb:admins', '563752616');
-$this->headMeta()->setName('fb:app_id', '111381035582024');
 echo $this->headMeta();
+// setting meta data for facebook
+print '<meta property="og:title" content="'.$this->layout()->getView()->title.'" />';
+print '<meta property="og:type" content="website" />';
+print '<meta property="og:site_name" content="cocktailberater" />';
+print '<meta property="og:image" content="http://www.cocktailberater.de/img/logo.png" />';
+print '<meta property="fb:admins" content="563752616" />';
+print '<meta property="fb:app_id" content="111381035582024" />';
 // echo styles
 echo $this->headStyle()."\n";
 // dojo
