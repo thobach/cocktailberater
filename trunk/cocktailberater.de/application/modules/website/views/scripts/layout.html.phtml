@@ -26,8 +26,9 @@ $this->headMeta()->setName('robots', 'index,follow');
 $this->headMeta()->setName('google-site-verification', 'L3zaslftTHZhIO01_Og9b-KvBNM7mecVfIyMMcj2IdM');
 echo $this->headMeta();
 // setting meta data for facebook
-print '<meta property="og:title" content="'.$this->layout()->getView()->title.'" />';
+print '<meta property="og:title" content="'.str_replace(' vom cocktailberater','',$title).'" />';
 print '<meta property="og:type" content="website" />';
+print '<meta property="og:url" content="http://www.cocktailberater.de'.$this->url().'" />';
 print '<meta property="og:site_name" content="cocktailberater" />';
 print '<meta property="og:image" content="http://www.cocktailberater.de/img/logo.png" />';
 print '<meta property="fb:admins" content="563752616" />';
