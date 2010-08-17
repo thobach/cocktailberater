@@ -56,31 +56,7 @@ if($format == 'mobile'){
   (function() {
     var e = document.createElement('script'); e.async = true;
     e.src = document.location.protocol +
-      '//connect.facebook.net/en_US/all.js';
+      '//connect.facebook.net/de_DE/all.js';
     document.getElementById('fb-root').appendChild(e);
   }());
 </script>
-<h3>Activity</h3>
-<fb:activity site="cocktailberater.de" width="550" recommendations="true"></fb:activity>
-<h3>Friends</h3>
-<fb:friendpile width="550"></fb:friendpile>
-<h3>Like</h3>
-<fb:like href="http://www.cocktailberater.de" width="550"></fb:like>
-<h3>Like Box</h3>
-
-<h3>Live Stream</h3>
-<fb:live-stream event_app_id="132058865565" width="550"></fb:live-stream>
-<h3>Login</h3>
-<fb:login-button show-faces="true" width="550"></fb:login-button>
-<h3>Recommendations</h3>
-<fb:recommendations site="cocktailberater.de" width="550"></fb:recommendations>
-
-<fb:board xid="titans_board" 
-          canpost="true"
-          candelete="false"
-          canmark="false"
-          cancreatetopic="true"
-          numtopics="5"
-          returnurl="http: //apps.facebook.com/myapp/titans/">
-   <fb:title>Discuss the Titans</fb:title>
-</fb:board>
