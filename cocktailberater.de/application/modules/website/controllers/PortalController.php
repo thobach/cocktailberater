@@ -54,57 +54,69 @@ class Website_PortalController extends Zend_Controller_Action {
 	}
 
 	public function indexAction () {
-
+		// html page title
+		$this->view->title = 'Cocktail Portal mit Bar-Software und Bar-Wissen';
 	}
 
 	public function aboutAction () {
-
+		// html page title
+		$this->view->title = 'Das Projekt cocktailberater';
 	}
 
 	public function barkundeAction () {
-
+		// html page title
+		$this->view->title = 'Barwissen und Barkunde';
 	}
 
 	public function hausbarAction () {
-
+		// html page title
+		$this->view->title = 'Bar-Software und Party-Helferlein - Hausbar & Cocktailkarte';
 	}
 
 	public function communityAction () {
-
+		// html page title
+		$this->view->title = 'Unabhängige Cocktail Community';
 	}
 	
 	public function authorsAction () {
-		 $this->view->format = $this->_getParam('format');
-		 $recipes = array();
-		 $recipes['schumann'] = Website_Model_Recipe::searchByName('%nach Schumann');
-		 $recipes['brandl'] = Website_Model_Recipe::searchByName('%nach Brandl');
-		 $recipes['trader_vic'] = Website_Model_Recipe::searchByName('%nach Trader Vic');
-		 $recipes['beach'] = Website_Model_Recipe::searchByName('%nach Beach');
-		 $this->view->recipes = $recipes;
-		 
-		 // get sources
-		 // $this->view->sources
-		 // 
-		 $this->view->sources = Website_Model_Recipe::listSources();
+		// html page title
+		$this->view->title = 'Cocktails nach Autor und Quelle/Buch';
+		// set page format
+		$this->view->format = $this->_getParam('format');
+		// get recipes by author
+		$recipes = array();
+		$recipes['schumann'] = Website_Model_Recipe::searchByName('%nach Schumann');
+		$recipes['brandl'] = Website_Model_Recipe::searchByName('%nach Brandl');
+		$recipes['trader_vic'] = Website_Model_Recipe::searchByName('%nach Trader Vic');
+		$recipes['beach'] = Website_Model_Recipe::searchByName('%nach Beach');
+		$this->view->recipes = $recipes;
+		// get sources
+		$this->view->sources = Website_Model_Recipe::listSources();
 	}
 
 	public function cocktailDerWocheAction () {
-
+		// html page title
+		$this->view->title = 'Cocktail der Woche';
 	}
 
 	public function top10DrinksAction () {
-
+		// html page title
+		$this->view->title = 'Top 10 Cocktails';
 	}
 
 	public function forumAction () {
-
+		// html page title
+		$this->view->title = 'Cocktail Forum';
 	}
 
 	public function loginAction () {
-
+		// html page title
+		$this->view->title = 'Login zur Bar Software';
 	}
 
 	public function meineHausbarAction () {
+		// html page title
+		$this->view->title = 'Virtuelle Hausbar / Barschrank';
 		$defaultNamespace = new Zend_Session_Namespace('Default');
 		// load default bar
 		if($defaultNamespace->bar == null){
@@ -122,6 +134,8 @@ class Website_PortalController extends Zend_Controller_Action {
 	}
 
 	public function meineHausbarMixenAction () {
+		// html page title
+		$this->view->title = 'Rezepte mit deiner virtuellen Hausbar / Barschrank';
 		$defaultNamespace = new Zend_Session_Namespace('Default');
 		if($defaultNamespace->bar == null){
 			return $this->_forward('meine-hausbar');
@@ -147,20 +161,25 @@ class Website_PortalController extends Zend_Controller_Action {
 	}
 
 	public function meineHausbarPrintAction () {
+		// html page title
+		$this->view->title = 'Cocktailkarte deiner virtuellen Hausbar / Barschrank';
 		//fetch all products from the current bar
 		$this->view->bar = $bar = new Website_Model_Bar(1);
 		$this->view->currentProducts = $bar->getProducts();
 	}
 
 	public function meineFavoritenAction () {
-
+		// html page title
+		$this->view->title = 'Meine Lieblings-Cocktails';
 	}
 
-	public function meineCocktailsAction () {
-
+	public function meineCocktailsAction () {// html page title
+		$this->view->title = 'Meine Cocktail Rezepte';
 	}
 
 	public function meinCocktailbuchAction () {
+		// html page title
+		$this->view->title = 'Meine Cocktailkarte';
 		$defaultNamespace = new Zend_Session_Namespace('Default');
 		// load default menu
 		if($defaultNamespace->menu == null){
@@ -171,6 +190,8 @@ class Website_PortalController extends Zend_Controller_Action {
 	}
 
 	public function meinCocktailbuchErstellenAction () {
+		// html page title
+		$this->view->title = 'Meine Cocktailkarte';
 		$defaultNamespace = new Zend_Session_Namespace('Default');
 		if($defaultNamespace->menu == null){
 			return $this->_forward('mein-cocktalbuch');
@@ -201,43 +222,56 @@ class Website_PortalController extends Zend_Controller_Action {
 	}
 
 	public function glasAction () {
-
+		// html page title
+		$this->view->title = 'Barwissen / Barkunde - Gläser';
 	}
 
 	public function utensilienAction () {
-
+		// html page title
+		$this->view->title = 'Barwissen / Barkunde - Utensilien';
 	}
 
 	public function nutritionAction () {
+		// html page title
+		$this->view->title = 'Nährwerte (Kalorien, kcal) von Cocktails';
 		$this->view->cocktails = Website_Model_Cocktail::listCocktails('');
 		//Zend_Debug::dump($cocktails);
 	}
 
 	public function mixtechnikenAction () {
-
+		// html page title
+		$this->view->title = 'Barwissen / Barkunde - Mixtechniken';
 	}
 
 	public function grundausstattungAction () {
-
+		// html page title
+		$this->view->title = 'Barwissen / Barkunde - Grundausstattung';
 	}
 
 	public function zutatenAction () {
-
+		// html page title
+		$this->view->title = 'Barwissen / Barkunde - Zutaten';
 	}
 
 	public function buecherAction () {
-
+		// html page title
+		$this->view->title = 'Barwissen / Barkunde - Cocktailbücher';
 	}
 
 	public function andereSeitenAction () {
-
+		// html page title
+		$this->view->title = 'Weitere Cocktailseiten';
 	}
 
 	// Impressum
 	public function imprintAction () {
+		// html page title
+		$this->view->title = 'Impressum';
 	}
 
 	public function contactedAction(){
+		// html page title
+		$this->view->title = 'Kontakt mit dem cocktailberater aufnehmen';
 		$defaultNamespace = new Zend_Session_Namespace('Default');
 		$form    = $this->_getContactForm();
 		$request = $this->getRequest();
@@ -285,6 +319,8 @@ class Website_PortalController extends Zend_Controller_Action {
 
 	public function contactAction()
 	{
+		// html page title
+		$this->view->title = 'Kontakt mit dem cocktailberater aufnehmen';
 		$defaultNamespace = new Zend_Session_Namespace('Default');
 		$form    = $this->_getContactForm();
 		$request = $this->getRequest();
