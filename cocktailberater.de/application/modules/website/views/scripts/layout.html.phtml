@@ -4,7 +4,7 @@ $currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('sh
 // HTML 5 header
 echo $this->doctype('HTML5')."\n";
 ?>
-<html lang="de-DE">
+<html lang="de-DE" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
 <head>
 <meta charset=utf-8>
 <?php
@@ -24,6 +24,13 @@ $this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_V
 $this->headMeta()->setName('robots', 'index,follow');
 // setting google verification
 $this->headMeta()->setName('google-site-verification', 'L3zaslftTHZhIO01_Og9b-KvBNM7mecVfIyMMcj2IdM');
+// setting meta data for facebook
+$this->headMeta()->setName('og:title', $this->layout()->getView()->title);
+$this->headMeta()->setName('og:type', 'website');
+$this->headMeta()->setName('og:site_name', 'cocktailberater');
+$this->headMeta()->setName('og:image', 'http://www.cocktailberater.de/img/logo.png');
+$this->headMeta()->setName('fb:admins', '563752616');
+$this->headMeta()->setName('fb:app_id', '111381035582024');
 echo $this->headMeta();
 // echo styles
 echo $this->headStyle()."\n";
