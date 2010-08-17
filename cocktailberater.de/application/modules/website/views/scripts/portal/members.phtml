@@ -43,49 +43,9 @@ if($format == 'mobile'){
 }
 ?></p>
 <div class="content">
-<?php 
-$jsonString = file_get_contents('https://graph.facebook.com/cocktailberater');
-$facebookInfo = Zend_Json::decode($jsonString);
-$jsonString = file_get_contents('https://graph.facebook.com/cocktailberater/feed');
-$facebookFeed = Zend_Json::decode($jsonString);
-?>
 <h2>Community - Mitglieder</h2>
-<h3 class="attribut">Mitglieder</h3>
-<p class="wert"><?php print $facebookInfo['fan_count']; ?></p>
-<h3 class="attribut">Community-Link</h3>
-<p class="wert"><?php print $facebookInfo['link']; ?></p>
-<h3 class="attribut">Gründung</h3>
-<p class="wert"><?php print $facebookInfo['founded']; ?></p>
-<h3 class="attribut">Beschreibung</h3>
-<p class="wert"><?php print $facebookInfo['company_overview']; ?></p>
-<h3 class="attribut">Mission</h3>
-<p class="wert"><?php print $facebookInfo['mission']; ?></p>
-<h3 class="attribut">Produkte</h3>
-<p class="wert"><?php print $facebookInfo['products']; ?></p>
-<h3 class="attribut">Feed</h3>
-<ul class="wert" style="list-style-type: none; margin-left: 0;"><?php foreach($facebookFeed['data'] as $data){ 
-	print 
-	'<li style="margin-bottom: 0.5em; font-size: 1em;">'.
-		'<img src="https://graph.facebook.com/'.$data['from']['id'].'/picture" style="float: left; padding-right: 0.5em; padding-bottom: 0.5em; padding-top: 0.4em;" />'.
-		'<strong>'.$data['from']['name'].'</strong> '.
-		$data['message'].'<br />'.
-		$data['created_time'].
-		'<ul style="margin-top:0; list-style-type: none;">';
-		if(is_array($data['comments']['data'])){
-		foreach($data['comments']['data'] as $comment){
-			print 
-			'<li style="margin-bottom: 0.25em;">'.
-				'<img src="https://graph.facebook.com/'.$comment['from']['id'].'/picture" style="float: left; padding-right: 0.5em; padding-bottom: 0.5em; padding-top: 0.4em;" />'.
-				'<strong>'.$comment['from']['name'].'</strong> '.
-				$comment['message'].'<br />'.
-				$comment['created_time'].
-			'</li>';
-		}
-		}
-		print 
-		'</ul>'.
-	'</li>'; 
-} ?></ul>
+<p>Zeige deinen Freunden, dass dir der cocktailberater gefällt!</p>
+<fb:like-box profile_id="132058865565" width="410" connections="9999" stream="false" header="false"></fb:like-box>
 </div>
 <div id="fb-root"></div>
 <script>
@@ -102,17 +62,25 @@ $facebookFeed = Zend_Json::decode($jsonString);
 </script>
 <h3>Activity</h3>
 <fb:activity site="cocktailberater.de" width="550" recommendations="true"></fb:activity>
-<h3>Comments</h3>
-<fb:comments></fb:comments>
 <h3>Friends</h3>
 <fb:friendpile width="550"></fb:friendpile>
 <h3>Like</h3>
-<fb:like width="550"></fb:like>
+<fb:like href="http://www.cocktailberater.de" width="550"></fb:like>
 <h3>Like Box</h3>
-<fb:like-box profile_id="132058865565" width="550"></fb:like-box>
+
 <h3>Live Stream</h3>
 <fb:live-stream event_app_id="132058865565" width="550"></fb:live-stream>
 <h3>Login</h3>
 <fb:login-button show-faces="true" width="550"></fb:login-button>
 <h3>Recommendations</h3>
 <fb:recommendations site="cocktailberater.de" width="550"></fb:recommendations>
+
+<fb:board xid="titans_board" 
+          canpost="true"
+          candelete="false"
+          canmark="false"
+          cancreatetopic="true"
+          numtopics="5"
+          returnurl="http: //apps.facebook.com/myapp/titans/">
+   <fb:title>Discuss the Titans</fb:title>
+</fb:board>
