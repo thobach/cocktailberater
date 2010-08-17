@@ -28,7 +28,7 @@ echo $this->headMeta();
 // setting meta data for facebook
 print '<meta property="og:title" content="'.str_replace(' vom cocktailberater','',$title).'" />';
 print '<meta property="og:type" content="website" />';
-print '<meta property="og:url" content="http://www.cocktailberater.de'.$this->url().'" />';
+print '<meta property="og:url" content="http://www.cocktailberater.de'.$_SERVER['REQUEST_URI'].'" />';
 print '<meta property="og:site_name" content="cocktailberater" />';
 // image
 $image = 'http://www.cocktailberater.de/img/logo.png';
