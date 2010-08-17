@@ -21,6 +21,8 @@ foreach ( $components as /* @var $component Website_Model_Component */ $componen
 $this->headMeta()->appendName('keywords', $recipe->name.', '.implode($ingredientList2,', ').', cocktail, rezept, cocktails, rezepte, cocktailrezepte, cocktailrezept, cocktailberater');
 // setting meta description
 $this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' Cocktails besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Zubereitung, Fotos, Videos, Tags/Schlagworten, Kosten/Preisen, Kalorien und Kommentaren hier.');
+// open graph type
+$this->placeholder('type')->set('drink');
 // rdf
 $this->headLink(array('rel' => 'meta','type' => 'application/rdf+xml',
 					  'title' => $recipe->name.' - RDF',
