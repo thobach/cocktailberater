@@ -1,4 +1,26 @@
 <?php print $this->partial('template/portal_nav.phtml'); ?>
 <div class="content">
 <h2>Community - Forum</h2>
+<h3>Forum auf der Facebook-Seite</h3>
+<p>Wir benutzen das Forum auf unserer <a
+	href="http://www.facebook.com/cocktailberater?v=app_2373072738">Facebook-Seite</a>.
+Schau doch mal vorbei!</p>
+<h3>Schnelles Feedback</h3>
+<p class="abstand_unten">Was denkst du über den cocktailberater, was können wir verbessern?
+Lass es uns wissen!</p>
+<fb:comments xid="cocktailberater" simple="1" css="http://www.cocktailberater.de/css/fb_comments.css" numposts="100" width="410"></fb:comments>
 </div>
+
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({appId: '111381035582024', status: true, cookie: true,
+             xfbml: true});
+  };
+  (function() {
+    var e = document.createElement('script'); e.async = true;
+    e.src = document.location.protocol +
+      '//connect.facebook.net/en_US/all.js';
+    document.getElementById('fb-root').appendChild(e);
+  }());
+</script>
