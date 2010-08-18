@@ -2,7 +2,8 @@
 if($format != 'mobile'){
 	print $this->partial('template/portal_nav.phtml'); 
 } 
-	?><p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;"><?php
+	?><div class="content">
+<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -42,9 +43,10 @@ if($format == 'mobile'){
 	echo $this->navigation($container)->breadcrumbs();
 }
 ?></p>
-<div class="content">
-<h2>Community - Mitglieder</h2>
-<p>Zeige deinen Freunden, dass dir der cocktailberater gefällt!</p>
+<h2 style="margin-bottom: 0">Mitglieder</h2>
+<p class="abstand_unten">Schau dir an, wie viele Leute schon Fan vom
+cocktailberater sind und zeige auch deinen Freunden, dass dir der
+cocktailberater gefällt!</p>
 <fb:like-box profile_id="132058865565" width="410" connections="9999" stream="false" header="false"></fb:like-box>
 </div>
 <div id="fb-root"></div>

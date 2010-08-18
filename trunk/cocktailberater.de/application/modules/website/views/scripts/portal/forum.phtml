@@ -1,9 +1,52 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
-<div class="content">
-<h2>Community - Forum</h2>
-<h3>Forum auf der Facebook-Seite</h3>
-<p>Wir benutzen das Forum auf unserer <a
-	href="http://www.facebook.com/cocktailberater?v=app_2373072738">Facebook-Seite</a>.
+<?php $format = $this->format;
+if($format != 'mobile'){
+	print $this->partial('template/portal_nav.phtml'); 
+} 
+	?><div class="content">
+<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'module'     => 'website',
+    	'action'	 => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+	            'pages'      => array(
+		            array(
+		                'label'      => 'Community',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'community',
+			            'pages'      => array(
+				            array(
+				                'label'      => 'Forum',
+				                'module'     => 'website',
+				                'controller' => 'portal',
+				            	'action'	 => 'forum'
+				            )
+		        		)
+		            )
+	        	)
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+if($format == 'mobile'){
+	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());	
+} else {
+	echo $this->navigation($container)->breadcrumbs();
+}
+?></p>
+<h2 style="margin-bottom: 0">Forum</h2>
+<h3 style="margin-top: 0.1em;">Forum auf der Facebook-Seite</h3>
+<p>Wir benutzen das <a
+	href="http://www.facebook.com/cocktailberater?v=app_2373072738">Forum auf unserer Facebook-Seite</a>.
 Schau doch mal vorbei!</p>
 <h3>Schnelles Feedback</h3>
 <p class="abstand_unten">Was denkst du über den cocktailberater, was können wir verbessern?
