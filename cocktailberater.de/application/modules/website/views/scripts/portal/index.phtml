@@ -21,8 +21,9 @@ $container = new Zend_Navigation($pages);
 echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
 ?></p>
 <h2 style="margin-bottom: 0;">Portal</h2>
-<?php // print $this->partial('template/community.phtml'); ?>
-<h3 style="margin-top: 0.1em;">Party Helferlein</h3>
+<h3 style="margin-top: 0.1em;">Community</h3>
+<?php print $this->partial('template/community.phtml'); ?>
+<h3>Party Helferlein</h3>
 <?php print $this->partial('template/hausbar.phtml'); ?>
 <h3>Barkunde</h3>
 <?php print $this->partial('template/barkunde.phtml'); ?>

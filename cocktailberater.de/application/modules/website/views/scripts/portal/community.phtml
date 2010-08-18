@@ -1,8 +1,36 @@
 <?php print $this->partial('template/portal_nav.phtml'); ?>
 <div class="content">
-<h2>Portal</h2>
+<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'module'     => 'website',
+    	'action'	 => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+	            'pages'      => array(
+		            array(
+		                'label'      => 'Community',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'community'
+		            )
+	        	)
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+echo $this->navigation($container)->breadcrumbs();
+?></p>
+<h2 style="margin-bottom: 0;">Community</h2>
 <?php print $this->partial('template/community.phtml'); ?>
-<h3>Neuste Aktivitäten</h3>
+<h3 style="margin-bottom: 0.5em;">Neuste Aktivitäten</h3>
 <fb:activity site="cocktailberater.de" width="410" header="false" recommendations="false"></fb:activity>
 </div>
 

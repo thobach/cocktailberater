@@ -1,8 +1,6 @@
-<?php $format = $this->format;
-if($format != 'mobile'){
-	print $this->partial('template/portal_nav.phtml'); 
-} else { 
-	?><p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;"><?php
+<?php print $this->partial('template/portal_nav.phtml'); ?>
+<div class="content">
+<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -17,18 +15,10 @@ $pages = array(
             	'action'	 => 'index',
 	            'pages'      => array(
 		            array(
-		                'label'      => 'Barkunde',
+		                'label'      => 'Original Cocktailrezepte',
 		                'module'     => 'website',
 		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-		            	'pages'      => array(
-				            array(
-				                'label'      => 'Originalrezepte',
-				                'module'     => 'website',
-				                'controller' => 'portal',
-				            	'action'	 => 'authors'
-				            )
-			        	)
+		            	'action'	 => 'authors'
 		            )
 	        	)
             )
@@ -36,11 +26,8 @@ $pages = array(
     )
 );
 $container = new Zend_Navigation($pages);
-echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+echo $this->navigation($container)->breadcrumbs();
 ?></p>
-	<?php 
-}?>
-<div class="content">
 <h2>Original Cocktailrezepte</h2>
 <h3>Cocktailrezept-Autoren</h3>
 <?php
