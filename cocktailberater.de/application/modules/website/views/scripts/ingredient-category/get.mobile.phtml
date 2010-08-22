@@ -38,7 +38,7 @@ $pages = array(
 );
 $container = new Zend_Navigation($pages);
 echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?></p>
+?> <a href="#navigation">[zur Navigation]</a></p>
 <div>
 <h2 style="margin-top: 0;"><?php print $this->ingredientCategory->name; ?></h2>
 <table class="table">

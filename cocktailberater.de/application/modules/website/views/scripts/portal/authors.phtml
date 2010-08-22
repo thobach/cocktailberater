@@ -1,6 +1,7 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
+<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+<p class="breadcrumb">
+<?php if($this->format=='html') { ?>Sie sind hier: <?php } ?><?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -15,10 +16,18 @@ $pages = array(
             	'action'	 => 'index',
 	            'pages'      => array(
 		            array(
-		                'label'      => 'Original Cocktailrezepte',
+		                'label'      => 'Barkunde',
 		                'module'     => 'website',
 		                'controller' => 'portal',
-		            	'action'	 => 'authors'
+		            	'action'	 => 'barkunde',
+		            	'pages'      => array(
+				            array(
+				                'label'      => 'Original Cocktailrezepte',
+				                'module'     => 'website',
+				                'controller' => 'portal',
+				            	'action'	 => 'authors'
+				            )
+			        	)
 		            )
 	        	)
             )
@@ -26,8 +35,12 @@ $pages = array(
     )
 );
 $container = new Zend_Navigation($pages);
-echo $this->navigation($container)->breadcrumbs();
-?></p>
+if($this->format=='html') {
+	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+} else {
+	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+}
+if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
 <h2>Original Cocktailrezepte</h2>
 <h3>Cocktailrezept-Autoren</h3>
 <?php
@@ -40,7 +53,7 @@ $options = array(	'controller'=>'recipe',
 	<li><a
 		href="<?php 
 		$options['search'] = urlencode('Schumann'); 
-		print $this->url($options); ?>?format=<?php print $format; ?>">Charles Schumann</a>:
+		print $this->url($options); ?>?format=<?php print $this->format; ?>">Charles Schumann</a>:
 	<div style="margin-top: 1em;"><?php foreach($this->recipes['schumann'] as $recipe){ 
 		print $this->cocktailPreview($recipe);
 	} ?></div>
@@ -48,7 +61,7 @@ $options = array(	'controller'=>'recipe',
 	<li><a
 		href="<?php
 		$options['search'] = urlencode('Brandl');
-		print $this->url($options); ?>?format=<?php print $format; ?>">Franz Brandl</a>:
+		print $this->url($options); ?>?format=<?php print $this->format; ?>">Franz Brandl</a>:
 	<div style="margin-top: 1em;"><?php foreach($this->recipes['brandl'] as $recipe){ 
 		print $this->cocktailPreview($recipe);
 	} ?></div>
@@ -56,7 +69,7 @@ $options = array(	'controller'=>'recipe',
 	<li><a
 		href="<?php
 		$options['search'] = urlencode('Beach');
-		print $this->url($options); ?>?format=<?php print $format; ?>">Donn Beach</a>:
+		print $this->url($options); ?>?format=<?php print $this->format; ?>">Donn Beach</a>:
 	<div style="margin-top: 1em;"><?php foreach($this->recipes['beach'] as $recipe){ 
 		print $this->cocktailPreview($recipe);
 	} ?></div>
@@ -64,7 +77,7 @@ $options = array(	'controller'=>'recipe',
 	<li><a
 		href="<?php
 		$options['search'] = urlencode('Trader Vic');
-		print $this->url($options); ?>?format=<?php print $format; ?>">Trader Vic</a>:
+		print $this->url($options); ?>?format=<?php print $this->format; ?>">Trader Vic</a>:
 	<div style="margin-top: 1em;"><?php foreach($this->recipes['trader_vic'] as $recipe){ 
 		print $this->cocktailPreview($recipe);
 	} ?></div>
@@ -78,7 +91,7 @@ foreach($this->sources as $source) { ?>
 	<li><a
 		href="<?php
 		$options['search'] = urlencode($source);
-		print $this->url($options); ?>?format=<?php print $format; ?>"><?php print $source; ?></a></li>
+		print $this->url($options); ?>?format=<?php print $this->format; ?>"><?php print $source; ?></a></li>
 		<?php } ?>
 </ul>
 </div>

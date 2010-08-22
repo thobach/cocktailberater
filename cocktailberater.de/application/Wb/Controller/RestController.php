@@ -60,6 +60,14 @@ abstract class Wb_Controller_RestController extends Zend_Rest_Controller {
 					'init'	=> array(__CLASS__, 'enableLayout'),
 		            'post' => array(__CLASS__, 'setLayoutContext'))));
 		}
+		if(!$contextSwitch->hasContext('htmlexport')){
+			$contextSwitch->addContext('htmlexport',array(
+				'suffix'	=> 'htmlexport',
+				'headers'	=> array('Content-Type' => 'text/html'),
+				'callbacks' => array(
+					'init'	=> array(__CLASS__, 'enableLayout'),
+		            'post' => array(__CLASS__, 'setLayoutContext'))));
+		}
 		$contextSwitch->addActionContext('index', true);
 		$contextSwitch->addActionContext('get', true);
 		$contextSwitch->addActionContext('post', true);

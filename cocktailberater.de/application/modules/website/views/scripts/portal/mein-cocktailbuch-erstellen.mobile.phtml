@@ -1,5 +1,5 @@
 <div class="content">
-<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;"><?php
+<p class="left breadcrumb"><?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -34,7 +34,7 @@ $pages = array(
 );
 $container = new Zend_Navigation($pages);
 echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?></p>
+?> <a href="#navigation">[zur Navigation]</a></p>
 <h2 style="margin-bottom: 0">Cocktailkarte</h2>
 <p>Verpasse deiner Cocktailkarte noch einen kurzen Namen, z.B. den Name deiner Bar.</p>
 <form id="recipe2menu" name="recipe2menu" method="post"

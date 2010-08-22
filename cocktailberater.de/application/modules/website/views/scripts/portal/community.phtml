@@ -1,6 +1,7 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
+<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+<p class="breadcrumb">
+<?php if($this->format=='html') { ?>Sie sind hier: <?php } ?><?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -26,14 +27,52 @@ $pages = array(
     )
 );
 $container = new Zend_Navigation($pages);
-echo $this->navigation($container)->breadcrumbs();
-?></p>
+if($this->format=='html') {
+	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+} else {
+	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+}
+if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
 <h2 style="margin-bottom: 0;">Community</h2>
 <?php print $this->partial('template/community.phtml'); ?>
-<h3 style="margin-bottom: 0.5em;">Neuste Aktivitäten</h3>
+<h3 style="margin-bottom: 0.5em;">Neuste Facebook Aktivitäten</h3>
 <fb:activity site="cocktailberater.de" width="410" header="false" recommendations="false"></fb:activity>
+<?php 
+$this->headStyle()->appendStyle('div.twtr-widget h3, div.twtr-widget h4 { clear: none; }');
+?>
+<h3 style="margin-bottom: 0.5em;" class="abstand_oben">Aktuelle Tweets</h3>
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 6,
+  interval: 6000,
+  width: 410,
+  height: 300,
+  theme: {
+    shell: {
+      background: '#ffffff',
+      color: '#000000'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#000000',
+      links: '#54616e'
+    }
+  },
+  features: {
+    scrollbar: true,
+    loop: false,
+    live: false,
+    hashtags: true,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('cocktailberater').start();
+</script>
 </div>
-
 <div id="fb-root"></div>
 <script>
   window.fbAsyncInit = function() {

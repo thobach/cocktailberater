@@ -10,7 +10,7 @@ echo $this->doctype('<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//E
 // title
 $title = 'Cocktail Rezepte vom cocktailberater';
 if($this->layout()->getView()->title!='') {
-	$title =  $this->layout()->getView()->title. ' vom cocktailberater';
+	$title =  strip_tags($this->layout()->getView()->title). ' vom cocktailberater';
 }
 echo $this->headTitle($title)."\n";
 // meta
@@ -68,9 +68,24 @@ echo $this->headLink()."\n";
 		<h1 class="hide">cocktailberater</h1>
 	</div>
 	<div id="homepage">
-		<div id="content"><?php echo $this->layout()->content ?></div>
+		<div id="content">
+			<?php echo $this->layout()->content ?>
+		</div>
+		<h2 id="navigation">Navigation</h2>
+		<ul class="navigation">
+			<li><a href="<?php print $this->url(array(
+									'module'=>'website',
+									'controller'=>'index',
+									'action'=>'index'),'default',true); ?>?format=mobile">mobile Rezeptdatenbank</a>
+			<?php require 'index/browse.inc.phtml';?></li>
+			<li><a href="<?php print $this->url(array(
+									'module'=>'website',
+									'controller'=>'portal',
+									'action'=>'index'),'default',true); ?>?format=mobile">mobiles Portal</a>
+			<?php require 'template/portal_nav.phtml';?></li>
+		</ul>
 		<h2 id="social">Social</h2>
-		<ul>
+		<ul class="no-bullet">
 			<li id="social_become_fan"><a href="http://www.facebook.com/cocktailberater" title="auf facebook Fan werden"><span class="social_sprites" id="spr_facebook_fan"></span> Fan werden</a></li>
 			<li id="social_share"><a href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>" title="auf facebook teilen"> <span class="social_sprites" id="spr_facebook_share"></span> Teilen</a></li>
 			<li id="social_twitter"><a href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>" title="auf Twitter posten"> <span class="social_sprites" id="spr_twitter"></span>Twitter(n)</a></li>

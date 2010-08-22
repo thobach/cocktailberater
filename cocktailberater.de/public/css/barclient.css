@@ -229,22 +229,22 @@ input[type=button]:active,input[type=submit]:active {
 }
 
 input.pink {
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(208,
-		83, 152) ), color-stop(0.21, rgb(208, 31, 131) ),
-		color-stop(0.81, rgb(219, 48, 145) ), color-stop(1, rgb(225, 58, 150)
-		) );
-	background: -moz-linear-gradient(center top, rgb(208, 83, 152) 0%,
-		rgb(208, 31, 131) 21%, rgb(219, 48, 145) 81%, rgb(225, 58, 150) 100% )
-		;
-	color: #FFFFFF;
-}
-
-input.pink:active {
 	background: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(208,
 		83, 152) ), color-stop(0.21, rgb(208, 31, 131) ),
 		color-stop(0.81, rgb(219, 48, 145) ), color-stop(1, rgb(225, 58, 150)
 		) );
 	background: -moz-linear-gradient(center bottom, rgb(208, 83, 152) 0%,
+		rgb(208, 31, 131) 21%, rgb(219, 48, 145) 81%, rgb(225, 58, 150) 100% )
+		;
+	color: #FFFFFF;
+}
+
+input.pink:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(208,
+		83, 152) ), color-stop(0.21, rgb(208, 31, 131) ),
+		color-stop(0.81, rgb(219, 48, 145) ), color-stop(1, rgb(225, 58, 150)
+		) );
+	background: -moz-linear-gradient(center top, rgb(208, 83, 152) 0%,
 		rgb(208, 31, 131) 21%, rgb(219, 48, 145) 81%, rgb(225, 58, 150) 100% )
 		;
 }

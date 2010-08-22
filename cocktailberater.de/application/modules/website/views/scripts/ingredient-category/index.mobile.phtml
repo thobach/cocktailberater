@@ -30,7 +30,7 @@ $pages = array(
 );
 $container = new Zend_Navigation($pages);
 echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?></p>
+?> <a href="#navigation">[zur Navigation]</a></p>
 <div>
 <h2 style="margin-top: 0;">Zutatenkategorien</h2>
 <?php $i=0;

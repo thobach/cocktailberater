@@ -326,7 +326,7 @@ function clearRatingFormError(){
 <?php } ?>	
 <!-- Tags -->
 <div class="attribut">Schlagworte:</div>
-<div class="wert"><ul id="tagList"><?php
+<div class="wert"><ul id="tagList" class="no-bullet"><?php
 $tags =  Website_Model_Tag::tagsByRecipeId($recipe->id,true);
 foreach($tags as $tag){
 	$this->headScript()->captureStart(); ?>
@@ -668,7 +668,7 @@ dojo.addOnLoad(function(){
 <?php if($gesamt) { ?>
 	<div class="attribut">Rezept- alternativen:</div>
 	<div class="wert" style="width: 36em;">
-	<ul class="nolist">
+	<ul class="nolist no-bullet">
 	<?php
 	foreach ($alternatives as $alternative) { ?>
 		<li><?php $this->cocktailPreview($alternative); ?></li>

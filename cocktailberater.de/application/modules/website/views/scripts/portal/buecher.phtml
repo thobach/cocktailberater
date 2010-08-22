@@ -1,4 +1,51 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
+<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<h2>Barkunde - Empfehlenswerte Bücher</h2>
+<p class="breadcrumb"><?php if($this->format=='html') { ?>Sie sind
+hier: <?php } ?><?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'module'     => 'website',
+    	'action'	 => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+	            'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+		            	'pages'      => array(
+				            array(
+				                'label'      => 'Cocktailbücher',
+				                'module'     => 'website',
+				                'controller' => 'portal',
+				            	'action'	 => 'buecher'
+				            )
+			        	)
+		            )
+	        	)
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+if($this->format=='html') {
+	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+} else {
+	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+}
+if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
+<h2>Cocktailbücher</h2>
+<p class="abstand_unten">Dies ist eine kleine Auswahl an wirklich
+empfehlenswerten Cocktailbüchern mit Rezepten und Barwissen.</p>
+<ul>
+	<li>American Bar von Charles Schumann, 18. Auflage, München 2006</li>
+	<li>Cocktails von Franz Brandl, 1. Auflage, München 2007</li>
+</ul>
 </div>

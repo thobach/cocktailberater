@@ -44,6 +44,7 @@ class Website_PortalController extends Zend_Controller_Action {
 		'cocktail-der-woche'=>true,'contact'=>true,'contacted'=>true,
 		'community'=>true,'forum'=>true,'glas'=>true,'grundausstattung'=>true,
 		'hausbar'=>true,'imprint'=>true,'index'=>true,'login'=>true,
+		'meine-einkaufsliste'=>true,'meine-einkaufsliste-erstellen'=>true,
 		'mein-cocktailbuch'=>true,'mein-cocktailbuch-erstellen'=>true,
 		'meine-cocktails'=>true,'meine-favoriten'=>true,'meine-hausbar'=>true,
 		'meine-hausbar-mixen'=>true,'members'=>true,'mixtechniken'=>true,
@@ -94,24 +95,50 @@ class Website_PortalController extends Zend_Controller_Action {
 		$this->view->sources = Website_Model_Recipe::listSources();
 	}
 
-	public function cocktailDerWocheAction () {
-		// html page title
-		$this->view->title = 'Cocktail der Woche';
-	}
-
-	public function top10DrinksAction () {
-		// html page title
-		$this->view->title = 'Top 10 Cocktails';
-	}
-
 	public function forumAction () {
 		// html page title
 		$this->view->title = 'Cocktail Forum';
 	}
-
-	public function loginAction () {
+	
+	public function meineEinkaufslisteAction () {
 		// html page title
-		$this->view->title = 'Login zur Bar Software';
+		$this->view->title = 'Einkaufsliste';
+		$defaultNamespace = new Zend_Session_Namespace('Default');
+		// create empty einkaufsliste
+		if($defaultNamespace->einkaufsliste == null){
+			$defaultNamespace->einkaufsliste = new Website_Model_Einkaufsliste();
+		}
+		$this->view->einkaufsliste = $defaultNamespace->einkaufsliste;
+
+		/* @var $contextSwitch Zend_Controller_Action_Helper_ContextSwitch */
+		$contextSwitch = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch');
+	}
+	
+	public function meineEinkaufslisteErstellenAction () {
+		// html page title
+		$this->view->title = 'Einkaufsliste aus ausgewählten Rezepten';
+		$defaultNamespace = new Zend_Session_Namespace('Default');
+		if($defaultNamespace->einkaufsliste == null){
+			return $this->_forward('meine-einkaufsliste');
+		}
+		// load einkaufsliste
+		$this->view->einkaufsliste = $defaultNamespace->einkaufsliste;
+		// if form was posted, insert into "session"
+		if($this->getRequest()->isPost()){
+			$this->view->einkaufsliste->clear();
+			$this->view->message='Die abgewählten Rezepte wurden von der Einkaufsliste entfernt.';
+			if(!$this->_hasParam('reset_recipe2ingredient')){
+				$recipes = $this->_getParam('recipe2ingredient');
+				if(is_array($recipes)) {
+					foreach($recipes as $recipe) {
+						$this->view->einkaufsliste->addRecipe(Website_Model_CbFactory::factory('Website_Model_Recipe',$recipe));
+					}
+					$this->view->message='Die ausgewählten Rezepte wurden zum Einkaufszettel hinzugefügt.';
+				}
+			} else {
+				return $this->_redirect($this->view->url(array('module'=>'website','controller'=>'portal','action'=>'meine-einkaufsliste')).'?format='.$this->_getParam('format'));
+			}
+		}
 	}
 
 	public function meineHausbarAction () {
@@ -168,15 +195,6 @@ class Website_PortalController extends Zend_Controller_Action {
 		$this->view->currentProducts = $bar->getProducts();
 	}
 
-	public function meineFavoritenAction () {
-		// html page title
-		$this->view->title = 'Meine Lieblings-Cocktails';
-	}
-
-	public function meineCocktailsAction () {// html page title
-		$this->view->title = 'Meine Cocktail Rezepte';
-	}
-
 	public function meinCocktailbuchAction () {
 		// html page title
 		$this->view->title = 'Meine Cocktailkarte';
@@ -228,12 +246,12 @@ class Website_PortalController extends Zend_Controller_Action {
 	
 	public function glasAction () {
 		// html page title
-		$this->view->title = 'Barwissen / Barkunde - Gläser';
+		$this->view->title = 'Cocktail-Gläser';
 	}
 
 	public function utensilienAction () {
 		// html page title
-		$this->view->title = 'Barwissen / Barkunde - Utensilien';
+		$this->view->title = 'Bar-Utensilien';
 	}
 
 	public function nutritionAction () {
@@ -245,27 +263,27 @@ class Website_PortalController extends Zend_Controller_Action {
 
 	public function mixtechnikenAction () {
 		// html page title
-		$this->view->title = 'Barwissen / Barkunde - Mixtechniken';
+		$this->view->title = 'Mixtechniken';
 	}
 
 	public function grundausstattungAction () {
 		// html page title
-		$this->view->title = 'Barwissen / Barkunde - Grundausstattung';
+		$this->view->title = 'Bar-Ausstattung';
 	}
 
 	public function zutatenAction () {
 		// html page title
-		$this->view->title = 'Barwissen / Barkunde - Zutaten';
+		$this->view->title = 'Bar-Zutaten';
 	}
 
 	public function buecherAction () {
 		// html page title
-		$this->view->title = 'Barwissen / Barkunde - Cocktailbücher';
+		$this->view->title = 'Cocktailbücher';
 	}
 
 	public function andereSeitenAction () {
 		// html page title
-		$this->view->title = 'Weitere Cocktailseiten';
+		$this->view->title = 'Cocktailseiten';
 	}
 
 	// Impressum

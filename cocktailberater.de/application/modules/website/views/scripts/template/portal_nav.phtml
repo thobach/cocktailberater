@@ -1,35 +1,69 @@
 <?php 
 $format = Zend_Controller_Front::getInstance()->getRequest()->getParam('format','html');
-?><div class="sub_nav">
-<ul class="textLeft">
-	<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'community'),null,true); ?>?format=<?php echo $format; ?>">Community</a>
+?><?php if($format=='html') { ?><div class="sub_nav"><?php } ?>
+<ul class="textLeft no-bullet-html">
+	<li><a href="<?php print $this->url(array('module'=>'website',
+			'controller'=>'portal','action'=>'community'),'default',true); 
+			?>?format=<?php echo $format; ?>">Community</a>
 	<ul>
-		<!-- <li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'cocktail-der-woche'),null,true); ?>?format=<?php echo $format; ?>">Cocktail der Woche</a></li> -->
-		<!-- <li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'top10-drinks'),null,true); ?>?format=<?php echo $format; ?>">Top 10 Drinks</a></li>-->
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'forum'),null,true); ?>?format=<?php echo $format; ?>">Forum</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'members'),null,true); ?>?format=<?php echo $format; ?>">Mitglieder</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+			'controller'=>'portal','action'=>'forum'),'default',true); 
+			?>?format=<?php echo $format; ?>">Forum</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+			'controller'=>'portal','action'=>'members'),'default',true); 
+			?>?format=<?php echo $format; ?>">Mitglieder</a></li>
 	</ul></li>
-	<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'hausbar'),null,true); ?>?format=<?php echo $format; ?>">Party Helferlein</a>
+	<li><a href="<?php print $this->url(array('module'=>'website',
+			'controller'=>'portal','action'=>'hausbar'),'default',true); 
+			?>?format=<?php echo $format; ?>">Party Helferlein</a>
 	<ul>
-		<!-- <li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'login'),null,true); ?>?format=<?php echo $format; ?>">Anmelden / Login</a></li> -->
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'meine-hausbar'),null,true); ?>?format=<?php echo $format; ?>">Hausbar</a></li>
-		<!-- <li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'meine-favoriten'),null,true); ?>?format=<?php echo $format; ?>">Meine Favoriten</a></li> -->
-		<!-- <li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'meine-cocktails'),null,true); ?>?format=<?php echo $format; ?>">Meine Cocktails</a></li> -->
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'mein-cocktailbuch'),null,true); ?>?format=<?php echo $format; ?>">Cocktailkarte</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'mein-cocktailbuch'),'default',true); 
+				?>?format=<?php echo $format; ?>">Cocktailkarte</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'meine-einkaufsliste'),'default',true); 
+				?>?format=<?php echo $format; ?>">Einkaufsliste</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'meine-hausbar'),'default',true); 
+				?>?format=<?php echo $format; ?>">Hausbar</a></li>
 	</ul></li>
-	<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'barkunde'),null,true); ?>?format=<?php echo $format; ?>">Barkunde</a>
+	<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'barkunde'),'default',true); 
+				?>?format=<?php echo $format; ?>">Barkunde</a>
 	<ul>
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'authors'),null,true); ?>?format=<?php echo $format; ?>">Originalrezepte</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'nutrition'),null,true); ?>?format=<?php echo $format; ?>">Nährwerte</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'glas'),null,true); ?>?format=<?php echo $format; ?>">Gläser</a></li>
-		<!-- <li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'utensilien'),null,true); ?>?format=<?php echo $format; ?>">Utensilien</a></li>-->
-		<!-- <li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'mixtechniken'),null,true); ?>?format=<?php echo $format; ?>">Mixtechniken</a></li>-->
-		<!-- <li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'grundausstattung'),null,true); ?>?format=<?php echo $format; ?>">Grundausstattung</a></li>-->
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'ingredient','action'=>'index'),null,true); ?>?format=<?php echo $format; ?>">Zutaten</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'manufacturer','action'=>'index'),null,true); ?>?format=<?php echo $format; ?>">Hersteller</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'product','action'=>'index'),null,true); ?>?format=<?php echo $format; ?>">Warenkunde</a></li>
-		<!-- <li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'buecher'),null,true); ?>?format=<?php echo $format; ?>">Buchempfehlungen</a></li> -->
-		<li><a href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'andere-seiten'),null,true); ?>?format=<?php echo $format; ?>">andere Cocktailseiten</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'grundausstattung'),'default',true); 
+				?>?format=<?php echo $format; ?>">Barausstattung</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'buecher'),'default',true); 
+				?>?format=<?php echo $format; ?>">Cocktailbücher</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'andere-seiten'),'default',true); 
+				?>?format=<?php echo $format; ?>">Cocktailseiten</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'glas'),'default',true); 
+				?>?format=<?php echo $format; ?>">Gläser</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'manufacturer','action'=>'index'),'default',true); 
+				?>?format=<?php echo $format; ?>">Hersteller</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'mixtechniken'),'default',true); 
+				?>?format=<?php echo $format; ?>">Mixtechniken</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'nutrition'),'default',true); 
+				?>?format=<?php echo $format; ?>">Nährwerte</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'authors'),'default',true); 
+				?>?format=<?php echo $format; ?>">Originalrezepte</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'portal','action'=>'utensilien'),'default',true); 
+				?>?format=<?php echo $format; ?>">Utensilien</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'product','action'=>'index'),'default',true); 
+				?>?format=<?php echo $format; ?>">Warenkunde</a></li>
+		<li><a href="<?php print $this->url(array('module'=>'website',
+				'controller'=>'ingredient','action'=>'index'),'default',true); 
+				?>?format=<?php echo $format; ?>">Zutaten</a></li>
 	</ul></li>
 </ul>
-</div>
+<?php if($format=='html') { ?></div><?php } ?>

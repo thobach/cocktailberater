@@ -1,6 +1,7 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
+<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+<p class="breadcrumb">
+<?php if($this->format=='html') { ?>Sie sind hier: <?php } ?><?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -34,8 +35,12 @@ $pages = array(
     )
 );
 $container = new Zend_Navigation($pages);
-echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
-?></p>
+if($this->format=='html') {
+	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+} else {
+	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+}
+if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
 <h2>Gläser</h2>
 <h3>Glaskategorien</h3>
 <ul class="horizontal">

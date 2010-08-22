@@ -189,6 +189,7 @@ class Website_Form_Contact extends Zend_Form
 
 		$this->addElement('submit', 'submit', array(
             'label'    => 'Kontaktieren Sie Uns',
+			'class'	   => 'pink'
 		));
 
 	}

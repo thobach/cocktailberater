@@ -35,6 +35,10 @@ website:   www.cocktailberater.de
 	display: none;
 }
 
+.hide-mobile {
+	display: none;
+}
+
 .abstand {
 	padding: 0.2em;
 }
@@ -80,8 +84,19 @@ website:   www.cocktailberater.de
 }
 
 ul li, h1, h2, h3, h4, h5 {
-	clear: both;	
+	clear: both;
+	font-weight: normal;	
 }
+
+ul li {
+	padding-top: 0.2em;	
+}
+
+p.breadcrumb {
+	margin: 1em 0 1em 0;
+	font-size: 0.9em;	
+}
+
 
 /* Set up the document
 -----------------------------------------------------------------------------*/
@@ -108,17 +123,14 @@ h1 {
 }
 
 h2 {
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.2em;
 	font-weight: normal;
 }
 
 h3 {
-	margin-top: 0.8em;
-}
-
-ul,ol,dl {
-	list-style: none;
+	margin-top: 0.3em;
+	margin-bottom: 0.2em;
 }
 
 ul ul li {
@@ -127,23 +139,19 @@ ul ul li {
 }
 
 a:link {
-	color: #54616E;
-	text-decoration: none;
+	color: #04C;
 }
 
 a:visited {
-	color: #54616E;
-	text-decoration: none;
+	color: #639;
 }
 
 a:active {
-	color: #54616E;
-	text-decoration: none;
+	color: #cf0060;
 }
 
 a:hover {
-	color: #000000;
-	text-decoration: none;
+	color: #cf0060;
 }
 
 a.nolink:hover {
@@ -154,7 +162,7 @@ a.tip {
 	border-bottom: 1px dotted gray;
 }
 
-a.pink:hover, a.pink:active, a.pink:visited, a.pink:link {
+a.pink:hover, a.pink:active, a.pink:visited, a.pink:link, p.pink, span.pink {
 	color: #cf0060;
 }
 
@@ -192,7 +200,7 @@ div#header a {
 /* Navigation
 -----------------------------------------------------------------------------*/
 
-#social {
+#navigation {
 	padding-top: 1em;	
 }
 
@@ -203,6 +211,28 @@ div#header a {
 #social_become_fan a, #social_share a {
 	padding-top: 0.2em;
 	padding-bottom: 0.2em;
+}
+
+ul.navigation li {
+	margin-left: 1.5em;
+	margin-top: 0.4em;
+	margin-bottom: 0.4em;
+}
+
+ul.navigation li li {
+	margin-left: 1em;
+}
+
+ul.navigation span {
+	display: none;
+}
+
+ul.no-bullet, li.no-bullet {
+	list-style-type: none;	
+}
+
+ul.no-bullet-mobile, li.no-bullet-mobile {
+	list-style-type: none;	
 }
 
 /* Homepage
@@ -217,8 +247,6 @@ div#header a {
 }
 
 #spacing-left {
-	margin-left: 16px;
-	margin-right: 16px;
 	margin-top: 1.0em;
 	text-align: justify;
 }
@@ -265,10 +293,7 @@ div.content {
 }
 
 div.content ul {
-	margin-left: 1em;
-	margin-top: 1em;
-	list-style-type: circle;
-	list-style-position: inside;
+	margin-left: 1.5em;
 }
 
 
@@ -283,10 +308,6 @@ div.content ul.glas li {
 
 div.content ul.glas li img {
 	margin-right: 0.4em;
-}
-
-div.content ul.noBullet{
-	list-style-type: none;	
 }
 
 div.sub_nav ul.textLeft>li:FIRST-CHILD{
@@ -488,10 +509,6 @@ label.small {
 	background-color: white;
 }
 
-.pink {
-	color: #cf0060;
-}
-
 /* Suche
 -----------------------------------------------------------------------------*/
 form#suche_name label {
@@ -650,15 +667,9 @@ table.table td,table.table th {
  }
  
  #spr_tools {
-	background-image     : url(/img/icons/tools.png);
-	background-color     : transparent;
-	background-repeat    : no-repeat;
-	float				 : left;
-	display				 : block;
-	margin-right		 : 0.6em;
-	margin-top			 : -0.5em;
 	height               : 38px;
 	width                : 38px;
+	background-position  : -412px -0px;
  }
  
  #spr_original {
