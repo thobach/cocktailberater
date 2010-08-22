@@ -43,11 +43,13 @@ class Website_Model_Menu {
 	 * @tested
 	 */
 	public function __construct ($id=NULL){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Menu->__construct, id: '.$id,Zend_Log::DEBUG);
 		if(!empty($id)){
 			$menuTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'menu');
 			$menu = $menuTable->fetchRow('id='.$id);
 			if(!$menu){
-				throw new MenuException('Menu_Id_Invalid');
+				throw new Website_Model_MenuException('Menu_Id_Invalid');
 			}
 			// attributes
 			$this->id = $menu->id;
@@ -98,6 +100,8 @@ class Website_Model_Menu {
 	public function listRecipes() {
 		if($this->_recipes == null){
 			$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe2menue');
+			$log = Zend_Registry::get('logger');
+			$log->log('Website_Model_Menu->listRecipes, id: '.$this->id,Zend_Log::DEBUG);
 			$where = $table->select()->where('menue=?',$this->id);
 			$recipes = $table->fetchAll($where);
 			if(count($recipes)>0){
@@ -112,8 +116,8 @@ class Website_Model_Menu {
 
 	public function addRecipe ($recipeId){
 		$this->_recipes[$recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$recipeId);
-		
-		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe2menue');
+		// don't persist data yet
+		/*$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'recipe2menue');
 		$select = $table->select()->where('recipe=?',$recipeId)->where('menue=?',$this->id);
 		$res = $table->fetchRow($select);
 		if(count($res)==0){
@@ -121,8 +125,8 @@ class Website_Model_Menu {
 			$data['menue'] = $this->id;
 			$table->insert($data);
 		} else {
-			throw new MenuException("Recipe_Alread_In_Menue");
-		}
+			throw new Website_Model_MenuException("Recipe_Alread_In_Menue");
+		}*/
 	}
 	
 	public function removeRecipe ($recipeId){
@@ -133,7 +137,7 @@ class Website_Model_Menu {
 		if(count($res)==1){
 			$res->delete();
 		} else {
-			throw new MenuException("Recipe_Not_In_Menue");
+			throw new Website_Model_MenuException("Recipe_Not_In_Menue");
 		}
 	}
 	

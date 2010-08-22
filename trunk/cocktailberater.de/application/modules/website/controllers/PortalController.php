@@ -201,7 +201,8 @@ class Website_PortalController extends Zend_Controller_Action {
 		$defaultNamespace = new Zend_Session_Namespace('Default');
 		// load default menu
 		if($defaultNamespace->menu == null){
-			$defaultNamespace->menu = new Website_Model_Menu();
+			// default empty test menu
+			$defaultNamespace->menu = new Website_Model_Menu(1);
 		}
 		$this->view->recipes = Website_Model_Recipe::searchByName('%');
 		$this->view->menu = $defaultNamespace->menu;
