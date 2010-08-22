@@ -612,7 +612,7 @@ class Website_Model_Recipe {
 		}
 	}
 
-	public function listRecipes () {
+	public static function listRecipes () {
 		// load cache from registry
 		$cache = Zend_Registry::get('cache');
 		// see if a cache already exists:

@@ -1,6 +1,7 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
+<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+<p class="breadcrumb">
+<?php if($this->format=='html') { ?>Sie sind hier: <?php } ?><?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -34,8 +35,12 @@ $pages = array(
     )
 );
 $container = new Zend_Navigation($pages);
-echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
-?></p>
+if($this->format=='html') {
+	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+} else {
+	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+}
+if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
 <h2 style="margin-bottom: 0">Cocktailkarte</h2>
 <p>Verpasse deiner Cocktailkarte noch einen kurzen Namen, z.B. den Name deiner Bar.</p>
 <form id="recipe2menu" name="recipe2menu" method="post"
@@ -48,10 +53,10 @@ echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumb
 	?><li><?php print $recipe->name; ?></li><?php
 } ?></ul>
 	
-	<input style="margin-top: 1em; margin-bottom: 1em;" class="medium-button right" type="submit"
+	<input style="margin-top: 1em; margin-bottom: 1em;" class="pink right" type="submit"
 	value="Cocktailkarte als PDF erstellen" name="submit_recipe2menu_pdf" />
 	<input type="hidden" value="html" name="myformat" />
-	<input style="margin-top: 1em; margin-bottom: 1em;" class="small-button left" type="submit"
+	<input style="margin-top: 1em; margin-bottom: 1em;" class="grey left" type="submit"
 	value="zurück" name="submit_recipe2menu_reset" />
 	
 </form>
