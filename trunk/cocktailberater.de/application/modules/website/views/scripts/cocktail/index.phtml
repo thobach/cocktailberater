@@ -19,21 +19,21 @@ echo $this->navigation($container)->breadcrumbs();
 <div style="clear: left; margin-left: 25px; margin-right: 25px;">
 <h2 class="textLeft">Cocktails mit Rezeptalternativen</h2>
 <p class="textLeft">Hier finden Sie Cocktails mit verschiedenen Rezepten und Angaben zu durchschnittlichen Kalorien und Kosten/Preisen.</p>
-<ul style="margin-top: 1em; margin-left: 1em;">
+<ul class="no-bullet abstand_oben">
 <?php
 $i=0;
 foreach ($this->cocktails as $cocktail){
 	$i++;
-	print '<li style="width: 17em; float: left; margin-bottom: 1em; margin-left: 1em; margin-right: 1em; '.( ($i == 1) ? 'clear: left;' : 'clear: none;' ).'">'.
-	'<a href="'.$this->url(array('module'=>'website','controller'=>'cocktail','action'=>'get','id'=>$cocktail->getUniqueName())).'">'.$cocktail->name.'</a><br />';
+	print '<li>'.
+	'<h3 class="abstand_unten"><a href="'.$this->url(array('module'=>'website','controller'=>'cocktail','action'=>'get','id'=>$cocktail->getUniqueName())).'">'.$cocktail->name.'</a></h3>';
 	$recipes = $cocktail->getRecipes();
 	if(is_array($recipes)) { 
-		print '<ul style="font-size: 0.9em; list-style-type: circle; list-style-type: none;">';
+		print '<ul style="" class="no-bullet">';
 		foreach ($recipes as $recipe) {
 			$avgPrice = $recipe->getAveragePrice();
 			$calories = $recipe->getCaloriesKcal();
 			$photos = $recipe->getPhotos();
-			print '<li style="margin-bottom: 1em;">';
+			print '<li style="padding: 1em; float: left; clear: none;">';
 			print '<a href="'.$this->url().'/'.$recipe->getUniqueName().'">'.
 			'<img style="height: 100px;" src="'.$this->baseUrl();
 			if(isset($photos[0]) && $photos[0]->id){
@@ -49,7 +49,7 @@ foreach ($this->cocktails as $cocktail){
 		}
 		print '</ul>';
 	}
-	print '</li>';
+	print '<hr class="abstand_unten_doppelt" /></li>';
 }
 ?>
 </ul>

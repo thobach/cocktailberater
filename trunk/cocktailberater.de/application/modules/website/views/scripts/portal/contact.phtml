@@ -6,8 +6,8 @@
  * @version 1.0
  */
 ?>
-<div class="content abstand_links_doppelt" style="width: 600px">
-<p style="margin: 1em 0 1em 0; font-size: 0.9em;">Sie sind hier: <?php
+<div class="content full-width">
+<p class="breadcrumb"><?php if($this->format=='html') { ?>Sie sind hier: <?php } ?><?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -31,8 +31,12 @@ $pages = array(
     )
 );
 $container = new Zend_Navigation($pages);
-echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?></p>
+if($this->format=='html') {
+	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+} else {
+	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+}
+if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
 <h2>Nehmen Sie mit uns Kontakt auf!</h2>
 <p class="abstand_unten">Mit diesem Formular können Sie schnell und einfach mit uns in Kontakt
 treten.<br />

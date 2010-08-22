@@ -34,7 +34,7 @@ $pages = array(
 );
 $container = new Zend_Navigation($pages);
 echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?></p>
+?> <a href="#navigation">[zur Navigation]</a></p>
 <h2>Cocktailkarte</h2>
 <p class="abstand_unten">Wähle die gewünschten Cocktails für deine Cocktailkarte aus:</p>
 <form id="recipe2menu" name="recipe2menu" method="post"

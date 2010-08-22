@@ -22,10 +22,10 @@ $pages = array(
 		            	'action'	 => 'hausbar',
 		            	'pages'      => array(
 				            array(
-				                'label'      => 'Hausbar',
+				                'label'      => 'Einkaufsliste aus ausgewählten Rezepten',
 				                'module'     => 'website',
 				                'controller' => 'portal',
-				            	'action'	 => 'meine-hausbar-mixen'
+				            	'action'	 => 'meine-einkaufsliste-erstellen'
 				            )
 			        	)
 		            )
@@ -41,27 +41,33 @@ if($this->format=='html') {
 	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
 }
 if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
-<h2>Rezepte aus der Hausbar</h2>
-<?php if(count($this->bar->getPossibleRecipies())>0){?>
-<p class="abstand_unten">Die folgenden Rezepte kannst du mit deinen vorhanden Zutaten mixen:</p>
-<?php foreach($this->bar->getPossibleRecipies() as $recipe){
-	echo $this->cocktailPreview ($recipe);
-}?> <?php } else { ?> <p class="abstand_unten">Mit den angegeben Zutaten lassen sich leider keine
-Rezepte aus der cocktailberater Datenbank mixen.</p><?php } ?>
-<p style="clear: left;">Du hast folgende Zutaten angegeben: <?php
-if(count($this->bar->getPossibleRecipies())>0){
-	$ingredients = array();
-	foreach($this->bar->getIngredients() as $ingredient){
-		$ingredients[] = $ingredient->name;
+<h2 style="margin-bottom: 0;">Einkaufsliste aus ausgewählten Rezepten</h2>
+<?php
+if(count($this->einkaufsliste->getIngredients())>0){ ?>
+<p class="abstand_unten">Die folgenden Zutaten brauchst du für die ausgewählten Rezepte:</p>
+<ul class="abstand_unten"><?php
+	foreach($this->einkaufsliste->getIngredients() as $ingredient){
+		
+		echo '<li>'; echo $ingredient->name; echo '</li>';
 	}
-	print implode(', ',$ingredients);
+?></ul><?php 
+} else {
+	?> <p class="abstand_unten">Du hast keine Rezepte ausgewählt.</p><?php 
+} ?>
+<p style="clear: left;">Du hast folgende Rezepte angegeben: <?php
+if(count($this->einkaufsliste->getRecipes())>0){
+	$recipes = array();
+	foreach($this->einkaufsliste->getRecipes() as $recipe){
+		$recipes[] = $recipe->name;
+	}
+	print implode(', ',$recipes);
 } else {
 	print 'keine';
 }
 ?>.</p>
-<form id="ingredient2bar" name="ingredient2bar" method="post"
-	action="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'meine-hausbar')); ?>?format=<?php print $this->format; ?>">
+<form id="recipe2ingredient" name="recipe2ingredient" method="post"
+	action="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'meine-einkaufsliste')); ?>?format=<?php print $this->format; ?>">
 <input
 	style="margin-top: 1em; margin-bottom: 1em;" type="submit" class="pink right"
-	value="zurück zum Inventar" name="reset_ingredient2bar" /></form>
+	value="zurück zur Wunschliste" name="reset_recipe2ingredient" /></form>
 </div>

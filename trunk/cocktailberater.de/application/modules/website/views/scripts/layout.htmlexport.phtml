@@ -1,0 +1,51 @@
+<html>
+<head>
+<?php
+// title
+$title = 'Cocktail Rezepte vom cocktailberater';
+if($this->layout()->getView()->title!='') {
+	$title =  strip_tags($this->layout()->getView()->title). ' vom cocktailberater';
+}
+echo $this->headTitle($title)."\n";
+// meta
+// setting content type and character set
+$this->headMeta()->appendHttpEquiv('Content-Type','text/html; charset=utf-8');
+header('Content-Type: text/html; charset=utf-8');
+// setting client-side cache
+// also enable caching in HTTP header
+// seconds, minutes, hours, days
+$expires = 60*60*24*7;
+$this->headMeta()->appendHttpEquiv('Expires', 
+					gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+$this->headMeta()->appendHttpEquiv('Cache-Control', 'max-age='.$expires);
+$this->headMeta()->appendHttpEquiv('Cache-Control', 'private');
+header('Cache-Control: private; max-age='.$expires);
+ // setting meta generator
+$this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
+// setting meta robots
+$this->headMeta()->setName('robots', 'index,follow');
+// setting google verification
+$this->headMeta()->setName('google-site-verification', 'L3zaslftTHZhIO01_Og9b-KvBNM7mecVfIyMMcj2IdM');
+echo $this->headMeta();
+// echo styles
+echo $this->headStyle()."\n";
+// css style sheets
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/mobile.css');
+// faveicon
+$this->headLink(array('rel' => 'shortcut icon',
+                      'href' => $this->baseUrl().'/favicon.ico'),
+                      'PREPEND');
+// e.g. for facebook sharing
+$this->headLink(array('rel' => 'image_src',
+					  'type' => 'image/jpeg',
+                      'href' => 'http://www.cocktailberater.de/img/logo.png'));
+// echo css, faveicon and feeds
+echo $this->headLink()."\n";
+?>
+</head>
+<body style="margin: 0.5em;">
+<h1>cocktailberater</h1>
+<?php echo $this->layout()->content ?>
+</body>
+</html>

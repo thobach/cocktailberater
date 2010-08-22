@@ -1,0 +1,195 @@
+<?php
+if ($this->recipes) { ?>
+<h2 style="margin-bottom: 1.5em; margin-top: 0; maring-left: 2em; margin-right: 2em;"><?php 
+	if(!$this->title) { ?>Cocktailrezepte<?php } 
+	else { echo $this->title; } ?></h2>
+<p><?php
+foreach ($this->recipes as $recipe){
+	$recipes[] = '<a href="#recipe_'.$recipe->id.'">'.$recipe->name.'</a>';
+}
+print implode($recipes,', ');
+?></p>
+<?php
+foreach ($this->recipes as $recipe){
+	// rename variables & fetch required data
+	/* @var $recipe Website_Model_Recipe */
+	$photos = $recipe->getPhotos();
+	$videos = $recipe->getVideos();
+	$alternatives = $this->alternatives;
+	$components = $recipe->getComponents();
+	$gesamt = count($alternatives);
+	?>
+	<p style="text-align: right;" id="recipe_<?php print $recipe->id; ?>"><a href="#top">-nach oben-</a></p>
+	<!-- class="right" -->
+<div class="clear" >
+	<img src="<?php
+	if(isset($photos[0]) && $photos[0]->fileName) { 
+		echo $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName ;
+	} else {
+	 	echo $this->baseUrl().'/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
+	} 
+	?>" id="recipe_image" alt="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"
+	title="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"
+	style="margin-right: 1.6em; height: 100px; margin-top: 0.2em; margin-bottom: 20px;" />
+<!-- end of class="right" -->
+</div>
+<!-- end of class="right" -->
+<div>
+<div class="attribut">Name:</div>
+<div class="wert"><?php
+print str_replace ( '\\', '', $recipe->name ) ;
+if($recipe->isOriginal){
+	print  ' (original)';
+}
+if(!$recipe->isAlcoholic()){
+	print  ' (alkoholfrei)';
+}
+?></div>
+<?php if($recipe->description){?><div class="attribut">Beschreibung:</div>
+<div class="wert"><p><?php
+print str_replace("\n",'</p><p>',$recipe->description);
+?></p></div><?php } ?>
+<div class="attribut">Zutaten:</div>
+<div class="wert"><p><strong>Cocktail</strong></p><ul style="list-style-position: outside; margin-left: 1.5em;"><?php
+$decorations = "";
+$ingredients = "";
+foreach ( $components as /* @var $component Website_Model_Component */ $component ) {
+	$componentString = '<li>';
+	$componentString .= ''.$component->amount.'';
+	$componentString .= ' ' ;
+	$componentString .= ''.$component->unit.'';
+	$componentString .= ' ' ;
+	$componentString .= $component->getIngredient()->name;
+	if($component->getPreferredProduct()){
+		$componentString .= '<ul style="margin-left: 1.9em;"><li>empfohlen '.$component->getPreferredProduct()->name.
+							' von '.
+							$component->getPreferredProduct()->getManufacturer()->name.'</li></ul>'; 
+	} 
+	$componentString .= '</li>';
+	
+	if($component->isDecoration){
+		$decorations .= $componentString;
+	} else {
+		$ingredients .= $componentString;
+	}
+} // foreach
+
+print $ingredients;
+
+?></ul><?php 
+if($decorations) { ?>
+	<p class="abstand_oben"><strong>Dekoration</strong></p>
+	<ul>
+	<?php print $decorations; ?>
+	</ul>
+<?php 
+} ?>
+</div>
+<div class="attribut">Zubereitung:</div>
+<div class="wert"><p><?php
+print str_replace("\n",'</p><p>',$recipe->instruction);
+?></p></div>
+<div class="attribut">Bewertung:</div>
+<div class="wert"><?php $durchschnitt = $recipe->getRating(); ?>
+	<div id="rating_state" class="hide">&nbsp;</div>
+	
+		<?php for($rating = 1; $rating <= 5; $rating++){
+		?><button type="submit" id="rating<?php echo $rating; ?>"
+			onclick="document.getElementById('rating').value='<?php echo $rating; ?>';" 
+			onmouseover="document.getElementById('img_rating<?php 
+			echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
+				for($rating2=1; $rating2 <= $rating; $rating2++){ 
+					echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars_pink.png';";
+				}
+			?>"
+			onmouseout="document.getElementById('img_rating<?php 
+			echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/<?php 
+			echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
+				for($rating2=1; $rating2 <= $rating; $rating2++){ 
+					if($durchschnitt >= $rating2){
+						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars.png';";
+					} else {
+						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/not_yet_rated_1.png';";
+					}
+				}
+			?>">
+			<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rate.." /></button><?php } ?>
+		<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
+		<input name="rating" id="rating" type="hidden" value="" />
+		<input name="myformat" type="hidden" value="mobile" /> 
+			<span style="vertical-align: top;">(<?php print ($recipe->ratingsCount==1 ? 
+				$recipe->ratingsCount.'&nbsp;Stimme' : $recipe->ratingsCount.'&nbsp;Stimmen');
+			print ' - Ø&nbsp;'.number_format ( $recipe->getRating(), 2, ',', '' ) ; ?>)</span>
+	</div>
+<?php if($recipe->source){ ?>
+<div class="attribut">Rezeptquelle:</div>
+<div class="wert"><?php print $recipe->source; ?></div>
+<?php } ?>	
+<!-- Tags -->
+<div class="attribut">Schlagworte:</div>
+<div class="wert"><?php
+$tags =  Website_Model_Tag::tagsByRecipeId($recipe->id,true);
+foreach($tags as $tag){	?>
+	<?php print $tag->name; ?>
+	<?php 
+}
+?>
+</div>
+</div><!-- END of class=left -->
+<div class="attribut">Weitere Informationen:</div>
+<div class="wert content">
+<ul style="list-style-position: outside; margin-left: 1.5em;">
+<li class="left">Zubereitungszeit: <?php print $recipe->workMin; ?> min</li>
+<li class="left">Schwierigkeitsgrad: <?php
+	if ($recipe->difficulty == Website_Model_Recipe::BEGINNER) {
+		$difficultyMessage = 'Anfänger';
+	}
+	else if ($recipe->difficulty == Website_Model_Recipe::ADVANCED) {
+		$difficultyMessage = 'Fortgeschritten';
+	}
+	else if ($recipe->difficulty == Website_Model_Recipe::PROFI) {
+		$difficultyMessage = 'Profi';
+	} else {
+		$difficultyMessage = 'nicht eingestuft';
+	}
+	print $difficultyMessage; ?></li>
+<li class="left">Glas: <img
+	src="<?php
+	echo $this->baseUrl() .'/img/glasses/'. $recipe->getGlass()->getPhoto()->fileName ;
+	?>"
+	alt="Glas <?php
+	print $recipe->getGlass()->name ;
+	?>"
+	title="Glas <?php
+	print $recipe->getGlass()->name ;
+	?>" /><?php
+	print $recipe->getGlass()->name ;
+	?></li>
+	
+<li class="left" id="caloriesInfo">Kalorien: <?php
+	if(!$caloriesComplete){
+		print 'über ';
+	}
+	print $recipe->getCaloriesKcal(); ?> kcal</li>
+<li class="left" >Alkoholgehalt: <?php
+	print round($recipe->getAlcoholLevel());
+	?> % Alkohol</li>
+<li class="left" id="priceInfo">Kosten: <?php
+	if(!$priceComplete){
+		print 'über ';
+	}
+	print number_format($recipe->getAveragePrice(),2,',','.');
+	?> €</li>
+<li class="left" >Volumen: <?php
+	print $recipe->getVolumeCl() ;
+	?> cl</li>
+</ul>
+<hr class="abstand_oben" />
+</div>
+	<?php 
+}
+?>
+<!-- div: ergebnisse -->
+<?php } else { ?>
+<p>Bitte geben Sie einen Suchbegriff ein.</p>
+<?php } ?>

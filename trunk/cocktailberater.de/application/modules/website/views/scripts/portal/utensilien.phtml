@@ -1,4 +1,63 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
+<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<h2>Barkunde - Utensilien</h2>
+<p class="breadcrumb"><?php if($this->format=='html') { ?>Sie
+sind hier: <?php }
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+	    'pages'      => array(
+	            array(
+	                'label'      => 'Portal',
+	                'module'     => 'website',
+	                'controller' => 'portal',
+	            	'action'	 => 'index',
+	            	'pages'      => array(
+			            array(
+			                'label'      => 'Utensilien',
+			                'module'     => 'website',
+			                'controller' => 'portal',
+			            	'action'	 => 'utensilien'
+					)
+				)
+			)
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+if($this->format=='html') {
+	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+} else {
+	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+}
+if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
+<h2>Utensilien</h2>
+<p>In der Bar sammeln sich mit der Zeit viele Utensilien an. Hier eine kleine Übersicht.</p>
+<ul class="abstand_oben">
+	<li>Barlöffel (ca. 5 €)</li>
+	<li>Barmesser (ca. 9 €)</li>
+	<li>Barsieb (ca. 8 €)</li>
+	<li>Barzange (zum Flaschenöffnen) (ca. 17 €)</li>
+	<li>Blender (Elektromixer) (ca. 60 €)</li>
+	<li>Champagnerflaschenverschluss</li>
+	<li>Champagnerzange</li>
+	<li>Cocktailstäbchen und Cocktailrührer (ca. 5 €)</li>
+	<li>Dosenöffner (ca. 10 €)</li>
+	<li>Eiskübel (ca. 10 €)</li>
+	<li>Eisschaufel (ca. 15 €)</li>
+	<li>Eiszange (ca. 6 €)</li>
+	<li>Fruchtpresse (ca. 15 €)</li>
+	<li><a href="<?php print $this->url(array('module'=>'website',
+			'controller'=>'portal','action'=>'glas'),'default',true); 
+			?>?format=<?php echo $format; ?>">Gläser</a></li>
+	<li>Korkenzieher (ca. 8 €)</li>
+	<li>Messbecher (ca. 5 €)</li>
+	<li>Muskatreibe (ca. 9 €)</li>
+	<li>Schneidebrett (ca. 10 €)</li>
+	<li>Shaker (2- oder 3-teilig) (ca. 12 €)</li>
+	<li>Spritzflaschen (ca. 5 €)</li>
+	<li>Stößel (ca. 5 €)</li>
+	<li>Trinkhalme (ca. 2,50 € für 100 Stk.)</li>
+	<li>Untersetzer (ca. 10 €)</li>
+</ul>
 </div>

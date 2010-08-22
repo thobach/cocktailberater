@@ -23,7 +23,7 @@ $pages = array(
 );
 $container = new Zend_Navigation($pages);
 echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?></p>
+?> <a href="#navigation">[zur Navigation]</a></p>
 <?php
 print $this->partial('template/search.mobile.phtml',$this);
 

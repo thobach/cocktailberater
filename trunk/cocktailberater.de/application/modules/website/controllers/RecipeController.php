@@ -79,7 +79,7 @@ class Website_RecipeController extends Wb_Controller_RestController {
 				case 'ingredient':
 					$log->log('Website_RecipeController->indexAction -> ingredient',Zend_Log::DEBUG);
 					$list = Website_Model_Recipe::searchByIngredient($this->_getParam('search')) ;
-					$this->view->title = 'Cocktails mit der Zutat '.$this->_getParam('search');
+					$this->view->title = 'Cocktails mit der Zutat <em>'.$this->_getParam('search').'</em>';
 					break;
 				case 'image':
 					$log->log('Website_RecipeController->indexAction -> image',Zend_Log::DEBUG);
@@ -89,22 +89,22 @@ class Website_RecipeController extends Wb_Controller_RestController {
 				case 'tag':
 					$log->log('Website_RecipeController->indexAction -> tag',Zend_Log::DEBUG);
 					$list = Website_Model_Recipe::searchByTag($this->_getParam('search')) ;
-					$this->view->title = 'Cocktailrezepte mit dem Tag '.$this->_getParam('search');
+					$this->view->title = 'Cocktailrezepte mit dem Tag <em>'.$this->_getParam('search').'</em>';
 					break;
 				case 'name':
 					$log->log('Website_RecipeController->indexAction -> name',Zend_Log::DEBUG);
 					$list = Website_Model_Recipe::searchByName($this->_getParam('search')) ;
-					$this->view->title = 'Cocktailrezepte mit dem Namen '.$this->_getParam('search');
+					$this->view->title = 'Cocktailrezepte mit dem Namen <em>'.$this->_getParam('search').'</em>';
 					break;
 				case 'source':
 					$log->log('Website_RecipeController->indexAction -> source',Zend_Log::DEBUG);
 					$list = Website_Model_Recipe::searchBySource(urldecode($this->_getParam('search'))) ;
-					$this->view->title = 'Cocktailrezepte aus '.urldecode($this->_getParam('search'));
+					$this->view->title = 'Cocktailrezepte aus <em>'.urldecode($this->_getParam('search').'</em>');
 					break;
 				case 'author':
 					$log->log('Website_RecipeController->indexAction -> source',Zend_Log::DEBUG);
 					$list = Website_Model_Recipe::searchByName('% nach '.urldecode($this->_getParam('search'))) ;
-					$this->view->title = 'Cocktailrezepte von '.urldecode($this->_getParam('search'));
+					$this->view->title = 'Cocktailrezepte von <em>'.urldecode($this->_getParam('search').'</em>');
 					break;
 			}
 		}

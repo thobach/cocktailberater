@@ -1,4 +1,291 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
+<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<h2>Barkunde - Grundausstattung</h2>
+<p class="left breadcrumb"><?php if($this->format=='html') { ?>Sie sind
+hier: <?php } ?><?php
+$pages = array(
+    array(
+        'label'      => 'Start',
+        'controller' => 'index',
+    	'module'     => 'website',
+    	'action'	 => 'index',
+    	'pages'      => array(
+            array(
+                'label'      => 'Portal',
+                'module'     => 'website',
+                'controller' => 'portal',
+            	'action'	 => 'index',
+	            'pages'      => array(
+		            array(
+		                'label'      => 'Barkunde',
+		                'module'     => 'website',
+		                'controller' => 'portal',
+		            	'action'	 => 'barkunde',
+		            	'pages'      => array(
+				            array(
+				                'label'      => 'Bar-Ausstattung',
+				                'module'     => 'website',
+				                'controller' => 'portal',
+				            	'action'	 => 'grundausstattung'
+				            )
+			        	)
+		            )
+	        	)
+            )
+        )
+    )
+);
+$container = new Zend_Navigation($pages);
+if($this->format=='html') {
+	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+} else {
+	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+}
+if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
+<h2>Bar-Ausstattung</h2>
+<p>Beim Aufbau einer Bar sollte man nichts überstürzen. Wie in jedem
+Hobby kann man auch hier erstmal klein anfangen um zu sehen ob es einem
+wirklich liegt. Daher haben wir hier drei Ausbaustufen dargestellt: <a
+	href="#einstiegs-bar">Einstiegs-Bar</a>, <a href="#hobby-bar">Hobby-Bar</a>
+und <a href="#profi-bar">Profi-Bar</a>.</p>
+<h3 class="abstand_oben" id="einstiegs-bar">Einstiegs-Bar</h3>
+<p>Um eine kleine Bar einzurichten benötigt man nur wenige Zutaten und
+Utensilien. Diese bekommt man für ca. 63 € im Supermarkt. Hiermit lassen
+sich schon verschiedene Cocktails wie <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Caipirinha'),'rest',true); ?>?format=<?php echo $this->format; ?>">
+Caipirinha</a>, <a
+	href="<?php print $this->url(array('module'=>'website',
+	'controller'=>'cocktail','action'=>'get','id'=>'Cuba_Libre'),
+	'rest',true); ?>?format=<?php echo $this->format; ?>">Cuba Libre</a>
+und <a
+	href="<?php print $this->url(array('module'=>'website',
+	'controller'=>'cocktail','action'=>'get','id'=>'Tequila_Sunrise'),
+	'rest',true); ?>?format=<?php echo $this->format; ?>">Tequila Sunrise</a>
+mixen.</p>
+<h4 class="abstand_oben">Zutaten (insgesamt ca. 50,50 €)</h4>
+<ul>
+	<li>Alkoholika (insgesamt ca. 37 €)
+	<ul>
+		<li>Cachaça (ca. 11 € für 0,7 l)</li>
+		<li>Tequila (ca. 13 € für 0,7 l)</li>
+		<li>weißen Rum (ca. 13 € für 0,7 l)</li>
+	</ul>
+	</li>
+	<li>Säfte und Limonaden (insgesamt ca. 2,50 €)
+	<ul>
+		<li>Cola (ca. 1,50 € für 1,5 l)</li>
+		<li>Organgensaft (ca. 1 € für 1 l)</li>
+	</ul>
+	</li>
+	<li>Obst (insgesamt ca. 0,50 €)
+	<ul>
+		<li>Limetten (ca. 0,50 € pro Stück)</li>
+	</ul>
+	</li>
+	<li>Sirups und Sonstiges (insgesamt ca. 10,50 €)
+	<ul>
+		<li>Crushed Ice (ca. 3 € für 2 kg)</li>
+		<li>Eiswürfel (ca. 3 € für 2 kg)</li>
+		<li>Grenadinesirup (ca. 3,50 € für 0,25 l)</li>
+		<li>Rohrzucker (ca. 1 € für 500 g)</li>
+	</ul>
+	</li>
+</ul>
+<h4 class="abstand_oben">Utensilien (insgesamt ca. 12,50 €)</h4>
+<ul>
+	<li>Messbecher (ca. 5 €)</li>
+	<li>Trinkhalme (ca. 2,50 € für 100 Stk.)</li>
+	<li>Gläser (sicherlich vorhanden)</li>
+	<li>Stößel (ca. 5 €)</li>
+</ul>
+<h3 class="abstand_oben" id="hobby-bar">Hobby-Bar</h3>
+<p>In der Hobby-Bar kann es dann schon etwas professioneller aussehen.
+Aber auch hier gilt, man muss nicht alles auf einmal kaufen. Wenn man
+die Bar stückweise erweitert, kann man sich mehr Zeit nehmen um sich mit
+den neuen Zutaten und Utensilien zu beschäftigen. Die folgenden Zutaten
+und Utensilien für insgesamt ca. 362 € ermöglichen weitere Klassiker wie
+<a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'B_52'),'rest',true); ?>?format=<?php echo $this->format; ?>">B
+52</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Black_Russian'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Black Russian</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Bloody_Mary'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Bloody Mary</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Cairo_Cocktail'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Cairo Cocktail</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Caribbean_Cruise'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Caribbean Cruise</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Cosmopolitan'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Cosmopolitan</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Daiquiri'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Daiquiri</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Gin_Tonic'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Gin Tonic</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Long_Island_Ice_Tea'),'rest',true); ?>?format=<?php 
+	echo $this->format; ?>">Long Island Iced Tea</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Mai_Tai'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Mai Tai</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Margarita'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Margarita</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Mojito'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Mojito</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Pina_Colada'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Piña Colada</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Planter%27s_Punch'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Planter's Punch</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Sex_on_the_Beach'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Sex on the Beach</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Swimming_Pool'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Swimming Pool</a>, <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'White_Russian'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">White Russian</a> und <a
+	href="<?php print $this->url(
+	array('module'=>'website','controller'=>'cocktail','action'=>'get',
+	'id'=>'Zombie'),'rest',true); ?>?format=<?php echo $this->format; 
+	?>">Zombie</a>.</p>
+<h4 class="abstand_oben">Zutaten (insgesamt ca. 232,50 €)</h4>
+<ul>
+	<li>Alkoholika (insgesamt ca. 202 €)
+	<ul>
+		<li>Apricot Brandy (ca. 10 € für 0,7 l)</li>
+		<li>Blue Curaçao (ca. 10 € für 0,7 l)</li>
+		<li>brauner Rum (ca. 13 € für 0,7 l)</li>
+		<li>Cachaça (ca. 11 € für 0,7 l)</li>
+		<li>Cherry Brandy (ca. 10 € für 0,7 l)</li>
+		<li>Cremelikör (ca. 13 € für 0,7 l)</li>
+		<li>Gin (ca. 12 € für 0,7 l)</li>
+		<li>Kaffeelikör (ca. 14 € für 0,7 l)</li>
+		<li>Kirschlikör (ca. 10 € für 0,7 l)</li>
+		<li>Pfirsichlikör (ca. 12 € für 0,7 l)</li>
+		<li>Rum (gold) (ca. 12 € für 0,7 l)</li>
+		<li>Rum 73% (ca. 27 € für 0,7 l)</li>
+		<li>Tequila (weiß) (ca. 13 € für 0,7 l)</li>
+		<li>Triple Sec Curaçao (ca. 11 € für 0,7 l)</li>
+		<li>Vodka Zitrone (ca. 12 € für 0,7 l)</li>
+		<li>Wodka (ca. 12 € für 0,7 l)</li>
+	</ul>
+	</li>
+	<li>Säfte und Limonaden (insgesamt ca. 12,50 €)
+	<ul>
+		<li>Ananassaft (ca. 1 € für 1 l)</li>
+		<li>Blutorangensaft (ca. 1,50 € für 1 l)</li>
+		<li>Cranberrysaft (ca. 1,50 € für 1 l)</li>
+		<li>Limettensaft (Rose's Lime Juice) (ca. 3,50 € für 0,75 l)</li>
+		<li>Papaya-Saft (ca. 1,50 € für 1 l)</li>
+		<li>Tomatensaft (ca. 1 € für 1 l)</li>
+		<li>Tonic Water (ca. 1 € für 1 l)</li>
+		<li>Zitronensaft (ca. 1,50 € für 0,75 l)</li>
+	</ul>
+	</li>
+	<li>Obst (insgesamt ca. 5,50 €)
+	<ul>
+		<li>Ananas (ca. 2 € pro Stück)</li>
+		<li>Minzezweig (ca. 1,50 € pro Packung)</li>
+		<li>Stielkirsche (ca. 2 € pro Dose)</li>
+	</ul>
+	</li>
+	<li>Sirups und Sonstiges (insgesamt ca. 12,50 €)
+	<ul>
+		<li>Cream of Coconut (ca. 3,50 € für 0,33 l)</li>
+		<li>Mandelsirup (ca. 3,50 € für 0,25 l)</li>
+		<li>Rohrzuckersirup (ca. 5 € für 0,7 l)</li>
+		<li>Sahne (ca. 0,50 € für 200 g)</li>
+	</ul>
+	</li>
+</ul>
+<h4 class="abstand_oben">Utensilien (insgesamt ca. 129 €)</h4>
+<ul>
+	<li>Shaker (2- oder 3-teilig) (ca. 12 €)</li>
+	<li>Blender (Elektromixer) (ca. 60 €)</li>
+	<li>Barsieb (ca. 8 €)</li>
+	<li>Barmesser (ca. 9 €)</li>
+	<li>Dosenöffner (ca. 10 €)</li>
+	<li>Barlöffel (ca. 5 €)</li>
+	<li>Untersetzer (ca. 10 €)</li>
+	<li>Schneidebrett (ca. 10 €)</li>
+	<li>Cocktailstäbchen und Cocktailrührer (ca. 5 €)</li>
+</ul>
+<h3 class="abstand_oben" id="profi-bar">Profi-Bar</h3>
+<p>Noch professioneller geht es in der Profi-Bar zu. Hier sollte
+eigentlich gar nichts fehlen. Da bei den meisten hochwertigen Zutaten
+die Kosten nach oben hin stark schwanken sind hier keine Kosten
+angegeben.</p>
+<h4 class="abstand_oben">Zutaten</h4>
+<ul>
+	<li>Alkoholika
+	<ul>
+		<li>Obstbrände</li>
+		<li>Vermouth</li>
+		<li>Whisky</li>
+	</ul>
+	</li>
+	<li>Säfte und Limonaden
+	<ul>
+		<li>Bitter Lemon</li>
+		<li>Ginger Ale</li>
+		<li>Grapefruitsaft</li>
+		<li>Mangosaft</li>
+		<li>Maracujasaft</li>
+		<li>Seven-Up / Sprite</li>
+	</ul>
+	</li>
+	<li>Sirups und Sonstiges
+	<ul>
+		<li>Ahornsirup</li>
+		<li>Bananensirup</li>
+		<li>Himbeersirup</li>
+		<li>Limettensirup</li>
+		<li>Mangosirup</li>
+		<li>Maracujasirup</li>
+		<li>Papayasirup</li>
+		<li>Pfefferminzsirup</li>
+		<li>Cranberrysirup</li>
+		<li>Kokosnuß-Milch</li>
+	</ul>
+	</li>
+</ul>
+<h4 class="abstand_oben">Utensilien</h4>
+<ul>
+	<li>Eiskübel, Eisschaufel und Eiszange</li>
+	<li>Spritzflaschen</li>
+	<li>Fruchtpresse</li>
+	<li>Muskatreibe</li>
+	<li>Korkenzieher, Champagnerzange und Champagnerflaschenverschluss</li>
+	<li>Barzange</li>
+</ul>
 </div>

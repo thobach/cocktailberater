@@ -40,7 +40,7 @@ $pages = array(
 $container = new Zend_Navigation($pages);
 echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
 ?> (<a href="#recipes-list">Cocktailrezepte</a> und 
-<a href="#products-list">Produkte</a>)</p>
+<a href="#products-list">Produkte</a>) <a href="#navigation">[zur Navigation]</a></p>
 <h2 style="margin-top: 0;"><?php print $this->manufacturer->name; ?></h2>
 <div>
 <h3 style="margin-top: 0; margin-bottom: 0.5em;">Hersteller/Marken-Informationen</h3>

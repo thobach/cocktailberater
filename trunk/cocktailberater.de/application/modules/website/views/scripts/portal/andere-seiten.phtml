@@ -1,6 +1,7 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
+<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
+<p class="breadcrumb"><?php if($this->format=='html') { ?>Sie sind hier: <?php } ?>
+<?php
 $pages = array(
     array(
         'label'      => 'Start',
@@ -34,96 +35,95 @@ $pages = array(
     )
 );
 $container = new Zend_Navigation($pages);
-echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
-?></p>
+if($this->format=='html') {
+	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
+} else {
+	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
+}
+if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
 <h2>Andere Cocktailseiten</h2>
-<ul class="noBullet">
-	<li><a href="http://www.cocktailscout.de" style="color: #bd5585;"
-		title="cocktailscout.de"><img
+<p>Hier sind die 10 größten Cocktailseiten nach Zugriffszahlen aus Deutschland
+(laut Alexa.com) aufgelistet. Der cocktailberater befindet sich momentan auf Platz 20 (<a href="http://www.alexa.com/siteinfo/cocktailberater.de">Alexa-DE-Rang: 427,610</a>, Stand: August 2010)</p>
+<ul class="no-bullet abstand_oben">
+	<li><a href="http://www.bartime.de/cocktails.html" title="bartime.de"><img
+		src="<?php print $this->baseUrl(); ?>/img/andereseiten/bartime.jpg"
+		alt="bartime.de" align="left" style="margin-right: 10px;" /><br />
+	<strong>bartime.de</strong></a> bietet neben vielen Rezepten (&gt;280)
+	mit Bildern auch eine große Datenbank mit Bars in jeder Stadt.</li>
+	<li style="margin-right: 10px; margin-bottom: 10px;"><a
+		href="http://www.cojito.de/cocktailliste.htm" title="cojito.de"><br />
+	<strong>cojito.de</strong></a> hat &gt;400 Cocktailrezepte und einen
+	Cityguide für Partys und Bars.</li>
+	<li><a href="http://www.cocktaildreams.de/" title="cocktaildreams.de"><img
+		src="<?php print $this->baseUrl(); ?>/img/andereseiten/cocktails&dreams.jpg"
+		alt="cocktaildreams.de" align="left"
+		style="margin-right: 10px; margin-bottom: 10px;" /><br />
+	<strong>cocktaildreams.de</strong></a> ist das größte deutsche
+	Cocktail-Portal (&gt;36.000 Mitglieder, &gt;2.300 Rezepte) mit
+	angeschlossenem Shop <a href="http://www.barfish.de/"
+		title="barfish.de - Online-Shop für deine Cocktailparty">barfish.de</a>.</li>
+	<li><a href="http://www.cocktailscout.de" title="cocktailscout.de"><img
 		src="<?php print $this->baseUrl(); ?>/img/andereseiten/cocktailscout.jpg"
 		alt="cocktailscout.de" align="left"
 		style="margin-right: 10px; margin-bottom: 10px;" /><br />
-	<strong>cocktailscout.de</strong></a> ist die wohl größte deutsche
-	Cocktail-Community mit ca. 700 Rezepten und über 2800 registrierten
-	Nutzern.</li>
-	<li><a href="http://www.bartime.de/cocktails.html" style="color: #bd5585;"
-		title="bartime.de"><img
-		src="<?php print $this->baseUrl(); ?>/img/andereseiten/bartime.jpg"
-		alt="bartime.de" align="left"
+	<strong>cocktailscout.de</strong></a> ist die zweitgrößte deutsche
+	Cocktail-Community (&gt;3.000 Mitglieder, &gt;1.400 Rezepten).</li>
+	<li><a href="http://www.cocktails-4u.de/" title="cocktails-4u.de"><img
+		src="<?php print $this->baseUrl(); ?>/img/andereseiten/cocktails-4u.jpg"
+		alt="cocktails-4u.de" align="left"
 		style="margin-right: 10px; margin-bottom: 10px;" /><br />
-	<strong>bartime.de</strong></a> bietet neben vielen Rezepten mit
-	Bildern auch eine große Datenbank mit Bars in jeder Stadt.</li>
-	<li><a href="http://www.rezepte-cocktails.de/" style="color: #bd5585;"
-		title="rezepte-cocktails.de"><img
-		src="<?php print $this->baseUrl(); ?>/img/andereseiten/rezepte-cocktails.jpg"
-		alt="rezepte-cocktails.de" align="left"
-		style="margin-right: 10px; margin-bottom: 10px;" /><br />
-	<strong>rezepte-cocktails.de</strong></a> macht Spaß beim
-	Erforschen von klassischen Rezepten, Snackideen und Tipps & Tricks.</li>
-	<li><a href="http://www.cocktail-lounge.net/" style="color: #bd5585;"
-		title="cocktail-lounge.net"><img
-		src="<?php print $this->baseUrl(); ?>/img/andereseiten/cocktail-lounge.jpg"
-		alt="cocktail-lounge.net" align="left"
-		style="margin-right: 10px; margin-bottom: 10px;" /><br />
-	<strong>cocktail-lounge.net</strong></a>  hat nicht nur Rezepte,
-	sondern auch die Musik und das Fachwissen für deine Cocktailparty.</li>
-	<li><a href="http://www.cocktailbase.de/" style="color: #bd5585;"
-		title="cocktailbase.de"><img
-		src="<?php print $this->baseUrl(); ?>/img/andereseiten/cocktailbase.jpg"
-		alt="cocktailbase.de" align="left"
-		style="margin-right: 10px; margin-bottom: 10px;" /><br />
-	<strong>cocktailbase.de</strong></a> bietet Basiswissen, Rezepte, dein
-	eigenes Cocktailbuch, Barlocator, Events, uvm. bietet diese Seite.</li>
-	<li><a href="http://www.cocktail-rezepte-4u.de/" style="color: #bd5585;"
+	<strong>cocktails-4u.de</strong></a> bietet ausgesuchte klassische
+	alkoholische und alkoholfreie Cocktails.</li>
+	<li style="margin-right: 10px; margin-bottom: 10px;"><a
+		href="http://www.cocktaillounge.at" title="cocktaillounge.at"><br />
+	<strong>cocktaillounge.at</strong></a> setzt auf Qualität statt
+	Quantität und hat &gt;600 Cocktailrezepte, &gt;7.000 Mitglieder und
+	Software für Cocktailpartys.</li>
+	<li><a href="http://www.cocktail-rezepte-4u.de/"
 		title="cocktail-rezepte-4u.de"><img
 		src="<?php print $this->baseUrl(); ?>/img/andereseiten/cocktail-rezepte-4u.jpg"
 		alt="cocktail-rezepte-4u.de" align="left"
 		style="margin-right: 10px; margin-bottom: 10px;" /><br />
-	<strong>cocktail-rezepte-4u.de</strong></a>  hält für dich viele
-	Rezepte und ein Barlexikon bereit.</li>
-	<li><a href="http://www.cocktaildreams.de/" style="color: #bd5585;"
-		title="cocktaildreams.de"><img
-		src="<?php print $this->baseUrl(); ?>/img/andereseiten/cocktails&dreams.jpg"
-		alt="cocktaildreams.de" align="left"
+	<strong>cocktail-rezepte-4u.de</strong></a> hält &gt;1.500 Rezepte und
+	ein Barlexikon bereit.</li>
+	<li><a href="http://www.rezepte-cocktails.de/"
+		title="rezepte-cocktails.de"><img
+		src="<?php print $this->baseUrl(); ?>/img/andereseiten/rezepte-cocktails.jpg"
+		alt="rezepte-cocktails.de" align="left"
 		style="margin-right: 10px; margin-bottom: 10px;" /><br />
-	<strong>cocktaildreams.de</strong></a>  ist das Portal zu <a
-		href="http://www.barfish.de/"
-		title="barfish.de - Online-Shop für deine Cocktailparty">barfish.de</a>,
-	dem Onlineshop für deine Cocktailparty. Es bietet viele Rezepte, eine
-	Community und eine gute Warenkunde.</li>
-	<li><a href="http://www.ecocktail.de/" style="color: #bd5585;"
-		title="ecocktail.de"><img
+	<strong>rezepte-cocktails.de</strong></a> macht Spaß beim Erforschen
+	von klassischen Rezepten, Snackideen und Tipps &amp; Tricks.</li>
+	<li><a href="http://www.ecocktail.de/" title="ecocktail.de"><img
 		src="<?php print $this->baseUrl(); ?>/img/andereseiten/ecocktail.jpg"
 		alt="ecocktail.de" align="left"
 		style="margin-right: 10px; margin-bottom: 10px;" /><br />
 	<strong>ecocktail.de</strong></a> hat einige Buchtipps, eine
-	Produktübersicht, ein Branchenbuch und viele Rezepte tümmeln sich auf
-	dieser Seite.</li>
-	<li><a href="http://bar.leo.org/index_de.html" style="color: #bd5585;"
-		title="bar.leo.org"><img
+	Produktübersicht, ein Branchenbuch und &gt;13.000 Rezepte.</li>
+	<li><a href="http://bar.leo.org/index_de.html" title="bar.leo.org"><img
 		src="<?php print $this->baseUrl(); ?>/img/andereseiten/leos-bar.jpg"
 		alt="bar.leo.org" align="left"
 		style="margin-right: 10px; margin-bottom: 10px;" /><br />
-	<strong>bar.leo.org</strong></a>  kennt man vielleicht vom
+	<strong>bar.leo.org</strong></a> kennt man vielleicht vom
 	Übersetzungsdienst <a href="http://www.leo.org/"
-		title="LEO bietet nicht nur √úbersetzungen">LEO</a>. Jetzt gibt es
-	aber auch ca. 2500 Rezepte, einen Zutatenverwerte und jährliche
+		title="LEO bietet nicht nur √úbersetzungen">LEO</a>. Hier sind aber auch &gt;2.600 Rezepte aufgelistet, ein Zutatenverwerter und eine jährliche
 	Hitliste.</li>
-	<li><!-- sollte evtl. raus, Seite nicht qualitativ hochwertig --><a
-		href="http://www.cocktails-4u.de/" style="color: #bd5585;"
-		title="cocktails-4u.de"><img
-		src="<?php print $this->baseUrl(); ?>/img/andereseiten/cocktails-4u.jpg"
-		alt="cocktails-4u.de" align="left"
+</ul>
+<p class="clear abstand_oben">Neben den Top 10 Cocktailseiten nach Besucherstrom, sind auch noch
+folgende Seiten interessant:</p>
+<ul class="no-bullet abstand_oben">
+	<li><a href="http://www.cocktail-lounge.net/"
+		title="cocktail-lounge.net"><img
+		src="<?php print $this->baseUrl(); ?>/img/andereseiten/cocktail-lounge.jpg"
+		alt="cocktail-lounge.net" align="left"
 		style="margin-right: 10px; margin-bottom: 10px;" /><br />
-	<strong>cocktails-4u.de</strong></a>  bietet ausgesuchte klassische
-	alkoholische und alkoholfreie Cocktails.</li>
-	<li><a href="http://www.nice-cocktails.de/" style="color: #bd5585;"
-		title="nice-cocktails.de"><img
+	<strong>cocktail-lounge.net</strong></a> hat rund 100 Rezepte und eine
+	umfangreiche Barkunde.</li>
+	<li><a href="http://www.nice-cocktails.de/" title="nice-cocktails.de"><img
 		src="<?php print $this->baseUrl(); ?>/img/andereseiten/nice-cocktails.jpg"
 		alt="nice-cocktails.de" align="left"
 		style="margin-right: 10px; margin-bottom: 10px;" /><br />
-	<strong>nice-cocktails.de</strong></a>  lehrt einem das Ein-Mal-Eins
-	des Mixens im <a href="http://www.nice-cocktails.de/mixkurs.html"
+	<strong>nice-cocktails.de</strong></a> lehrt einem das Ein-Mal-Eins des
+	Mixens im <a href="http://www.nice-cocktails.de/mixkurs.html"
 		title="Mixkurs / Barkurs für Anfänger">Barkurs</a> und hat dazu noch
 	die passenden Rezepte.</li>
 </ul>
