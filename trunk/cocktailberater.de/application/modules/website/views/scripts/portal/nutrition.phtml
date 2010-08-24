@@ -1,42 +1,5 @@
-<?php print $this->partial('template/portal_nav.phtml'); ?>
 <div class="content">
-<p class="left" style="margin: 1.2em 0 0 0; font-size: 0.9em;">Sie sind hier: <?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'module'     => 'website',
-    	'action'	 => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-	            'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-		            	'pages'      => array(
-				            array(
-				                'label'      => 'Nährwerte',
-				                'module'     => 'website',
-				                'controller' => 'portal',
-				            	'action'	 => 'nutrition'
-				            )
-			        	)
-		            )
-	        	)
-            )
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
-?></p>
-<h2 style="margin-bottom: 0">Nährwerte</h2>
+<h2>Nährwerte</h2>
 <table class="table" id="nutritionData" style="display: none;">
 	<thead>
 		<tr>
@@ -88,7 +51,7 @@ $this->headScript()->appendScript('var layoutCocktails = [
   ];');
 ?>
 <div dojoType="dojox.data.HtmlTableStore" tableId="nutritionData" jsId="gridStore"></div>
-<div style="width: 420px; height: <?php echo (23*($count)+40); ?>px;">
+<div class="abstand_oben" style="width: 420px; height: <?php echo (32*($count)+70); ?>px;">
   <div id="grid"
     dojoType="dojox.grid.DataGrid"
     store="gridStore"

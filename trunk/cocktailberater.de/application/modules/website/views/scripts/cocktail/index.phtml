@@ -1,24 +1,26 @@
 <?php echo $this->partial ("template/search.phtml"); ?>
-<p class="left" style="margin: 0 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
+<p class="left" style="margin: 0 0 1em 25px; font-size: 0.9em;">Sie sind
+hier: <?php
 $pages = array(
-    array(
+array(
         'label'      => 'Start',
         'controller' => 'index',
     	'pages'      => array(
-            array(
+array(
                 'label'      => 'Cocktails',
                 'module'     => 'website',
                 'controller' => 'cocktail'
-            )
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-echo $this->navigation($container)->breadcrumbs();
-?></p>
+                )
+                )
+                )
+                );
+                $container = new Zend_Navigation($pages);
+                echo $this->navigation($container)->breadcrumbs();
+                ?></p>
 <div style="clear: left; margin-left: 25px; margin-right: 25px;">
 <h2 class="textLeft">Cocktails mit Rezeptalternativen</h2>
-<p class="textLeft">Hier finden Sie Cocktails mit verschiedenen Rezepten und Angaben zu durchschnittlichen Kalorien und Kosten/Preisen.</p>
+<p class="textLeft">Hier finden Sie Cocktails mit verschiedenen Rezepten
+und Angaben zu durchschnittlichen Kalorien und Kosten/Preisen.</p>
 <ul class="no-bullet abstand_oben">
 <?php
 $i=0;
@@ -27,7 +29,7 @@ foreach ($this->cocktails as $cocktail){
 	print '<li>'.
 	'<h3 class="abstand_unten"><a href="'.$this->url(array('module'=>'website','controller'=>'cocktail','action'=>'get','id'=>$cocktail->getUniqueName())).'">'.$cocktail->name.'</a></h3>';
 	$recipes = $cocktail->getRecipes();
-	if(is_array($recipes)) { 
+	if(is_array($recipes)) {
 		print '<ul style="" class="no-bullet">';
 		foreach ($recipes as $recipe) {
 			$avgPrice = $recipe->getAveragePrice();
@@ -38,7 +40,7 @@ foreach ($this->cocktails as $cocktail){
 			'<img style="height: 100px;" src="'.$this->baseUrl();
 			if(isset($photos[0]) && $photos[0]->id){
 				print '/img/recipes/'.$this->escape($photos[0]->fileName);
-			} else { 
+			} else {
 				print '/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
 			}
 			print '" /></a>';

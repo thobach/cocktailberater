@@ -39,10 +39,10 @@ class Website_PortalController extends Zend_Controller_Action {
 				'suffix'	=> 'pdf',
 				'headers'	=> array('Content-Type' => 'application/pdf')));
 		}
-		$contextSwitch->addActionContexts(array('about'=>true,'authors'=>true,
+		$contextSwitch->addActionContexts(array('about'=>true,'api'=>true,'authors'=>true,
 		'andere-seiten'=>true,'barkunde'=>true,'buecher'=>true,
 		'cocktail-der-woche'=>true,'contact'=>true,'contacted'=>true,
-		'community'=>true,'forum'=>true,'glas'=>true,'grundausstattung'=>true,
+		'community'=>true,'fehler'=>true,'forum'=>true,'glas'=>true,'grundausstattung'=>true,
 		'hausbar'=>true,'imprint'=>true,'index'=>true,'login'=>true,
 		'meine-einkaufsliste'=>true,'meine-einkaufsliste-erstellen'=>true,
 		'mein-cocktailbuch'=>true,'mein-cocktailbuch-erstellen'=>true,
@@ -54,6 +54,24 @@ class Website_PortalController extends Zend_Controller_Action {
 		$contextSwitch->initContext();
 		// set page format
 		$this->view->format = $this->_getParam('format','html');
+		// set breadcrumb
+		$this->pages = array(
+						array(
+					        'label'      => 'Start',
+					        'controller' => 'index',
+					    	'module'     => 'website',
+					    	'action'	 => 'index',
+					    	'pages'      => 
+								array(
+									array(
+										'label'      => 'Portal',
+										'module'     => 'website',
+										'controller' => 'portal',
+										'action'	 => 'index'
+						            	 )
+					        		 )
+					  		 )
+		  		     	    );
 	}
 
 	public function indexAction () {
@@ -65,7 +83,23 @@ class Website_PortalController extends Zend_Controller_Action {
 		// html page title
 		$this->view->title = 'Das Projekt cocktailberater';
 	}
-
+	
+	public function apiAction () {
+		// html page title
+		$this->view->title = 'WebServices, REST, API';
+	}
+	
+	public function fehlerAction () {
+		// html page title
+		$this->view->title = 'Fehler gefunden?';
+	}
+		
+	public function blogAction () {
+		// html page title
+		$this->view->title = 'Entwickler-Blog';
+		$this->_redirect('http://blog.cocktailberater.de/');
+	}
+	
 	public function barkundeAction () {
 		// html page title
 		$this->view->title = 'Barwissen und Barkunde';

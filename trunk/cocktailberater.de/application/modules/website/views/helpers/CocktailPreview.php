@@ -56,9 +56,7 @@ if (is_array ( $components )) {
 $this->view->headScript()->captureEnd();
 		} // end no JS for mobile
 ?>
-<div class="cocktail<?php if($selectable){ ?> center<?php } ?>" 
-	style="<?php if($selectable){ ?>width: 130px; padding-right: 0.5em; <?php } else 
-	{ ?>width: 107px; <?php } ?>height: 150px;"><?php 
+<div class="cocktail<?php if($selectable){ ?> center selectable<?php } ?>"><?php 
 	if(!$selectable){ ?><a
 		href="<?php $uniqueName = $recipe->getUniqueName();
 			print $this->view->url(array('module'=>'website','controller'=>'recipe',

@@ -1,46 +1,4 @@
-<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<p class="breadcrumb"><?php if($this->format=='html') { ?>Sie sind hier: <?php } ?>
-<?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'module'     => 'website',
-    	'action'	 => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-	            'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-		            	'pages'      => array(
-				            array(
-				                'label'      => 'Andere Cocktailseiten',
-				                'module'     => 'website',
-				                'controller' => 'portal',
-				            	'action'	 => 'andere-seiten'
-				            )
-			        	)
-		            )
-	        	)
-            )
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-if($this->format=='html') {
-	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
-} else {
-	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-}
-if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
 <h2>Andere Cocktailseiten</h2>
 <p>Hier sind die 10 größten Cocktailseiten nach Zugriffszahlen aus Deutschland
 (laut Alexa.com) aufgelistet. Der cocktailberater befindet sich momentan auf Platz 20 (<a href="http://www.alexa.com/siteinfo/cocktailberater.de">Alexa-DE-Rang: 427,610</a>, Stand: August 2010)</p>

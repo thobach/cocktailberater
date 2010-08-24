@@ -1,51 +1,9 @@
-<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<p class="breadcrumb">
-<?php if($this->format=='html') { ?>Sie sind hier: <?php } ?><?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'module'     => 'website',
-    	'action'	 => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-	            'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-			            'pages'      => array(
-				            array(
-				                'label'      => 'Mixtechniken',
-				                'module'     => 'website',
-				                'controller' => 'portal',
-				            	'action'	 => 'mixtechniken'
-				            )
-		        		)
-		            )
-	        	)
-            )
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-if($this->format=='html') {
-	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
-} else {
-	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-}
-if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
 <h2>Mixtechniken</h2>
 <p>Cocktails kann man <a href="#schütteln">schütteln</a>, <a href="#rühren">rühren</a>,
 <a href="#stoßen">stoßen</a> , <a href="#gießen">gießen</a>, <a
 	href="#blenden">blenden</a> und <a href="#bauen">bauen</a>.</p>
-<h3 id="schütteln">Schütteln <em>(shaking)</em></h3>
+<h3 class="pink" id="schütteln">Schütteln <em>(shaking)</em></h3>
 <h4>Der Shaker</h4>
 <p>Zum Schütteln eines Cocktails gibt es drei verschiedene Shaker: den
 zweiteiligen Boston-Shaker (Rührglas und Metallteil), den zweiteiligen
@@ -77,7 +35,7 @@ vorbereitete Glas gegossen und ggf. garniert.</p>
 <h4>Videoanleitung</h4>
 <iframe class="youtube-player" type="text/html" width="425" height="343"
 	src="http://www.youtube.com/embed/odOh2Ql1T5s?hl=de_DE" frameborder="0"></iframe>
-<h3 id="rühren">Rühren <em>(stirring)</em></h3>
+<h3 class="pink" id="rühren">Rühren <em>(stirring)</em></h3>
 <h4>Rühren bei klaren Cocktails</h4>
 <p>Cocktails ohne Saft, Sahne oder Sirup werden in der Regel nicht
 geschüttelt, sondern gerührt. Dadurch brechen die Eiswürfel nicht, was
@@ -96,7 +54,7 @@ gekühlte Glas.</p>
 <h4>Videoanleitung</h4>
 <iframe class="youtube-player" type="text/html" width="425" height="343"
 	src="http://www.youtube.com/embed/9y9QwDMdfPY?hl=de_DE" frameborder="0"></iframe>
-<h3 id="stoßen">Stoßen <em>(muddling)</em></h3>
+<h3 class="pink" id="stoßen">Stoßen <em>(muddling)</em></h3>
 <h4>Verwendung und Art des Stößels</h4>
 <p>Cocktails wie der Mojito oder Caipirina werden
 gestoßen. Das heißt Früchte wie Limetten oder Minzeblätter werden in das
@@ -107,7 +65,7 @@ geeignet, da sie das bittere Chlorophyll nicht in den Cocktail bringen.</p>
 <h4>Videoanleitung</h4>
 <iframe class="youtube-player" type="text/html" width="425" height="264"
 	src="http://www.youtube.com/embed/QOsuJYvHIJg?hl=de_DE" frameborder="0"></iframe>
-<h3 id="gießen">Hin- und Hergießen <em>(roll)</em></h3>
+<h3 class="pink" id="gießen">Hin- und Hergießen <em>(roll)</em></h3>
 <p>Einige Varianten des Bloody Mary oder Tequila Sunrise werden nicht
 gerüht und nicht geschüttelt, sondern vor und zurück gegossen. Dazu
 benötigt man zwei Rührgläser. Alle Zutaten werden in das erste Glas
@@ -123,7 +81,7 @@ auf höchster Stufe für ca. 10 Sekunden gemixt und in das Cocktailglas gegeben.
 <h4>Videoanleitung</h4>
 <iframe class="youtube-player" type="text/html" width="425" height="343"
 	src="http://www.youtube.com/embed/MaTZIuRWoAI?hl=de_DE" frameborder="0"></iframe>
-<h3 id="bauen">Bauen <em>(build)</em></h3>
+<h3 class="pink" id="bauen">Bauen <em>(build)</em></h3>
 <h4>Schicht auf Schicht</h4>
 <p>Cocktails wie der Tequila Sunrise oder Shooter wie der B52 werden
 gebaut. Das heißt die Zutaten werden der Reihe nach in Schichten direkt
