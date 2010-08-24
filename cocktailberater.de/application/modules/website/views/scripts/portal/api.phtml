@@ -1,0 +1,192 @@
+<div class="content">
+<h2>WebServices / API</h2>
+<h3 class="pink">Zugriff auf den cocktailberater</h3>
+<p>Der cocktailberater bietet viele offene Schnittstellen an, welcher
+allerdings noch nicht stabil sind. Wollen Sie also dauerhaft eine
+Schnittstelle verwenden, geben Sie uns bitte Bescheid, damit wir die
+Schnittstelle auch in Zukunft garantieren können. Wir richten auch gern
+neue Schnittstellen ein, wenn Sie eine benötigen. Mit den angebotenen
+Schnittstellen (APIs) können Rezeptinformationen auch von anderen
+Anwendungen genutzt werden.</p>
+<h3 class="pink">REST-Schnittstelle</h3>
+<p>Die Basis-URL für die REST-Schnittstelle ist <code>http://www.cocktailberater.de/website</code>.
+Dahinter kommt das Themengebiet (die Resource) auf Englisch, wie zum
+Beispiel <code>/recipe</code>, <code>/cocktail</code>, <code>/ingredient</code>,
+<code>/ingredient-category</code>, <code>/manufacturer</code>, <code>/product</code>,
+<code>/comment</code>, <code>/tag</code> oder <code>/rating</code>. Nun
+kann das gewünschte Ausgabeformat mit <code>?format=</code> angegeben
+werden. Es stehen zur Verfügung: <code>html</code>, <code>xml</code>, <code>json</code>,
+<code>pdf</code>, <code>rdf</code>, <code>rss</code>, <code>atom</code>,
+<code>htmlexport</code> und <code>mobile</code>. Wenn der Zugriff nur
+auf ein bestimmtes Objekt mit einer ID (Zahl oder eindeutiger Name)
+benötigt wird, kann die ID auch hinter das Themengebiet geschrieben
+werden, zum Beispiel <code>/4711</code>.</p>
+<p>Ein vollständiges Beispiel um also alle Rezepte als XML angezeigt zu
+bekommen wäre: <code>http://www.cocktailberater.de/website/recipe/?format=xml</code>
+oder um alle Kommentare als Atom-Feed zu bekommen: <code>http://www.cocktailberater.de/website/comment?format=atom</code>.</p>
+<p>Die folgende Tabelle listet alle bisher öffentlichen
+REST-Schnittstellen auf.</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Resource</th>
+			<th>HTTP-Methode</th>
+			<th>Formate</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>cocktail</td>
+			<td>GET</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/cocktail?format=xml">xml</a>,
+			<a href="http://www.cocktailberater.de/website/cocktail?format=json">json</a>,
+			<a href="http://www.cocktailberater.de/website/cocktail?format=atom">atom</a>,
+			<a href="http://www.cocktailberater.de/website/cocktail?format=rss">rss</a>,
+			<a href="http://www.cocktailberater.de/website/cocktail?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/cocktail?format=mobile">mobile</a></td>
+		</tr>
+		<tr>
+			<td>cocktail</td>
+			<td>GET mit ID</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/cocktail/1?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/cocktail/1?format=mobile">mobile</a></td>
+		</tr>
+		<tr>
+			<td>comment</td>
+			<td>GET</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/comment?format=atom">atom</a>,
+			<a href="http://www.cocktailberater.de/website/comment?format=rss">rss</a></td>
+		</tr>
+		<tr>
+			<td>ingredient</td>
+			<td>GET</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/ingredient?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/ingredient?format=mobile">mobile</a></td>
+		</tr>
+		<tr>
+			<td>ingredient</td>
+			<td>GET mit ID</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/ingredient/1?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/ingredient/1?format=mobile">mobile</a></td>
+		</tr>
+		<tr>
+			<td>ingredient-category</td>
+			<td>GET</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/ingredient-category?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/ingredient-category?format=mobile">mobile</a></td>
+		</tr>
+		<tr>
+			<td>ingredient-category</td>
+			<td>GET mit ID</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/ingredient-category/1?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/ingredient-category/1?format=mobile">mobile</a></td>
+		</tr>
+		<tr>
+			<td>manufacturer</td>
+			<td>GET</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/manufacturer?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/manufacturer?format=mobile">mobile</a></td>
+		</tr>
+		<tr>
+			<td>manufacturer</td>
+			<td>GET mit ID</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/manufacturer/2?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/manufacturer/2?format=mobile">mobile</a></td>
+		</tr>
+		<tr>
+			<td>product</td>
+			<td>GET</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/product?format=html">html</a>,
+			<a href="http://www.cocktailberater.de/website/product?format=mobile">mobile</a></td>
+		</tr>
+		<tr>
+			<td>product</td>
+			<td>GET mit ID</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/product/1?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/product/1?format=mobile">mobile</a></td>
+		</tr>
+		<tr>
+			<td>rating</td>
+			<td>GET</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/rating?format=atom">atom</a>,
+			<a href="http://www.cocktailberater.de/website/rating?format=rss">rss</a></td>
+		</tr>
+		<!-- <tr>
+			<td>rating</td>
+			<td>GET mit ID</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/rating/1?format=xml">xml</a>,
+			<a href="http://www.cocktailberater.de/website/rating/1?format=json">json</a></td>
+		</tr> -->
+		<tr>
+			<td>recipe</td>
+			<td>GET</td>
+			<td><a href="http://www.cocktailberater.de/website/recipe?format=xml">xml</a>,
+			<a href="http://www.cocktailberater.de/website/recipe?format=json">json</a>,
+			<a href="http://www.cocktailberater.de/website/recipe?format=atom">atom</a>,
+			<a href="http://www.cocktailberater.de/website/recipe?format=rss">rss</a>,
+			<a href="http://www.cocktailberater.de/website/recipe?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/recipe?format=htmlexport">htmlexport</a>,
+			<a href="http://www.cocktailberater.de/website/recipe?format=mobile">mobile</a>,
+			<a href="http://www.cocktailberater.de/website/recipe?format=pdf">pdf
+			(Cocktailkarte)</a></td>
+		</tr>
+		<tr>
+			<td>recipe</td>
+			<td>GET mit ID</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/recipe/1?format=xml">xml</a>,
+			<a href="http://www.cocktailberater.de/website/recipe/1?format=json">json</a>,
+			<a href="http://www.cocktailberater.de/website/recipe/1?format=atom">atom</a>,
+			<a href="http://www.cocktailberater.de/website/recipe/1?format=rss">rss</a>,
+			<a href="http://www.cocktailberater.de/website/recipe/1?format=rdf">rdf</a>,
+			<a href="http://www.cocktailberater.de/website/recipe/1?format=html">html</a>,
+			<a
+				href="http://www.cocktailberater.de/website/recipe/1?format=mobile">mobile</a>,
+			<a href="http://www.cocktailberater.de/website/recipe/1?format=pdf">pdf</a></td>
+		</tr>
+		<tr>
+			<td>tag</td>
+			<td>GET</td>
+			<td><a href="http://www.cocktailberater.de/website/tag?format=atom">atom</a>,
+			<a href="http://www.cocktailberater.de/website/tag?format=rss">rss</a></td>
+		</tr>
+		<!-- <tr>
+			<td>tag</td>
+			<td>GET mit ID</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/tag/1?format=xml">xml</a>,
+			<a href="http://www.cocktailberater.de/website/tag/1?format=json">json</a></td>
+		</tr> -->
+	</tbody>
+</table>
+<p>Die generische URI zur Resource lautet: <code>http://www.cocktailberater.de/website/[:Resource:]/ [:ID:]?format[:Format:]</code>.
+Es ist bisher nicht möglich die HTTP-Methoden POST, PUT oder DELETE etc.
+auf die Resourcen anzuwenden.</p>
+<h3 class="pink">Web-Service Schnittstelle (WSDL)</h3>
+<p>Der cocktailberater bietet auch eine <a
+	href="http://www.cocktailberater.de/website/wsdl?wsdl">WSDL-Schnittstelle</a>
+an.</p>
+</div>

@@ -1,48 +1,6 @@
-<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<p class="breadcrumb">
-<?php if($this->format=='html') { ?>Sie sind hier: <?php } ?><?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'module'     => 'website',
-    	'action'	 => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-	            'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-		            	'pages'      => array(
-				            array(
-				                'label'      => 'Original Cocktailrezepte',
-				                'module'     => 'website',
-				                'controller' => 'portal',
-				            	'action'	 => 'authors'
-				            )
-			        	)
-		            )
-	        	)
-            )
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-if($this->format=='html') {
-	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
-} else {
-	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-}
-if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
 <h2>Original Cocktailrezepte</h2>
-<h3>Cocktailrezept-Autoren</h3>
+<h3 class="pink">Cocktailrezept-Autoren</h3>
 <?php
 $options = array(	'controller'=>'recipe',
 					'action'=>'index',
@@ -83,7 +41,7 @@ $options = array(	'controller'=>'recipe',
 	} ?></div>
 	</li>
 </ul>
-<h3>Cocktailbücher und andere Quellen</h3>
+<h3 class="pink">Cocktailbücher und andere Quellen</h3>
 <ul>
 <?php
 $options['search_type'] = 'source';

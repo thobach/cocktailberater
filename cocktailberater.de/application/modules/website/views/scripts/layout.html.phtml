@@ -33,7 +33,7 @@ if($this->placeholder('type')!='') {
 	$type =  $this->placeholder('type');
 }
 print '<meta property="og:type" content="'.$type.'" />';
-print '<meta property="og:url" content="http://www.cocktailberater.de'.$_SERVER['REQUEST_URI'].'" />';
+print '<meta property="og:url" content="http://www.cocktailberater.de'.urlencode($_SERVER['REQUEST_URI']).'" />';
 print '<meta property="og:site_name" content="cocktailberater" />';
 // image
 $image = 'http://www.cocktailberater.de/img/logo.png';
@@ -51,10 +51,6 @@ $this->dojo()->enable();
 $this->dojo()->setDjConfigOption('parseOnLoad', true);
 $this->dojo()->setDjConfigOption('baseUrl', './');
 $this->dojo()->addStyleSheetModule('dijit.themes.tundra');
-// for dropdown boxes in at the top
-$this->dojo()->requireModule('dijit.Dialog');
-
-// end for dropdown boxes
 echo $this->dojo()."\n";
 // css style sheets
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/screen.css');
@@ -78,180 +74,61 @@ $this->headLink(array('rel' => 'image_src',
                       'href' => $image));
 // echo css, faveicon and feeds
 echo $this->headLink()."\n";
-// toggeling dialogs
-$this->headScript()->captureStart(); ?>
-	// prevent from hiding immidiately after showing dialog 
-	// (body -> onclick is called after every click anywhere) 
-	var hideDialog;
-	
-	// show dialog
-	function showDialog(dialog,show){
-		// remove non-JS borders and paddings
-		dojo.query('ul.noJS').removeClass('noJS');
-		
-		// hide active dialog
-		if(show == false) { // dojo.byId(dialog).style.display == 'block' 
-			dojo.byId(dialog).style.display = 'none';
-		} 
-		// show only activated dialog
-		else {
-			// hide all dialogs
-			dojo.query('div.dijitTooltipDialog', document).forEach( 
-				function(selectTag) {
-					selectTag.style.display = 'none';
-				}
-			);
-			// show activated dialog
-			dojo.byId(dialog).style.display = 'block';
-		}
-		// don't hide all dialogs immidiately
-		hideDialog = false;
-		// don't call the url in a -> href
-		return false;
-	}
-	
-	// hide all dialogs (body -> onclick)
-	function hideDialogs(){
-		// only hide all dialogs if NOT clicked on any link
-		if(hideDialog){
-			dojo.query('div.dijitTooltipDialog', document).forEach( 
-				function(selectTag) {
-					selectTag.style.display = 'none';
-				}
-			);
-			
-		}
-		// next time the user clicks anywhere BUT the link hide all dialogs
-		hideDialog = true;
-	}
-	
-	// create dojo tooltips 
-	dojo.addOnLoad(function(){
-		var contact = new dijit.TooltipDialog({style:"<?php if($currentShow!='contact') { ?>display: none;<?php } ?> position: absolute; margin-left: -17em; padding: 0 4em 4em 4em;"},dojo.byId('tooltipDlg3'));
-		dojo.connect(dojo.byId('tooltipDlg3'),'onmouseover',function f() { return showDialog('tooltipDlg3', true);});
-		dojo.connect(dojo.byId('tooltipDlg3'),'onmouseout', function f(){ return showDialog('tooltipDlg3', false);});
-		
-		var cb_ob = new dijit.TooltipDialog({style:"<?php if($currentShow!='partner') { ?>display: none;<?php } ?> position: absolute; margin-left: -4.5em; padding: 0 4em 4em 4em;"},dojo.byId('tooltipDlg1'));
-		dojo.connect(dojo.byId('tooltipDlg1'),'onmouseover',function f() { return showDialog('tooltipDlg1', true);});
-		dojo.connect(dojo.byId('tooltipDlg1'),'onmouseout', function f(){ return showDialog('tooltipDlg1', false);});
-		
-		var projects = new dijit.TooltipDialog({style:"<?php if($currentShow!='projects') { ?>display: none;<?php } ?> position: absolute; margin-left: -9em; padding: 0 4em 4em 4em;"},dojo.byId('tooltipDlg2'));
-		dojo.connect(dojo.byId('tooltipDlg2'),'onmouseover',function f() { return showDialog('tooltipDlg2', true);});
-		dojo.connect(dojo.byId('tooltipDlg2'),'onmouseout', function f(){ return showDialog('tooltipDlg2', false);});
-	});
-	
-<?php $this->headScript()->captureEnd();
 // echo scripts
 echo $this->headScript()."\n";
 ?>
 </head>
-<body class="tundra" onclick="hideDialogs();">
+<body class="tundra">
 <!-- begin: top links -->
 <div id="pre-header">
-	<ul class="no-bullet">
-		<!-- social bookmarking & RSS -->
-		<li style="margin-left: 1em;" 
-			onmouseover="dojo.byId('spr_facebook_fan_gray').id='spr_facebook_fan';" 
-			onmouseout="dojo.byId('spr_facebook_fan').id='spr_facebook_fan_gray';">
-			<a href="http://www.facebook.com/cocktailberater" style="padding-top: 0.2em; padding-bottom: 0.2em;" title="auf facebook Fan werden">
-				<span class="social_sprites" id="spr_facebook_fan_gray"></span> Fan werden
-			</a></li>
-		<li style="margin-left: 1em;"
-			onmouseover="dojo.byId('spr_facebook_share_gray').id='spr_facebook_share';" 
-			onmouseout="dojo.byId('spr_facebook_share').id='spr_facebook_share_gray';">
-			<a style="padding-top: 0.2em; padding-bottom: 0.2em;"
-				href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>" title="auf facebook teilen">
-				<span class="social_sprites" id="spr_facebook_share_gray"></span> Teilen</a></li>
-		<li style="margin-left: 1em;">
-			<a href="http://del.icio.us/post?url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf delicious bookmarken">
-				<span class="social_sprites" id="spr_delicious"></span> <span class="hide">delicious</span>
-			</a></li>
-		<li style="margin-left: 1em;">
-			<a href="http://digg.com/submit?phase=2&amp;url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf Digg bookmarken">
-				<span class="social_sprites" id="spr_digg"></span> <span class="hide">Digg</span>
-			</a></li>
-		<li style="margin-left: 1em;">
-			<a href="http://www.stumbleupon.com/submit?url=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;title=<?php echo urlencode($title); ?>" title="auf StumbleUpon bookmarken">
-			<span class="social_sprites" id="spr_su"></span> <span class="hide">StumbleUpon</span>
-			</a></li>
-		<li style="margin-left: 1em;">
-			<a href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>" title="auf Twitter posten">
-				<span class="social_sprites" id="spr_twitter"></span> <span class="hide">Twitter</span>
-			</a></li>
-		<li style="margin-left: 1em;"><a href="http://blog.cocktailberater.de/feeds/posts/default" title="Blog als RSS-Feed abonnieren">
-				<span class="social_sprites" id="spr_rss"></span> <span class="hide">Blog</span>
-			</a></li>
-			
-		<!-- kontakt -->
-		<li style="margin-left: 1em;">
-			<a href="<?php if($currentShow=='contact') { $show = 'none'; } 
-				else { $show = 'contact'; } echo $this->url(array('show'=>$show)); ?>" 
-				onmouseover="return showDialog('tooltipDlg3', true);" onclick="return false;" 
-				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">kontakt</a>
-			<div id="tooltipDlg3" style="<?php if($currentShow!='contact') { ?>display: none;<?php } ?> position: absolute; margin-left: -17em; padding: 0 4em 4em 4em;">
-			    <ul class="noJS no-bullet">
-			    	<li><a href="<?php print $this->url(array(
-							'module'=>'website',
-							'controller'=>'portal',
-							'action'=>'imprint'),'default',true); ?>">impressum</a></li>
-					<li><a href="<?php print $this->url(array(
-							'module'=>'website',
-							'controller'=>'portal',
-							'action'=>'contact'),'default',true); ?>">kontakt</a></li>
-					<li><a href="http://www.thobach.de">thomas bachmann (entwickler)</a></li>
-					<li><a href="http://www.carolinebock.de">caroline bock (designer)</a></li>
-					<li><a href="http://www.leo-meissen.de">kay leonhardt (designer)</a></li>
-				</ul>
-			</div>
-		</li>
-		
-		<!-- über cocktailberater -->
-		<li style="margin-left: 1em;">
-			<a href="<?php if($currentShow=='partner') { $show = 'none'; } 
-				else { $show = 'partner'; } echo $this->url(array('show'=>$show)); ?>" 
-				onmouseover="return showDialog('tooltipDlg1', true);" onclick="return false;"
-				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">über cocktailberater</a>
-			<div id="tooltipDlg1" style="<?php if($currentShow!='partner') { ?>display: none;<?php } ?> position: absolute; margin-left: -4.5em; padding: 0 4em 4em 4em;">
-			    <ul class="noJS no-bullet">
-			    	<li><a href="<?php print $this->url(array(
-							'module'=>'website',
-							'controller'=>'portal',
-							'action'=>'about'),'default',true); ?>">das projekt</a></li>
-					<li><a href="http://blog.cocktailberater.de">entwickler blog</a></li>
-			    	<li><a href="http://www.facebook.com/cocktailberater">cb auf facebook</a></li>
-					<li><a href="http://twitter.com/cocktailberater">cb auf twitter</a></li>
-					<li><a href="http://ohloh.net/p/cocktailberater">cb auf ohloh</a></li>
-					<li><a href="http://code.google.com/p/cocktailberater/">cb auf google code</a></li>
-					<li><a href="http://code.google.com/p/cocktailberater/issues/entry">fehler gefunden?</a></li>
-					<li><a href="http://code.google.com/p/cocktailberater/wiki/API">api dokumentation</a></li>
-			    </ul>
-			</div>
-		</li>
-		
-		<!-- projekte -->
-		<li style="margin-left: 0em;">
-			<a href="<?php if($currentShow=='projects') { $show = 'none'; } else { $show = 'projects'; } echo $this->url(array('show'=>$show)); ?>" 
-				onmouseover="return showDialog('tooltipDlg2', true);" onclick="return false;"
-				style="background-image: url('<?php print $this->baseUrl(); ?>/img/down.png'); background-repeat: no-repeat; background-position: right 60%; padding-right: 14px;">projekte</a>
-			<div id="tooltipDlg2" style="<?php if($currentShow!='projects') { ?>display: none;<?php } ?> position: absolute; margin-left: -9em; padding: 0 4em 4em 4em;">
-		    	<ul class="noJS no-bullet">
-		    		<li><a href="<?php print $this->url(array(
-						'module'=>'website',
-						'controller'=>'index',
-						'action'=>'index'),'default',true); ?>">rezeptdatenbank</a></li>
-					<li><a href="<?php print $this->url(array(
-						'module'=>'website',
-						'controller'=>'index',
-						'action'=>'index'),'default',true); ?>?format=mobile">mobile seite</a></li>
-		    		
-		    		<li><a href="<?php print $this->url(array(
-						'module'=>'website',
-						'controller'=>'portal',
-						'action'=>'index'),'default',true); ?>">portal</a></li>
-		    	</ul>
-			</div>
-		</li>
-	</ul>
+<?php 
+$imprintLink = array('module'=>'website','controller'=>'portal','action'=>'imprint');
+?>
+<ul class="no-bullet">
+	<li onmouseover="dojo.byId('spr_info_gray').id='spr_info';"
+		onmouseout="dojo.byId('spr_info').id='spr_info_gray';"><a
+		href="<?php print $this->url($imprintLink,'default',true); ?>"> <span
+		class="social_sprites" id="spr_info_gray"></span> Impressum</a></li>
+	<li onmouseover="dojo.byId('spr_rss_gray').id='spr_rss';"
+		onmouseout="dojo.byId('spr_rss').id='spr_rss_gray';"><a
+		href="http://blog.cocktailberater.de/feeds/posts/default"
+		title="Blog als RSS-Feed abonnieren"> <span class="social_sprites"
+		id="spr_rss_gray"></span> Blog </a></li>
+	<li onmouseover="dojo.byId('spr_mobile_gray').id='spr_mobile';"
+		onmouseout="dojo.byId('spr_mobile').id='spr_mobile_gray';"><a
+		href="?format=mobile"> <span class="social_sprites"
+		id="spr_mobile_gray"></span> Mobile Seite</a></li>
+	<li
+		onmouseover="dojo.byId('spr_facebook_fan_gray').id='spr_facebook_fan';"
+		onmouseout="dojo.byId('spr_facebook_fan').id='spr_facebook_fan_gray';">
+	<a href="http://www.facebook.com/cocktailberater"
+		title="auf facebook Fan werden"> <span class="social_sprites"
+		id="spr_facebook_fan_gray"></span> Fan werden </a></li>
+	<li
+		onmouseover="dojo.byId('spr_facebook_share_gray').id='spr_facebook_share';"
+		onmouseout="dojo.byId('spr_facebook_share').id='spr_facebook_share_gray';">
+	<a
+		href="http://www.facebook.com/sharer.php?u=<?php echo urlencode('http://www.cocktailberater.de'.$_SERVER['REQUEST_URI']); ?>&amp;t=<?php echo urlencode($title); ?>"
+		title="auf facebook teilen"> <span class="social_sprites"
+		id="spr_facebook_share_gray"></span> Teilen</a></li>
+	<li onmouseover="dojo.byId('spr_twitter_gray').id='spr_twitter';"
+		onmouseout="dojo.byId('spr_twitter').id='spr_twitter_gray';"><a
+		href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $_SERVER['REQUEST_URI']); ?>"
+		title="auf Twitter posten"> <span class="social_sprites"
+		id="spr_twitter_gray"></span> Twittern </a></li>
+	<li class="left"><a
+		href="http://del.icio.us/post?url=<?php echo urlencode('http://www.cocktailberater.de'.$_SERVER['REQUEST_URI']); ?>&amp;title=<?php echo urlencode($title); ?>"
+		title="auf delicious bookmarken"> <span class="social_sprites"
+		id="spr_delicious"></span> <span class="hide">delicious</span> </a></li>
+	<li class="left"><a
+		href="http://digg.com/submit?phase=2&amp;url=<?php echo urlencode('http://www.cocktailberater.de'.$_SERVER['REQUEST_URI']); ?>&amp;title=<?php echo urlencode($title); ?>"
+		title="auf Digg bookmarken"> <span class="social_sprites"
+		id="spr_digg"></span> <span class="hide">Digg</span> </a></li>
+	<li class="left"><a
+		href="http://www.stumbleupon.com/submit?url=<?php echo urlencode('http://www.cocktailberater.de'.$_SERVER['REQUEST_URI']); ?>&amp;title=<?php echo urlencode($title); ?>"
+		title="auf StumbleUpon bookmarken"> <span class="social_sprites"
+		id="spr_su"></span> <span class="hide">StumbleUpon</span> </a></li>
+</ul>
 </div>
 <!-- end: top links -->
 <div id="wrapper">
@@ -268,7 +145,7 @@ if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index' 
 else { 
 	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header-detail.png\'); height: 50px;';
 	$linkStyle = 'height: 50px;'; 
-	$homeStyle = '<span id="home_hover" style="position: relative; background: url(\''.$this->baseUrl().'/img/home.png'.'\') no-repeat; height: 40px; left: 270px; top: 6px; display: none;">&nbsp;</span>';
+	$homeStyle = '<span id="home_hover" style="position: relative; background: url(\''.$this->baseUrl().'/img/home.png'.'\') no-repeat; height: 40px; left: 270px; top: 6px; display: none; width: 100px;">&nbsp;</span>';
 	$homeStyleHover = ' onmouseover="document.getElementById(\'home_hover\').style.display=\'block\';"  onmouseout="document.getElementById(\'home_hover\').style.display=\'none\';"';
 }
 ?>
@@ -278,22 +155,50 @@ else {
 		print $this->url($mainPage,null,true); ?>" style="<?php echo $linkStyle;?>"><span class="hide">cocktailberater</span><?php print $homeStyle; ?></a></h1>
 	</div><!-- id:header -->
 	<div id="homepage">
-		<div id="content"><?php echo $this->layout()->content ?></div>
+	<?php
+	$controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+	$controllersForBreadcrumb = array('portal','ingredient','product','manufacturer');
+	if(in_array($controller, $controllersForBreadcrumb)) { ?>
+		<p class="breadcrumb">
+		<?php if($this->format=='html') { ?>Sie sind hier: <?php }
+		$portalNavigationConfig = new Zend_Config_Ini(APPLICATION_PATH.'/modules/website/config/portal-navigation.ini','nav');
+		$container = new Zend_Navigation($portalNavigationConfig);
+		if($this->format=='html') {
+			echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs()->setSeparator(' &gt;'.PHP_EOL));
+		} else {
+			echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs()->setSeparator(' &gt;'.PHP_EOL));
+		}
+		if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
+	<?php } ?>
+	<div id="content"><?php echo $this->layout()->content ?></div>
+	<?php 
+	// render menu for portal pages
+	if(in_array($controller, $controllersForBreadcrumb)) {
+		$community = $this->navigation()->findOneByLabel('Portal');
+		$options = array(
+		    'ulClass' => 'textLeft no-bullet-html'
+		);
+		echo '<div class="sub_nav">'.$this->navigation()->menu()->renderMenu($community, $options).'</div>';
+	}
+	?>
 	</div><!-- id:homepage -->
 	<div class="clear"></div>
 </div><!-- id:wrapper -->
-<?php if(APPLICATION_ENV=='production') {?>
+<?php if(APPLICATION_ENV=='production') { ?>
 <!-- Piwik -->
 <script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.thobach.de/" : "http://stats.thobach.de/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
-</script><noscript><p><img src="http://stats.thobach.de/piwik.php?idsite=4" style="border:0" alt=""/></p></noscript>
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.thobach.de/" : "http://stats.thobach.de/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+	try {
+		var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
+		piwikTracker.trackPageView();
+		piwikTracker.enableLinkTracking();
+	} catch( err ) {}
+</script>
+<noscript>
+<p><img src="http://stats.thobach.de/piwik.php?idsite=4"
+	style="border: 0" alt="" /></p>
+</noscript>
 <!-- End Piwik Tag -->
 <?php } ?>
 </body>

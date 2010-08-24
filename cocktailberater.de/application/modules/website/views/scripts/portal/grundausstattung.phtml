@@ -1,53 +1,11 @@
-<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<p class="left breadcrumb"><?php if($this->format=='html') { ?>Sie sind
-hier: <?php } ?><?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'module'     => 'website',
-    	'action'	 => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-	            'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-		            	'pages'      => array(
-				            array(
-				                'label'      => 'Bar-Ausstattung',
-				                'module'     => 'website',
-				                'controller' => 'portal',
-				            	'action'	 => 'grundausstattung'
-				            )
-			        	)
-		            )
-	        	)
-            )
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-if($this->format=='html') {
-	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
-} else {
-	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-}
-if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
-<h2>Bar-Ausstattung</h2>
+<h2>Barausstattung</h2>
 <p>Beim Aufbau einer Bar sollte man nichts überstürzen. Wie in jedem
 Hobby kann man auch hier erstmal klein anfangen um zu sehen ob es einem
 wirklich liegt. Daher haben wir hier drei Ausbaustufen dargestellt: <a
 	href="#einstiegs-bar">Einstiegs-Bar</a>, <a href="#hobby-bar">Hobby-Bar</a>
 und <a href="#profi-bar">Profi-Bar</a>.</p>
-<h3 class="abstand_oben" id="einstiegs-bar">Einstiegs-Bar</h3>
+<h3 class="pink" id="einstiegs-bar">Einstiegs-Bar</h3>
 <p>Um eine kleine Bar einzurichten benötigt man nur wenige Zutaten und
 Utensilien. Diese bekommt man für ca. 63 € im Supermarkt. Hiermit lassen
 sich schon verschiedene Cocktails wie <a
@@ -99,7 +57,7 @@ mixen.</p>
 	<li>Gläser (sicherlich vorhanden)</li>
 	<li>Stößel (ca. 5 €)</li>
 </ul>
-<h3 class="abstand_oben" id="hobby-bar">Hobby-Bar</h3>
+<h3 class="pink" id="hobby-bar">Hobby-Bar</h3>
 <p>In der Hobby-Bar kann es dann schon etwas professioneller aussehen.
 Aber auch hier gilt, man muss nicht alles auf einmal kaufen. Wenn man
 die Bar stückweise erweitert, kann man sich mehr Zeit nehmen um sich mit
@@ -240,7 +198,7 @@ und Utensilien für insgesamt ca. 362 € ermöglichen weitere Klassiker wie
 	<li>Schneidebrett (ca. 10 €)</li>
 	<li>Cocktailstäbchen und Cocktailrührer (ca. 5 €)</li>
 </ul>
-<h3 class="abstand_oben" id="profi-bar">Profi-Bar</h3>
+<h3 class="pink" id="profi-bar">Profi-Bar</h3>
 <p>Noch professioneller geht es in der Profi-Bar zu. Hier sollte
 eigentlich gar nichts fehlen. Da bei den meisten hochwertigen Zutaten
 die Kosten nach oben hin stark schwanken sind hier keine Kosten

@@ -1,47 +1,5 @@
-<?php if($this->format=='html') { print $this->partial('template/portal_nav.phtml'); } ?>
 <div class="content">
-<p class="breadcrumb">
-<?php if($this->format=='html') { ?>Sie sind hier: <?php } ?><?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'module'     => 'website',
-    	'action'	 => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-	            'pages'      => array(
-		            array(
-		                'label'      => 'Party Helferlein',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'hausbar',
-		            	'pages'      => array(
-				            array(
-				                'label'      => 'Cocktailkarte',
-				                'module'     => 'website',
-				                'controller' => 'portal',
-				            	'action'	 => 'mein-cocktailbuch-erstellen'
-				            )
-			        	)
-		            )
-	        	)
-            )
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-if($this->format=='html') {
-	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
-} else {
-	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-}
-if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
-<h2 style="margin-bottom: 0">Cocktailkarte</h2>
+<h2>Cocktailkarte</h2>
 <p>Verpasse deiner Cocktailkarte noch einen kurzen Namen, z.B. den Name deiner Bar.</p>
 <form id="recipe2menu" name="recipe2menu" method="post"
 	action="<?php echo $this->url(array('module'=>'website','controller'=>'portal','action'=>'mein-cocktailbuch-erstellen')); ?>?format=pdf">

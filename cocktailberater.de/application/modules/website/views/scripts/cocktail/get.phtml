@@ -1,13 +1,13 @@
 <?php echo $this->partial('template/search.phtml'); ?>
-<h2><?php print $this->cocktail->name; ?> Cocktailrezepte</h2><br />
-<?php 
+<h2><?php print $this->cocktail->name; ?> Cocktailrezepte</h2>
+<br />
+<?php
 $recipes = $this->cocktail->getRecipes();
 if($recipes) {?>
 <div id="ergebnisse" style="clear: left;"><?php
 if(is_array($recipes)){
-	foreach ($recipes as $recipe) { ?>
-		<?php $this->cocktailPreview($recipe); ?>
-	<?php 
+	foreach ($recipes as $recipe) { ?> <?php $this->cocktailPreview($recipe); ?>
+	<?php
 	}
 }
 ?></div>

@@ -6,41 +6,10 @@
  * @version 1.0
  */
 ?>
-<div class="content full-width">
-<p class="breadcrumb"><?php if($this->format=='html') { ?>Sie sind hier: <?php } ?><?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-	    'pages'      => array(
-	            array(
-	                'label'      => 'Portal',
-	                'module'     => 'website',
-	                'controller' => 'portal',
-	            	'action'	 => 'index',
-	            	'pages'      => array(
-			            array(
-			                'label'      => 'Kontakt',
-			                'module'     => 'website',
-			                'controller' => 'portal',
-			            	'action'	 => 'contact'
-					)
-				)
-			)
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-if($this->format=='html') {
-	echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs());
-} else {
-	echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-}
-if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
-<h2>Nehmen Sie mit uns Kontakt auf!</h2>
-<p class="abstand_unten">Mit diesem Formular können Sie schnell und einfach mit uns in Kontakt
-treten.<br />
-Wir freuen uns auf Ihre Nachricht!</p>
+<div class="content">
+<h2>Kontaktieren Sie uns!</h2>
+<p>Mit diesem Formular können Sie schnell und einfach mit uns in Kontakt
+treten. Wir freuen uns auf Ihre Nachricht!</p>
 <?php if($this->form->isErrors()){ ?>
 <div class="error"><?php echo $this->translate('Fehler aufgetreten!'); ?></div>
 <?php } ?>

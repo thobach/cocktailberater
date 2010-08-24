@@ -1,20 +1,6 @@
-/*
-cocktailberater.de Screen Stylesheet
+/* cocktailberater.de Screen Stylesheet */
 
-version:   1.0
-date:      21/07/07
-author:    Thomas Bachmann
-email:     info@thobach.de
-
-website:   www.cocktailberater.de
-
-version history: /html/css/screen.css
------------------------------------------------------------------------------*/
-	/* Import other stylesheets
------------------------------------------------------------------------------*/
-	/* @import url("otherstylesheet.css"); */
-	/* Remove margin, padding and border from everything 
------------------------------------------------------------------------------*/
+/* Remove margin, padding and border from everything */ 
 * {
 	margin: 0;
 	padding: 0;
@@ -22,8 +8,7 @@ version history: /html/css/screen.css
 	font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif;
 }
 
-/* Styles for layout
------------------------------------------------------------------------------*/
+/* Styles for layout */
 .clear {
 	clear: both;
 }
@@ -109,20 +94,23 @@ div#content > div.full-width {
 }
 
 p.breadcrumb {
-	font-size: 1em;	
+	font-size: 1em;
+	clear: both;
+	text-align: left;
+	margin: 0.5em 1em 0 1em;
 }
 
-/* Set up the document
------------------------------------------------------------------------------*/
+/* Set up the document */
 body {
-	font: 62.5%/ 1.5 "Lucida Grande", "Lucida Sans", Tahoma, Verdana,
+	font: 81.25%/ 1.5 "Lucida Grande", "Lucida Sans", Tahoma, Verdana,
 		sans-serif;
+	line-height: 1.7em;
 	color: #000000;
 	text-align: center;
 }
 
 #wrapper {
-	width: 600px; /* Set page width here - you can also use percentage */
+	width: 600px;
 	text-align: left;
 	margin-left: auto;
 	margin-right: auto;
@@ -136,46 +124,50 @@ body {
 /* Typography
 -----------------------------------------------------------------------------*/
 h1 {
-	font-size: 2.2em; /* Equivalent to 22pt */
+	font-size: 2.2em;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	clear: both;
 }
 
 h2 {
-	font-size: 2.0em; /* Equivalent to 20pt */
-	margin-top: 0em;
-	margin-bottom: 0em;
+	font-size: 2.0em;
+	margin-top: 0.3em;
+	margin-bottom: 0.2em;
 	clear: both;
 }
 
 h3 {
-	font-size: 1.4em; /* Equivalent to 18pt */
-	margin-top: 0.3em;
+	font-size: 1.4em;
+	margin-top: 0.5em;
 	margin-bottom: 0.1em;
 	clear: both;
 }
 
 h4 {
-	font-size: 1.2em; /* Equivalent to 18pt */
+	font-size: 1.2em;
+	margin-top: 0.4em;
+	margin-bottom: 0.1em;
 	clear: both;
 }
 
 h5 {
-	font-size: 1.4em; /* Equivalent to 14pt */
+	font-size: 1.1em;
+	margin-top: 0.3em;
+	margin-bottom: 0.1em;
 	clear: both;
-}
-
-p,q,cite {
-	font-size: 1.2em; /* Equivalent to 12pt */
 }
 
 p {
 	margin-bottom: 0.3em;	
 }
 
+code {
+	font-family: courier;	
+}
+
 ul,ol,dl {
-	font-size: 1.2em; /* Equivalent to 12pt */
+	font-size: 1em;
 	margin-left: 1.5em;
 }
 
@@ -195,11 +187,6 @@ ul.no-bullet-html, li.no-bullet-html {
 
 ul li,dd,dt {
 	clear: both;
-}
-
-ul ul li {
-	font-size: 0.7em;
-	font-weight: normal;
 }
 
 a:link {
@@ -263,52 +250,33 @@ div#header a h1 {
 	display: none;
 }
 
-/* Navigation
------------------------------------------------------------------------------*/
-	/* pre-header
------------------------------------------------------------------------------*/
+/* top bar */
 div#pre-header {
 	padding-top: 0.5em;
 	margin-bottom: 0.8em;
 	text-align: left;
-	height: 1em;
+	height: 0.8em;
 	margin-left: auto;
 	margin-right: auto;
 	width: 600px;
-	font-size: 1em;
-}
-
-div#pre-header ul {
-	
+	font-size: 0.846em;
 }
 
 div#pre-header ul li {
 	clear: none;
 	float: right;
-	margin-left: 2em;
-}
-
-div#pre-header ul li ul { 
-	clear: none;
-}
-
-div#pre-header ul li ul li { 
-	float: none;
-	text-align: right;
-	margin-left:0;
-	font-size: 0.8em;
-}
-
-div#pre-header ul li  div ul.noJS {
-	background-color: white;
-	padding: 0.5em;
-	border: 1px solid #808080;
-	font-size: 1.4em;
+	margin-left: 0.5em;
 }
 
 div#pre-header a {
-	text-decoration: none;	
+	text-decoration: none;
+	vertical-align: top;
 }
+
+div#pre-header ul li.left {
+	float: left;
+}
+
 
 
 /* Homepage
@@ -317,7 +285,6 @@ div#pre-header a {
 	clear: left;
 	width: 600px;
 	text-align: center;
-	font-size: 1.2em;
 }
 
 #wiki {
@@ -328,7 +295,7 @@ div.sub_nav {
 	float: left;
 	margin-right: 12px;
 	margin-top: 1em;
-	width:140px;
+	width:130px;
 	margin-left: 1em;	
 }
 
@@ -370,9 +337,10 @@ div.browse ul li a {
 
 div.content {
 	text-align: left;
-	float: left;
-	width: 410px;
+	float: right;
+	width: 425px;
 	margin-top: 1em;
+	margin-right: 1em;
 }
 
 div.content ul {
@@ -393,10 +361,6 @@ div.sub_nav ul.textLeft>li{
 
 div.sub_nav ul.textLeft>li>a {
 	font-weight: bold;
-}
-
-div.sub_nav ul.textLeft>li>ul {
-	font-size: 1.35em;
 }
 
 
@@ -457,16 +421,24 @@ form#tag_form label {
 }
 
 p.description {
-	font-size: 0.8em;
 	color: gray;
 	margin-top: 0.2em;
 	text-align: left;
 }
 
+/* cocktailpreview */
 .cocktail {
 	float: left;
 	padding-right: 1em;
-	padding-bottom: 2.5em;
+	padding-bottom: 1.5em;
+	width: 107px;
+	height: 180px;
+}
+
+/* cocktailpreview */
+.selectable {
+	width: 130px;
+	padding-right: 0.5em; 	
 }
 
 #ergebnisse {
@@ -486,7 +458,7 @@ div#recaptcha_widget_div{
 	clear: left;	
 }
 
-.attribut, dt {
+.attribut {
 	clear: left;
 	float: left;
 	color: #cf0060;
@@ -623,7 +595,7 @@ label.small {
 	background-color: white;
 }
 
-.pink {
+.pink, dt {
 	color: #cf0060;
 }
 
@@ -932,11 +904,11 @@ table.table td,table.table th {
 	background-position  : -16px -0px;
  }
 
- #spr_rss {
+ #spr_rss_gray {
 	background-position  : -32px -0px;
  }
 
- #spr_rss:hover {
+ #spr_rss {
 	background-position  : -48px -0px;
  }
 
@@ -964,13 +936,33 @@ table.table td,table.table th {
 	background-position  : -144px -0px;
  }
 
- #spr_twitter {
+ #spr_twitter_gray {
 	height               : 16px;
 	width                : 16px;
 	background-position  : -160px -0px;
  }
 
- #spr_twitter:hover {
+ #spr_twitter {
 	background-position  : -176px -0px;
+ }
+ 
+ #spr_mobile_gray {
+	height               : 16px;
+	width                : 16px;
+	background-position  : -192px -0px;
+ }
+
+ #spr_mobile {
+	background-position  : -208px -0px;
+ }
+ 
+ #spr_info_gray {
+	height               : 16px;
+	width                : 16px;
+	background-position  : -224px -0px;
+ }
+
+ #spr_info {
+	background-position  : -240px -0px;
  }
  
