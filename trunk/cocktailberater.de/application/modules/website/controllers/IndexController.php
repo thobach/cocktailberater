@@ -51,6 +51,15 @@ class Website_IndexController extends Zend_Controller_Action {
 							'action'=>'get',
 							'id'=>$this->_getParam('id')),'rest',true));
 	}
+	
+	// @todo: remove in December 2010
+	public function ingredientAction(){
+		$this->_redirect($this->view->url(array(
+							'module'=>'website',
+							'controller'=>'ingredient',
+							'action'=>'get',
+							'id'=>$this->_getParam('id')),'rest',true));
+	}
 
 	// @todo: remove in December 2010
 	public function top10Action(){
