@@ -1,5 +1,5 @@
 <?php
-// forward requests without www to www.cocktailberater.de 
+// forward requests without www to www.cocktailberater.de and set status 301
 if($_ENV['HTTP_HOST']=='cocktailberater.de'){
 	header("Location: http://www.cocktailberater.de".$_ENV['REQUEST_URI'],TRUE,301);
 }
