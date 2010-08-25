@@ -20,7 +20,7 @@ foreach ( $components as /* @var $component Website_Model_Component */ $componen
 // setting meta keywords
 $this->headMeta()->appendName('keywords', $recipe->name.', '.implode($ingredientList2,', ').', cocktail, rezept, cocktails, rezepte, cocktailrezepte, cocktailrezept, cocktailberater');
 // setting meta description
-$this->headMeta()->appendName('description', 'Das  Rezept des '.$recipe->name.' Cocktails besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Zubereitung, Fotos, Videos, Tags/Schlagworten, Kosten/Preisen, Kalorien und Kommentaren hier.');
+$this->headMeta()->appendName('description', 'Das  '.$recipe->name.' Cocktailrezept besteht aus '.implode($ingredientList,', ').'. Mehr mit Beschreibung, Zubereitung, Fotos, Videos, Tags/Schlagworten, Kosten/Preisen, Kalorien und Kommentaren hier.');
 // open graph type
 $this->placeholder('type')->set('drink');
 // rdf
@@ -684,20 +684,13 @@ dojo.addOnLoad(function(){
 		foreach ( $videos as $video ) {
 			?>
 		<p><strong><?php echo $video->name; ?></strong></p>
-		<object	width="425" height="350" type="application/x-shockwave-flash">
-		<param name="movie"
-			value="<?php
-			echo $this->escape ( $video->url ) ;
-			?>" />
-		<param name="wmode" value="transparent" />
-		<embed src="<?php
-			echo $this->escape ( $video->url ) ;
-			?>"
-			type="application/x-shockwave-flash" wmode="transparent" width="425"
-			height="350" /></object>
+		<iframe type="text/html" width="425" 
+			height="350" src="http://www.youtube.com/embed/<?php 
+			print str_replace('http://www.youtube.com/v/', '', $video->url); ?>" 
+			frameborder="0"></iframe>
 			<?php 
 			if($video->description!='') { ?>
-			<p style="text-align: left; padding: 0.5em;">
+			<p style="text-align: left; padding-top: 0.5em;">
 				<em><strong>Videohinweis:</strong>
 					<?php echo $video->description; ?></em>
 			</p>
