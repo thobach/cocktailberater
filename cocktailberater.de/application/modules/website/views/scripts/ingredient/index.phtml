@@ -1,37 +1,3 @@
-<p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-            	'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-		    			'pages'      => array(
-				            array(
-				                'label'      => 'Zutaten',
-				                'module'     => 'website',
-				            	'action'	 => 'index',
-				                'controller' => 'ingredient'
-				            )
-				    	)
-					)
-				)
-        	)
-    	)
-    )
-);
-$container = new Zend_Navigation($pages);
-echo $this->navigation($container)->breadcrumbs();
-?></p>
 <?php 
 // dojo helper
 $this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
@@ -49,18 +15,15 @@ dojo.addOnLoad(function() {
 	});
 });
 <?php $this->headScript()->captureEnd(); ?>
-<div style="clear: left; margin-left: 25px; margin-right: 25px;">
-<h2 style="margin-top: 0; text-align: left;">Zutaten für Cocktailrezepte</h2>
+<div class="content">
+<h2>Zutaten für Cocktailrezepte</h2>
 <table class="table">
 	<thead>
 		<tr>
-			<th>Zutat</th>
+			<th>Zutat &amp; Alkoholgehalt</th>
 			<th>Kategorie</th>
-			<th>Alk.- gehalt</th>
-			<th><a href="#" class="tip pink" id="caloriesTooltip">Kalorien</a></th>
-			<th><a href="#" class="tip pink" id="priceTooltip">Preis</a></th>
-			<th>Rezepte</th>
-			<th>Produkte</th>
+			<th><a href="#" class="tip pink" id="caloriesTooltip">Kalorien</a> &amp; <a href="#" class="tip pink" id="priceTooltip">Preis</a></th>
+			<th>Rezepte/ Produkte</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -75,11 +38,11 @@ dojo.addOnLoad(function() {
 				}
 			} ?> <a
 				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>">
-				<?php print $ingredient->name; ?></a></td>
+				<?php print $ingredient->name; ?></a><br />
+				<?php if($ingredient->getAverageAlcoholLevel()) { print $ingredient->getAverageAlcoholLevel().' %'; } else { print '0 %'; } ?></td>
 			<td><?php print $categories; ?></td>
-			<td><?php if($ingredient->getAverageAlcoholLevel()) { print $ingredient->getAverageAlcoholLevel().' %'; } else { print '0 %'; } ?></td>
-			<td><?php if($ingredient->getAverageCaloriesKcal()) { print round($ingredient->getAverageCaloriesKcal()/10); ?>&nbsp;kcal<?php } else { print 'k.A.'; } ?></td>
-			<td><?php 
+			<td><?php if($ingredient->getAverageCaloriesKcal()) { print round($ingredient->getAverageCaloriesKcal()/10); ?>&nbsp;kcal<?php } else { print 'k.A.'; } ?><br />
+			<?php 
 			if($ingredient->getAveragePricePerLitre() || $ingredient->getAveragePricePerKilogram()) {
 				if($ingredient->getAveragePricePerLitre()) {
 					print number_format($ingredient->getAveragePricePerLitre(),2,',','.').'&nbsp;€&nbsp;/&nbsp;l ';
@@ -98,9 +61,9 @@ dojo.addOnLoad(function() {
 				'controller'=>'ingredient','action'=>'get','module'=>'website',
 				'id'=>$ingredient->getUniqueName())); ?>#recipes-list">
 				<?php print $numberOfRecipes; ?> Stk.</a><?php
-			}
-			?></td>
-			<td><?php 
+			} else { ?>keine<?php } 
+			?> /<br />
+			<?php 
 			$products = Website_Model_Product::numberOfProductsByIngredientId($ingredient->id);
 			if($products>0) { ?><a href="<?php print $this->url(array(
 				'controller'=>'ingredient','action'=>'get','module'=>'website',

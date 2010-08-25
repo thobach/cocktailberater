@@ -1,47 +1,7 @@
-<p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-            	'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-		    			'pages'      => array(
-				            array(
-				                'label'      => 'Zutaten',
-				                'module'     => 'website',
-				                'controller' => 'ingredient',
-				                'pages'      => array(
-				                    array(
-				                        'label'      => $this->ingredient->name,
-				                        'module'     => 'website',
-				                        'controller' => 'ingredient',
-				                        'action'     => 'get'
-				                    )
-				                )
-				            )
-						)
-					)
-				)
-			)
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-echo $this->navigation($container)->breadcrumbs();
-?> (<a href="#recipes-list">Cocktailrezepte</a> und 
-<a href="#products-list">Produkte</a>)</p>
-<h2 class="left clear" style="margin-left: 25px; margin-top: 0;"><?php print $this->ingredient->name; ?></h2>
-<div style="margin-left: 25px;">
+<div class="content">
+<h2><?php print $this->ingredient->name; ?></h2>
+<p>Gehe direkt zu <a href="#recipes-list">Cocktailrezepten</a> oder
+<a href="#products-list">Produkten</a>.</p>
 <h3 class="clear left" style="margin-top: 0; margin-bottom: 0.5em;">Zutateninformationen (Durchschnittswerte)</h3>
 <?php if($this->ingredient->getIngredientCategories()) {?>
 <div class="attribut">Kategorie:</div>
@@ -97,7 +57,7 @@ if($products) { ?>
 <h3 class="clear left" id="products-list"><?php print $this->ingredient->name; ?> Produkte</h3>
 <div style="clear: left; text-align: left;"><?php
 if(is_array($products)){ ?>
-<ul style="list-style-type: circle; margin-left: 25px; clear: left;">
+<ul>
 <?php 
 	foreach ($products as $product) {
 		$avgPrice = $product->getAveragePrice();
@@ -115,12 +75,12 @@ if(is_array($products)){ ?>
 		number_format($avgPrice,2,',','.').' € ' : '').' bei:<br />' : ''); ?>
 		<?php if($product->getImage()){ ?>
 			<img src="<?php print $product->getImage(); ?>" 
-			style="max-width: 160px; max-height: 160px; float: right; margin-right: 25px; margin-top: 1em;" 
+			style="max-width: 160px; max-height: 160px; float: right; margin-top: 1em;" 
 			alt="<?php print $offer['title'].' ('.$offer['brand'].')'; ?>" 
 			title="<?php print $offer['title'].' ('.$offer['brand'].')'; ?>" />
 		<?php } 
 		if(count($offers)>0){ ?>
-			<ul style="margin-top: 0.2em; list-style-type: circle; margin-left: 25px; float: left;  width: 20em;">
+			<ul>
 			<?php 
 			$i=0;
 			foreach($offers as $offer){
@@ -128,7 +88,7 @@ if(is_array($products)){ ?>
 				<li style="text-align: left; <?php ($i==1 ? 'clear: left;' : 'clear: none;'); ?>">
 					<a href="<?php print $offer['shopUrl']; ?>"><?php print $offer['shop']; ?></a>
 					<?php if($offer['price']>0){ ?>
-						für <?php print number_format($offer['price'],2,',','.').' €'; ?>
+						für <?php print number_format($offer['price'],2,',','.').'&nbsp;€'; ?>
 					<?php } ?>
 				</li>
 			

@@ -1,39 +1,39 @@
-<!-- layout.html.phtml --><?php
-// for JS-fallback
-$currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('show');
+<?php
 // HTML 5 header
-echo $this->doctype('HTML5')."\n";
+print $this->doctype('HTML5')."\n";
 ?>
-<html lang="de-DE" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
+<html lang="de-DE" xmlns:fb="http://www.facebook.com/2008/fbml" 
+								xmlns:og="http://opengraphprotocol.org/schema/">
 <head>
 <meta charset=utf-8>
 <?php
-// meta
-// setting content type and character set
-//$this->headMeta()->setCharset('UTF-8');
 // title
 $title = 'Cocktail Rezepte vom cocktailberater';
 if($this->layout()->getView()->title!='') {
-	$title =  strip_tags($this->layout()->getView()->title). ' vom cocktailberater';
+	$title =  strip_tags($this->layout()->getView()->title).
+														' vom cocktailberater';
 }
-echo $this->headTitle($title)."\n";
-// meta
-// setting meta generator
-$this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_VERSION);
-// setting meta robots
+print $this->headTitle($title)."\n";
+// generator
+$this->headMeta()->setName('generator', 'cocktailberater version '.
+														APPLICATION_VERSION);
+// robots
 $this->headMeta()->setName('robots', 'index,follow');
-// setting google verification
-$this->headMeta()->setName('google-site-verification', 'L3zaslftTHZhIO01_Og9b-KvBNM7mecVfIyMMcj2IdM');
-echo $this->headMeta();
-// setting meta data for facebook
-print '<meta property="og:title" content="'.str_replace(' vom cocktailberater','',$title).'" />';
-// type
+// google verification
+$this->headMeta()->setName('google-site-verification', 
+						   'L3zaslftTHZhIO01_Og9b-KvBNM7mecVfIyMMcj2IdM');
+print $this->headMeta();
+// facebook
+print '<meta property="og:title" content="'.
+		str_replace(' vom cocktailberater','',$title).'" />';
+// open graphy type
 $type = 'website';
 if($this->placeholder('type')!='') {
 	$type =  $this->placeholder('type');
 }
 print '<meta property="og:type" content="'.$type.'" />';
-print '<meta property="og:url" content="http://www.cocktailberater.de'.urlencode($_SERVER['REQUEST_URI']).'" />';
+print '<meta property="og:url" content="http://www.cocktailberater.de'.
+		urlencode($_SERVER['REQUEST_URI']).'" />';
 print '<meta property="og:site_name" content="cocktailberater" />';
 // image
 $image = 'http://www.cocktailberater.de/img/logo.png';
@@ -43,15 +43,15 @@ if($this->placeholder('image')!='') {
 print '<meta property="og:image" content="'.$image.'" />';
 print '<meta property="fb:admins" content="563752616" />';
 print '<meta property="fb:app_id" content="111381035582024" />';
-// echo styles
-echo $this->headStyle()."\n";
+// print styles
+print $this->headStyle()."\n";
 // dojo
 $this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
 $this->dojo()->enable();
 $this->dojo()->setDjConfigOption('parseOnLoad', true);
 $this->dojo()->setDjConfigOption('baseUrl', './');
 $this->dojo()->addStyleSheetModule('dijit.themes.tundra');
-echo $this->dojo()."\n";
+print $this->dojo()."\n";
 // css style sheets
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/screen.css');
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/print.css','print');
@@ -63,26 +63,32 @@ $this->headLink(array('rel' => 'shortcut icon',
 $this->headLink(array('rel' => 'alternate',
 					  'type' => 'application/atom+xml',
 					  'title' => 'cocktailberater.de Blog - Atom',
-                      'href' => 'http://blog.cocktailberater.de/feeds/posts/default'));
+                      'href' => 
+                      'http://blog.cocktailberater.de/feeds/posts/default'));
 $this->headLink(array('rel' => 'alternate',
 					  'type' => 'application/rss+xml',
 					  'title' => 'cocktailberater.de Blog - RSS',
-                      'href' => 'http://blog.cocktailberater.de/feeds/posts/default?alt=rss'));
-// e.g. for facebook sharing
+                      'href' => 
+                 'http://blog.cocktailberater.de/feeds/posts/default?alt=rss'));
+// image for facebook sharing
 $this->headLink(array('rel' => 'image_src',
 					  'type' => 'image/jpeg',
                       'href' => $image));
-// echo css, faveicon and feeds
-echo $this->headLink()."\n";
-// echo scripts
-echo $this->headScript()."\n";
+// print links
+print $this->headLink()."\n";
+// print scripts
+print $this->headScript()."\n";
 ?>
 </head>
 <body class="tundra">
 <!-- begin: top links -->
 <div id="pre-header">
 <?php 
-$imprintLink = array('module'=>'website','controller'=>'portal','action'=>'imprint');
+$imprintLink = array(	'module'=>'website',
+						'controller'=>'portal',
+						'action'=>'imprint');
+$currentPageUrlEncoded = urlencode('http://www.cocktailberater.de'.
+							$_SERVER['REQUEST_URI']);
 ?>
 <ul class="no-bullet">
 	<li onmouseover="dojo.byId('spr_info_gray').id='spr_info';"
@@ -98,97 +104,155 @@ $imprintLink = array('module'=>'website','controller'=>'portal','action'=>'impri
 		onmouseout="dojo.byId('spr_mobile').id='spr_mobile_gray';"><a
 		href="?format=mobile"> <span class="social_sprites"
 		id="spr_mobile_gray"></span> Mobile Seite</a></li>
-	<li
-		onmouseover="dojo.byId('spr_facebook_fan_gray').id='spr_facebook_fan';"
+	<li onmouseover="dojo.byId('spr_facebook_fan_gray').id='spr_facebook_fan';"
 		onmouseout="dojo.byId('spr_facebook_fan').id='spr_facebook_fan_gray';">
 	<a href="http://www.facebook.com/cocktailberater"
 		title="auf facebook Fan werden"> <span class="social_sprites"
 		id="spr_facebook_fan_gray"></span> Fan werden </a></li>
-	<li
-		onmouseover="dojo.byId('spr_facebook_share_gray').id='spr_facebook_share';"
-		onmouseout="dojo.byId('spr_facebook_share').id='spr_facebook_share_gray';">
-	<a
-		href="http://www.facebook.com/sharer.php?u=<?php echo urlencode('http://www.cocktailberater.de'.$_SERVER['REQUEST_URI']); ?>&amp;t=<?php echo urlencode($title); ?>"
+	<li	onmouseover="dojo.byId('spr_facebook_share_gray').<?php 
+		?>id='spr_facebook_share';"
+		onmouseout="dojo.byId('spr_facebook_share').<?php 
+		?>id='spr_facebook_share_gray';">
+	<a href="http://www.facebook.com/sharer.php?u=<?php 
+			print $currentPageUrlEncoded; ?>&amp;t=<?php 
+			print urlencode($title); ?>"
 		title="auf facebook teilen"> <span class="social_sprites"
 		id="spr_facebook_share_gray"></span> Teilen</a></li>
 	<li onmouseover="dojo.byId('spr_twitter_gray').id='spr_twitter';"
 		onmouseout="dojo.byId('spr_twitter').id='spr_twitter_gray';"><a
-		href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $_SERVER['REQUEST_URI']); ?>"
+		href="http://twitter.com/home?status=<?php 
+			print urlencode($title).': '.$currentPageUrlEncoded; ?>"
 		title="auf Twitter posten"> <span class="social_sprites"
 		id="spr_twitter_gray"></span> Twittern </a></li>
-	<li class="left"><a
-		href="http://del.icio.us/post?url=<?php echo urlencode('http://www.cocktailberater.de'.$_SERVER['REQUEST_URI']); ?>&amp;title=<?php echo urlencode($title); ?>"
+	<li class="left"><a href="http://del.icio.us/post?url=<?php 
+			print $currentPageUrlEncoded; ?>&amp;title=<?php 
+			print urlencode($title); ?>"
 		title="auf delicious bookmarken"> <span class="social_sprites"
 		id="spr_delicious"></span> <span class="hide">delicious</span> </a></li>
-	<li class="left"><a
-		href="http://digg.com/submit?phase=2&amp;url=<?php echo urlencode('http://www.cocktailberater.de'.$_SERVER['REQUEST_URI']); ?>&amp;title=<?php echo urlencode($title); ?>"
+	<li class="left"><a href="http://digg.com/submit?phase=2&amp;url=<?php 
+			print $currentPageUrlEncoded; ?>&amp;title=<?php 
+			print urlencode($title); ?>"
 		title="auf Digg bookmarken"> <span class="social_sprites"
 		id="spr_digg"></span> <span class="hide">Digg</span> </a></li>
-	<li class="left"><a
-		href="http://www.stumbleupon.com/submit?url=<?php echo urlencode('http://www.cocktailberater.de'.$_SERVER['REQUEST_URI']); ?>&amp;title=<?php echo urlencode($title); ?>"
+	<li class="left"><a href="http://www.stumbleupon.com/submit?url=<?php 
+			print $currentPageUrlEncoded; ?>&amp;title=<?php 
+			print urlencode($title); ?>"
 		title="auf StumbleUpon bookmarken"> <span class="social_sprites"
 		id="spr_su"></span> <span class="hide">StumbleUpon</span> </a></li>
 </ul>
 </div>
 <!-- end: top links -->
+<!-- begin: body -->
 <div id="wrapper">
-<?php
-// show full header only start page 
-if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index' &&	
-	Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index') { 
-	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header.png\'); height: 142px;';
-	$linkStyle = 'height: 142px;';
-	$homeStyle = '';
-	$homeStyleHover = '';
-}
-// show small header on all other pages
-else { 
-	$headStyle = 'background-image: url(\''.$this->baseUrl().'/img/header-detail.png\'); height: 50px;';
-	$linkStyle = 'height: 50px;'; 
-	$homeStyle = '<span id="home_hover" style="position: relative; background: url(\''.$this->baseUrl().'/img/home.png'.'\') no-repeat; height: 40px; left: 270px; top: 6px; display: none; width: 100px;">&nbsp;</span>';
-	$homeStyleHover = ' onmouseover="document.getElementById(\'home_hover\').style.display=\'block\';"  onmouseout="document.getElementById(\'home_hover\').style.display=\'none\';"';
-}
-?>
-	<div id="header" style="<?php echo $headStyle; ?>"<?php print $homeStyleHover; ?>>
-		<h1 style="margin: 0;"><a href="<?php 
-		$mainPage = array('controller'=>'index','action'=>'index','module'=>'website');
-		print $this->url($mainPage,null,true); ?>" style="<?php echo $linkStyle;?>"><span class="hide">cocktailberater</span><?php print $homeStyle; ?></a></h1>
-	</div><!-- id:header -->
-	<div id="homepage">
 	<?php
-	$controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
-	$controllersForBreadcrumb = array('portal','ingredient','product','manufacturer');
-	if(in_array($controller, $controllersForBreadcrumb)) { ?>
-		<p class="breadcrumb">
-		<?php if($this->format=='html') { ?>Sie sind hier: <?php }
-		$portalNavigationConfig = new Zend_Config_Ini(APPLICATION_PATH.'/modules/website/config/portal-navigation.ini','nav');
-		$container = new Zend_Navigation($portalNavigationConfig);
-		if($this->format=='html') {
-			echo str_replace('">','?format=html">',$this->navigation($container)->breadcrumbs()->setSeparator(' &gt;'.PHP_EOL));
-		} else {
-			echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs()->setSeparator(' &gt;'.PHP_EOL));
-		}
-		if($this->format=='mobile') { ?> <a href="#navigation">[zur Navigation]</a><?php } ?></p>
-	<?php } ?>
-	<div id="content"><?php echo $this->layout()->content ?></div>
-	<?php 
-	// render menu for portal pages
-	if(in_array($controller, $controllersForBreadcrumb)) {
-		$community = $this->navigation()->findOneByLabel('Portal');
-		$options = array(
-		    'ulClass' => 'textLeft no-bullet-html'
-		);
-		echo '<div class="sub_nav">'.$this->navigation()->menu()->renderMenu($community, $options).'</div>';
+	// show full header only start page
+	// get action and controller
+	$currentAction = Zend_Controller_Front::getInstance()->
+						getRequest()->getActionName();
+	$currentController = Zend_Controller_Front::getInstance()->
+							getRequest()->getControllerName();
+	// check if on start page -> show big header
+	if($currentAction == 'index' && $currentController == 'index') { 
+		$headStyle = 'background-image: url(\''.$this->baseUrl().
+					 '/img/header.png\'); height: 142px;';
+		$linkStyle = 'height: 142px;';
+		$homeStyle = '';
+		$homeStyleHover = '';
 	}
+	// show small header on all other pages
+	else { 
+		$headStyle = 'background-image: url(\''.$this->baseUrl().
+					 '/img/header-detail.png\'); height: 50px;';
+		$linkStyle = 'height: 50px;'; 
+		$homeStyle = '<span id="home_hover" style="position: relative; '.
+					 'background: url(\''.$this->baseUrl().'/img/home.png'.
+					 '\') no-repeat; height: 40px; left: 270px; top: 6px; '.
+					 'display: none; width: 100px;">&nbsp;</span>';
+		$homeStyleHover = ' onmouseover="document.getElementById'.
+						  '(\'home_hover\').style.display=\'block\';" '.
+						  'onmouseout="document.getElementById'.
+						  '(\'home_hover\').style.display=\'none\';"';
+	}
+	$mainPage = array(	'controller'=>'index',
+						'action'=>'index',
+						'module'=>'website');
 	?>
-	</div><!-- id:homepage -->
+	<div id="header" style="<?php print $headStyle; ?>"<?php 
+		print $homeStyleHover; ?>>
+		<h1 style="margin: 0;"><a 
+			href="<?php print $this->url($mainPage,null,true); ?>" 
+			style="<?php print $linkStyle;?>"><span 
+			class="hide">cocktailberater</span><?php 
+			print $homeStyle; ?></a></h1>
+	</div>
+	<div id="homepage">
+		<?php
+		$controllersForBreadcrumb = array(	'portal','ingredient',
+											'ingredient-category',
+											'product','manufacturer');
+		if(in_array($currentController, $controllersForBreadcrumb)) {
+		?>
+		<p class="breadcrumb">
+			<?php
+			// add prefix to breadcrumb on html representation
+			if($this->format=='html') { 
+				?>Sie sind hier: <?php 
+			} 
+			// load whole navigation structure for breadcrumb 
+			// and subset for menu
+			$portalNavigationConfig = new Zend_Config_Ini(APPLICATION_PATH.
+						'/modules/website/config/portal-navigation.ini','nav');
+			$portalNoMenuConfig = new Zend_Config_Ini(APPLICATION_PATH.
+						'/modules/website/config/portal-no-menu.ini','nav');
+			$breadCrumbContainer = new Zend_Navigation($portalNavigationConfig);
+			$menuContainer = $breadCrumbContainer;
+			$breadCrumbContainer->addPages($portalNoMenuConfig);
+			// print breadcrumb with specific resource format
+			$breadcrumb = $this->navigation($breadCrumbContainer)->
+							breadcrumbs()->setSeparator(' &gt;'.PHP_EOL);
+			if($this->format=='html') {
+				print str_replace('">','?format=html">',$breadcrumb);
+			} else {
+				print str_replace('">','?format=mobile">',$breadcrumb);
+			}
+			// direct link to navigation at bottom on mobile site
+			if($this->format=='mobile') { ?>
+				<a href="#navigation">[zur Navigation]</a>
+			<?php } ?>
+		</p>
+		<?php 
+		}
+		?>
+		<div id="content"><?php print $this->layout()->content ?></div>
+		<?php 
+		// render menu for $controllersForBreadcrumb pages
+		if(in_array($currentController, $controllersForBreadcrumb)) {
+			// select subpart of menu container to render
+			$communityPages = $this->navigation($menuContainer)->
+							findOneByLabel('Portal');
+			$menuOptions = array('ulClass' => 'textLeft no-bullet-html');
+			?>
+			<div class="sub_nav">
+				<?php 
+				print $this->navigation($menuContainer)->menu()->
+									renderMenu($communityPages, $menuOptions);
+				?>
+			</div>
+			<?php 
+		}
+		?>
+	</div>
+	<!-- insert clearing div to make border appear on the bottom -->
 	<div class="clear"></div>
-</div><!-- id:wrapper -->
+</div>
+<!-- end: body -->
 <?php if(APPLICATION_ENV=='production') { ?>
 <!-- Piwik -->
 <script type="text/javascript">
-	var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.thobach.de/" : "http://stats.thobach.de/");
-	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+	var pkBaseURL = (("https:" == document.location.protocol) ? <?php 
+		?>"https://stats.thobach.de/" : "http://stats.thobach.de/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' <?php 
+		?>type='text/javascript'%3E%3C/script%3E"));
 	try {
 		var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
 		piwikTracker.trackPageView();
@@ -203,3 +267,4 @@ else {
 <?php } ?>
 </body>
 </html>
+<!-- layout.html.phtml -->

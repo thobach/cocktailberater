@@ -2,51 +2,11 @@
 // open graph type
 $this->placeholder('type')->set('product');
 ?>
-<p class="left textLeft" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-            	'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-				    	'pages'      => array(
-				            array(
-				                'label'      => 'Produkte',
-				                'module'     => 'website',
-				                'controller' => 'product',
-				                'pages'      => array(
-				                    array(
-				                        'label'      => $this->product->name.' ('.$this->product->getManufacturer()->name.')',
-				                        'module'     => 'website',
-				                        'controller' => 'product',
-				                        'action'     => 'get'
-				                    )
-				                )
-				            )
-						)
-					)
-				)
-			)
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-echo $this->navigation($container)->breadcrumbs();
-?> (<a href="#recipes-list">Cocktailrezepte</a> und 
-<a href="#offer-list">Anbieter</a>)</p>
-<h2 class="left clear" style="margin-left: 25px; margin-top: 0;"><?php print $this->product->name.' ('.$this->product->getManufacturer()->name.')'; ?></h2>
-<div style="margin-left: 25px;">
-<h3 class="clear left" style="margin-top: 0; margin-bottom: 0.5em;">Produkt-Informationen</h3>
+<div class="content">
+<h2><?php print $this->product->name.' ('.$this->product->getManufacturer()->name.')'; ?></h2>
+<p>Gehe direkt zu <a href="#recipes-list">Cocktailrezepte</a> und 
+<a href="#offer-list">Anbieter</a>.</p>
+<h3>Produkt-Informationen</h3>
 <?php if($this->product->getImage()) { $this->placeholder('image')->set($this->product->getImage()); ?><img 
 	src="<?php echo $this->product->getImage(); ?>"
 	alt="<?php
@@ -89,7 +49,7 @@ echo $this->navigation($container)->breadcrumbs();
 <?php } ?>
 <?php if($this->product->getRecipes()){ ?>
 <h3 class="clear left" style="margin-bottom: 1.7em;" id="recipes-list">Cocktailrezepte mit <?php print $this->product->name; ?></h3>
-<ul class="clear">
+<ul class="clear no-bullet">
 <?php foreach ($this->product->getRecipes() as $recipe){ ?>
 	<li style="float: left; clear: none;"><?php $this->cocktailPreview($recipe)?></li>
 	<?php } ?>
@@ -97,7 +57,7 @@ echo $this->navigation($container)->breadcrumbs();
 <?php } ?>
 <?php if($this->product->getOffers()) { ?>
 <h3 class="clear left" id="offer-list"><?php print $this->ingredient->name; ?> Anbieter</h3>
-<ul style="clear: left; margin-top: 0.2em; list-style-type: circle; margin-left: 25px;">
+<ul>
 <?php
 $i=0;
 foreach ($this->product->getOffers() as $offer) {
