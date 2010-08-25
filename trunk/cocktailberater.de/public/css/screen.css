@@ -82,7 +82,7 @@
 }
 
 .full-width, ul.full-width, p.full-width, div.full-width {
-	width: 36em;	
+	width: 35em;	
 }
 
 div#content > div.full-width {
@@ -135,6 +135,7 @@ h2 {
 	margin-top: 0.3em;
 	margin-bottom: 0.2em;
 	clear: both;
+	line-height: 1.4em;
 }
 
 h3 {
@@ -270,7 +271,15 @@ div#pre-header ul li {
 
 div#pre-header a {
 	text-decoration: none;
-	vertical-align: top;
+}
+
+div#pre-header a span {
+	display: inline-block;
+	margin-top: 0.25em;
+}
+
+div#pre-header a span.hide {
+	display: none;
 }
 
 div#pre-header ul li.left {
@@ -297,6 +306,26 @@ div.sub_nav {
 	margin-top: 1em;
 	width:130px;
 	margin-left: 1em;	
+}
+
+li.active a, li.active ul li.active a, li.active ul li.active a:visited, li.active ul li.active a:link {
+	color: #cf0060;
+}
+
+li.active ul li a:link {
+	color: #54616E;
+}
+
+li.active ul li a:visited {
+	color: #639;
+}
+
+li.active ul li a:active {
+	color: #cf0060;
+}
+
+li.active ul li a:hover {
+	color: #cf0060;
 }
 
 div.browse {
@@ -339,7 +368,7 @@ div.content {
 	text-align: left;
 	float: right;
 	width: 425px;
-	margin-top: 1em;
+	margin-top: 0.5em;
 	margin-right: 1em;
 }
 
@@ -479,7 +508,7 @@ div.wert p {
 .wert, dd {
 	clear: none;
 	float: left;
-	width: 23em;
+	width: 21em;
 	text-align: left;
 	margin: 2px;
 	padding: 1px;

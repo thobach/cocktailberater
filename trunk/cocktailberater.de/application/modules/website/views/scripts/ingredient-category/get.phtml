@@ -1,46 +1,5 @@
-<p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-	    'pages'      => array(
-	            array(
-	                'label'      => 'Portal',
-	                'module'     => 'website',
-	                'controller' => 'portal',
-	            	'action'	 => 'index',
-	            	'pages'      => array(
-			            array(
-			                'label'      => 'Barkunde',
-			                'module'     => 'website',
-			                'controller' => 'portal',
-			            	'action'	 => 'barkunde',
-					    	'pages'      => array(
-					            array(
-					                'label'      => 'Zutatenkategorien',
-					                'module'     => 'website',
-					                'controller' => 'ingredient-category',
-					                'pages'      => array(
-					                    array(
-					                        'label'      => $this->ingredientCategory->name,
-					                        'module'     => 'website',
-					                        'controller' => 'ingredient-category',
-					                        'action'     => 'get'
-					                    )
-					                )
-					            )
-						)
-					)
-				)
-			)
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-echo $this->navigation($container)->breadcrumbs();
-?></p>
-<div style="margin-left: 25px; margin-right: 25px;">
-<h2 class="clear textLeft" style="margin-top: 0;"><?php print $this->ingredientCategory->name; ?></h2>
+<div class="content">
+<h2><?php print $this->ingredientCategory->name; ?></h2>
 <?php 
 $this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
 $this->dojo()->enable()->requireModule('dijit.Tooltip');

@@ -160,7 +160,11 @@ class Website_RecipeController extends Wb_Controller_RestController {
 		
 		$this->view->alternatives = $this->view->recipe->getAlternatives();
 		// html page title
-		$this->view->title = $this->view->recipe->name.' Cocktailrezept' ;
+		if($this->view->recipe->isOriginal=='1'){
+			$this->view->title = 'Original '. $this->view->recipe->name.' Cocktailrezept' ;
+		} else {
+			$this->view->title = $this->view->recipe->name.' Cocktailrezept' ;
+		}
 		// for feed.phtml -> rss or atom
 		$this->view->format = $this->_getParam('format','html');
 	}

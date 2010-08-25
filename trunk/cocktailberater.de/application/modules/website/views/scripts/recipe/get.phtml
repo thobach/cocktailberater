@@ -667,7 +667,7 @@ dojo.addOnLoad(function(){
 </div>
 <?php if($gesamt) { ?>
 	<div class="attribut">Rezept- alternativen:</div>
-	<div class="wert" style="width: 36em;">
+	<div class="wert full-width">
 	<ul class="nolist no-bullet">
 	<?php
 	foreach ($alternatives as $alternative) { ?>
@@ -679,7 +679,7 @@ dojo.addOnLoad(function(){
 <div id="video" style="display: none;">
 	<a id="videoAnchor"></a>
 	<div class="attribut">Videoanleitung:</div>
-	<div class="wert" style="width: 36em;"><?php
+	<div class="wert full-width"><?php
 	if ($videos) {
 		$i = 0 ;
 		foreach ( $videos as $video ) {
@@ -715,7 +715,7 @@ function showStatistics() {
 }
 <?php $this->headScript()->captureEnd(); ?>
 <div class="attribut" id="statistics">Statistiken:</div>
-<div class="wert" style="width: 36em;"><p>
+<div class="wert full-width"><p>
 	Dieses Rezept wurde insgesamt <?php
 	$totalViews = 0; 
 	$htmlViews = 0;

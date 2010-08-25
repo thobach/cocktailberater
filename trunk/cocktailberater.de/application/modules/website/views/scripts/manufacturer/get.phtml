@@ -1,48 +1,8 @@
-<p class="left" style="margin: 1em 0 1em 25px; font-size: 0.9em;">Sie sind hier: <?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-            	'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-				    	'pages'      => array(
-				            array(
-				                'label'      => 'Hersteller',
-				                'module'     => 'website',
-				                'controller' => 'manufacturer',
-				                'pages'      => array(
-				                    array(
-				                        'label'      => $this->manufacturer->name,
-				                        'module'     => 'website',
-				                        'controller' => 'manufacturer',
-				                        'action'     => 'get'
-				                    )
-				                )
-				            )
-						)
-					)
-				)
-			)
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-echo $this->navigation($container)->breadcrumbs();
-?> (<a href="#recipes-list">Cocktailrezepte</a> und 
-<a href="#products-list">Produkte</a>)</p>
-<h2 class="left clear" style="margin-left: 25px; margin-top: 0;"><?php print $this->manufacturer->name; ?></h2>
-<div style="margin-left: 25px;">
-<h3 class="clear left" style="margin-top: 0; margin-bottom: 0.5em;">Hersteller/Marken-Informationen</h3>
+<div class="content">
+<h2><?php print $this->manufacturer->name; ?></h2>
+<p>Gehe direkt zu <a href="#recipes-list">Cocktailrezepte</a> und 
+<a href="#products-list">Produkte</a></p>
+<h3>Hersteller/Marken-Informationen</h3>
 <?php if($this->manufacturer->country){ ?>
 <div class="attribut">Land:</div>
 <div class="wert"><?php print $this->manufacturer->country; ?></div>
@@ -51,8 +11,8 @@ if($this->manufacturer->website){ ?>
 <div class="attribut">Webseite:</div>
 <div class="wert"><?php print '<a href="'.$this->manufacturer->website.'">'.$this->manufacturer->website.'</a>'; ?></div>
 <?php } ?>
-<h3 class="clear left" id="products-list" style="margin-bottom: 0.7em;"><?php print $this->manufacturer->name; ?> Produkte</h3>
-<ul class="clear">
+<h3 id="products-list"><?php print $this->manufacturer->name; ?> Produkte</h3>
+<ul class="clear no-bullet">
 <?php
 if(is_array($this->manufacturer->getProducts())){
 	foreach ($this->manufacturer->getProducts() as $product){ ?>
@@ -78,8 +38,8 @@ if(is_array($this->manufacturer->getProducts())){
 } ?>
 </ul>
 <?php if($this->manufacturer->getRecipes()){ ?>
-<h3 class="clear left" style="margin-bottom: 1.7em;" id="recipes-list">Cocktailrezepte mit Zutaten von <?php print $this->manufacturer->name; ?></h3>
-<ul class="clear">
+<h3 id="recipes-list">Cocktailrezepte mit Zutaten von <?php print $this->manufacturer->name; ?></h3>
+<ul class="clear no-bullet">
 <?php foreach ($this->manufacturer->getRecipes() as $recipe){ ?>
 	<li style="float: left; clear: none;"><?php $this->cocktailPreview($recipe)?></li>
 	<?php } ?>

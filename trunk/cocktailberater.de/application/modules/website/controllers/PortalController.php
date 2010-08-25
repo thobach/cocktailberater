@@ -117,7 +117,7 @@ class Website_PortalController extends Zend_Controller_Action {
 	
 	public function authorsAction () {
 		// html page title
-		$this->view->title = 'Cocktails nach Autor und Quelle/Buch';
+		$this->view->title = 'Original Cocktail Rezepte nach Autor und Quelle/Buch';
 		// get recipes by author
 		$recipes = array();
 		$recipes['schumann'] = Website_Model_Recipe::searchByName('%nach Schumann');
