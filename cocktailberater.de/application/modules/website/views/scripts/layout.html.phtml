@@ -10,12 +10,12 @@ print $this->doctype('HTML5')."\n";
 $title = 'Cocktail Rezepte vom cocktailberater';
 if($this->layout()->getView()->title!='') {
 	$title =  strip_tags($this->layout()->getView()->title).
-														' vom cocktailberater';
+				' vom cocktailberater';
 }
 print $this->headTitle($title)."\n";
 // generator
 $this->headMeta()->setName('generator', 'cocktailberater version '.
-														APPLICATION_VERSION);
+							APPLICATION_VERSION);
 // robots
 $this->headMeta()->setName('robots', 'index,follow');
 // google verification
@@ -172,14 +172,11 @@ $currentPageUrlEncoded = urlencode('http://www.cocktailberater.de'.
 						  'onmouseout="document.getElementById'.
 						  '(\'home_hover\').style.display=\'none\';"';
 	}
-	$mainPage = array(	'controller'=>'index',
-						'action'=>'index',
-						'module'=>'website');
 	?>
 	<div id="header" style="<?php print $headStyle; ?>"<?php 
 		print $homeStyleHover; ?>>
 		<h1 style="margin: 0;"><a 
-			href="<?php print $this->url($mainPage,null,true); ?>" 
+			href="/" 
 			style="<?php print $linkStyle;?>"><span 
 			class="hide">cocktailberater</span><?php 
 			print $homeStyle; ?></a></h1>
