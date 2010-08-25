@@ -2,8 +2,7 @@
 // HTML 5 header
 print $this->doctype('HTML5')."\n";
 ?>
-<html lang="de-DE" version="HTML+RDFa 1.1" 
-	xmlns:og="http://opengraphprotocol.org/schema/">
+<html lang="de-DE">
 <head>
 <meta charset="UTF-8">
 <?php
@@ -23,26 +22,26 @@ $this->headMeta()->setName('robots', 'index,follow');
 $this->headMeta()->setName('google-site-verification', 
 						   'L3zaslftTHZhIO01_Og9b-KvBNM7mecVfIyMMcj2IdM');
 print $this->headMeta();
-// facebook
-print '<meta property="og:title" content="'.
+// facebook (using name instead of property and no namespaces for now)
+print '<meta name="og:title" content="'.
 		str_replace(' vom cocktailberater','',$title).'" />';
 // open graphy type
 $type = 'website';
 if($this->placeholder('type')!='') {
 	$type =  $this->placeholder('type');
 }
-print '<meta property="og:type" content="'.$type.'" />';
-print '<meta property="og:url" content="http://www.cocktailberater.de'.
+print '<meta name="og:type" content="'.$type.'" />';
+print '<meta name="og:url" content="http://www.cocktailberater.de'.
 		urlencode($_SERVER['REQUEST_URI']).'" />';
-print '<meta property="og:site_name" content="cocktailberater" />';
+print '<meta name="og:site_name" content="cocktailberater" />';
 // image
 $image = 'http://www.cocktailberater.de/img/logo.png';
 if($this->placeholder('image')!='') {
 	$image =  $this->placeholder('image');
 }
-print '<meta property="og:image" content="'.$image.'" />';
-print '<meta property="fb:admins" content="563752616" profile="http://www.facebook.com/2008/fbml" />';
-print '<meta property="fb:app_id" content="111381035582024" profile="http://www.facebook.com/2008/fbml" />';
+print '<meta name="og:image" content="'.$image.'" />';
+print '<meta name="fb:admins" content="563752616" />';
+print '<meta name="fb:app_id" content="111381035582024" />';
 // print styles
 print $this->headStyle()."\n";
 // dojo
