@@ -121,7 +121,7 @@ $currentPageUrlEncoded = urlencode('http://www.cocktailberater.de'.
 	<li onmouseover="dojo.byId('spr_twitter_gray').id='spr_twitter';"
 		onmouseout="dojo.byId('spr_twitter').id='spr_twitter_gray';"><a
 		href="http://twitter.com/home?status=<?php 
-			print urlencode($title).': '.$currentPageUrlEncoded; ?>"
+			print urlencode($title).':+'.$currentPageUrlEncoded; ?>"
 		title="auf Twitter posten"> <span class="social_sprites"
 		id="spr_twitter_gray"></span> Twittern </a></li>
 	<li class="left"><a href="http://del.icio.us/post?url=<?php 
