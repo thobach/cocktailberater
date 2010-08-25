@@ -45,6 +45,15 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/xml',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'));
 ?>
 <div itemscope itemtype="http://www.data-vocabulary.org/Recipe">
+<h2 class="textLeft" style="margin-left: 25px;" itemprop="name"><?php
+print str_replace ( '\\', '', $recipe->name ) ;
+if($recipe->isOriginal){
+	print  ' (Originalrezept)';
+}
+if(!$recipe->isAlcoholic()){
+	print  ' (alkoholfrei)';
+}
+?></h2>
 <!-- class="right" -->
 <div class="right clear">
 <?php
@@ -135,16 +144,6 @@ style="margin-left: 0.4em; margin-top: 0.5em; margin-right: 1em; margin-bottom: 
 </div>
 <!-- end of class="right" -->
 <div style="margin-left: 25px; margin-top: 15px; clear: none;">
-<div class="attribut">Name:</div>
-<div class="wert" itemprop="name"><?php
-print str_replace ( '\\', '', $recipe->name ) ;
-if($recipe->isOriginal){
-	print  ' (original)';
-}
-if(!$recipe->isAlcoholic()){
-	print  ' (alkoholfrei)';
-}
-?></div>
 <?php if($recipe->description){?><div class="attribut">Beschreibung:</div>
 <div class="wert" itemprop="summary"><p><?php
 print str_replace("\n",'</p><p>',$recipe->description);
