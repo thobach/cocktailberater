@@ -3,7 +3,6 @@
 print $this->doctype('HTML5')."\n";
 ?>
 <html lang="de-DE" version="HTML+RDFa 1.1" 
-	xmlns:fb="http://www.facebook.com/2008/fbml" 
 	xmlns:og="http://opengraphprotocol.org/schema/">
 <head>
 <meta charset="UTF-8">
@@ -42,8 +41,8 @@ if($this->placeholder('image')!='') {
 	$image =  $this->placeholder('image');
 }
 print '<meta property="og:image" content="'.$image.'" />';
-print '<meta property="fb:admins" content="563752616" />';
-print '<meta property="fb:app_id" content="111381035582024" />';
+print '<meta property="fb:admins" content="563752616" profile="http://www.facebook.com/2008/fbml" />';
+print '<meta property="fb:app_id" content="111381035582024" profile="http://www.facebook.com/2008/fbml" />';
 // print styles
 print $this->headStyle()."\n";
 // dojo
