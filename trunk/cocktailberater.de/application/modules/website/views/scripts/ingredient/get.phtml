@@ -57,30 +57,15 @@ if($products) { ?>
 <h3 class="clear left" id="products-list"><?php print $this->ingredient->name; ?> Produkte</h3>
 <div style="clear: left; text-align: left;"><?php
 if(is_array($products)){ ?>
-<ul>
+<ul class="no-bullet" style="margin-left: 0">
 <?php 
 	foreach ($products as $product) {
 		$avgPrice = $product->getAveragePrice();
 		$offers = $product->getOffers();
-		?>
-	<li style="padding-top: 0.7em;">
-		<a href="<?php print $this->url(array('controller'=>'product',
-		'id'=>$product->getUniqueName())); ?>"><?php print $product->name; ?></a>
-		<?php if($product->getManufacturer()){ ?>von <a href="<?php 
-		print $this->url(array('controller'=>'manufacturer',
-		'id'=>$product->getManufacturer()->getUniqueName())); ?>"><?php 
-		print $product->getManufacturer()->name; ?></a><?php } ?> 
-		(<?php print str_replace('.',',',round($product->size,2)).' '.
-		$product->unit;?>) <?php  print (count($offers)>0 ? 'gibt es '.($avgPrice ? 'für durchschnittlich '.
-		number_format($avgPrice,2,',','.').' € ' : '').' bei:<br />' : ''); ?>
-		<?php if($product->getImage()){ ?>
-			<img src="<?php print $product->getImage(); ?>" 
-			style="max-width: 160px; max-height: 160px; float: right; margin-top: 1em;" 
-			alt="<?php print $offer['title'].' ('.$offer['brand'].')'; ?>" 
-			title="<?php print $offer['title'].' ('.$offer['brand'].')'; ?>" />
-		<?php } 
+		$this->productPreview($product);  
 		if(count($offers)>0){ ?>
-			<ul>
+			<h4 style="margin-left: 93px; margin-top: 0;">Anbieter</h4>
+			<ul style="margin-left: 108px;" class="abstand_unten">
 			<?php 
 			$i=0;
 			foreach($offers as $offer){
@@ -90,13 +75,11 @@ if(is_array($products)){ ?>
 					<?php if($offer['price']>0){ ?>
 						für <?php print number_format($offer['price'],2,',','.').'&nbsp;€'; ?>
 					<?php } ?>
-				</li>
-			
-			<?php } ?>
-			</ul>
-		<?php } ?>
-	</li>
-	<?php } ?>
+				</li><?php 
+			} ?>
+			</ul><?php 
+		} ?><hr style="width: 33em;" /><?php 
+	} ?>
 </ul>
 <?php } ?>
 </div>

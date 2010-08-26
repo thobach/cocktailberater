@@ -1,48 +1,8 @@
-<p class="left textLeft" style="margin: 1em 0 1em 0; font-size: 0.9em;"><?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-            	'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-				    	'pages'      => array(
-				            array(
-				                'label'      => 'Produkte',
-				                'module'     => 'website',
-				                'controller' => 'product',
-				                'pages'      => array(
-				                    array(
-				                        'label'      => $this->product->name.' ('.$this->product->getManufacturer()->name.')',
-				                        'module'     => 'website',
-				                        'controller' => 'product',
-				                        'action'     => 'get'
-				                    )
-				                )
-				            )
-						)
-					)
-				)
-			)
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?> (<a href="#recipes-list">Cocktailrezepte</a> und 
-<a href="#offer-list">Anbieter</a>) <a href="#navigation">[zur Navigation]</a></p>
 <div class="content">
-<h2 class="left clear"><?php print $this->product->name.' ('.$this->product->getManufacturer()->name.')'; ?></h2>
-<h3 class="clear left" style="margin-top: 0; margin-bottom: 0.5em;">Produkt-Informationen</h3>
+<h2><?php print $this->product->name.' ('.$this->product->getManufacturer()->name.')'; ?></h2>
+<p>Gehe direkt zu <a href="#recipes-list">Cocktailrezepten</a> und 
+<a href="#offer-list">Anbietern</a></p>
+<h3>Produkt-Informationen</h3>
 <?php if($this->product->getImage()) { ?><img 
 	src="<?php echo $this->product->getImage(); ?>"
 	alt="<?php
@@ -84,16 +44,16 @@ echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcru
 <div class="wert"><?php print number_format($this->product->getAveragePrice(),2,',','.'); ?> Euro</div>
 <?php } ?>
 <?php if($this->product->getRecipes()){ ?>
-<h3 class="clear left" style="margin-bottom: 1.7em;" id="recipes-list">Cocktailrezepte mit <?php print $this->product->name; ?></h3>
-<ul class="clear noBullet">
+<h3 id="recipes-list">Cocktailrezepte mit <?php print $this->product->name; ?></h3>
+<ul class="no-bullet">
 <?php foreach ($this->product->getRecipes() as $recipe){ ?>
 	<li style="float: left; clear: none;"><?php $this->cocktailPreview($recipe)?></li>
 	<?php } ?>
 </ul>
 <?php } ?>
 <?php if($this->product->getOffers()) { ?>
-<h3 class="clear left" id="offer-list"><?php print $this->ingredient->name; ?> Anbieter</h3>
-<ul style="clear: left; margin-top: 0.2em; margin-left: 1.5em; list-style-position: outside;">
+<h3 id="offer-list"><?php print $this->ingredient->name; ?> Anbieter</h3>
+<ul class="no-bullet">
 <?php
 $i=0;
 foreach ($this->product->getOffers() as $offer) {

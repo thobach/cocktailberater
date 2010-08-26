@@ -12,34 +12,17 @@ if($this->manufacturer->website){ ?>
 <div class="wert"><?php print '<a href="'.$this->manufacturer->website.'">'.$this->manufacturer->website.'</a>'; ?></div>
 <?php } ?>
 <h3 id="products-list"><?php print $this->manufacturer->name; ?> Produkte</h3>
-<ul class="clear no-bullet">
+<ul class="no-bullet" style="margin-left: 0;">
 <?php
 if(is_array($this->manufacturer->getProducts())){
-	foreach ($this->manufacturer->getProducts() as $product){ ?>
-	<li
-		style="text-align: center; float: left; clear: none; width: 130px; height: 130px; padding-right: 1em; padding-bottom: 1em;"><a
-		href="<?php echo $this->url(
-		array('controller'=>'product',
-		'action'=>'get',
-		'module'=>'website',
-		'id'=>$product->getUniqueName())); ?>"><span
-		style="width: 80px; height: 80px;"><img
-		src="<?php echo ($product->getImage() ? $product->getImage() : '/img/bottle.png'); ?>"
-		style="max-width: 80px; max-height: 80px;"
-		alt="<?php echo $this->manufacturer->name.' '.$product->name; ?>" /></span><br />
-		<?php echo $product->name; ?></a><br />(<a
-		href="<?php echo $this->url(
-		array('controller'=>'ingredient',
-		'action'=>'get',
-		'module'=>'website',
-		'id'=>$product->getIngredient()->getUniqueName())); ?>"><?php
-		echo $product->getIngredient()->name; ?></a>)</li>
-		<?php } 
+	foreach ($this->manufacturer->getProducts() as $product){ 
+		$this->productPreview($product);
+	} 
 } ?>
 </ul>
 <?php if($this->manufacturer->getRecipes()){ ?>
 <h3 id="recipes-list">Cocktailrezepte mit Zutaten von <?php print $this->manufacturer->name; ?></h3>
-<ul class="clear no-bullet">
+<ul class="no-bullet abstand_oben">
 <?php foreach ($this->manufacturer->getRecipes() as $recipe){ ?>
 	<li style="float: left; clear: none;"><?php $this->cocktailPreview($recipe)?></li>
 	<?php } ?>

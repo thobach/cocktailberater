@@ -19,44 +19,44 @@ $this->placeholder('type')->set('product');
 <?php } ?>
 <?php if($this->product->getIngredient()->name){ ?>
 <div class="attribut">Zutat:</div>
-<div class="wert"><a href="<?php print $this->url(array('id'=>$this->product->getIngredient()->getUniqueName(),'controller'=>'ingredient')); ?>"><?php print $this->product->getIngredient()->name; ?></a></div>
+<div class="wert" style="width: 14em;"><a href="<?php print $this->url(array('id'=>$this->product->getIngredient()->getUniqueName(),'controller'=>'ingredient')); ?>"><?php print $this->product->getIngredient()->name; ?></a></div>
 <?php } ?>
 <?php if($this->product->getManufacturer()->name){ ?>
 <div class="attribut">Marke/Hersteller:</div>
-<div class="wert"><a href="<?php print $this->url(array('id'=>$this->product->getManufacturer()->getUniqueName(),'controller'=>'manufacturer')); ?>"><?php print $this->product->getManufacturer()->name; ?></a></div>
+<div class="wert" style="width: 14em;"><a href="<?php print $this->url(array('id'=>$this->product->getManufacturer()->getUniqueName(),'controller'=>'manufacturer')); ?>"><?php print $this->product->getManufacturer()->name; ?></a></div>
 <?php } ?>
 <div class="attribut">Göße:</div>
-<div class="wert"><?php print number_format($this->product->size,2,',','.'); ?> <?php print $this->product->unit; ?></div>
+<div class="wert" style="width: 14em;"><?php print number_format($this->product->size,2,',','.'); ?> <?php print $this->product->unit; ?></div>
 <?php if($this->product->alcoholLevel){ ?>
 <div class="attribut">Alkoholgehalt:</div>
-<div class="wert"><?php print $this->product->alcoholLevel; ?>%</div>
+<div class="wert" style="width: 14em;"><?php print $this->product->alcoholLevel; ?>%</div>
 <?php } ?>
 <?php if($this->product->caloriesKcal){ ?>
 <div class="attribut">Kalorien:</div>
-<div class="wert"><?php print $this->product->caloriesKcal; ?> kcal / <?php print number_format($this->product->size,2,',','.'); ?> <?php print $this->product->unit; ?></div>
+<div class="wert" style="width: 14em;"><?php print $this->product->caloriesKcal; ?> kcal / <?php print number_format($this->product->size,2,',','.'); ?> <?php print $this->product->unit; ?></div>
 <?php } ?>
 <?php if($this->product->fruitConcentration){ ?>
 <div class="attribut">Fruchtgehalt:</div>
-<div class="wert"><?php print $this->product->fruitConcentration; ?> %</div>
+<div class="wert" style="width: 14em;"><?php print $this->product->fruitConcentration; ?> %</div>
 <?php } ?>
 <?php if($this->product->color){ ?>
 <div class="attribut">Farbe:</div>
-<div class="wert"><?php print $this->product->color; ?></div>
+<div class="wert" style="width: 14em;"><?php print $this->product->color; ?></div>
 <?php } ?>
 <?php if($this->product->getAveragePrice()){ ?>
 <div class="attribut">Preis:</div>
-<div class="wert"><?php print number_format($this->product->getAveragePrice(),2,',','.'); ?> Euro</div>
+<div class="wert" style="width: 14em;"><?php print number_format($this->product->getAveragePrice(),2,',','.'); ?> Euro</div>
 <?php } ?>
 <?php if($this->product->getRecipes()){ ?>
-<h3 class="clear left" style="margin-bottom: 1.7em;" id="recipes-list">Cocktailrezepte mit <?php print $this->product->name; ?></h3>
-<ul class="clear no-bullet">
+<h3 id="recipes-list">Cocktailrezepte mit <?php print $this->product->name; ?></h3>
+<ul class="no-bullet abstand_oben">
 <?php foreach ($this->product->getRecipes() as $recipe){ ?>
 	<li style="float: left; clear: none;"><?php $this->cocktailPreview($recipe)?></li>
 	<?php } ?>
 </ul>
 <?php } ?>
 <?php if($this->product->getOffers()) { ?>
-<h3 class="clear left" id="offer-list"><?php print $this->ingredient->name; ?> Anbieter</h3>
+<h3 id="offer-list"><?php print $this->ingredient->name; ?> Anbieter</h3>
 <ul>
 <?php
 $i=0;
