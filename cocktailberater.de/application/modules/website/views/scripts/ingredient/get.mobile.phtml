@@ -1,9 +1,8 @@
 <div class="content">
-<p><a href="#recipes-list">Cocktailrezepte</a> und 
-<a href="#products-list">Produkte</a></p>
-<h2 class="left clear" style="margin-top: 0;"><?php print $this->ingredient->name; ?></h2>
-<div style="">
-<h3 class="clear left" style="margin-top: 0; margin-bottom: 0.5em;">Zutateninformationen (Durchschnittswerte)</h3>
+<h2><?php print $this->ingredient->name; ?></h2>
+<p>[Gehe direkt zu <a href="#recipes-list">Cocktailrezepten</a> und 
+<a href="#products-list">Produkten</a> ]</p>
+<h3>Zutateninformationen (Durchschnittswerte)</h3>
 <?php if($this->ingredient->getIngredientCategories()) {?>
 <div class="attribut">Kategorie:</div>
 <div class="wert"><?php
@@ -102,5 +101,4 @@ if(is_array($products)){ ?>
 <?php } ?>
 </div>
 <?php }  ?>
-</div>
 </div>

@@ -2,43 +2,54 @@
 $format = Zend_Controller_Front::getInstance()->getRequest()->getParam('format','html');
 ?>
 <ul class="textLeft no-bullet-html">
-<?php foreach($this->container as /*@var $page Zend_Navigation_Page_Mvc */$page) { ?>
+<?php
+foreach($this->container as /*@var $page Zend_Navigation_Page_Mvc */$page) {
+	if($page->isVisible()) {
+		?>
 	<li <?php print $page->isActive(true) ? ' class="active"' : ''; ?>><a
 		href="<?php print $page->getHref(); ?>?format=<?php print $format; ?>"><?php print $page->getLabel(); ?></a>
-	<?php if(count($page->getPages())>0) { ?>
+		<?php if(count($page->getPages())>0) { ?>
 	<ul>
 	<?php } ?>
-	<?php foreach($page->getPages() as /*@var $page Zend_Navigation_Page_Mvc */$subPage) { ?>
+	<?php
+	foreach($page->getPages() as /*@var $subPage Zend_Navigation_Page_Mvc */$subPage) {
+		if($subPage->isVisible()){
+			?>
 		<li <?php print $subPage->isActive(true) ? ' class="active"' : ''; ?>><a
 			href="<?php print $subPage->getHref(); ?>?format=<?php print $format; ?>"><?php print $subPage->getLabel(); ?></a>
-		<?php if(count($subPage->getPages())>0) { ?>
+			<?php if(count($subPage->getPages())>0) { ?>
 		<ul>
 		<?php } ?>
-		<?php foreach($subPage->getPages() as /*@var $page Zend_Navigation_Page_Mvc */$subSubPage) { ?>
+		<?php
+		foreach($subPage->getPages() as /*@var $subSubPage Zend_Navigation_Page_Mvc */$subSubPage) {
+			if($subSubPage->isVisible()){
+				?>
 			<li
 			<?php print $subSubPage->isActive(true) ? ' class="active"' : ''; ?>><a
 				href="<?php print $subSubPage->getHref(); ?>?format=<?php print $format; ?>"><?php print $subSubPage->getLabel(); ?></a>
-			<?php if(count($subSubPage->getPages())>0) { ?>
+				<?php if(count($subSubPage->getPages())>0) { ?>
 			<ul>
 			<?php } ?>
-			<?php foreach($subSubPage->getPages() as /*@var $page Zend_Navigation_Page_Mvc */$subSubSubPage) { ?>
+			<?php
+			foreach($subSubPage->getPages() as /*@var $subSubSubPage Zend_Navigation_Page_Mvc */$subSubSubPage) {
+				if($subSubSubPage->isVisible()){
+					?>
 				<li
 				<?php print $subSubSubPage->isActive(true) ? ' class="active"' : ''; ?>><a
 					href="<?php print $subSubSubPage->getHref(); ?>?format=<?php print $format; ?>"><?php print $subSubSubPage->getLabel(); ?></a></li>
 					<?php } ?>
-			<?php if(count($subSubPage->getPages())>0) { ?>
+					<?php if(count($subSubPage->getPages())>0) { ?>
 			</ul>
-			<?php } ?>
-			</li>
-			<?php } ?>
-		<?php if(count($subPage->getPages())>0) { ?>
+			<?php } ?></li>
+			<?php } } } ?>
+			<?php if(count($subPage->getPages())>0) { ?>
 		</ul>
-		<?php } ?>
-		</li>
-		<?php } ?>
+		<?php } ?></li>
+		<?php }
+	} ?>
 	<?php if(count($page->getPages())>0) { ?>
 	</ul>
-	<?php } ?>
-	</li>
-	<?php } ?>
+	<?php } ?></li>
+	<?php }
+} ?>
 </ul>
