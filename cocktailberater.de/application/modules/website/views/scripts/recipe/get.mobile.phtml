@@ -165,38 +165,13 @@ function clearRatingFormError(){
 <div class="attribut">Bewertung:</div>
 <div class="wert"><?php $durchschnitt = $recipe->getRating(); ?>
 	<div id="rating_state" class="hide">&nbsp;</div>
-	<form id="rating_form" method="post" style="margin-top: 0.3em;"
-	action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>?format=json">
-	<fieldset>
-		<?php for($rating = 1; $rating <= 5; $rating++){
-		?><button type="submit" id="rating<?php echo $rating; ?>"
-			onclick="document.getElementById('rating').value='<?php echo $rating; ?>';" 
-			onmouseover="document.getElementById('img_rating<?php 
-			echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
-				for($rating2=1; $rating2 <= $rating; $rating2++){ 
-					echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars_pink.png';";
-				}
-			?>"
-			onmouseout="document.getElementById('img_rating<?php 
-			echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/<?php 
-			echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>';<?php 
-				for($rating2=1; $rating2 <= $rating; $rating2++){ 
-					if($durchschnitt >= $rating2){
-						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/1_stars.png';";
-					} else {
-						echo "document.getElementById('img_rating$rating2').src='{$this->baseUrl()}/img/not_yet_rated_1.png';";
-					}
-				}
-			?>">
-			<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rate.." /></button><?php } ?>
-		<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
-		<input name="rating" id="rating" type="hidden" value="" />
-		<input name="myformat" type="hidden" value="mobile" /> 
-			<span style="vertical-align: top;">(<?php print ($recipe->ratingsCount==1 ? 
-				$recipe->ratingsCount.'&nbsp;Stimme' : $recipe->ratingsCount.'&nbsp;Stimmen');
+		<?php for($rating = 1; $rating <= 5; $rating++){ ?>
+		<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rating star" />
+		<?php } ?>
+		<span style="vertical-align: top;">(<?php print ($recipe->ratingsCount==1 ? 
+			$recipe->ratingsCount.'&nbsp;Stimme' : $recipe->ratingsCount.'&nbsp;Stimmen');
 			print ' - Ø&nbsp;'.number_format ( $recipe->getRating(), 2, ',', '' ) ; ?>)</span>
-	</fieldset>
-	</form></div>
+	</div>
 <?php if($recipe->source){ ?>
 <div class="attribut">Rezeptquelle:</div>
 <div class="wert"><?php print $recipe->source; ?></div>
