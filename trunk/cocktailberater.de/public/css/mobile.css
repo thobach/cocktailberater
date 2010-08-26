@@ -108,7 +108,6 @@ body {
 }
 
 #wrapper {
-	width: 100%; /* Set page width here - you can also use percentage */
 	margin-bottom: 3em;
 	background-color: #FFFFFF;
 	padding-bottom: 1em;
@@ -182,19 +181,13 @@ hr {
 /* Header
 -----------------------------------------------------------------------------*/
 #header {
-	width: 100%;
 	background-image: url('/img/logo.mobile.gif');
 	height: 3em;
 }
 
 #header a {
 	display: block;
-	width: 100%;
 	height: 3em;	
-}
-
-div#header a {
-	width: 100%;
 }
 
 /* Navigation
@@ -211,20 +204,6 @@ div#header a {
 #social_become_fan a, #social_share a {
 	padding-top: 0.2em;
 	padding-bottom: 0.2em;
-}
-
-ul.navigation li {
-	margin-left: 1.5em;
-	margin-top: 0.4em;
-	margin-bottom: 0.4em;
-}
-
-ul.navigation li li {
-	margin-left: 1em;
-}
-
-ul.navigation span {
-	display: none;
 }
 
 ul.no-bullet, li.no-bullet {
@@ -263,8 +242,11 @@ div.cocktail {
 div.sub_nav {
 	margin-right: 12px;
 	margin-top: 1em;
-	width:140px;
 	margin-left: 1em;	
+}
+
+div.sub_nav span {
+	display: none;
 }
 
 div.browse {
@@ -321,6 +303,10 @@ div.sub_nav ul.textLeft>li{
 div.sub_nav ul.textLeft>li>a {
 	font-weight: bold;
 	color: black;
+}
+
+div.sub_nav ul {
+	margin-left: 0.5em;	
 }
 
 /* Your template

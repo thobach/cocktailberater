@@ -1,5 +1,4 @@
 <?php
-$this->format = 'html';
 // setting meta keywords
 $this->headMeta()->appendName(	'keywords', 'cocktail, rezept, cocktails, '.
 								'rezepte, cocktailrezepte, cocktailrezept, '.
@@ -55,8 +54,6 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=rss'));
 
 ?>
-<div class="abstand_oben_doppelt"><?php print $this->partial('template/search.phtml',array('uri' => $this->baseUrl())); ?>
-</div>
 <div class="browse">
 <h2>Stöbern</h2>
 <?php require_once ('browse.inc.phtml'); ?>

@@ -15,7 +15,6 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/pdf',
 					  'title' => 'Cocktailkarte mit allen Rezepten - PDF',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe')).'?format=pdf'));
 
-echo $this->partial ('template/search.phtml');
 if ($this->recipes) { ?>
 <h2 style="margin-bottom: 1.5em; margin-top: 0; margin-left: 2em; margin-right: 2em;"><?php 
 	if(!$this->title) { ?>Cocktailrezepte<?php } 

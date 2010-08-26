@@ -1,5 +1,4 @@
 <?php
-$this->format = 'mobile';
 // setting meta keywords
 $this->headMeta()->appendName(	'keywords', 'cocktail, rezept, cocktails, '.
 								'mobile, handy, '.
@@ -11,12 +10,6 @@ $this->headMeta()->appendName(	'description', 'Mobile Datenbank mit '.
 								'alkoholfreien und alkoholischen '. 
 								'Cocktailrezepten');
 ?>
-<div class="abstand_oben">
-<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;"><a href="#navigation">[zur Navigation]</a></p>
-<?php 
-	print $this->partial('template/search.mobile.phtml',array('uri' => $this->baseUrl()));
-?>
-</div>
 <div class="browse">
 	<h2>Stöbern</h2>
 	<?php require_once ('browse.inc.phtml'); ?>

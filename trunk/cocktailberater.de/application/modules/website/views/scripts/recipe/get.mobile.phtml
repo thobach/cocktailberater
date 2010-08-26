@@ -1,33 +1,4 @@
-<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;"><?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Rezepte',
-                'module'     => 'website',
-                'controller' => 'recipe',
-            	'action'	 => 'index',
-            	'pages'      => array(
-		            array(
-		                'label'      => $this->recipe->name,
-		                'module'     => 'website',
-		                'controller' => 'recipe',
-		            	'action'	 => 'get'
-		            )
-		    	)
-            )
-    	)
-    )
-);
-$container = new Zend_Navigation($pages);
-echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?> <a href="#navigation">[zur Navigation]</a></p>
 <?php
-print $this->partial('template/search.mobile.phtml',$this);
-
-
 // rename variables & fetch required data
 /* @var $recipe Website_Model_Recipe */
 $recipe = $this->recipe;
@@ -282,7 +253,7 @@ foreach($tags as $tag){	?>
 <?php if($gesamt) { ?>
 	<div class="attribut">Rezeptalternativen:</div>
 	<div class="wert">
-	<ul>
+	<ul class="no-bullet">
 	<?php
 	foreach ($alternatives as $alternative) { ?>
 		<li style="float: left; clear: none;"><?php $this->cocktailPreview($alternative); ?></li>
