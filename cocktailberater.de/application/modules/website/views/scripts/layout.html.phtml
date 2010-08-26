@@ -186,14 +186,11 @@ $currentPageUrlEncoded = urlencode('http://www.cocktailberater.de'.
 		$controllersForBreadcrumb = array(	'portal','ingredient',
 											'ingredient-category',
 											'product','manufacturer');
+		$controllersForSearch = array('recipe','cocktail','index');
 		if(in_array($currentController, $controllersForBreadcrumb)) {
 		?>
-		<p class="breadcrumb">
+		<p class="breadcrumb">Sie sind hier: 
 			<?php
-			// add prefix to breadcrumb on html representation
-			if($this->format=='html') { 
-				?>Sie sind hier: <?php 
-			} 
 			// load whole navigation structure for breadcrumb 
 			// and subset for menu
 			$portalNavigationConfig = new Zend_Config_Ini(APPLICATION_PATH.
@@ -206,37 +203,27 @@ $currentPageUrlEncoded = urlencode('http://www.cocktailberater.de'.
 			// print breadcrumb with specific resource format
 			$breadcrumb = $this->navigation($breadCrumbContainer)->
 							breadcrumbs()->setSeparator(' &gt;'.PHP_EOL);
-			if($this->format=='html') {
-				print str_replace('">','?format=html">',$breadcrumb);
-			} else {
-				print str_replace('">','?format=mobile">',$breadcrumb);
-			}
-			// direct link to navigation at bottom on mobile site
-			if($this->format=='mobile') { ?>
-				<a href="#navigation">[zur Navigation]</a>
-			<?php } ?>
+			print str_replace('">','?format=html">',$breadcrumb); ?>
 		</p>
 		<?php 
 		}
-		?>
+		if(in_array($currentController, $controllersForSearch)) { 
+			echo $this->partial ("template/search.phtml"); 
+		}
+		?>		
 		<div id="content"><?php print $this->layout()->content ?></div>
+		<div class="sub_nav">
 		<?php 
 		// render menu for $controllersForBreadcrumb pages
 		if(in_array($currentController, $controllersForBreadcrumb)) {
 			// select subpart of menu container to render
 			$communityPages = $this->navigation($menuContainer)->
 							findOneByLabel('Portal');
-			$menuOptions = array('ulClass' => 'textLeft no-bullet-html');
-			?>
-			<div class="sub_nav">
-				<?php 
-				print $this->navigation($menuContainer)->menu()->
-									renderMenu($communityPages, $menuOptions);
-				?>
-			</div>
-			<?php 
+			print $this->navigation($menuContainer)->menu()->
+				renderPartial($communityPages, 'template/portal_nav.phtml');
 		}
 		?>
+		</div>
 	</div>
 	<!-- insert clearing div to make border appear on the bottom -->
 	<div class="clear"></div>

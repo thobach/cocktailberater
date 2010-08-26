@@ -1,46 +1,6 @@
-<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;"><?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-    	'pages'      => array(
-            array(
-                'label'      => 'Portal',
-                'module'     => 'website',
-                'controller' => 'portal',
-            	'action'	 => 'index',
-            	'pages'      => array(
-		            array(
-		                'label'      => 'Barkunde',
-		                'module'     => 'website',
-		                'controller' => 'portal',
-		            	'action'	 => 'barkunde',
-		    			'pages'      => array(
-				            array(
-				                'label'      => 'Zutaten',
-				                'module'     => 'website',
-				            	'action'	 => 'index',
-				                'controller' => 'ingredient',
-				            	'pages'      => array(
-				                    array(
-				                        'label'      => $this->ingredient->name,
-				                        'module'     => 'website',
-				                        'controller' => 'ingredient',
-				                        'action'     => 'get'
-				                    )
-				                )
-				            )
-				    	)
-					)
-				)
-        	)
-    	)
-    )
-);
-$container = new Zend_Navigation($pages);
-echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?> (<a href="#recipes-list">Cocktailrezepte</a> und 
-<a href="#products-list">Produkte</a>) <a href="#navigation">[zur Navigation]</a></p>
+<div class="content">
+<p><a href="#recipes-list">Cocktailrezepte</a> und 
+<a href="#products-list">Produkte</a></p>
 <h2 class="left clear" style="margin-top: 0;"><?php print $this->ingredient->name; ?></h2>
 <div style="">
 <h3 class="clear left" style="margin-top: 0; margin-bottom: 0.5em;">Zutateninformationen (Durchschnittswerte)</h3>
@@ -142,4 +102,5 @@ if(is_array($products)){ ?>
 <?php } ?>
 </div>
 <?php }  ?>
+</div>
 </div>

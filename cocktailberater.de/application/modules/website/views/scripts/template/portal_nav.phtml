@@ -1,69 +1,32 @@
-<?php 
+<?php
 $format = Zend_Controller_Front::getInstance()->getRequest()->getParam('format','html');
-?><?php if($format=='html') { ?><div class="sub_nav"><?php } ?>
+?>
 <ul class="textLeft no-bullet-html">
-	<li><a href="<?php print $this->url(array('module'=>'website',
-			'controller'=>'portal','action'=>'community'),'default',true); 
-			?>?format=<?php echo $format; ?>">Community</a>
-	<ul>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-			'controller'=>'portal','action'=>'forum'),'default',true); 
-			?>?format=<?php echo $format; ?>">Forum</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-			'controller'=>'portal','action'=>'members'),'default',true); 
-			?>?format=<?php echo $format; ?>">Mitglieder</a></li>
-	</ul></li>
-	<li><a href="<?php print $this->url(array('module'=>'website',
-			'controller'=>'portal','action'=>'hausbar'),'default',true); 
-			?>?format=<?php echo $format; ?>">Party Helferlein</a>
-	<ul>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'mein-cocktailbuch'),'default',true); 
-				?>?format=<?php echo $format; ?>">Cocktailkarte</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'meine-einkaufsliste'),'default',true); 
-				?>?format=<?php echo $format; ?>">Einkaufsliste</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'meine-hausbar'),'default',true); 
-				?>?format=<?php echo $format; ?>">Hausbar</a></li>
-	</ul></li>
-	<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'barkunde'),'default',true); 
-				?>?format=<?php echo $format; ?>">Barkunde</a>
-	<ul>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'grundausstattung'),'default',true); 
-				?>?format=<?php echo $format; ?>">Barausstattung</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'buecher'),'default',true); 
-				?>?format=<?php echo $format; ?>">Cocktailbücher</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'andere-seiten'),'default',true); 
-				?>?format=<?php echo $format; ?>">Cocktailseiten</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'glas'),'default',true); 
-				?>?format=<?php echo $format; ?>">Gläser</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'manufacturer','action'=>'index'),'default',true); 
-				?>?format=<?php echo $format; ?>">Hersteller</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'mixtechniken'),'default',true); 
-				?>?format=<?php echo $format; ?>">Mixtechniken</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'nutrition'),'default',true); 
-				?>?format=<?php echo $format; ?>">Nährwerte</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'authors'),'default',true); 
-				?>?format=<?php echo $format; ?>">Originalrezepte</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'portal','action'=>'utensilien'),'default',true); 
-				?>?format=<?php echo $format; ?>">Utensilien</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'product','action'=>'index'),'default',true); 
-				?>?format=<?php echo $format; ?>">Warenkunde</a></li>
-		<li><a href="<?php print $this->url(array('module'=>'website',
-				'controller'=>'ingredient','action'=>'index'),'default',true); 
-				?>?format=<?php echo $format; ?>">Zutaten</a></li>
-	</ul></li>
+<?php foreach($this->container as /*@var $page Zend_Navigation_Page_Mvc */$page) { ?>
+	<li <?php print $page->isActive(true) ? ' class="active"' : ''; ?>><a
+		href="<?php print $page->getHref(); ?>?format=<?php print $format; ?>"><?php print $page->getLabel(); ?></a>
+	<ul class="no-bullet-html">
+	<?php foreach($page->getPages() as /*@var $page Zend_Navigation_Page_Mvc */$subPage) { ?>
+		<li <?php print $subPage->isActive(true) ? ' class="active"' : ''; ?>><a
+			href="<?php print $subPage->getHref(); ?>?format=<?php print $format; ?>"><?php print $subPage->getLabel(); ?></a>
+		<ul class="no-bullet-html">
+		<?php foreach($subPage->getPages() as /*@var $page Zend_Navigation_Page_Mvc */$subSubPage) { ?>
+			<li
+			<?php print $subSubPage->isActive(true) ? ' class="active"' : ''; ?>><a
+				href="<?php print $subSubPage->getHref(); ?>?format=<?php print $format; ?>"><?php print $subSubPage->getLabel(); ?></a>
+			<ul class="no-bullet-html">
+			<?php foreach($subSubPage->getPages() as /*@var $page Zend_Navigation_Page_Mvc */$subSubSubPage) { ?>
+				<li
+				<?php print $subSubSubPage->isActive(true) ? ' class="active"' : ''; ?>><a
+					href="<?php print $subSubSubPage->getHref(); ?>?format=<?php print $format; ?>"><?php print $subSubSubPage->getLabel(); ?></a></li>
+					<?php } ?>
+			</ul>
+			</li>
+			<?php } ?>
+		</ul>
+		</li>
+		<?php } ?>
+	</ul>
+	</li>
+	<?php } ?>
 </ul>
-<?php if($format=='html') { ?></div><?php } ?>

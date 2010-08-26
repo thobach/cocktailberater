@@ -1,5 +1,4 @@
-<p class="left" style="margin: 1em 0 1em 0; font-size: 0.9em;"><a
-	href="/?format=mobile">Start</a> &gt; Rezepte <a href="#navigation">[zur Navigation]</a></p>
+<div class="content">
 <?php echo $this->partial ('template/search.mobile.phtml');
 if ($this->recipes) { ?>
 <h2
@@ -26,3 +25,4 @@ unset($urlParams['bootstrap']);
 unset($urlParams['search_type_value']);
 unset($urlParams['disableOutputBuffering']);
 ?>
+</div>

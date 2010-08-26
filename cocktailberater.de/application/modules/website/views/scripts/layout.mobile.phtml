@@ -1,6 +1,4 @@
 <?php
-// for JS-fallback
-$currentShow =  Zend_Controller_Front::getInstance()->getRequest()->getParam('show');
 echo '<?xml version="1.0" encoding="utf-8"?>'."\n";
 echo $this->doctype('<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">')."\n";
 ?>
@@ -59,71 +57,96 @@ $this->headLink(array('rel' => 'image_src',
                       'href' => 'http://www.cocktailberater.de/img/logo.png'));
 // echo css, faveicon and feeds
 echo $this->headLink()."\n";
+
+$homePage = array('module'=>'website','controller'=>'index','action'=>'index');
 ?>
 </head>
 <body>
 <div id="wrapper">
 	<div id="header">
-		<a href="<?php print $this->url(array('module'=>'website','controller'=>'index','action'=>'index'),null,true); ?>?format=mobile"><span class="hide">Startseite</span></a>
+		<a href="<?php print $this->url($homePage,null,true); 
+			?>?format=mobile"><span class="hide">Startseite</span></a>
 		<h1 class="hide">cocktailberater</h1>
 	</div>
 	<div id="homepage">
-		<div id="content">
-			<?php echo $this->layout()->content ?>
-		</div>
+		<?php
+		// load whole navigation structure for breadcrumb 
+		// and subset for menu
+		$portalNavigationConfig = new Zend_Config_Ini(APPLICATION_PATH.
+						 '/modules/website/config/portal-navigation.ini','nav');
+		$portalNoMenuConfig = new Zend_Config_Ini(APPLICATION_PATH.
+							'/modules/website/config/portal-no-menu.ini','nav');
+		$breadCrumbContainer = new Zend_Navigation($portalNavigationConfig);
+		$menuContainer = $breadCrumbContainer;
+		$breadCrumbContainer->addPages($portalNoMenuConfig);
+		$controllersForSearch = array('recipe','cocktail','index');
+		$currentController = Zend_Controller_Front::getInstance()->
+							getRequest()->getControllerName();
+		?>
+		<p class="breadcrumb">
+			<?php
+			// print breadcrumb with specific resource format
+			$breadcrumb = $this->navigation($breadCrumbContainer)->
+							breadcrumbs()->setSeparator(' &gt;'.PHP_EOL);
+			print str_replace('">','?format=mobile">',$breadcrumb); ?>
+			<a href="#navigation">[zur Navigation]</a>
+		</p>
+		<?php
+		if(in_array($currentController, $controllersForSearch)) { 
+			echo $this->partial ("template/search.mobile.phtml"); 
+		}
+		?>
+		<div id="content"><?php print $this->layout()->content ?></div>
 		<h2 id="navigation">Navigation</h2>
-		<ul class="navigation">
-			<li><a href="<?php print $this->url(array(
-									'module'=>'website',
-									'controller'=>'index',
-									'action'=>'index'),'default',true); ?>?format=mobile">mobile Rezeptdatenbank</a>
-			<?php require 'index/browse.inc.phtml';?></li>
-			<li><a href="<?php print $this->url(array(
-									'module'=>'website',
-									'controller'=>'portal',
-									'action'=>'index'),'default',true); ?>?format=mobile">mobiles Portal</a>
-			<?php require 'template/portal_nav.phtml';?></li>
-		</ul>
-		<h2 id="social">Social</h2>
+		<div class="sub_nav">
+		<?php 
+		// select subpart of menu container to render
+		$communityPages = $this->navigation($menuContainer)->
+							findOneByLabel('Startseite'); 
+		print $this->navigation()->menu()->
+				renderPartial($communityPages,
+				'template/portal_nav.phtml'); 
+		?>
+		</div>
+		<h2 id="social" class="abstand_oben">Social</h2>
 		<ul class="no-bullet">
-			<li id="social_become_fan"><a href="http://www.facebook.com/cocktailberater" title="auf facebook Fan werden"><span class="social_sprites" id="spr_facebook_fan"></span> Fan werden</a></li>
-			<li id="social_share"><a href="http://www.facebook.com/sharer.php?u=http://www.cocktailberater.de<?php echo $this->url(); ?>&amp;t=<?php echo urlencode($title); ?>" title="auf facebook teilen"> <span class="social_sprites" id="spr_facebook_share"></span> Teilen</a></li>
-			<li id="social_twitter"><a href="http://twitter.com/home?status=<?php echo urlencode($title . ': http://www.cocktailberater.de' . $this->url()); ?>" title="auf Twitter posten"> <span class="social_sprites" id="spr_twitter"></span>Twitter(n)</a></li>
+			<li id="social_become_fan"><a 
+				href="http://www.facebook.com/cocktailberater" 
+				title="auf facebook Fan werden"><span class="social_sprites" 
+				id="spr_facebook_fan"></span> Fan werden</a></li>
+			<li id="social_share"><a 
+				href="http://www.facebook.com/sharer.php?u=<?php 
+				?>http://www.cocktailberater.de<?php echo $this->url(); 
+				?>&amp;t=<?php echo urlencode($title); ?>" 
+				title="auf facebook teilen"> <span class="social_sprites" 
+				id="spr_facebook_share"></span> Teilen</a></li>
+			<li id="social_twitter"><a href="http://twitter.com/home<?php
+				?>?status=<?php echo urlencode($title . 
+				': http://www.cocktailberater.de' . $this->url()); ?>" 
+				title="auf Twitter posten"> <span class="social_sprites" 
+				id="spr_twitter"></span>Twitter(n)</a></li>
 		</ul>
-		<h2>Weitere Informationen</h2>
-		<ul>
-			<li><a href="http://blog.cocktailberater.de" title="Entwickler Blog">Blog</a></li>
-			<li><a href="<?php print $this->url(array(
-									'module'=>'website',
-									'controller'=>'portal',
-									'action'=>'about'),'default',true); ?>?format=mobile">über cocktailberater</a></li>
-			<li><a class="social_sprites_text" href="<?php print $this->url(array(
-									'module'=>'website',
-									'controller'=>'portal',
-									'action'=>'imprint'),'default',true); ?>?format=mobile">impressum</a></li>
-			<li><a class="social_sprites_text" href="<?php print $this->url(array(
-									'module'=>'website',
-									'controller'=>'portal',
-									'action'=>'contact'),'default',true); ?>?format=mobile">kontakt</a></li>
-		</ul>
-		<p class="abstand_oben">[ <a href="?format=html">Komplette Seite</a> ]</p>
+		<p class="abstand_oben">
+			[ <a href="?format=html">Komplette Seite</a> ]
+		</p>
 	</div>
 </div>
 <?php if(APPLICATION_ENV=='production') { ?>
 <!-- Piwik -->
 <script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.thobach.de/" : "http://stats.thobach.de/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
+	var pkBaseURL = (("https:" == document.location.protocol) ? <?php 
+		?>"https://stats.thobach.de/" : "http://stats.thobach.de/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' <?php 
+		?>type='text/javascript'%3E%3C/script%3E"));
+	try {
+		var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
+		piwikTracker.trackPageView();
+		piwikTracker.enableLinkTracking();
+	} catch( err ) {}
 </script>
 <noscript>
-<p><img src="http://stats.thobach.de/piwik.php?idsite=4" id="piwik" alt="" /></p>
+<p><img src="http://stats.thobach.de/piwik.php?idsite=4"
+	style="border: 0" alt="" /></p>
 </noscript>
 <!-- End Piwik Tag -->
 <?php } ?>

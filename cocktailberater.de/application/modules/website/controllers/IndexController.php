@@ -37,6 +37,7 @@ class Website_IndexController extends Zend_Controller_Action {
 		            'post' => array(__CLASS__, 'setLayoutContext'))));
 		$contextSwitch->addActionContext('index', true);
 		$contextSwitch->initContext();
+		$this->view->format = $this->_getParam('format','html');
 	}
 
 	public function indexAction () {
