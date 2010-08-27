@@ -202,11 +202,11 @@ class Website_Model_Tag implements Zend_Tag_Taggable {
 
 		$entry = array(
 				'title'       	=> 	$this->getRecipe()->name.' wurde mit '.$this->name.' verschlagwortet',
-				'guid'			=>	$view->url(array('module'=>'website',
+				'guid'			=>	'http://www.cocktailberater.de'.$view->url(array('module'=>'website',
 									'controller'=>'recipe','action'=>'index',
 									'index'=>'index','search_type'=>'tag',
 									'search'=>$this->name),'rest',true).'#tag-'.$this->id,
-				'link'        	=> 	$view->url(array('module'=>'website',
+				'link'        	=> 	'http://www.cocktailberater.de'.$view->url(array('module'=>'website',
 									'controller'=>'recipe','action'=>'get',
 									'id'=>$this->getRecipe()->getUniqueName()),'rest',true),
 				'lastUpdate'	=> 	$date->getTimestamp(),
