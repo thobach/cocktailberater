@@ -37,8 +37,16 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/xml',
 					  'title' => $recipe->name.' - XML',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'));
 ?>
-<!-- class="right" -->
-<div class="right clear center">
+<h2><?php
+print str_replace ( '\\', '', $recipe->name ) ;
+if($recipe->isOriginal){
+	print  ' (original)';
+}
+if(!$recipe->isAlcoholic()){
+	print  ' (alkoholfrei)';
+}
+?></h2>
+<div>
 	<img src="<?php
 	if(isset($photos[0]) && $photos[0]->fileName) { 
 		echo $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName ;
@@ -48,20 +56,8 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/xml',
 	?>" id="recipe_image" alt="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"
 	title="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"
 	style="margin-right: 1.6em; width: 160px; margin-top: 0.2em; margin-bottom: 20px;" />
-<!-- end of class="right" -->
 </div>
-<!-- end of class="right" -->
 <div>
-<div class="attribut">Name:</div>
-<div class="wert"><?php
-print str_replace ( '\\', '', $recipe->name ) ;
-if($recipe->isOriginal){
-	print  ' (original)';
-}
-if(!$recipe->isAlcoholic()){
-	print  ' (alkoholfrei)';
-}
-?></div>
 <?php if($recipe->description){?><div class="attribut">Beschreibung:</div>
 <div class="wert"><p><?php
 print str_replace("\n",'</p><p>',$recipe->description);
