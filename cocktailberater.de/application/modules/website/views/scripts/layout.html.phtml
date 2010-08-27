@@ -212,18 +212,18 @@ $currentPageUrlEncoded = urlencode('http://www.cocktailberater.de'.
 		}
 		?>		
 		<div id="content"><?php print $this->layout()->content ?></div>
-		<div class="sub_nav">
 		<?php 
 		// render menu for $controllersForBreadcrumb pages
 		if(in_array($currentController, $controllersForBreadcrumb)) {
+			?><div class="sub_nav"><?php 
 			// select subpart of menu container to render
 			$communityPages = $this->navigation($menuContainer)->
 							findOneByLabel('Portal');
 			print $this->navigation($menuContainer)->menu()->
 				renderPartial($communityPages, 'template/portal_nav.phtml');
+			?></div><?php 
 		}
 		?>
-		</div>
 	</div>
 	<!-- insert clearing div to make border appear on the bottom -->
 	<div class="clear"></div>
