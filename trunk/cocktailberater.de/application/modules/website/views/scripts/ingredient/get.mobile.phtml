@@ -57,7 +57,7 @@ if($products) { ?>
 <h3 id="products-list"><?php print $this->ingredient->name; ?> Produkte</h3>
 <div><?php
 if(is_array($products)){ ?>
-<ul style="list-style-type: circle; margin-left: 25px;">
+<ul class="no-bullet">
 <?php 
 	foreach ($products as $product) {
 		$avgPrice = $product->getAveragePrice();
@@ -79,22 +79,6 @@ if(is_array($products)){ ?>
 		(<?php print str_replace('.',',',round($product->size,2)).'&nbsp;'.
 		$product->unit;?>) <?php  print (count($offers)>0 ? 'gibt es '.($avgPrice ? 'für durchschnittlich '.
 		number_format($avgPrice,2,',','.').'&nbsp;€ ' : '').' bei:<br />' : ''); ?>
-		<?php if(count($offers)>0){ ?>
-			<ul style="margin-top: 0.2em; list-style-type: circle; margin-left: 25px; float: left;  width: 20em;">
-			<?php 
-			$i=0;
-			foreach($offers as $offer){
-				$i++; ?>
-				<li style="text-align: left; <?php ($i==1 ? 'clear: left;' : 'clear: none;'); ?>">
-					<a href="<?php print $offer['shopUrl']; ?>"><?php print $offer['shop']; ?></a>
-					<?php if($offer['price']>0){ ?>
-						für <?php print number_format($offer['price'],2,',','.').'&nbsp;€'; ?>
-					<?php } ?>
-				</li>
-			
-			<?php } ?>
-			</ul>
-		<?php } ?>
 	</li>
 	<?php } ?>
 </ul>

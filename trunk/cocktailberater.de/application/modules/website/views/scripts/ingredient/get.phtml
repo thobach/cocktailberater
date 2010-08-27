@@ -61,24 +61,7 @@ if(is_array($products)){ ?>
 <?php 
 	foreach ($products as $product) {
 		$avgPrice = $product->getAveragePrice();
-		$offers = $product->getOffers();
 		$this->productPreview($product);  
-		if(count($offers)>0){ ?>
-			<h4 style="margin-left: 93px; margin-top: 0;">Anbieter</h4>
-			<ul style="margin-left: 108px;" class="abstand_unten">
-			<?php 
-			$i=0;
-			foreach($offers as $offer){
-				$i++; ?>
-				<li style="text-align: left; <?php ($i==1 ? 'clear: left;' : 'clear: none;'); ?>">
-					<a href="<?php print $offer['shopUrl']; ?>"><?php print $offer['shop']; ?></a>
-					<?php if($offer['price']>0){ ?>
-						für <?php print number_format($offer['price'],2,',','.').'&nbsp;€'; ?>
-					<?php } ?>
-				</li><?php 
-			} ?>
-			</ul><?php 
-		} ?><hr style="width: 33em;" /><?php 
 	} ?>
 </ul>
 <?php } ?>
