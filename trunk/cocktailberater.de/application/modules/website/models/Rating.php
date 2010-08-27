@@ -199,10 +199,10 @@ class Website_Model_Rating {
 
 		$entry = array(
 				'title'       	=> 	$this->getRecipe()->name.' wurde mit '.$this->mark.' bewertet',
-				'guid'			=>	$view->url(array('module'=>'website',
+				'guid'			=>	'http://www.cocktailberater.de'.$view->url(array('module'=>'website',
 									'controller'=>'recipe','action'=>'get',
 									'id'=>$this->getRecipe()->getUniqueName()),'rest',true).'#rating-'.$this->id,
-				'link'        	=> 	$view->url(array('module'=>'website',
+				'link'        	=> 	'http://www.cocktailberater.de'.$view->url(array('module'=>'website',
 									'controller'=>'recipe','action'=>'get',
 									'id'=>$this->getRecipe()->getUniqueName()),'rest',true),
 				'lastUpdate'	=> 	$date->getTimestamp(),

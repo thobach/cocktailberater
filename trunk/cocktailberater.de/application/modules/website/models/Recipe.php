@@ -684,21 +684,26 @@ class Website_Model_Recipe {
 				'search_type'=>'tag','search'=>$tag->name,'format'=>'')),'rest',true);
 			}
 		}
+		
+		// ingredient list
+		foreach ($this->getComponents() as /* @var $component Website_Model_Component */ $component ) {
+			$components .= '<li>'.$component->amount.' '.$component->unit.' '.$component->getIngredient()->name.'</li>';
+		}
 
 		$entry = array(
 		'title'       	=> 	$this->name,
-		'link'        	=> 	$view->url(array('module'=>'website',
+		'link'        	=> 	'http://www.cocktailberater.de'.$view->url(array('module'=>'website',
 							'controller'=>'recipe','action'=>'get',
 							'id'=>$this->getUniqueName()),'rest',true),
 		'description'	=>	$this->name.
 							' Cocktailrezept mit Zusatzinformationen wie '.
 							'Videos, Fotos, Kosten, Kalorien, '.
 							'Alkoholgehalt, etc.',
-		'guid'			=>	$view->url(array('module'=>'website',
+		'guid'			=>	'http://www.cocktailberater.de'.$view->url(array('module'=>'website',
 							'controller'=>'recipe','action'=>'get',
 							'id'=>$this->getUniqueName()),'rest',true),
 		'content'		=> 	"<p><strong>Beschreibung:</strong></p>".
-							"<p>".$this->description."</p>".
+							"<p>".($this->description ? $this->description : 'keine vorhanden')."</p>".
 							"<p><strong>Zutaten:</strong></p>".
 							"<ul>".$components."</ul>".
 							"<p><strong>Anweisung:</strong></p>".
