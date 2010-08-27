@@ -242,6 +242,18 @@ $currentPageUrlEncoded = urlencode('http://www.cocktailberater.de'.
 			$breadCrumbContainer = new Zend_Navigation($portalNavigationConfig);
 			$menuContainer = $breadCrumbContainer;
 			$breadCrumbContainer->addPages($portalNoMenuConfig);
+			// replace 'Zutat' in breadcrumb with specific ingredient
+			if($breadCrumbContainer->findOneBy('label', 'Zutat')){
+				$breadCrumbContainer->findOneBy('label', 'Zutat')->setLabel($this->placeholder('label')->toString());
+			}
+			// replace 'Produkt' in breadcrumb with specific product
+			if($breadCrumbContainer->findOneBy('label', 'Produkt')){
+				$breadCrumbContainer->findOneBy('label', 'Produkt')->setLabel($this->placeholder('label')->toString());
+			}
+			// replace '_Hersteller_' in breadcrumb with specific manufacturer
+			if($breadCrumbContainer->findOneBy('label', '_Hersteller_')){
+				$breadCrumbContainer->findOneBy('label', '_Hersteller_')->setLabel($this->placeholder('label')->toString());
+			}
 			// print breadcrumb with specific resource format
 			$breadcrumb = $this->navigation($breadCrumbContainer)->
 							breadcrumbs()->setSeparator(' &gt;'.PHP_EOL);

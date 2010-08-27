@@ -25,6 +25,7 @@ class Website_ProductController extends Wb_Controller_RestController {
 			}
 			$this->view->product = Website_Model_CbFactory::factory('Website_Model_Product',$realId);
 			$this->view->title = $this->view->product->getManufacturer()->name.' '.$this->view->product->name.' Cocktailrezepte und Produktdetails';
+			$this->view->placeholder('label')->set($this->view->product->name);
 		}
 	}
 

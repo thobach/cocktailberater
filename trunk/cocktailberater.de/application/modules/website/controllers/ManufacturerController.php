@@ -25,6 +25,7 @@ class Website_ManufacturerController extends Wb_Controller_RestController {
 			}
 			$this->view->manufacturer = Website_Model_CbFactory::factory('Website_Model_Manufacturer',$realId);
 			$this->view->title = $this->view->manufacturer->name.' Produkte und Cocktailrezepte';
+			$this->view->placeholder('label')->set($this->view->manufacturer->name);
 		}
 	}
 
