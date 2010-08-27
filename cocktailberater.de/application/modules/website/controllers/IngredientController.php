@@ -28,6 +28,7 @@ class Website_IngredientController extends Wb_Controller_RestController {
 			}
 			$ingredient = Website_Model_CbFactory::factory('Website_Model_Ingredient',$realId);
 			$this->view->ingredient = $ingredient ;
+			$this->view->placeholder('label')->set($ingredient->name);
 			$liste = Website_Model_Recipe::searchByIngredient($ingredient->name);
 			$this->view->recipes = $liste ;
 			$this->view->title = 'Cocktailrezepte mit '.$this->view->ingredient->name.', inkl. Produkte und Zutateninformationen';
