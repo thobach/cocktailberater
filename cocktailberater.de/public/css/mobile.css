@@ -398,6 +398,7 @@ p.description {
 	padding-right: 1em;
 	padding-bottom: 2.5em;
 	text-align: center;
+	width: 10em;
 }
 
 textarea#comment {
@@ -417,6 +418,10 @@ div#recaptcha_widget_div{
 	margin: 2px;
 	padding: 1px;
 	font-weight: normal;
+}
+
+p {
+	margin-bottom: 0.3em;	
 }
 
 div.wert p {
