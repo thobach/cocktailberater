@@ -650,13 +650,13 @@ dojo.addOnLoad(function(){
 	<span class="left" style="margin-top: 26px;"><input name="captcha[input]" 
 		id="captcha" value="" style="width:112px; margin-bottom: 0.7em;" 
 		class="clear text left" /></span>
-	<span class="left" style="margin-left: 1em; margin-top: 28px;"><span 
+	<span class="left" style="margin-left: 0.5em; margin-top: 0;"><span 
 		onclick="reloadCaptcha();" class="link">Spamschutz neu laden</span></span>
 	<span class="left" style="margin-left: 3px;">
 		Bitte die links angezeigten Zeichen angeben.</span>
 	<input type="hidden" id="captchaId" name="captcha[id]" value="<?php echo $captchaId; ?>" />
 	<input type="hidden" name="recipe" value="<?php echo $this->recipe->id; ?>" />
-	<input type="submit" class="right small-button" value="abschicken" name="submit"
+	<input type="submit" class="right pink" value="abschicken" name="submit"
 	style="margin-top: 0.5em; margin-right: 3px;" />
 	
 <?php } ?></fieldset>
