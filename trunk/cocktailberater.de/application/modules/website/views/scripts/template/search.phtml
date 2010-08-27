@@ -1,46 +1,5 @@
 <!-- search begin -->
-<?php
-// dojo helper
-$this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
-// enable dojo with custom module (readStore), parser, and comboBox
-$this->dojo()->enable()
-->registerModulePath('custom', '/js/custom')
-->requireModule('dojo.parser')
-->requireModule('dojox.data.QueryReadStore')
-->requireModule('dijit.form.ComboBox')
-->requireModule('custom.TestNameReadStore');
-// define url for autoCompletion
-$autoCompletionUrl = array('module'=>'website','controller'=>'recipe','action'=>'index');
-?>
 <div id="testStore"></div>
-<?php $this->headScript()->captureStart(); ?>
-	// configure query
-	djConfig.usePlainJson=true;
-	// add the possibility to submit the search by pressing the ENTER key 
-	function init() {
-		var readStore = new custom.TestNameReadStore({url:"<?php echo $this->url($autoCompletionUrl,null,true); ?>", requestMethod:"get"},dojo.byId('testStore'));
-		var search = new dijit.form.ComboBox({store:readStore, autoComplete:false, hasDownArrow:false},dojo.byId('search'));
-		dojo.connect(dojo.byId("search"), 'onkeypress', function(e) {
-			dojo.byId('search_backup').value = dojo.byId('search').value;
-			if (e.keyCode == dojo.keys.ENTER) {
-				dojo.byId('suche_name').submit(); 
-			}
-		});
-		dojo.connect(dojo.byId("search"), 'onchange', function() {
-			dojo.byId('search_backup').value = dojo.byId('search').value;	
-		});
-		dojo.connect(dojo.byId("search"), 'onfocus', function() {
-			dojo.byId('search_backup').value = dojo.byId('search').value;	
-		});
-	<?php
-	// only focus the search bar at the start page
-	if(Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index'
-		&& Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index') { ?>
-		dojo.byId("search").focus();
-	<?php } ?>
-	}
-	dojo.addOnLoad(init);
-<?php $this->headScript()->captureEnd(); ?>
 <form method="post" id="suche_name"	action="<?php 
 $searchLink = array('module'=>'website','controller'=>'recipe','action'=>'index');
 print $this->url($searchLink,null,true); ?>">

@@ -1,6 +1,13 @@
 <?php
 // HTML 5 header
 print $this->doctype('HTML5')."\n";
+
+// get action and controller
+$currentAction = Zend_Controller_Front::getInstance()->
+					getRequest()->getActionName();
+$currentController = Zend_Controller_Front::getInstance()->
+						getRequest()->getControllerName();
+$controllersForSearch = array('recipe','cocktail','index');
 ?>
 <html lang="de-DE">
 <head>
@@ -50,6 +57,12 @@ $this->dojo()->enable();
 $this->dojo()->setDjConfigOption('parseOnLoad', true);
 $this->dojo()->setDjConfigOption('baseUrl', './');
 $this->dojo()->addStyleSheetModule('dijit.themes.tundra');
+// enable dojo with custom module (readStore), parser, and comboBox
+$this->dojo()->registerModulePath('custom', '/js/custom');
+$this->dojo()->requireModule('dojo.parser');
+$this->dojo()->requireModule('dojox.data.QueryReadStore');
+$this->dojo()->requireModule('dijit.form.ComboBox');
+$this->dojo()->requireModule('custom.TestNameReadStore');
 print $this->dojo()."\n";
 // css style sheets
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/screen.css');
@@ -75,6 +88,41 @@ $this->headLink(array('rel' => 'image_src',
                       'href' => $image));
 // print links
 print $this->headLink()."\n";
+
+/**
+ * javascript for search
+ */
+if(in_array($currentController, $controllersForSearch)) {
+	// define url for autoCompletion
+	$autoCompletionUrl = array('module'=>'website','controller'=>'recipe','action'=>'index');
+	$this->headScript()->appendScript("
+		// configure query
+		djConfig.usePlainJson=true;
+		// add the possibility to submit the search by pressing the ENTER key 
+		function init() {
+			var readStore = new custom.TestNameReadStore({url:'".$this->url($autoCompletionUrl,null,true)."', requestMethod:'get'},dojo.byId('testStore'));
+			var search = new dijit.form.ComboBox({store:readStore, autoComplete:false, hasDownArrow:false},dojo.byId('search'));
+			dojo.connect(dojo.byId('search'), 'onkeypress', function(e) {
+				dojo.byId('search_backup').value = dojo.byId('search').value;
+				if (e.keyCode == dojo.keys.ENTER) {
+					dojo.byId('suche_name').submit(); 
+				}
+			});
+			dojo.connect(dojo.byId(\"search\"), 'onchange', function() {
+				dojo.byId('search_backup').value = dojo.byId('search').value;	
+			});
+			dojo.connect(dojo.byId(\"search\"), 'onfocus', function() {
+				dojo.byId('search_backup').value = dojo.byId('search').value;	
+			});
+		".(/*only focus the search bar at the start page*/ Zend_Controller_Front::getInstance()->getRequest()->getActionName()=='index'
+			&& Zend_Controller_Front::getInstance()->getRequest()->getControllerName()=='index' ? "
+			dojo.byId(\"search\").focus(); " : '')."
+		}
+		dojo.addOnLoad(init);");
+}
+/**
+ * end javascript for search
+ */
 // print scripts
 print $this->headScript()."\n";
 ?>
@@ -145,11 +193,6 @@ $currentPageUrlEncoded = urlencode('http://www.cocktailberater.de'.
 <div id="wrapper">
 	<?php
 	// show full header only start page
-	// get action and controller
-	$currentAction = Zend_Controller_Front::getInstance()->
-						getRequest()->getActionName();
-	$currentController = Zend_Controller_Front::getInstance()->
-							getRequest()->getControllerName();
 	// check if on start page -> show big header
 	if($currentAction == 'index' && $currentController == 'index') { 
 		$headStyle = 'background-image: url(\''.$this->baseUrl().
@@ -186,7 +229,6 @@ $currentPageUrlEncoded = urlencode('http://www.cocktailberater.de'.
 		$controllersForBreadcrumb = array(	'portal','ingredient',
 											'ingredient-category',
 											'product','manufacturer');
-		$controllersForSearch = array('recipe','cocktail','index');
 		if(in_array($currentController, $controllersForBreadcrumb)) {
 		?>
 		<p class="breadcrumb">Sie sind hier: 
@@ -208,7 +250,7 @@ $currentPageUrlEncoded = urlencode('http://www.cocktailberater.de'.
 		<?php 
 		}
 		if(in_array($currentController, $controllersForSearch)) { 
-			echo $this->partial ("template/search.phtml"); 
+			require_once 'template/search.phtml'; 
 		}
 		?>		
 		<div id="content"><?php print $this->layout()->content ?></div>
