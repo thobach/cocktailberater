@@ -1,7 +1,8 @@
 <?php
 // dojo helper
 $this->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
-
+// get user agent to find out if touch device is requesting the page
+$userAgent = Zend_Controller_Front::getInstance()->getRequest()->HTTP_USER_AGENT;
 // rename variables & fetch required data
 /* @var $recipe Website_Model_Recipe */
 $recipe = $this->recipe;
@@ -825,40 +826,48 @@ function showStatistics() {
 	<?php
 	print $recipe->getGlass()->name ;
 	?></div>
-	<?php $this->headScript()->captureStart(); ?>
-	dojo.addOnLoad(function() {
-		caloriesInfoTooltip = new dijit.Tooltip({
-			connectId: ["caloriesInfo"],
-			label: "<?php
-				$calories = $recipe->getCaloriesKcal();
-				$caloriesComplete = true;
-				if(is_array($components)){
-					foreach ($components as $component) {
-						if($component->getCaloriesKcal() === NULL && $component->getCaloriesKcal() !== 0){
-							$caloriesComplete = false;
+	<?php
+	$caloriesStyle = '';
+	if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){
+		$this->headScript()->captureStart(); ?>
+		dojo.addOnLoad(function() {
+			caloriesInfoTooltip = new dijit.Tooltip({
+				connectId: ["caloriesInfo"],
+				label: "<?php
+					$calories = $recipe->getCaloriesKcal();
+					$caloriesComplete = true;
+					if(is_array($components)){
+						foreach ($components as $component) {
+							if($component->getCaloriesKcal() === NULL && $component->getCaloriesKcal() !== 0){
+								$caloriesComplete = false;
+							}
+							$caloriesList .= '<li>'.$component->amount.' '.
+											 $component->unit.' '.
+											 $component->getIngredient()->name . ': ' .
+								(($component->getCaloriesKcal() === NULL && $component->getCaloriesKcal() !== 0) ? 
+									' k.a. ' : 
+									round($component->getCaloriesKcal()).' kcal'  ) . '</li>';
 						}
-						$caloriesList .= '<li>'.$component->amount.' '.$component->unit.' '.$component->getIngredient()->name . ': ' .
-							(($component->getCaloriesKcal() === NULL && $component->getCaloriesKcal() !== 0) ? ' k.a. ' : round($component->getCaloriesKcal()).' kcal'  ) . '</li>';
 					}
-				}
-				?><div style=\"text-align:left;\"><?php 
-				?><span class=\"pink\">Gesamtkalorien:</span> <?php
-				if(!$caloriesComplete){
-					print 'über ';
-				}
-				print '<span>'.$calories.'</span>'; ?> kcal<br /><?php
-				?><span class=\"pink\">Kalorienaufteilung:</span><ul style=\"font-size: 0.9em; list-style-type: circle; margin-left: 2em;\"><?php
-					print $caloriesList;
-				?></ul></div>"
-        });
-    });
-	<?php $this->headScript()->captureEnd(); ?>
+					?><div style=\"text-align:left;\"><?php 
+					?><span class=\"pink\">Gesamtkalorien:</span> <?php
+					if(!$caloriesComplete){
+						print 'über ';
+					}
+					print '<span>'.$calories.'</span>'; ?> kcal<br /><?php
+					?><span class=\"pink\">Kalorienaufteilung:</span><ul style=\"font-size: 0.9em; list-style-type: circle; margin-left: 2em;\"><?php
+						print $caloriesList;
+					?></ul></div>"
+	        });
+	    });<?php
+	    $this->headScript()->captureEnd();
+	    $caloriesStyle = ' style="text-decoration: underline; text-underline-style: dotted; cursor: pointer; color: rgb(84, 97, 110);"';
+	}
+	?>
 <div class="left icon" style="left: 300px;" id="caloriesInfo"><img
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/calories.png" alt="Kalorien" height="48" width="33"
+	src="<?php print $this->baseUrl(); ?>/img/calories.png" alt="Kalorien" height="48" width="33"
 	title="Kalorien" /><br />
-	<span style="text-decoration: underline; text-underline-style: dotted; cursor: pointer; color: rgb(84, 97, 110);"><?php
+	<span<?php print $caloriesStyle;?>><?php
 	if(!$caloriesComplete){
 		print 'über ';
 	} ?><span style="white-space: nowrap" itemprop="calories"><?php print $recipe->getCaloriesKcal(); ?> kcal</span></span></div>
@@ -870,41 +879,45 @@ function showStatistics() {
 	<?php
 	print round($recipe->getAlcoholLevel());
 	?> % Alkohol</div>
-	<?php $this->headScript()->captureStart(); ?>
-	dojo.addOnLoad(function() {
-		priceInfoTooltip = new dijit.Tooltip({
-			connectId: ["priceInfo"],
-			label: "<?php // must be all in one line -> js attribute	
-				$price = number_format($recipe->getAveragePrice(),2,',','.');
-				$components = $recipe->getComponents();
-				$priceComplete = true;
-				if(is_array($components)){
-					foreach ($components as $component) {
-						if(!$component->getAveragePrice()){
-							$priceComplete = false;
+	<?php 
+	$priceStyle = '';
+	if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){
+		$this->headScript()->captureStart(); ?>
+		dojo.addOnLoad(function() {
+			priceInfoTooltip = new dijit.Tooltip({
+				connectId: ["priceInfo"],
+				label: "<?php // must be all in one line -> js attribute	
+					$price = number_format($recipe->getAveragePrice(),2,',','.');
+					$components = $recipe->getComponents();
+					$priceComplete = true;
+					if(is_array($components)){
+						foreach ($components as $component) {
+							if(!$component->getAveragePrice()){
+								$priceComplete = false;
+							}
+							$priceList .= '<li>'.$component->amount.' '.$component->unit.' '.$component->getIngredient()->name . ': ' .
+								($component->getAveragePrice() != null ? number_format($component->getAveragePrice(),2,',','.').' €' : ' k.a. ').'</li>';
 						}
-						$priceList .= '<li>'.$component->amount.' '.$component->unit.' '.$component->getIngredient()->name . ': ' .
-							($component->getAveragePrice() != null ? number_format($component->getAveragePrice(),2,',','.').' €' : ' k.a. ').'</li>';
 					}
-				}
-				?><div style=\"text-align:left;\"><?php 
-				?><span class=\"pink\">Gesamtpreis:</span> <?php
-				if(!$priceComplete){
-					print 'über ';
-				}
-				print $price; ?> €<br /><?php
-				?><span class=\"pink\">Preisaufteilung:</span><ul <?php
-				?>style=\"font-size: 0.9em; list-style-type: circle; margin-left: 2em;\"><?php
-					print $priceList;
-				?></ul></div>"
-        });
-    });
-	<?php $this->headScript()->captureEnd(); ?>
+					?><div style=\"text-align:left;\"><?php 
+					?><span class=\"pink\">Gesamtpreis:</span> <?php
+					if(!$priceComplete){
+						print 'über ';
+					}
+					print $price; ?> €<br /><?php
+					?><span class=\"pink\">Preisaufteilung:</span><ul <?php
+					?>style=\"font-size: 0.9em; list-style-type: circle; margin-left: 2em;\"><?php
+						print $priceList;
+					?></ul></div>"
+	        });
+	    });<?php
+	    $this->headScript()->captureEnd();
+	    $priceStyle = ' style="text-decoration: underline; text-underline-style: dotted; cursor: pointer; color: rgb(84, 97, 110);"';
+	}
+	?>
 <div class="left icon" style="left: 480px;" id="priceInfo"><img  height="42" width="34"
-	src="<?php
-	print $this->baseUrl() ;
-	?>/img/icons/money.png" alt="Preis / Kosten"
-	title="Preis / Kosten" /><br /><span style="text-decoration: underline; text-underline-style: dotted; cursor: pointer; color: rgb(84, 97, 110);">
+	src="<?php print $this->baseUrl(); ?>/img/icons/money.png" alt="Preis / Kosten"
+	title="Preis / Kosten" /><br /><span<?php print $priceStyle; ?>>
 	<?php
 	if(!$priceComplete){
 		print 'über ';
