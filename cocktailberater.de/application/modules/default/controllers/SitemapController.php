@@ -115,6 +115,27 @@ class SitemapController extends Zend_Controller_Action{
 		}
 		$manufacturer = $pages; //->findOneBy('action','alcoholic');
 		$manufacturer->addPages($manufacturers2);
+		
+		// add sources
+		$sources = Website_Model_Recipe::listSources();
+		$sources2 = array();
+		foreach($sources as $source){
+			// /website/recipe/index/search_type/source/search/
+			$options = array();
+			$options['label'] = $source;
+			$options['module'] = 'website';
+			$options['controller'] = 'recipe';
+			$options['action'] = 'index';
+			$options['params'] = array();
+			$options['params']['search'] = $source;
+			$options['params']['search_type'] = 'source';
+			$page = new Zend_Navigation_Page_Mvc($options);
+			$page->set('changefreq','monthly');
+			$page->set('priority','0.5');
+			$page->setRoute('default');
+			$sources2['m'.md5($source)] = $page;
+		}
+		$pages->addPages($sources2);
 
 		if($this->_getParam('format')=='array'){
 			foreach($pages as $page){
