@@ -161,42 +161,44 @@ foreach ( $components as /* @var $component Website_Model_Component */ $componen
 	$componentString .= ' ' ;
 	
 	// ingredient tooltip
-	$this->headScript()->captureStart(); ?>
-	dojo.addOnLoad(function() {
-		zutat<?php print $component->getIngredient()->id ;?>Tooltip = new dijit.Tooltip({
-            connectId: ["zutat<?php print $component->getIngredient()->id ;?>"],
-            label: "<?php
-$alcoholLevel = $component->getIngredient()->getAverageAlcoholLevel();
-$calories = $component->getIngredient()->getAverageCaloriesKcal();
-$categories = $component->getIngredient()->getIngredientCategories();
-$products = $component->getIngredient()->getProducts();
-?><div style=\"text-align:left;\"><?php
-if($alcoholLevel){ ?><span class=\"pink\">Alkoholgehalt:</span> <?php print $alcoholLevel; ?> %<br /><?php }
-if($calories) { ?><span class=\"pink\">Kalorien:</span> <?php print round($calories/10); ?> kcal pro 100 ml<br /><?php } 
-if($categories) {?><span class=\"pink\">Kategorie:</span> <?php
-	if(is_array($categories)){
-		foreach ($categories as $category) {
-			print $category->name.'<br />';
+	if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){
+		$this->headScript()->captureStart(); ?>
+		dojo.addOnLoad(function() {
+			zutat<?php print $component->getIngredient()->id ;?>Tooltip = new dijit.Tooltip({
+	            connectId: ["zutat<?php print $component->getIngredient()->id ;?>"],
+	            label: "<?php
+	$alcoholLevel = $component->getIngredient()->getAverageAlcoholLevel();
+	$calories = $component->getIngredient()->getAverageCaloriesKcal();
+	$categories = $component->getIngredient()->getIngredientCategories();
+	$products = $component->getIngredient()->getProducts();
+	?><div style=\"text-align:left;\"><?php
+	if($alcoholLevel){ ?><span class=\"pink\">Alkoholgehalt:</span> <?php print $alcoholLevel; ?> %<br /><?php }
+	if($calories) { ?><span class=\"pink\">Kalorien:</span> <?php print round($calories/10); ?> kcal pro 100 ml<br /><?php } 
+	if($categories) {?><span class=\"pink\">Kategorie:</span> <?php
+		if(is_array($categories)){
+			foreach ($categories as $category) {
+				print $category->name.'<br />';
+			}
 		}
 	}
-}
-if($products) { ?><span class=\"pink\">Produkte:</span><?php
-	if(is_array($products)){
-		print '<ul style=\"font-size: 0.9em; list-style-type: circle; margin-left: 2em;\">';
-		foreach ($products as $product) {
-			print '<li>' . $product->name .($product->getManufacturer()->name ? ' ('.$product->getManufacturer()->name.') ' : '').' - ' .
-			str_replace('.', ',', round ( $product->size, 2 )) . ' ' . $product->unit . '</li>';
+	if($products) { ?><span class=\"pink\">Produkte:</span><?php
+		if(is_array($products)){
+			print '<ul style=\"font-size: 0.9em; list-style-type: circle; margin-left: 2em;\">';
+			foreach ($products as $product) {
+				print '<li>' . $product->name .($product->getManufacturer()->name ? ' ('.$product->getManufacturer()->name.') ' : '').' - ' .
+				str_replace('.', ',', round ( $product->size, 2 )) . ' ' . $product->unit . '</li>';
+			}
+			print "</ul>";
 		}
-		print "</ul>";
 	}
-}
-if(!($alcoholLevel || $calories || $categories || $products)){
-	print 'Leider sind noch keine<br />Informationen zu dieser<br />Zutat vorhanden, wir<br />arbeiten daran ;)';
-}
-?></div>"
-        });
-    });
-	<?php $this->headScript()->captureEnd();
+	if(!($alcoholLevel || $calories || $categories || $products)){
+		print 'Leider sind noch keine<br />Informationen zu dieser<br />Zutat vorhanden, wir<br />arbeiten daran ;)';
+	}
+	?></div>"
+	        });
+	    });
+		<?php $this->headScript()->captureEnd();
+	}
 	// end of ingredient tooltip
 	
 	$componentString .= '<a id="zutat'.$component->getIngredient()->id.'" '.
@@ -327,30 +329,32 @@ function clearRatingFormError(){
 <div class="wert"><ul id="tagList" class="no-bullet"><?php
 $tags =  Website_Model_Tag::tagsByRecipeId($recipe->id,true);
 foreach($tags as $tag){
-	$this->headScript()->captureStart(); ?>
-dojo.addOnLoad(function() { 
-	tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>Tooltip = new dijit.Tooltip({
-		connectId: ["tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>"], 
-		label: "<?php $list = Website_Model_Recipe::getRecipesByTag ( $tag->getTitle(), 5); ?>
-<h2 class=\"pink\" style=\"font-size: 1em; margin:0;\">Rezepte mit dem Tag &quot;<?php echo $tag->getTitle(); ?>&quot;:</h2><?php 
-?><ul style=\"text-align:left; width: 14em;\" class=\"clear no-bullet\"><?php
-foreach ($list as $key => /* @var $taggedRecipe Website_Model_Recipe */$taggedRecipe) {
-	$photos = $taggedRecipe->getPhotos(1);
-	?><li style=\"width: 6em; height: 15em; padding: 0.4em; font-size: 0.7em; clear: none; line-height: 1.5em;\" class=\"left center\"><?php 
-	?><img style=\"height: 80px; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" <?php 
-		?>src=\"<?php print $this->baseUrl();
-			if(isset($photos[0]) && $photos[0]->id){
-				print '/img/recipes/'.$this->escape($photos[0]->fileName);
-			} else { 
-				$photos[0] = $taggedRecipe->getGlass()->getPhoto();
-				print '/img/glasses/'.$this->escape($photos[0]->originalFileName);
-			} ?>\" /><br /><?php echo $this->escape(str_replace('\\','',$taggedRecipe->name)) ?><?php 
-	?></li><?php 
-} if(count($list)==5){ ?><li style=\"width: 60px; height: 140px; padding: 0.2em; font-size: 0.7em; clear: none;\" class=\"left center\"><?php 
+	if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){
+		$this->headScript()->captureStart(); ?>
+	dojo.addOnLoad(function() { 
+		tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>Tooltip = new dijit.Tooltip({
+			connectId: ["tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>"], 
+			label: "<?php $list = Website_Model_Recipe::getRecipesByTag ( $tag->getTitle(), 5); ?>
+	<h2 class=\"pink\" style=\"font-size: 1em; margin:0;\">Rezepte mit dem Tag &quot;<?php echo $tag->getTitle(); ?>&quot;:</h2><?php 
+	?><ul style=\"text-align:left; width: 14em;\" class=\"clear no-bullet\"><?php
+	foreach ($list as $key => /* @var $taggedRecipe Website_Model_Recipe */$taggedRecipe) {
+		$photos = $taggedRecipe->getPhotos(1);
+		?><li style=\"width: 6em; height: 15em; padding: 0.4em; font-size: 0.7em; clear: none; line-height: 1.5em;\" class=\"left center\"><?php 
 		?><img style=\"height: 80px; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" <?php 
-		?>src=\"<?php print $this->baseUrl(); ?>/img/wikilogo.png\" /><br />...</li><?php } ?><li></li></ul>" });
-});
-<?php $this->headScript()->captureEnd();
+			?>src=\"<?php print $this->baseUrl();
+				if(isset($photos[0]) && $photos[0]->id){
+					print '/img/recipes/'.$this->escape($photos[0]->fileName);
+				} else { 
+					$photos[0] = $taggedRecipe->getGlass()->getPhoto();
+					print '/img/glasses/'.$this->escape($photos[0]->originalFileName);
+				} ?>\" /><br /><?php echo $this->escape(str_replace('\\','',$taggedRecipe->name)) ?><?php 
+		?></li><?php 
+	} if(count($list)==5){ ?><li style=\"width: 60px; height: 140px; padding: 0.2em; font-size: 0.7em; clear: none;\" class=\"left center\"><?php 
+			?><img style=\"height: 80px; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" <?php 
+			?>src=\"<?php print $this->baseUrl(); ?>/img/wikilogo.png\" /><br />...</li><?php } ?><li></li></ul>" });
+	});
+	<?php $this->headScript()->captureEnd();
+	}
 	?>
 	<li class="left" style="clear: none; margin-right: 0.4em;"><a href="<?php print $this->url(array('controller'=>'recipe',
 	'action'=>'index','index'=>'index','search_type'=>'tag',
