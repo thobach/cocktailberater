@@ -3,7 +3,7 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 
 	// display mobile page if 'mobile' or 'webos' is found in user agent
 	// see http://en.wikipedia.org/wiki/List_of_user_agents_for_mobile_phones
-	private $_agents = array(
+	private static $_agents = array(
         'mobile'		=> array('ipad'),
         'webos'			=> false,
 		'symbian'		=> false,
@@ -42,7 +42,7 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 		// get user agent
 		$uAgent = $request->HTTP_USER_AGENT;
 		// check if useragent contains 'mobile' or 'webos'
-		foreach ($this->_agents as $agent => $negation) {
+		foreach (Wb_Controller_Plugin_Layout::$_agents as $agent => $negation) {
 			if (stripos($uAgent, $agent) !== false) {
 				// but not on mobile -> ipad
 				if ($negation) {
@@ -67,5 +67,16 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 			return;
 		}
 
+	}
+	
+	public static function requestFromTouchDevice(){
+		// get user agent
+		$uAgent = Zend_Controller_Front::getInstance()->getRequest()->HTTP_USER_AGENT;
+		foreach (Wb_Controller_Plugin_Layout::$_agents as $agent => $negation) {
+			if (stripos($uAgent, $agent) !== false) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
