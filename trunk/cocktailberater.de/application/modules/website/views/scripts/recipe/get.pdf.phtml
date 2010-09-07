@@ -78,17 +78,6 @@ if(is_array($lines)){
 	}
 }
 
-// source
-if($this->recipe->source){
-	$lines = explode("\n",$this->wrappedPdfText('Quelle: '.
-	$this->recipe->source,$style,$width-70)) ;
-	if(is_array($lines)){
-		foreach($lines as $line){
-			$page->drawText($line, 50, $height-24*++$i,'UTF-8');
-		}
-	}
-}
-
 // picture
 $photos = $this->recipe->getPhotos(1);
 $image = NULL;
@@ -144,6 +133,16 @@ if($image){
 				$height-100-$dimensionsNew[1]-10,
 				$width-145+20*($rating+1),
 				$height-100-$dimensionsNew[1]-30);
+			}
+		}
+	}
+	// source
+	if($this->recipe->source){
+		$lines = explode("\n",$this->wrappedPdfText('Quelle: '.
+		$this->recipe->source,$style,180)) ;
+		if(is_array($lines)){
+			foreach($lines as $line){
+				$page->drawText($line, $width-140-$dimensionsNew[0]/2, $height-100-$dimensionsNew[1]-30-24*(++$k),'UTF-8');
 			}
 		}
 	}

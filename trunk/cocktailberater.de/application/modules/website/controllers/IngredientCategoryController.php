@@ -26,6 +26,7 @@ class Website_IngredientCategoryController extends Wb_Controller_RestController 
 			$ingredientCategory = Website_Model_CbFactory::factory('Website_Model_IngredientCategory',$ingredientCategoryId);
 			$this->view->ingredientCategory = $ingredientCategory ;
 			$this->view->ingredients = Website_Model_IngredientCategory::getIngredientsByCategory($ingredientCategoryId);
+			$this->view->placeholder('label')->set($ingredientCategory->name);
 			$this->view->title = 'Zutaten der Kategorie '.$ingredientCategory->name.'';
 		}
 	}

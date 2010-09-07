@@ -45,6 +45,7 @@ class ErrorController extends Zend_Controller_Action {
 		$this->view->exception 	= $errors->exception;
 		$this->view->request   	= $errors->request;
 		$this->view->format 	= $this->_getParam('format');
+		$this->view->title		= 'Fehler beim Aufruf von "'.$this->view->title.'"';
 	}
 
 

@@ -1,7 +1,7 @@
 <div class="content">
 <h2>WebServices / API</h2>
 <h3 class="pink">Zugriff auf den cocktailberater</h3>
-<p>Der cocktailberater bietet viele offene Schnittstellen an, welcher
+<p>Der cocktailberater bietet viele offene Schnittstellen an, welche
 allerdings noch nicht stabil sind. Wollen Sie also dauerhaft eine
 Schnittstelle verwenden, geben Sie uns bitte Bescheid, damit wir die
 Schnittstelle auch in Zukunft garantieren können. Wir richten auch gern
@@ -25,7 +25,8 @@ werden, zum Beispiel <code>/4711</code>.</p>
 bekommen wäre: <code>http://www.cocktailberater.de/website/recipe/?format=xml</code>
 oder um alle Kommentare als Atom-Feed zu bekommen: <code>http://www.cocktailberater.de/website/comment?format=atom</code>.</p>
 <p>Die folgende Tabelle listet alle bisher öffentlichen
-REST-Schnittstellen auf.</p>
+REST-Schnittstellen auf. Die Formate sind jeweils mit einem Beispiel
+verlinkt.</p>
 <table class="table">
 	<thead>
 		<tr>
@@ -182,11 +183,12 @@ REST-Schnittstellen auf.</p>
 		</tr> -->
 	</tbody>
 </table>
-<p>Die generische URI zur Resource lautet: <code>http://www.cocktailberater.de/website/[:Resource:]/ [:ID:]?format[:Format:]</code>.
-Es ist bisher nicht möglich die HTTP-Methoden POST, PUT oder DELETE etc.
-auf die Resourcen anzuwenden.</p>
+<p>Die generische URI zur Resource lautet: <code>http://www.cocktailberater.de/website/[:Resource:]/
+[:ID:]?format[:Format:]</code>. Es ist bisher nicht möglich die
+HTTP-Methoden POST, PUT oder DELETE etc. auf die Resourcen anzuwenden.</p>
 <h3 class="pink">Web-Service Schnittstelle (WSDL)</h3>
 <p>Der cocktailberater bietet auch eine <a
 	href="http://www.cocktailberater.de/website/wsdl?wsdl">WSDL-Schnittstelle</a>
-an.</p>
+an. Hiermit können Rezepte nach ID, Name, Zutat, Tag und
+Schwierigkeitsgrad gesucht werden.</p>
 </div>

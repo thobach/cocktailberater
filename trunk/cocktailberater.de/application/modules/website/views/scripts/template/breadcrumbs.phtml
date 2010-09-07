@@ -1,0 +1,7 @@
+<?php
+echo '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">'.implode(
+		' › ', 
+		array_map( 
+			create_function('$a', 
+							'return "<a href=\"".$a->getHref()."?format=".Zend_Controller_Front::getInstance()->getRequest()->getParam(\'format\',\'html\')."\" itemprop=\"url\"><span itemprop=\"title\">".$a->getLabel()."</span></a>";'), 
+			$this->pages)).'</span>';

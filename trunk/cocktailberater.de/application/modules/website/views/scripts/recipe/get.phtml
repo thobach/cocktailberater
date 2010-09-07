@@ -574,35 +574,41 @@ dojo.addOnLoad(function(){
 		$currentCommentNumber = 0;
 		foreach ( $this->recipe->getComments() as $comment ) {
 			$currentCommentNumber++;
-			print '<li style="border-bottom: 1px solid rgb(170, 16, 97); margin-bottom: 0.5em;"'.
-			($currentCommentNumber>3 ? ' class="hide"' : '').'  itemscope itemtype="http://data-vocabulary.org/Review">
-				<span class="hide" itemprop="itemreviewed">'.
+			?><li style="border-bottom: 1px solid rgb(170, 16, 97); margin-bottom: 0.5em;"
+			<?php ($currentCommentNumber>3 ? ' class="hide"' : '') ?> itemscope itemtype="http://data-vocabulary.org/Review">
+				<span class="hide" itemprop="itemreviewed"><?php 
 				str_replace ( '\\', '', $recipe->name ).
 				($recipe->isOriginal ? ' (original)' : '').
-				(!$recipe->isAlcoholic() ? ' (alkoholfrei)' : '').'</span><p><!-- #'.
-				($amountOfComments--).' von --><em>' ;
+				(!$recipe->isAlcoholic() ? ' (alkoholfrei)' : '') ?></span>
+				<p><!-- #'.
+				($amountOfComments--).' von --><em>
+			<?php 
 			if ($comment->memberId) {
 				$member = new Website_Model_Member ( $comment->memberId ) ;
-				print '<a href="mailto:' . $this->escape($member->email) . '" itemprop="reviewer">' . $this->escape(stripslashes($member->firstname)) . ' ' . $this->escape(stripslashes($member->lastname)) . '</a>' ;
+				?><a href="mailto:<?php print $this->escape($member->email); ?>" itemprop="reviewer">
+				<?php print $this->escape(stripslashes($member->firstname)); ?> 
+				<?php print $this->escape(stripslashes($member->lastname)); ?></a><?php 
 			} else if($comment->name){
 				if($comment->name && $comment->email){
-					print '<a href="mailto:' . $this->escape($comment->email) . '" itemprop="reviewer">' . $this->escape(stripslashes($comment->name)) . '</a>' ;
+					?><a href="mailto:<?php print $this->escape($comment->email); ?>" itemprop="reviewer">
+					<?php print $this->escape(stripslashes($comment->name)); ?></a><?php
 				} else {
 					print $this->escape(stripslashes($comment->name));
 				}
-			} else {
-				print 'anonym' ;
+			} else { ?>
+				anonym <?php 
 			}
-			print '</em> schreibt: <span itemprop="description">';
-			$insertDate = new Zend_Date($comment->insertDate,Zend_Date::ISO_8601);
+			?></em> schreibt: <span itemprop="description">
+			<?php $insertDate = new Zend_Date($comment->insertDate,Zend_Date::ISO_8601);
 			print ''.stripslashes(str_replace (array("\r\n", "\r", "\n",'\r\n', '\r', '\n'),
-				'<br />',$this->escape($comment->comment))).
-					'</span> <span style="color: #888888" itemprop="dtreviewed" datetime="'.$insertDate->get(Zend_Date::DATE_SHORT,new Zend_Locale('de_DE')).'">'.
-					$insertDate->get(Zend_Date::DATETIME_SHORT,new Zend_Locale('de_DE')).
-					' Uhr</span></p></li>';
+				'<br />',$this->escape($comment->comment))); ?></span> 
+				<span style="color: #888888" itemprop="dtreviewed" datetime="<?php 
+				print $insertDate->get(Zend_Date::DATE_SHORT,new Zend_Locale('de_DE')); ?>"><?php 
+				print $insertDate->get(Zend_Date::DATETIME_SHORT,new Zend_Locale('de_DE')); ?> Uhr</span>
+				</p></li><?php 
 		}
-	} else {
-		print '<li>keine Kommentare vorhanden</li>' ;
+	} else { ?>
+		<li>keine Kommentare vorhanden</li><?php 
 	}
 	?></ul>
 	<a id="switchc1" href="#comments" 
@@ -619,23 +625,36 @@ dojo.addOnLoad(function(){
 	action="<?php print $this->url(array('module'=>'website','controller'=>'comment'),null,true); ?>#comment-insert"
 	method="post">
 <fieldset>
-	<legend><a id="comment-insert">Kommentar hinzufügen</a></legend>
-	<?php if($this->comment_error) { ?>
-		<p class="error"><?php print $this->comment_error; ?></p>
-	<?php }
+	<legend><a id="comment-insert">Kommentar hinzufügen</a></legend><?php 
+	if($this->comment_error) { ?>
+		<div class="error"><p>Leider ist ein Fehler beim Einfügen deines 
+			Kommentares aufgetreten. Bitte überprüfe deine Eingabe!</p>
+		<ul><?php 
+			foreach($this->comment_error as $comment){ 
+				if(is_array($comment)){ 
+					foreach($comment as $subComment){ ?>
+						<li><?php print $subComment; ?></li><?php
+					} 
+				} else { ?>
+					<li><?php print $comment; ?></li><?php 
+				}
+			} ?>
+		</ul>
+		</div><?php 
+	}
 	if($this->comment_success) { ?>
-		<p class="success"><?php print $this->comment_success; ?></p>
-	<?php } 
+		<p class="success"><?php print $this->comment_success; ?></p><?php 
+	} 
 	if(!$this->comment_success) { ?>
 	<label for="name" class="clear pink left">Dein Name (optional):</label>  
-	<input name="name" id="name" class="clear text left abstand_unten big" 
+	<input name="name" id="name" class="clear text left abstand_unten big<?php if($this->comment_error['name']){ print ' error'; } ?>" 
 		value="<?php if($this->comment_error) { print $_POST['name']; } ?>" />
 	<label for="email" class="clear pink left">Deine E-Mail-Adresse (optional):</label>  
-	<input name="email" id="email" class="clear text left abstand_unten big" 
+	<input name="email" id="email" class="clear text left abstand_unten big<?php if($this->comment_error['email']){ print ' error'; } ?>" 
 		value="<?php if($this->comment_error) { print $_POST['email']; } ?>" />
 	<label for="comment" class="clear pink left">Dein Kommentar (reiner Text):</label>  
 	<textarea name="comment" id="comment" rows="10" cols="60" 
-		class="clear text left abstand_unten"><?php 
+		class="clear text left abstand_unten<?php if($this->comment_error['comment']){ print ' error'; } ?>"><?php 
 		if($this->comment_error) { print $_POST['comment']; } ?></textarea>
 	<label for="captcha" class="clear left" style="width: 130px; color: #444444">
 		<span class="pink">Spamschutz:</span><br />
@@ -654,7 +673,7 @@ dojo.addOnLoad(function(){
 	</label>
 	<span class="left" style="margin-top: 26px;"><input name="captcha[input]" 
 		id="captcha" value="" style="width:112px; margin-bottom: 0.7em;" 
-		class="clear text left" /></span>
+		class="clear text left<?php if($this->comment_error['captcha']){ print ' error'; } ?>" /></span>
 	<span class="left" style="margin-left: 0.5em; margin-top: 0;"><span 
 		onclick="reloadCaptcha();" class="link">Spamschutz neu laden</span></span>
 	<span class="left" style="margin-left: 3px;">
@@ -662,9 +681,9 @@ dojo.addOnLoad(function(){
 	<input type="hidden" id="captchaId" name="captcha[id]" value="<?php echo $captchaId; ?>" />
 	<input type="hidden" name="recipe" value="<?php echo $this->recipe->id; ?>" />
 	<input type="submit" class="right pink" value="abschicken" name="submit"
-	style="margin-top: 0.5em; margin-right: 3px;" />
-	
-<?php } ?></fieldset>
+	style="margin-top: 0.5em; margin-right: 3px;" /><?php 
+	} ?>
+</fieldset>
 </form>
 </div>
 <?php if($gesamt) { ?>
