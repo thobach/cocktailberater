@@ -85,10 +85,39 @@ $homePage = array('module'=>'website','controller'=>'index','action'=>'index');
 		?>
 		<p class="breadcrumb">
 			<?php
+			
+			// replace 'Zutat' in breadcrumb with specific ingredient
+			if($breadCrumbContainer->findOneBy('label', 'Zutat')){
+				$ingredientPage = $breadCrumbContainer->findOneBy('label', 'Zutat');
+				$ingredientPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
+						getParam('id')));
+				$ingredientPage->setLabel($this->placeholder('label')->toString());
+			}
+			// replace 'Zutatenkategorie' in breadcrumb with specific ingredient-category
+			if($breadCrumbContainer->findOneBy('label', 'Zutatenkategorie')){
+				$ingredientCategoryPage = $breadCrumbContainer->findOneBy('label', 'Zutatenkategorie');
+				$ingredientCategoryPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
+						getParam('id')));
+				$ingredientCategoryPage->setLabel($this->placeholder('label')->toString());
+			}
+			// replace 'Produkt' in breadcrumb with specific product
+			if($breadCrumbContainer->findOneBy('label', 'Produkt')){
+				$productPage = $breadCrumbContainer->findOneBy('label', 'Produkt');
+				$productPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
+						getParam('id')));
+				$productPage->setLabel($this->placeholder('label')->toString());
+			}
+			// replace '_Hersteller_' in breadcrumb with specific manufacturer
+			if($breadCrumbContainer->findOneBy('label', '_Hersteller_')){
+				$manufacturerPage = $breadCrumbContainer->findOneBy('label', '_Hersteller_');
+				$manufacturerPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
+						getParam('id')));
+				$manufacturerPage->setLabel($this->placeholder('label')->toString());
+			}
 			// print breadcrumb with specific resource format
-			$breadcrumb = $this->navigation($breadCrumbContainer)->
-							breadcrumbs()->setSeparator(' &gt;'.PHP_EOL);
-			print str_replace('">','?format=mobile">',$breadcrumb); ?>
+			print $this->navigation($breadCrumbContainer)->breadcrumbs()->
+					setPartial(array('template/breadcrumbs.phtml', 'website'))->
+					renderPartial(); ?>
 			<a href="#navigation">[zur Navigation]</a>
 		</p>
 		<?php

@@ -1,6 +1,12 @@
 <div class="content">
 <h2>Utensilien</h2>
-<p>In der Bar sammeln sich mit der Zeit viele Utensilien an. Hier eine kleine Übersicht.</p>
+<p>In der Bar sammeln sich mit der Zeit viele Utensilien an. Hier eine
+kleine Übersicht mit ungefähren Preisangaben. Die Aufbau einer Bar kann
+schrittweise erfolgen, zum Beispiel in drei Etappen wie auf unserer
+Seite zur <a
+	href="<?php print $this->url(array('module'=>'website',
+			'controller'=>'portal','action'=>'grundausstattung'),'default',true); 
+			?>?format=<?php echo $format; ?>">Barausstattung</a> beschrieben.</p>
 <ul class="abstand_oben">
 	<li>Barlöffel (ca. 5 €)</li>
 	<li>Barmesser (ca. 9 €)</li>
@@ -15,7 +21,8 @@
 	<li>Eisschaufel (ca. 15 €)</li>
 	<li>Eiszange (ca. 6 €)</li>
 	<li>Fruchtpresse (ca. 15 €)</li>
-	<li><a href="<?php print $this->url(array('module'=>'website',
+	<li><a
+		href="<?php print $this->url(array('module'=>'website',
 			'controller'=>'portal','action'=>'glas'),'default',true); 
 			?>?format=<?php echo $format; ?>">Gläser</a></li>
 	<li>Korkenzieher (ca. 8 €)</li>

@@ -1,6 +1,9 @@
 <div class="content">
 <h2>Original Cocktailrezepte</h2>
-<h3 class="pink">Cocktailrezept-Autoren</h3>
+<p>Oft ist ein Cocktailrezept keinem Autor mehr zuordenbar.
+cocktailberater versucht nur Rezepte zu veröffentlichen, von denen der
+<a href="#autor">Autor</a> bekannt ist. Daher sind die meisten dargestellten Rezepte aus <a href="#quellen">Cocktailbüchern</a> übernommen.</p>
+<h3 class="pink" id="autor">Cocktailrezepte nach Autor</h3>
 <?php
 $options = array(	'controller'=>'recipe',
 					'action'=>'index',
@@ -11,7 +14,8 @@ $options = array(	'controller'=>'recipe',
 	<li><a
 		href="<?php 
 		$options['search'] = urlencode('Schumann'); 
-		print $this->url($options); ?>?format=<?php print $this->format; ?>">Charles Schumann</a>:
+		print $this->url($options); ?>?format=<?php print $this->format; ?>">Charles
+	Schumann</a>:
 	<div style="margin-top: 1em;"><?php foreach($this->recipes['schumann'] as $recipe){ 
 		print $this->cocktailPreview($recipe);
 	} ?></div>
@@ -19,7 +23,8 @@ $options = array(	'controller'=>'recipe',
 	<li><a
 		href="<?php
 		$options['search'] = urlencode('Brandl');
-		print $this->url($options); ?>?format=<?php print $this->format; ?>">Franz Brandl</a>:
+		print $this->url($options); ?>?format=<?php print $this->format; ?>">Franz
+	Brandl</a>:
 	<div style="margin-top: 1em;"><?php foreach($this->recipes['brandl'] as $recipe){ 
 		print $this->cocktailPreview($recipe);
 	} ?></div>
@@ -27,7 +32,8 @@ $options = array(	'controller'=>'recipe',
 	<li><a
 		href="<?php
 		$options['search'] = urlencode('Beach');
-		print $this->url($options); ?>?format=<?php print $this->format; ?>">Donn Beach</a>:
+		print $this->url($options); ?>?format=<?php print $this->format; ?>">Donn
+	Beach</a>:
 	<div style="margin-top: 1em;"><?php foreach($this->recipes['beach'] as $recipe){ 
 		print $this->cocktailPreview($recipe);
 	} ?></div>
@@ -35,13 +41,14 @@ $options = array(	'controller'=>'recipe',
 	<li><a
 		href="<?php
 		$options['search'] = urlencode('Trader Vic');
-		print $this->url($options); ?>?format=<?php print $this->format; ?>">Trader Vic</a>:
+		print $this->url($options); ?>?format=<?php print $this->format; ?>">Trader
+	Vic</a>:
 	<div style="margin-top: 1em;"><?php foreach($this->recipes['trader_vic'] as $recipe){ 
 		print $this->cocktailPreview($recipe);
 	} ?></div>
 	</li>
 </ul>
-<h3 class="pink">Cocktailbücher und andere Quellen</h3>
+<h3 class="pink" id="quellen">Cocktailrezepte nach Cocktailbuch oder anderer Quelle</h3>
 <ul>
 <?php
 $options['search_type'] = 'source';

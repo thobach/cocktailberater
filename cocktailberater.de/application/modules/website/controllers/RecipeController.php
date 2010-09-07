@@ -147,7 +147,7 @@ class Website_RecipeController extends Wb_Controller_RestController {
 		// increase view counter for recipe at requested format
 		$this->view->recipe->addView($this->_getParam('format','html'));
 		
-		// ??
+		// xml alternative for html view (meta)
 		$this->view->xmlLink = array(
 						'rel' => 'alternate',
 						'type' => 'application/xml',
@@ -155,7 +155,6 @@ class Website_RecipeController extends Wb_Controller_RestController {
 						'href' => $this->view->url(array(
 							'id'=>$this->_getParam('id'),
 							'cocktail'=>$this->_getParam('cocktail'),'rep'=>'xml')));
-		// ??
 		$this->view->headLink($this->view->xmlLink);
 		
 		$this->view->alternatives = $this->view->recipe->getAlternatives();

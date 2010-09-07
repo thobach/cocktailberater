@@ -150,7 +150,12 @@ class Website_Model_Product
 			if(Website_Model_Product::$_avgPrices[$this->id] === NULL) {
 				// ask google base
 				$service = new Zend_Gdata_Gbase();
-				$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl());
+				try{
+					$feed = $service->getGbaseItemFeed($this->getGoogleBaseUrl());
+				} catch (Zend_Gdata_App_HttpException $e){
+					// if service is not available
+					return NULL;
+				}
 
 				// average price over all shops
 				$priceMatrix = array();

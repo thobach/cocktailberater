@@ -1,36 +1,3 @@
-<p style="margin: 1em 0 1em 0; font-size: 0.9em;"><?php
-$pages = array(
-    array(
-        'label'      => 'Start',
-        'controller' => 'index',
-	    'pages'      => array(
-	            array(
-	                'label'      => 'Portal',
-	                'module'     => 'website',
-	                'controller' => 'portal',
-	            	'action'	 => 'index',
-	            	'pages'      => array(
-			            array(
-			                'label'      => 'Barkunde',
-			                'module'     => 'website',
-			                'controller' => 'portal',
-			            	'action'	 => 'barkunde',
-					    	'pages'      => array(
-					            array(
-					                'label'      => 'Zutatenkategorien',
-					                'module'     => 'website',
-					                'controller' => 'ingredient-category'
-					           	)
-						)
-					)
-				)
-			)
-        )
-    )
-);
-$container = new Zend_Navigation($pages);
-echo str_replace('">','?format=mobile">',$this->navigation($container)->breadcrumbs());
-?> <a href="#navigation">[zur Navigation]</a></p>
 <div>
 <h2 style="margin-top: 0;">Zutatenkategorien</h2>
 <?php $i=0;
