@@ -1,5 +1,8 @@
 #summary sub-project web portal/site
 
+==Use Case Diagramm==
+[http://creately.com/app?diagID=gdugzlmw http://create.ly/gdugzlmw?nonsense=pic.png]
+
 ==Weboberfläche==
   * jense: taba, auf deiner cocktailseite steht "2 sück limette" für caipi... abgesehen davon, dass das zu viel ist für die angegebenen 6cl (da reicht eine dicke) ist der ausdruck natürlich auch nicht grade lecker...
 
