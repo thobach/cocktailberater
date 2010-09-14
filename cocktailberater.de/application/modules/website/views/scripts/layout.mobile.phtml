@@ -62,104 +62,98 @@ $homePage = array('module'=>'website','controller'=>'index','action'=>'index');
 ?>
 </head>
 <body>
-<div id="wrapper">
-	<div id="header">
-		<a href="<?php print $this->url($homePage,null,true); 
-			?>?format=mobile"><span class="hide">Startseite</span></a>
-		<h1 class="hide">cocktailberater</h1>
-	</div>
-	<div id="homepage">
-		<?php
-		// load whole navigation structure for breadcrumb 
-		// and subset for menu
-		$portalNavigationConfig = new Zend_Config_Ini(APPLICATION_PATH.
-						 '/modules/website/config/portal-navigation.ini','nav');
-		$portalNoMenuConfig = new Zend_Config_Ini(APPLICATION_PATH.
-							'/modules/website/config/portal-no-menu.ini','nav');
-		$breadCrumbContainer = new Zend_Navigation($portalNavigationConfig);
-		$menuContainer = $breadCrumbContainer;
-		$breadCrumbContainer->addPages($portalNoMenuConfig);
-		$controllersForSearch = array('recipe','cocktail','index');
-		$currentController = Zend_Controller_Front::getInstance()->
-							getRequest()->getControllerName();
-		?>
-		<p class="breadcrumb">
-			<?php
-			
-			// replace 'Zutat' in breadcrumb with specific ingredient
-			if($breadCrumbContainer->findOneBy('label', 'Zutat')){
-				$ingredientPage = $breadCrumbContainer->findOneBy('label', 'Zutat');
-				$ingredientPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
-						getParam('id')));
-				$ingredientPage->setLabel($this->placeholder('label')->toString());
-			}
-			// replace 'Zutatenkategorie' in breadcrumb with specific ingredient-category
-			if($breadCrumbContainer->findOneBy('label', 'Zutatenkategorie')){
-				$ingredientCategoryPage = $breadCrumbContainer->findOneBy('label', 'Zutatenkategorie');
-				$ingredientCategoryPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
-						getParam('id')));
-				$ingredientCategoryPage->setLabel($this->placeholder('label')->toString());
-			}
-			// replace 'Produkt' in breadcrumb with specific product
-			if($breadCrumbContainer->findOneBy('label', 'Produkt')){
-				$productPage = $breadCrumbContainer->findOneBy('label', 'Produkt');
-				$productPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
-						getParam('id')));
-				$productPage->setLabel($this->placeholder('label')->toString());
-			}
-			// replace '_Hersteller_' in breadcrumb with specific manufacturer
-			if($breadCrumbContainer->findOneBy('label', '_Hersteller_')){
-				$manufacturerPage = $breadCrumbContainer->findOneBy('label', '_Hersteller_');
-				$manufacturerPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
-						getParam('id')));
-				$manufacturerPage->setLabel($this->placeholder('label')->toString());
-			}
-			// print breadcrumb with specific resource format
-			print $this->navigation($breadCrumbContainer)->breadcrumbs()->
-					setPartial(array('template/breadcrumbs.phtml', 'website'))->
-					renderPartial(); ?>
-			<a href="#navigation">[zur Navigation]</a>
-		</p>
-		<?php
-		if(in_array($currentController, $controllersForSearch)) { 
-			echo $this->partial ("template/search.mobile.phtml"); 
-		}
-		?>
-		<div id="content"><?php print $this->layout()->content ?></div>
-		<h2 id="navigation">Navigation</h2>
-		<div class="sub_nav">
-		<?php 
-		// select subpart of menu container to render
-		$communityPages = $this->navigation($menuContainer)->
-							findOneByLabel('Startseite'); 
-		print $this->navigation()->menu()->
-				renderPartial($communityPages,
-				'template/portal_nav.phtml'); 
-		?>
-		</div>
-		<h2 id="social" class="abstand_oben">Social</h2>
-		<ul class="no-bullet">
-			<li id="social_become_fan"><a 
-				href="http://www.facebook.com/cocktailberater" 
-				title="auf facebook Fan werden"><span class="social_sprites" 
-				id="spr_facebook_fan"></span> Fan werden</a></li>
-			<li id="social_share"><a 
-				href="http://www.facebook.com/sharer.php?u=<?php 
-				?>http://www.cocktailberater.de<?php echo $this->url(); 
-				?>&amp;t=<?php echo urlencode($title); ?>" 
-				title="auf facebook teilen"> <span class="social_sprites" 
-				id="spr_facebook_share"></span> Teilen</a></li>
-			<li id="social_twitter"><a href="http://twitter.com/home<?php
-				?>?status=<?php echo urlencode($title . 
-				': http://www.cocktailberater.de' . $this->url()); ?>" 
-				title="auf Twitter posten"> <span class="social_sprites" 
-				id="spr_twitter"></span>Twitter(n)</a></li>
-		</ul>
-		<p class="abstand_oben">
-			[ <a href="?format=html">Komplette Seite</a> ]
-		</p>
-	</div>
+<a id="header" href="<?php print $this->url($homePage,null,true); 
+	?>?format=mobile"><span class="hide">Startseite</span></a>
+<h1 class="hide">cocktailberater</h1>
+<?php
+// load whole navigation structure for breadcrumb 
+// and subset for menu
+$portalNavigationConfig = new Zend_Config_Ini(APPLICATION_PATH.
+				 '/modules/website/config/portal-navigation.ini','nav');
+$portalNoMenuConfig = new Zend_Config_Ini(APPLICATION_PATH.
+					'/modules/website/config/portal-no-menu.ini','nav');
+$breadCrumbContainer = new Zend_Navigation($portalNavigationConfig);
+$menuContainer = $breadCrumbContainer;
+$breadCrumbContainer->addPages($portalNoMenuConfig);
+$controllersForSearch = array('recipe','cocktail','index');
+$currentController = Zend_Controller_Front::getInstance()->
+					getRequest()->getControllerName();
+?>
+<p class="breadcrumb">
+	<?php
+	
+	// replace 'Zutat' in breadcrumb with specific ingredient
+	if($breadCrumbContainer->findOneBy('label', 'Zutat')){
+		$ingredientPage = $breadCrumbContainer->findOneBy('label', 'Zutat');
+		$ingredientPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
+				getParam('id')));
+		$ingredientPage->setLabel($this->placeholder('label')->toString());
+	}
+	// replace 'Zutatenkategorie' in breadcrumb with specific ingredient-category
+	if($breadCrumbContainer->findOneBy('label', 'Zutatenkategorie')){
+		$ingredientCategoryPage = $breadCrumbContainer->findOneBy('label', 'Zutatenkategorie');
+		$ingredientCategoryPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
+				getParam('id')));
+		$ingredientCategoryPage->setLabel($this->placeholder('label')->toString());
+	}
+	// replace 'Produkt' in breadcrumb with specific product
+	if($breadCrumbContainer->findOneBy('label', 'Produkt')){
+		$productPage = $breadCrumbContainer->findOneBy('label', 'Produkt');
+		$productPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
+				getParam('id')));
+		$productPage->setLabel($this->placeholder('label')->toString());
+	}
+	// replace '_Hersteller_' in breadcrumb with specific manufacturer
+	if($breadCrumbContainer->findOneBy('label', '_Hersteller_')){
+		$manufacturerPage = $breadCrumbContainer->findOneBy('label', '_Hersteller_');
+		$manufacturerPage->setParams(array('id' => Zend_Controller_Front::getInstance()->getRequest()->
+				getParam('id')));
+		$manufacturerPage->setLabel($this->placeholder('label')->toString());
+	}
+	// print breadcrumb with specific resource format
+	print $this->navigation($breadCrumbContainer)->breadcrumbs()->
+			setPartial(array('template/breadcrumbs.phtml', 'website'))->
+			renderPartial(); ?>
+	<a href="#navigation">[zur Navigation]</a>
+</p>
+<?php
+if(in_array($currentController, $controllersForSearch)) { 
+	echo $this->partial ("template/search.mobile.phtml"); 
+}
+?>
+<div id="content"><?php print $this->layout()->content ?></div>
+<h2 id="navigation">Navigation</h2>
+<div class="sub_nav">
+<?php 
+// select subpart of menu container to render
+$communityPages = $this->navigation($menuContainer)->
+					findOneByLabel('Startseite'); 
+print $this->navigation()->menu()->
+		renderPartial($communityPages,
+		'template/portal_nav.phtml'); 
+?>
 </div>
+<h2 id="social" class="abstand_oben">Social</h2>
+<ul class="no-bullet">
+	<li id="social_become_fan"><a 
+		href="http://www.facebook.com/cocktailberater" 
+		title="auf facebook Fan werden"><span class="social_sprites" 
+		id="spr_facebook_fan"></span> Fan werden</a></li>
+	<li id="social_share"><a 
+		href="http://www.facebook.com/sharer.php?u=<?php 
+		?>http://www.cocktailberater.de<?php echo $this->url(); 
+		?>&amp;t=<?php echo urlencode($title); ?>" 
+		title="auf facebook teilen"> <span class="social_sprites" 
+		id="spr_facebook_share"></span> Teilen</a></li>
+	<li id="social_twitter"><a href="http://twitter.com/home<?php
+		?>?status=<?php echo urlencode($title . 
+		': http://www.cocktailberater.de' . $this->url()); ?>" 
+		title="auf Twitter posten"> <span class="social_sprites" 
+		id="spr_twitter"></span>Twitter(n)</a></li>
+</ul>
+<p class="abstand_oben">
+	[ <a href="?format=html">Komplette Seite</a> ]
+</p>
 <?php if(APPLICATION_ENV=='production') { ?>
 <!-- Piwik -->
 <script type="text/javascript">
