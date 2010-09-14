@@ -336,10 +336,10 @@ foreach($tags as $tag){
 			connectId: ["tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle());?>"], 
 			label: "<?php $list = Website_Model_Recipe::getRecipesByTag ( $tag->getTitle(), 5); ?>
 	<h2 class=\"pink\" style=\"font-size: 1em; margin:0;\">Rezepte mit dem Tag &quot;<?php echo $tag->getTitle(); ?>&quot;:</h2><?php 
-	?><ul style=\"text-align:left; width: 14em;\" class=\"clear no-bullet\"><?php
+	?><ul style=\"text-align:left;\" class=\"clear no-bullet\"><?php
 	foreach ($list as $key => /* @var $taggedRecipe Website_Model_Recipe */$taggedRecipe) {
 		$photos = $taggedRecipe->getPhotos(1);
-		?><li style=\"width: 6em; height: 15em; padding: 0.4em; font-size: 0.7em; clear: none; line-height: 1.5em;\" class=\"left center\"><?php 
+		?><li style=\"width: 6em; padding: 0.4em; font-size: 0.7em; clear: none; line-height: 1.5em;\" class=\"left center\"><?php 
 		?><img style=\"height: 80px; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" <?php 
 			?>src=\"<?php print $this->baseUrl();
 				if(isset($photos[0]) && $photos[0]->id){
@@ -349,9 +349,7 @@ foreach($tags as $tag){
 					print '/img/glasses/'.$this->escape($photos[0]->originalFileName);
 				} ?>\" /><br /><?php echo $this->escape(str_replace('\\','',$taggedRecipe->name)) ?><?php 
 		?></li><?php 
-	} if(count($list)==5){ ?><li style=\"width: 60px; height: 140px; padding: 0.2em; font-size: 0.7em; clear: none;\" class=\"left center\"><?php 
-			?><img style=\"height: 80px; margin-right: 0.5em; margin-top: 0.2em; margin-bottom: 0.2em;\" <?php 
-			?>src=\"<?php print $this->baseUrl(); ?>/img/wikilogo.png\" /><br />...</li><?php } ?><li></li></ul>" });
+	} ?><li></li></ul>" });
 	});
 	<?php $this->headScript()->captureEnd();
 	}
