@@ -64,7 +64,7 @@ print str_replace("\n",'</p><p>',$recipe->description);
 ?></p></div><?php } ?>
 <div class="attribut">Zutaten:</div>
 <div class="wert"><p><strong>Cocktail</strong></p>
-<ul style="margin-left: 25px;"><?php
+<ul><?php
 $decorations = "";
 $ingredients = "";
 foreach ( $components as /* @var $component Website_Model_Component */ $component ) {
@@ -107,7 +107,7 @@ print $ingredients;
 ?></ul><?php 
 if($decorations) { ?>
 	<p class="abstand_oben"><strong>Dekoration</strong></p>
-	<ul style="margin-left: 25px;">
+	<ul>
 	<?php print $decorations; ?>
 	</ul>
 <?php 
@@ -189,7 +189,7 @@ foreach($tags as $tag){	?>
 
 <div class="attribut"><a id="comments" class="nolink">Kommentare:</a></div>
 <div class="wert">
-	<ul id="commentList" style="margin-left: 25px;"><?php
+	<ul id="commentList"><?php
 	if (count ( $this->recipe->getComments() )) {
 		$currentCommentNumber = 0;
 		foreach ( $this->recipe->getComments() as $comment ) {
@@ -234,9 +234,9 @@ foreach($tags as $tag){	?>
 	</div>
 	<?php } ?>
 </div><!-- END of class=left -->
-<div class="attribut">Weitere Informationen:</div>
+<div class="attribut clear">Weitere Informationen:</div>
 <div class="wert content">
-<ul style="list-style-position: outside; margin-left: 1.5em;">
+<ul>
 <li class="left icon">Zubereitungszeit: <?php print $recipe->workMin; ?> min</li>
 <li class="left icon">Schwierigkeitsgrad: <?php
 	if ($recipe->difficulty == Website_Model_Recipe::BEGINNER) {
