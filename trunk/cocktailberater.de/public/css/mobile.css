@@ -105,12 +105,8 @@ body {
 		sans-serif;
 	font-size: medium;
 	color: #000000;
-}
-
-#wrapper {
-	margin-bottom: 3em;
-	background-color: #FFFFFF;
-	padding-bottom: 1em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
 }
 
 /* Typography
@@ -180,14 +176,13 @@ hr {
 
 /* Header
 -----------------------------------------------------------------------------*/
-#header {
+
+a#header {
+	display: block;
+	height: 3em;
 	background-image: url('/img/logo.mobile.gif');
 	height: 50px;
-}
-
-#header a {
-	display: block;
-	height: 3em;	
+	margin-left: -0.5em;
 }
 
 /* Navigation
@@ -216,11 +211,6 @@ ul.no-bullet-mobile, li.no-bullet-mobile {
 
 /* Homepage
 -----------------------------------------------------------------------------*/
-#homepage {
-	margin-left: 0.5em;
-	margin-right: 0.5em;
-}
-
 #wiki {
 	text-align: justify;
 }
