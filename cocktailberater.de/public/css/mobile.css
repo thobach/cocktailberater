@@ -354,7 +354,7 @@ p.description {
 	padding-right: 1em;
 	text-align: center;
 	clear: none;
-	width: 110px;
+	width: 100px;
 	height: 200px;
 }
 
@@ -476,13 +476,12 @@ div.search_options {
 input#search {
 	border: 1px solid gray;
 	font-size: larger;
-	width: 6.5em;
+	width: 6em;
 }
 
 input[type=text] {
 	font-size: larger;
 }
-
 
 input[type=radio] { 
 	margin-right: 0.2em;
