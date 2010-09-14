@@ -86,6 +86,10 @@ ul li, h1, h2, h3, h4, h5 {
 	font-weight: normal;	
 }
 
+ul {
+	padding-left: 1.5em;	
+}
+
 ul li {
 	padding-top: 0.2em;	
 }
@@ -103,6 +107,7 @@ body {
 	color: #000000;
 	margin-left: 0.5em;
 	margin-right: 0.5em;
+	margin-top: 0;
 }
 
 /* Typography
