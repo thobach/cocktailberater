@@ -12,8 +12,6 @@ website:   www.cocktailberater.de
 /* Remove margin, padding and border from everything 
 -----------------------------------------------------------------------------*/
 * {
-	margin: 0;
-	padding: 0;
 	font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif;
 }
 
@@ -101,8 +99,6 @@ p.breadcrumb {
 /* Set up the document
 -----------------------------------------------------------------------------*/
 body {
-	font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana,
-		sans-serif;
 	font-size: medium;
 	color: #000000;
 	margin-left: 0.5em;
@@ -236,8 +232,7 @@ div.cocktail {
 
 div.sub_nav {
 	margin-right: 12px;
-	margin-top: 1em;
-	margin-left: 1em;	
+	margin-top: 1em;	
 }
 
 div.sub_nav span {
@@ -298,10 +293,6 @@ div.sub_nav ul.textLeft>li{
 div.sub_nav ul.textLeft>li>a {
 	font-weight: bold;
 	color: black;
-}
-
-div.sub_nav ul {
-	margin-left: 0.5em;	
 }
 
 /* Your template
