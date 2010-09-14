@@ -227,7 +227,7 @@ div {
 
 #ergebnisse{
 	clear: left;
-	width: 22.5em;	
+	/*width: 22.5em;*/	
 }
 
 div.cocktail {
@@ -263,10 +263,6 @@ div.browse ul li a img {
 
 div.browse ul li a {
 	text-decoration: underline;
-}
-
-div.content {
-	width: 100%;
 }
 
 div.content ul {
@@ -344,41 +340,15 @@ button {
 	border: 1px solid red;
 }
 
-input.small {
-	width: 3em;
-}
-
-input.medium {
-	width: 6em;
-}
-
-input.big,textarea.big {
-	width: 25em;
-}
-
 input.medium-button {
 	text-align: center;
-	width:137px;
-	height:32px;
 }
 
 input.small-button {
 	text-align: center;
-	width:94px;
-	height:22px;
-}
-
-form#tag_form .dijitTextBox, input#newtag {
-	border: 1px solid rgb(179, 179, 179);
-	width: 6em;
-}
-
-form#tag_form label {
-		
 }
 
 p.description {
-
 	color: gray;
 	margin-top: 0.2em;
 	text-align: left;
@@ -388,12 +358,9 @@ p.description {
 	float: left;
 	padding-right: 1em;
 	text-align: center;
-	width: 10em;
-	height: 10em;
 }
 
 textarea#comment {
-	width: 390px;
 	height: 60px;
 	margin-top: 0.5em;
 
@@ -428,10 +395,6 @@ div.wert p {
 
 label {
 	text-align: left;
-}
-
-label.small {
-	width: 10em;
 }
 
 #pointer {
