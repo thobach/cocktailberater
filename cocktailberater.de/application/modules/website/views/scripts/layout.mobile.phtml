@@ -30,7 +30,7 @@ $this->headMeta()->setName('generator', 'cocktailberater version '.APPLICATION_V
 // setting meta robots
 $this->headMeta()->setName('robots', 'index,follow');
 // setting meta viewport
-$this->headMeta()->setName('viewport', 'width=device-width, initial-scale=1, maxium-scale=1');
+$this->headMeta()->setName('viewport', 'width=device-width, initial-scale=1, maximum-scale=1');
 // setting google verification
 $this->headMeta()->setName('google-site-verification', 'L3zaslftTHZhIO01_Og9b-KvBNM7mecVfIyMMcj2IdM');
 echo $this->headMeta();
@@ -62,9 +62,9 @@ $homePage = array('module'=>'website','controller'=>'index','action'=>'index');
 ?>
 </head>
 <body>
-<!--<a id="header" href="<?php print $this->url($homePage,null,true); 
+<a id="header" href="<?php print $this->url($homePage,null,true); 
 	?>?format=mobile"><span class="hide">Startseite</span></a>
-<h1 class="hide">cocktailberater</h1>-->
+<h1 class="hide">cocktailberater</h1>
 <?php
 // load whole navigation structure for breadcrumb 
 // and subset for menu
