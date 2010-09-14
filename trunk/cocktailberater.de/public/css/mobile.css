@@ -230,11 +230,6 @@ div {
 	/*width: 22.5em;*/	
 }
 
-div.cocktail {
-	clear: none;	
-}
-
-
 div.sub_nav {
 	margin-right: 12px;
 	margin-top: 1em;	
@@ -358,6 +353,8 @@ p.description {
 	float: left;
 	padding-right: 1em;
 	text-align: center;
+	clear: none;
+	width: 120px;
 }
 
 textarea#comment {
