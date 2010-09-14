@@ -15,7 +15,7 @@ style="margin-bottom: 0.2em; font-weight: normal; margin-top: 1em;">Zutaten
  onclick="dojo.query('.category_<?php print $ingredientCategory->id; ?>').forEach(function(e){ e.checked=true; }); dojo.query('.category_<?php print $ingredientCategory->id; ?>_select').toggleClass('hide');">(alles auswählen)</span><span 
  class="link pointer category_<?php print $ingredientCategory->id; ?>_select hide" id="category_<?php print $ingredientCategory->id; ?>_unselect"
  onclick="dojo.query('.category_<?php print $ingredientCategory->id; ?>').forEach(function(e){ e.checked=false; }); dojo.query('.category_<?php print $ingredientCategory->id; ?>_select').toggleClass('hide');">(alles abwählen)</span><?php } ?></p>
-<ul class="clear noBullet two_column" style="margin-top: 0.5em; margin-left: 0;">
+<ul class="clear no-bullet two_column" style="margin-top: 0.5em; margin-left: 0;">
 <?php
 $ingredients=Website_Model_IngredientCategory::getIngredientsByCategory($ingredientCategory->id,true);
 foreach($ingredients as $ingredient){

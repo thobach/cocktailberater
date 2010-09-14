@@ -234,6 +234,11 @@ div {
 	clear: left;	
 }
 
+#ergebnisse{
+	clear: left;
+	width: 22.5em;	
+}
+
 div.cocktail {
 	clear: none;	
 }
@@ -396,9 +401,9 @@ p.description {
 .cocktail {
 	float: left;
 	padding-right: 1em;
-	padding-bottom: 2.5em;
 	text-align: center;
 	width: 10em;
+	height: 10em;
 }
 
 textarea#comment {

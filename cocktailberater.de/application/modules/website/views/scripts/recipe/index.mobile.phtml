@@ -5,7 +5,7 @@ if ($this->recipes) { ?>
 	style="margin-bottom: 1.5em; margin-top: 0; maring-left: 2em; margin-right: 2em;"><?php 
 	if(!$this->title) { ?>Cocktailrezepte<?php }
 	else { echo $this->title; } ?></h2>
-<div id="ergebnisse" style="clear: left;"><?php
+<div id="ergebnisse"><?php
 foreach ($this->recipes as $recipe){
 	if($this->top10){
 		echo $this->cocktailPreview ($recipe,++$i);
