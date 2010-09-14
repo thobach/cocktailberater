@@ -502,8 +502,7 @@ function insertTag(){
 		<input id="tagvalue" name="" type="text" />
 		<input name="newtag" id="newtag" value="" type="hidden" />
 		<input name="recipe" value="<?php print $recipe->id; ?>" type="hidden" />
-		<input type="submit" class="small-button" value="hinzufügen"
-			style="font-size: 0.9em;" />
+		<input type="submit" class="pink" value="hinzufügen" />
 	</fieldset>
 </form>
 </div>
@@ -580,8 +579,7 @@ dojo.addOnLoad(function(){
 				str_replace ( '\\', '', $recipe->name ).
 				($recipe->isOriginal ? ' (original)' : '').
 				(!$recipe->isAlcoholic() ? ' (alkoholfrei)' : '') ?></span>
-				<p><!-- #'.
-				($amountOfComments--).' von --><em>
+				<p><em>
 			<?php 
 			if ($comment->memberId) {
 				$member = new Website_Model_Member ( $comment->memberId ) ;
