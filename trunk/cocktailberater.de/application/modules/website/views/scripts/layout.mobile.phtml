@@ -65,6 +65,7 @@ $homePage = array('module'=>'website','controller'=>'index','action'=>'index');
 <a id="header" href="<?php print $this->url($homePage,null,true); 
 	?>?format=mobile"><span class="hide">Startseite</span></a>
 <h1 class="hide">cocktailberater</h1>
+<div id="wrapper">
 <?php
 // load whole navigation structure for breadcrumb 
 // and subset for menu
@@ -173,5 +174,6 @@ print $this->navigation()->menu()->
 </noscript>
 <!-- End Piwik Tag -->
 <?php } ?>
+</div>
 </body>
 </html>
