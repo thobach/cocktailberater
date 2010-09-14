@@ -225,10 +225,28 @@ div {
 	clear: left;	
 }
 
-#ergebnisse{
-	clear: left;
-	/*width: 22.5em;*/	
+#ergebnisse {
+	clear: left;	
 }
+
+@media all and (max-width: 140px){
+	#ergebnisse {
+		width: 140px;	
+	}	
+}
+
+@media all and (max-width: 280px){
+	#ergebnisse {
+		width: 280px;	
+	}	
+}
+
+@media all and (max-width: 420px){
+	#ergebnisse {
+		width: 420px;	
+	}	
+}
+
 
 div.sub_nav {
 	margin-right: 12px;
