@@ -102,12 +102,16 @@ p.breadcrumb {
 
 /* Set up the document
 -----------------------------------------------------------------------------*/
+html, body {
+	margin:0;
+	padding:0;
+	height:100%;
+}
 body {
 	font-size: medium;
 	color: #000000;
 	margin-left: 0.5em;
 	margin-right: 0.5em;
-	margin-top: 0;
 }
 
 /* Typography
@@ -221,31 +225,10 @@ ul.no-bullet-mobile, li.no-bullet-mobile {
 	text-align: justify;
 }
 
-div {
-	clear: left;	
-}
 
 #ergebnisse {
-	clear: left;	
-}
-
-@media all and (max-width: 140px){
-	#ergebnisse {
-		width: 140px;	
-	}	
-}
-
-@media all and (max-width: 280px){
-	#ergebnisse {
-		width: 280px;	
-	}	
-}
-
-@media all and (max-width: 420px){
-	#ergebnisse {
-		width: 420px;	
-	}	
-}
+	width: 300px;	
+}	
 
 
 div.sub_nav {
@@ -373,6 +356,7 @@ p.description {
 	text-align: center;
 	clear: none;
 	width: 120px;
+	height: 180px;
 }
 
 textarea#comment {
