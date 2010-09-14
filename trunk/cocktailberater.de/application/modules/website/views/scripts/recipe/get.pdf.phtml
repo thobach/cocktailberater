@@ -139,7 +139,9 @@ if($image){
 	// source
 	if($this->recipe->source){
 		$lines = explode("\n",$this->wrappedPdfText('Quelle: '.
-		$this->recipe->source,$style,180)) ;
+		// filter everything in ()
+		preg_replace('/\((.*)\)/', '', 
+			$this->recipe->source),$style,180)) ;
 		if(is_array($lines)){
 			foreach($lines as $line){
 				$page->drawText($line, $width-140-$dimensionsNew[0]/2, $height-100-$dimensionsNew[1]-30-24*(++$k),'UTF-8');
