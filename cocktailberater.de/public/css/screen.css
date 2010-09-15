@@ -172,6 +172,10 @@ ul,ol,dl {
 	margin-left: 1.5em;
 }
 
+dl.zend_form {
+	margin-left: 0;
+}
+
 ul ul {
 	margin-left: 1em;	
 }
@@ -825,7 +829,7 @@ table.table td,table.table th {
 -----------------------------------------------------------------------------*/
 
 .stoebern_sprites {
-	background-image     : url(/img/sprites.png);
+	background-image     : url(/img/sprites2.png);
 	background-color     : transparent;
 	background-repeat    : no-repeat;
 	float: left;
