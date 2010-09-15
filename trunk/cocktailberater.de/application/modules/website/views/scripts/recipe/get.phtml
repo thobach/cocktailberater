@@ -43,8 +43,8 @@ $this->headLink(array('rel' => 'alternate','type' => 'application/xml',
 					  'title' => $recipe->name.' - XML',
                       'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'));
 ?>
-<div itemscope itemtype="http://www.data-vocabulary.org/Recipe">
-<h2 class="textLeft" style="margin-left: 25px;" itemprop="name"><?php
+<div itemscope itemtype="http://www.data-vocabulary.org/Recipe" class="hrecipe">
+<h2 class="textLeft fn" style="margin-left: 25px;" itemprop="name"><?php
 print str_replace ( '\\', '', $recipe->name ) ;
 if($recipe->isOriginal){
 	print  ' (Originalrezept)';
@@ -65,7 +65,7 @@ $this->headScript()->captureStart();
 }
 dojo.addOnLoad(initLightbox0);
 <?php $this->headScript()->captureEnd();?>
-	<img itemprop="photo" src="<?php
+	<img itemprop="photo" class="photo" src="<?php
 	if(isset($photos[0]) && $photos[0]->fileName) { 
 		$photoUrl = $this->baseUrl() .'/img/recipes/'. $photos[ 0 ]->fileName;
 	} else {
@@ -144,7 +144,7 @@ style="margin-left: 0.4em; margin-top: 0.5em; margin-right: 1em; margin-bottom: 
 <!-- end of class="right" -->
 <div style="margin-left: 25px; margin-top: 15px; clear: none;">
 <?php if($recipe->description){?><div class="attribut">Beschreibung:</div>
-<div class="wert" itemprop="summary"><p><?php
+<div class="wert summary" itemprop="summary"><p><?php
 print str_replace("\n",'</p><p>',$recipe->description);
 ?></p></div><?php } ?>
 <div class="attribut">Zutaten:</div>
@@ -154,10 +154,10 @@ $this->dojo()->enable()->requireModule('dijit.Tooltip');
 $decorations = "";
 $ingredients = "";
 foreach ( $components as /* @var $component Website_Model_Component */ $component ) {
-	$componentString = '<li itemprop="ingredient" itemscope itemtype="http://www.data-vocabulary.org/RecipeIngredient">';
-	$componentString .= '<span itemprop="amount">'.$component->amount.'';
+	$componentString = '<li itemprop="ingredient" itemscope itemtype="http://www.data-vocabulary.org/RecipeIngredient" class="ingredient">';
+	$componentString .= '<span itemprop="amount"><span class="value">'.$component->amount.'</span>';
 	$componentString .= ' ' ;
-	$componentString .= ''.$component->unit.'</span>';
+	$componentString .= '<span class="type">'.$component->unit.'</span></span>';
 	$componentString .= ' ' ;
 	
 	// ingredient tooltip
@@ -239,7 +239,7 @@ if($decorations) { ?>
 } ?>
 </div>
 <div class="attribut">Zubereitung:</div>
-<div class="wert" itemprop="instructions"><p><?php
+<div class="wert instructions" itemprop="instructions"><p><?php
 print str_replace("\n",'</p><p>',$recipe->instruction);
 ?></p></div>
 <?php $this->headScript()->captureStart(); ?>
@@ -782,11 +782,12 @@ function showStatistics() {
 					'action'=>'get','id'=>$recipe->getUniqueName())); 
 					?>?format=rdf">RDF</a>).</li>
 		</ul>
-		<p class="abstand_oben">Eingefügt hat dieses Rezept <a href="mailto:<?php 
-		print $recipe->getMember()->email; ?>"><?php 
+		<p class="abstand_oben">Eingefügt hat dieses Rezept <a class="author" 
+		href="mailto:<?php print $recipe->getMember()->email; ?>"><?php 
 		print $recipe->getMember()->firstname.' '.
-		$recipe->getMember()->lastname; ?></a> am <?php 
-		$date = new Zend_Date($recipe->insertDate); print $date; ?>. Zuletzt 
+		$recipe->getMember()->lastname; ?></a> am <span class="published">
+		<span class="value-title" title="<?php $date = new Zend_Date($recipe->insertDate); print $date->getIso(); ?>"> </span><?php 
+		print $date; ?></span>. Zuletzt 
 		geändert wurde es am <?php $date = new Zend_Date($recipe->updateDate); 
 		print $date; ?>.</p>
 	</div><!-- END of id=statistic_details -->
@@ -799,8 +800,8 @@ function showStatistics() {
 	?>/img/zeit.png" alt="Zeitaufwand"
 	title="Zeitaufwand" height="42" width="43" /><br />
 	<time itemprop="totalTime" datetime="00:0<?php print $recipe->workMin; ?>">
-	<?php print $recipe->workMin; ?> min</time>
-	<span class="hide" itemprop="yield">1 Glas</span></div>
+	<span class="duration"><span class="value-title" title="PT0H<?php print $recipe->workMin; ?>M"> </span><?php print $recipe->workMin; ?> min</span></time>
+	<span class="hide yield" itemprop="yield">1 Glas</span></div>
 <div class="left icon" style="left: 140px;"><img
 	src="<?php
 	print $this->baseUrl() ;
@@ -889,7 +890,12 @@ function showStatistics() {
 	<span<?php print $caloriesStyle;?>><?php
 	if(!$caloriesComplete){
 		print 'über ';
-	} ?><span style="white-space: nowrap" itemprop="calories"><?php print $recipe->getCaloriesKcal(); ?> kcal</span></span></div>
+	} ?><span style="white-space: nowrap" itemprop="calories" class="nutrition">
+			<span class="value"><?php print $recipe->getCaloriesKcal(); ?></span> 
+         	<span class="type">kcal</span>
+    	</span>
+	</span>
+</div>
 <div class="left icon" style="left: 390px;"><img  height="42" width="34"
 	src="<?php
 	print $this->baseUrl() ;
