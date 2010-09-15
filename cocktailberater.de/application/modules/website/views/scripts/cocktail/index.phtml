@@ -7,7 +7,7 @@ $i=0;
 foreach ($this->cocktails as $cocktail){
 	$i++;
 	print '<li>'.
-	'<h3 class="abstand_unten"><a href="'.$this->url(array('module'=>'website','controller'=>'cocktail','action'=>'get','id'=>$cocktail->getUniqueName())).'">'.$cocktail->name.'</a></h3>';
+	'<h3 class="abstand_unten"><a href="'.$this->url(array('module'=>'website','controller'=>'cocktail','action'=>'get','id'=>$cocktail->getUniqueName())).'?format='.$this->format.'">'.$cocktail->name.'</a></h3>';
 	$recipes = $cocktail->getRecipes();
 	if(is_array($recipes)) {
 		print '<ul style="" class="no-bullet">';
@@ -16,7 +16,7 @@ foreach ($this->cocktails as $cocktail){
 			$calories = $recipe->getCaloriesKcal();
 			$photos = $recipe->getPhotos();
 			print '<li style="padding: 1em; float: left; clear: none;">';
-			print '<a href="'.$this->url().'/'.$recipe->getUniqueName().'">'.
+			print '<a href="'.$this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format='.$this->format.'">'.
 			'<img style="height: 100px;" src="'.$this->baseUrl();
 			if(isset($photos[0]) && $photos[0]->id){
 				print '/img/recipes/'.$this->escape($photos[0]->fileName);
@@ -24,14 +24,14 @@ foreach ($this->cocktails as $cocktail){
 				print '/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
 			}
 			print '" /></a>';
-			print '<br /><a href="'.$this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'">'.$recipe->name.'</a> '.
+			print '<br /><a href="'.$this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format='.$this->format.'">'.$recipe->name.'</a> '.
 			($avgPrice ? ' <br />Durchschnittspreis / Kosten: '.number_format($avgPrice,2,',','.').'&nbsp;€ ' : '').
 			($calories ? ' <br />Durchschnittskalorien: '.number_format($calories,0,',','.').'&nbsp;kcal ' : '');
 			print '</li>';
 		}
 		print '</ul>';
 	}
-	print '<hr class="abstand_unten_doppelt" /></li>';
+	print '<hr class="abstand_unten_doppelt" style="clear: both;" /></li>';
 }
 ?>
 </ul>
