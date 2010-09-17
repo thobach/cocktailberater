@@ -21,7 +21,7 @@ class Zend_View_Helper_CocktailPreview extends Zend_View_Helper_Abstract {
 		$log = Zend_Registry::get('logger');
 		$log->log('cocktailPreview, ID: '.$recipe->id,Zend_Log::DEBUG);
 		$format = Zend_Controller_Front::getInstance()->getRequest()->getParam('format');
-		// no dojo/js for mobile
+		// no dojo/js for touch devices
 		if($format != 'mobile'){
 			$this->view->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
 			$this->view->dojo()->enable()->requireModule('dijit.Tooltip');
@@ -30,7 +30,7 @@ class Zend_View_Helper_CocktailPreview extends Zend_View_Helper_Abstract {
 		Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id] = 
 			Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id] + 1;
 		
-		if($format != 'mobile'){
+		if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){
 		$this->view->headScript()->captureStart(); ?>
 dojo.addOnLoad(function() {
 	recipe<?php print $recipe->id.'_'.
@@ -54,7 +54,7 @@ if (is_array ( $components )) {
 });
 <?php
 $this->view->headScript()->captureEnd();
-		} // end no JS for mobile
+		} // end no JS for touch devices
 ?>
 <div class="cocktail<?php if($selectable){ ?> center selectable<?php } ?>"><?php 
 	if(!$selectable){ ?><a
@@ -70,7 +70,7 @@ $this->view->headScript()->captureEnd();
 	} else { 
 		print '/img/glasses/'.$recipe->getGlass()->getPhoto()->originalFileName;
 	} ?>" /><?php if(!$selectable){ ?></a><?php }
-	if($format != 'mobile' && !$selectable){ ?><a id="recipe<?php print $recipe->id.'_'.
+	if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice() && !$selectable){ ?><a id="recipe<?php print $recipe->id.'_'.
 	Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id]; ?>"
 	href="<?php print $this->view->url(array('module'=>'website',
 		'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'rest',true); ?>?format=<?php 
