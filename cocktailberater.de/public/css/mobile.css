@@ -594,10 +594,9 @@ table.table td,table.table th {
  }
 
  #spr_rum {
-	height               : 32px;
+	height               : 38px;
 	width                : 32px;
 	background-position  : -266px -0px;
-	margin-top			 : -0.4em;;
 	margin-left			 : 3px;
 	padding-right		 : 3px;
  }

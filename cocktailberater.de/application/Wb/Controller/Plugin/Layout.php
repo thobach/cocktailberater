@@ -69,6 +69,9 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 
 	}
 	
+	/**
+	 * checks if the HTTP User-Agent string contains a hint of mobile browser
+	 */
 	public static function requestFromTouchDevice(){
 		// get user agent
 		$uAgent = Zend_Controller_Front::getInstance()->getRequest()->HTTP_USER_AGENT;
