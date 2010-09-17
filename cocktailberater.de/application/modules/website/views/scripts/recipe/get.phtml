@@ -249,7 +249,9 @@ if($decorations) { ?>
 <div class="wert instructions" itemprop="instructions"><p><?php
 print str_replace("\n",'</p><p>',$recipe->instruction);
 ?></p></div>
-<?php $this->headScript()->captureStart(); ?>
+<?php 
+if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){
+$this->headScript()->captureStart(); ?>
 // sumbit the form 
 var ratingFormSubmit = function(e){
     // prevent the form from actually submitting
@@ -290,16 +292,28 @@ function clearRatingFormError(){
 	dojo.removeClass("rating_form")
 	dojo.addClass("rating_form","hide")
 }
-<?php $this->headScript()->captureEnd(); ?>
+<?php $this->headScript()->captureEnd();
+} ?>
 <div class="attribut">Bewertung:</div>
 <div class="wert" itemprop="review" itemscope itemtype="http://www.data-vocabulary.org/Review-aggregate"><?php $durchschnitt = $recipe->getRating(); ?>
-	<div id="rating_state" class="hide">&nbsp;</div>
+	<?php 
+	// js fallback
+	if($this->msg=='ok') { ?>
+		<div id="rating_state" class="success">Deine Bewertung wurde hinzugefügt.</div>
+	<?php }
+	if($this->msg=='error') { ?>
+		<div id="rating_state" class="error">Du hast schon abgestimmt!</div>
+	<?php }
+	// XHR / Json alternative
+	else { ?>
+		<div id="rating_state" class="hide">&nbsp;</div>
+	<?php } ?>
 	<form id="rating_form" method="post" style="margin-top: 0.3em;"
 	action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>">
 	<fieldset>
 		<?php for($rating = 1; $rating <= 5; $rating++){
 		?><button type="submit" id="rating<?php echo $rating; ?>"
-			onclick="dojo.byId('rating').value='<?php echo $rating; ?>'; dojo.byId('myformat').value='';" 
+			onclick="dojo.byId('rating').value='<?php echo $rating; ?>'; <?php if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?>dojo.byId('myformat').value='';<?php } ?>" 
 			onmouseover="document.getElementById('img_rating<?php 
 			echo $rating; ?>').src='<?php print $this->baseUrl() ; ?>/img/1_stars_pink.png';<?php 
 				for($rating2=1; $rating2 <= $rating; $rating2++){ 
@@ -320,8 +334,10 @@ function clearRatingFormError(){
 			<img id="img_rating<?php echo $rating; ?>" src="<?php print $this->baseUrl() ; ?>/img/<?php echo ($durchschnitt >= $rating) ? '1_stars.png' : 'not_yet_rated_1.png' ; ?>" height="18" width="18" alt="rate.." /></button><?php } ?>
 		<input name="recipe" type="hidden" value="<?php echo $recipe->id; ?>" />
 		<input name="rating" id="rating" type="hidden" value="" />
-		<input name="format" type="hidden" value="json" />
-		<input name="myformat" id="myformat" type="hidden" value="html" /> 
+		<?php if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?>
+			<input name="format" type="hidden" value="json" />
+		<?php } ?>
+		<input name="myformat" id="myformat" type="hidden" value="html" />
 			<span style="vertical-align: top;">(<?php print ($recipe->ratingsCount==1 ? 
 				'<span itemprop="count" style="vertical-align: top;">'.$recipe->ratingsCount.'</span> Stimme' : '<span class="count" style="vertical-align: top;">'.$recipe->ratingsCount.'</span> Stimmen');
 			print ' - Ø <span itemprop="rating" style="vertical-align: top;">'.number_format ( $recipe->getRating(), 2, ',', '' ).'</span>' ; ?>)</span>

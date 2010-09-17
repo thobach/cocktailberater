@@ -65,6 +65,7 @@ class Website_CommentController extends Wb_Controller_RestController {
 				$comment->save();
 				$this->view->comment_success = 'Vielen Dank für deinen Kommentar!';
 			}
+			
 			$this->_forward('get','recipe','website',array('id'=>$this->_getParam('recipe')));
 		}
 	}

@@ -41,13 +41,18 @@ class Website_RatingController extends Wb_Controller_RestController {
 				$rating->recipeId = $this->_getParam('recipe');
 				$rating->mark = $this->_getParam('rating');
 				$rating->ip = $_SERVER [ 'REMOTE_ADDR' ];
-				$rating->save();
+				if($rating->save()){
+					$msg = 'ok';
+				} else {
+					$msg = 'error';
+				}
+				// fallback for non XHR browsers
 				if($this->_getParam('myformat')=='mobile' || $this->_getParam('myformat')=='html'){
 					$this->_redirect($this->view->url(array(
 							'module'=>'website',
 							'controller'=>'recipe',
 							'action'=>'get',
-							'id'=>$this->_getParam('recipe')),'rest',true)."?format=".$this->_getParam('myformat'));
+							'id'=>$this->_getParam('recipe')),'rest',true).'?format='.$this->_getParam('myformat').'&msg='.$msg);
 				} else {
 					$this->_forward('get','rating','website',array('id'=>$rating->id)); 
 				}
