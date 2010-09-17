@@ -377,10 +377,11 @@ foreach($tags as $tag){
 	<?php $this->headScript()->captureEnd();
 	}
 	?>
-	<li class="left" style="clear: none; margin-right: 0.4em;"><a href="<?php print $this->url(array('controller'=>'recipe',
-	'action'=>'index','index'=>'index','search_type'=>'tag',
-	'search'=>$tag->getTitle())); ?>" rel="tag" 
-	id="tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()); ?>"><?php print $tag->name; ?></a></li>
+	<li class="left" style="clear: none; margin-right: 0.4em;">
+		<a href="<?php print $this->url(array('module'=>'website',
+			'controller'=>'recipe','action'=>'index','search_type'=>'tag',
+			'search'=>$tag->getTitle()),'default',true); ?>" rel="tag" 
+			id="tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()); ?>"><?php print $tag->name; ?></a></li>
 	<?php 
 }
 ?><li class="left" style="clear: none;"><a id="tag_prev" onclick="insertTag();" href="#tags" style="margin-top: 1em; text-decoration: underline;">Schlagwort hinzufügen</a></li></ul>
