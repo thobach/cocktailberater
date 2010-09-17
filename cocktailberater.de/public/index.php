@@ -22,7 +22,7 @@ defined('APPLICATION_ENV')
 	|| define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
 defined('APPLICATION_VERSION')
-	|| define('APPLICATION_VERSION', '0.9.2');
+	|| define('APPLICATION_VERSION', '1.0.0');
 	
 // Ensure library/ is on include_path
 set_include_path(
