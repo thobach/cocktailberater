@@ -29,16 +29,23 @@ class Zend_View_Helper_ProductPreview extends Zend_View_Helper_Abstract {
 		
 		<span class="pink">Produkt: </span><a href="<?php echo $this->view->url(
 		array('controller'=>'product','action'=>'get','module'=>'website',
-		'id'=>$product->getUniqueName())); ?>"><?php echo $product->name; ?></a>,
-		<?php echo number_format($product->size,2, ",", ".").' '.$product->unit; ?>
-		von <a href="<?php echo $this->view->url(
-		array('controller'=>'manufacturer','action'=>'get','module'=>'website',
-		'id'=>$product->getManufacturer()->getUniqueName())); ?>"><?php 
-		echo $product->getManufacturer()->name; ?></a><?php 
-		if($product->getAveragePrice()>0){?>, Durchschnittspreis: <?php echo number_format($product->getAveragePrice(),2, ",", "."); ?>&nbsp;€<?php } ?>
-		
+		'id'=>$product->getUniqueName())); ?>"><?php echo $product->name; ?></a><?php 
+		if ($product->getManufacturer()){ ?>
+			von <a href="<?php echo $this->view->url(
+			array('controller'=>'manufacturer','action'=>'get','module'=>'website',
+			'id'=>$product->getManufacturer()->getUniqueName())); ?>"><?php 
+			echo $product->getManufacturer()->name; ?></a><?php
+		}
+		?>, Menge: <?php
+		print number_format($product->size,2, ",", ".").' '.
+			($product->unit=='l' ? 'Liter' : $product->unit); 
+		if($product->caloriesKcal){ 
+		?>, Kalorien: <?php print $product->caloriesKcal; ?> kcal<?php 
+		}
+		if($product->getAveragePrice()>0){ 
+			?>, Durchschnittspreis: <?php echo number_format($product->getAveragePrice(),2, ",", "."); ?>&nbsp;€<?php 
+		} ?>
 		<br />
-		
 		<span class="pink">Zutat: </span><a href="<?php echo $this->view->url(
 		array('controller'=>'ingredient','action'=>'get','module'=>'website',
 		'id'=>$product->getIngredient()->getUniqueName())); ?>"><?php
