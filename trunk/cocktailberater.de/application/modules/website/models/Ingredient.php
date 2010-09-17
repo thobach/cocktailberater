@@ -259,7 +259,7 @@ class Website_Model_Ingredient {
 	}
 
 	/**
-	 * returns the average kcal of the product per given unit
+	 * returns the average kcal of the ingredient per given unit (default is litre)
 	 *
 	 * @param string Unit like Component::PIECE or Component::CENTILITRE
 	 * @return int|null Kcall
@@ -268,7 +268,9 @@ class Website_Model_Ingredient {
 		if($this->averageCaloriesKcal[$unit] === NULL){
 			$db = Zend_Db_Table::getDefaultAdapter();
 			if($unit==Website_Model_Component::PIECE){
-				$res = $db->fetchRow ( 'SELECT
+				$res = $db->fetchRow ( 'SELECT 
+						AVG(avgCaloriesPerUnit.averageCaloriesKcal) AS averageCaloriesKcal
+					FROM (SELECT
 					CASE unit 
 						WHEN \'g\' THEN AVG(caloriesKcal/size)*AVG(size)/'.$this->pieces_in_whole.'
 						WHEN \'kg\' THEN AVG(caloriesKcal/size)*AVG(size)/'.$this->pieces_in_whole.'
@@ -276,14 +278,17 @@ class Website_Model_Ingredient {
 					END	
 					averageCaloriesKcal
 					FROM `product` 
-					WHERE ingredient='.$this->id.' AND caloriesKcal IS NOT null');
+					WHERE ingredient='.$this->id.' AND caloriesKcal IS NOT null
+					GROUP BY unit) AS avgCaloriesPerUnit');
 			} else if($unit==Website_Model_Component::WHOLE){
 				$res = $db->fetchRow ( 'SELECT
 					AVG(caloriesKcal/size)*AVG(size) AS averageCaloriesKcal
 					FROM `product` 
 					WHERE ingredient='.$this->id.' AND caloriesKcal IS NOT null');
 			} else if($unit==Website_Model_Component::TEASPOON){
-				$res = $db->fetchRow ( 'SELECT
+				$res = $db->fetchRow ( 'SELECT 
+						AVG(avgCaloriesPerUnit.averageCaloriesKcal) AS averageCaloriesKcal
+					FROM (SELECT
 					CASE unit 
 						WHEN \'g\' THEN AVG(caloriesKcal/size/densityGramsPerCm3)*5
 						WHEN \'kg\' THEN AVG(caloriesKcal/size/densityGramsPerCm3/1000)*5
@@ -294,9 +299,12 @@ class Website_Model_Ingredient {
 					END	
 					averageCaloriesKcal
 					FROM `product` 
-					WHERE ingredient='.$this->id.' AND caloriesKcal IS NOT null');
+					WHERE ingredient='.$this->id.' AND caloriesKcal IS NOT null
+					GROUP BY unit) AS avgCaloriesPerUnit');
 			} else {
-				$res = $db->fetchRow ( 'SELECT
+				$res = $db->fetchRow ('SELECT 
+						AVG(avgCaloriesPerUnit.averageCaloriesKcal) AS averageCaloriesKcal
+					FROM (SELECT
 					CASE unit 
 						WHEN \'l\' THEN AVG(caloriesKcal/size) 
 						WHEN \'cl\' THEN AVG(caloriesKcal/size*100) 
@@ -308,7 +316,8 @@ class Website_Model_Ingredient {
 					END	
 					averageCaloriesKcal
 					FROM `product` 
-					WHERE ingredient='.$this->id.' AND caloriesKcal IS NOT null');
+					WHERE ingredient='.$this->id.' AND caloriesKcal IS NOT null
+					GROUP BY unit) AS avgCaloriesPerUnit');
 			}
 			if($res['averageCaloriesKcal'] === NULL){
 				$this->averageCaloriesKcal[$unit] = NULL;
