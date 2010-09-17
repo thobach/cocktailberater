@@ -7,9 +7,6 @@
 class Website_PortalController extends Zend_Controller_Action {
 
 	public function init() {
-		$log = Zend_Registry::get('logger');
-		$log->log('Website_PortalController->init',Zend_Log::DEBUG);
-
 		/*
 		 * use $this->_helper->getHelper('contextSwitch') instead of static call
 		 * Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch')
@@ -370,8 +367,10 @@ class Website_PortalController extends Zend_Controller_Action {
 				$sellerMail->send();
 			} else {
 				// error -> back to contact form
-				return $this->_forward('contact');
+				$this->_forward('contact');
 			}
+		} else {
+			$this->_forward('contact');
 		}
 	}
 
@@ -416,7 +415,7 @@ class Website_PortalController extends Zend_Controller_Action {
 		$layout = Zend_Layout::getMvcInstance();
 		if (null !== $layout && $layout->isEnabled()) {
 			$context = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch')->getCurrentContext();
-			if (null !== $context) {
+			if (null !== $context && !strstr($layout->getLayout(), '.'.$context)) {
 				$layout->setLayout($layout->getLayout() . '.' . $context);
 			}
 		}
