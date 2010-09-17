@@ -166,6 +166,8 @@ class Website_RecipeController extends Wb_Controller_RestController {
 		}
 		// for feed.phtml -> rss or atom
 		$this->view->format = $this->_getParam('format','html');
+		// for js-fallback on rating
+		$this->view->msg = $this->_getParam('msg');
 	}
 
 }
