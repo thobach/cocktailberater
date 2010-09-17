@@ -110,23 +110,28 @@ dojo.addOnLoad(initLightbox<?php echo $imageCounter; ?>);
 		<?php } // foreach
 	} // is array
 
-?><a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
+if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?>
+<a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=atom"><img src="<?php 
 echo $this->baseUrl();?>/img/icons/atom_2.png" alt="Atom" style="margin-right: 1em;" /></a>
-
+<?php }
+if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?>
 <span class="link" id="alternate_options_link" 
 onclick="dojo.toggleClass('alternate_options_link', 'hide'); dojo.toggleClass('alternate_options', 'hide');" 
 style="margin-right: 1em; vertical-align: top; text-decoration: none;">&gt;</span>
-
-<span class="hide" id="alternate_options"><a 
+<?php } ?>
+<span <?php if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?>class="hide"<?php } ?>
+ id="alternate_options">
+<?php if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?><a 
 href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=rss"><img 
 src="<?php echo $this->baseUrl();?>/img/icons/rss_2.png" alt="RSS" 
-style="margin-right: 1.4em;" /></a>
+style="margin-right: 1.4em;" /></a><?php } ?>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=pdf"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/printer_2.png" alt="PDF Druck" 
 style="margin-right: 1.4em; margin-bottom: 0.3em; margin-top: 0.6em;" /></a>
+<?php if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName()));?>?format=xml"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/xml.png" alt="XML" 
@@ -134,11 +139,13 @@ style="margin-right: 1.4em; margin-bottom: 0.2em;" /></a>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=json"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/json.png" alt="JSON" 
-style="margin-bottom: 0.2em; margin-right: 1.6em; margin-top: 0.6em;" /></a><a href="<?php echo 
-$this->url(array('module'=>'website','controller'=>'recipe',
+style="margin-bottom: 0.2em; margin-right: 1.6em; margin-top: 0.6em;" /></a>
+<a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
 'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=rdf"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/rdf.png" alt="RDF" 
-style="margin-left: 0.4em; margin-top: 0.5em; margin-right: 1em; margin-bottom: 0.2em; " /></a></span>
+style="margin-left: 0.4em; margin-top: 0.5em; margin-right: 1em; margin-bottom: 0.2em; " /></a>
+<?php } ?>
+</span>
 </div><!-- end of class="right" -->
 </div>
 <!-- end of class="right" -->
