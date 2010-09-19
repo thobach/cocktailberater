@@ -64,11 +64,11 @@ foreach ( $components as /* @var $component Website_Model_Component */ $componen
 							'controller'=>'product',
 							'id'=>$component->getPreferredProduct()->getUniqueName()),
 							null,true).'?format=mobile">'.$component->getPreferredProduct()->name.
-							'</a> von <a href="'.$this->url(array('module'=>'website',
+							'</a>'.($component->getPreferredProduct()->getManufacturer() ? ' von <a href="'.$this->url(array('module'=>'website',
 							'controller'=>'manufacturer',
 							'id'=>$component->getPreferredProduct()->getManufacturer()->getUniqueName()),
 							null,true).'?format=mobile">'.
-							$component->getPreferredProduct()->getManufacturer()->name.'</a></li></ul>'; 
+							$component->getPreferredProduct()->getManufacturer()->name.'</a>' : '' ).'</li></ul>'; 
 	} 
 	$componentString .= '</li>';
 	
