@@ -2,7 +2,7 @@
 <div id="testStore"></div>
 <form method="post" id="suche_name"	action="<?php 
 $searchLink = array('module'=>'website','controller'=>'recipe','action'=>'index');
-print $this->url($searchLink,null,true); ?>">
+print $this->url($searchLink,'recipes',true); ?>">
 <fieldset>
 	<!-- hidden -->
 	<legend>Rezepte:</legend>

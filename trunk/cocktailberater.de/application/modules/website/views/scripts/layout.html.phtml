@@ -100,7 +100,7 @@ if(in_array($currentController, $controllersForSearch)) {
 		djConfig.usePlainJson=true;
 		// add the possibility to submit the search by pressing the ENTER key 
 		function init() {
-			var readStore = new custom.TestNameReadStore({url:'".$this->url($autoCompletionUrl,null,true)."', requestMethod:'get'},dojo.byId('testStore'));
+			var readStore = new custom.TestNameReadStore({url:'".$this->url($autoCompletionUrl,'rest',true)."', requestMethod:'get'},dojo.byId('testStore'));
 			var search = new dijit.form.ComboBox({store:readStore, autoComplete:false, hasDownArrow:false},dojo.byId('search'));
 			dojo.connect(dojo.byId('search'), 'onkeypress', function(e) {
 				dojo.byId('search_backup').value = dojo.byId('search').value;

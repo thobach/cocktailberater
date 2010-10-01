@@ -1,7 +1,7 @@
 <!-- search begin -->
 <form method="post" id="suche_name"	action="<?php 
 $searchLink = array('module'=>'website','controller'=>'recipe','action'=>'index');
-print $this->url($searchLink,null,true); ?>?format=mobile">
+print $this->url($searchLink,'recipes',true); ?>?format=mobile">
 <fieldset>
 	<label for="search">Cocktail:</label>
 	<input type="text" name="search" id="search" value="" />

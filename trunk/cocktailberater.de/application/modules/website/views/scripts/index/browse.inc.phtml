@@ -1,39 +1,39 @@
 <ul class="no-bullet">
 	<li><a
-		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'alcoholic'),'default',true); ?>?format=<?php print $this->format; ?>"
+		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe'),'recipes-alcoholic',true); ?>?format=<?php print $this->format; ?>"
 		title="Cocktails mit Alkohol"><span class="stoebern_sprites"
 		id="spr_alcoholic"></span>Alkoholische<?php if($this->format == 'html'){ ?><br /><?php } ?>
 	Cocktailrezepte</a></li>
 	<li><a
-		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'top10'),'default',true); ?>?format=<?php print $this->format; ?>">
+		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe'),'recipes-top10',true); ?>?format=<?php print $this->format; ?>">
 	<span class="stoebern_sprites" id="spr_top10"></span>Top 10<?php if($this->format == 'html'){ ?><br /><?php } ?>
 	Cocktailrezepte</a></li>
 	<li><a
-		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'non-alcoholic'),'default',true); ?>?format=<?php print $this->format; ?>"
+		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe'),'recipes-non-alcoholic',true); ?>?format=<?php print $this->format; ?>"
 		title="Cocktails ohne Alkohol"><span class="stoebern_sprites"
 		id="spr_non_alcoholic"></span>Alkholfreie<?php if($this->format == 'html'){ ?><br /><?php } ?>
 	Cocktailrezepte</a></li>
 	<li><a
-		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'difficulty','search'=>'beginner'),'default',true); ?>?format=<?php print $this->format; ?>">
+		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe'),'recipes-easy',true); ?>?format=<?php print $this->format; ?>">
 	<span class="stoebern_sprites" id="spr_beginner"></span>Einfache<?php if($this->format == 'html'){ ?><br /><?php } ?>
 	Cocktailrezepte</a></li>
 	<li><a
-		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'ingredient','search'=>'Vodka'),'default',true); ?>?format=<?php print $this->format; ?>">
+		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe'),'recipes-vodka',true); ?>?format=<?php print $this->format; ?>">
 	<span class="stoebern_sprites" id="spr_vodka"></span>Cocktailrezepte<?php if($this->format == 'html'){ ?><br /><?php } ?>
 	mit Vodka</a></li>
 	<li><a
-		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'ingredient','search'=>'Rum'),'default',true); ?>?format=<?php print $this->format; ?>">
+		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe'),'recipes-rum',true); ?>?format=<?php print $this->format; ?>">
 	<span class="stoebern_sprites" id="spr_rum"></span>Cocktailrezepte<?php if($this->format == 'html'){ ?><br /><?php } ?>
 	mit Rum</a></li>
 	<li><a
-		href="<?php print $this->url(array('module'=>'website','controller'=>'recipe','search_type'=>'image'),'default',true); ?>?format=<?php print $this->format; ?>">
+		href="<?php print $this->url(array('module'=>'website','controller'=>'recipe'),'recipes-images',true); ?>?format=<?php print $this->format; ?>">
 	<span class="stoebern_sprites" id="spr_image"></span>Cocktailrezepte<?php if($this->format == 'html'){ ?><br /><?php } ?>
 	mit Bildern</a></li>
 	<li><a
-		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe','search_type'=>'tag','search'=>'Klassiker'),'default',true); ?>?format=<?php print $this->format; ?>">
+		href="<?php print $this->url(array('module' => 'website', 'controller' => 'recipe'),'recipes-classics',true); ?>?format=<?php print $this->format; ?>">
 	<span class="stoebern_sprites" id="spr_classics"></span>Cocktail-<?php if($this->format == 'html'){ ?><br /><?php } ?>Klassiker</a></li>
 	<li><a
-		href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'authors'),'default',true); ?>?format=<?php print $this->format; ?>">
+		href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'authors'),'recipes-original',true); ?>?format=<?php print $this->format; ?>">
 	<span class="stoebern_sprites" id="spr_original"></span>Original-<?php if($this->format == 'html'){ ?><br /><?php } ?>Rezepte</a></li>
 	 <li><a
 		href="<?php print $this->url(array('module'=>'website','controller'=>'portal','action'=>'community'),'default',true); ?>?format=<?php print $this->format; ?>">

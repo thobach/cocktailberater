@@ -9,7 +9,7 @@
 if(is_array($this->ingredient->getIngredientCategories())){
 	foreach($this->ingredient->getIngredientCategories() as $category){ ?>
 	<a href="<?php print $this->url(array('id'=>$category->getUniqueName(),
-		'controller'=>'ingredient-category')); ?>"><?php print $category->name; ?></a>
+		'controller'=>'ingredient-category','module'=>'website'),'rest',true); ?>"><?php print $category->name; ?></a>
 <?php } ?></div>
 <?php }
 } ?>
