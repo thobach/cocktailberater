@@ -60,7 +60,7 @@ $this->view->headScript()->captureEnd();
 	if(!$selectable){ ?><a
 		href="<?php $uniqueName = $recipe->getUniqueName();
 			print $this->view->url(array('module'=>'website','controller'=>'recipe',
-			'action'=>'get','id'=>$uniqueName),'rest',true); ?>?format=<?php 
+			'action'=>'get','id'=>$uniqueName),'recipe',true); ?>?format=<?php 
 			print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"><?php 
 	} else { ?><label for="recipe_<?php print $recipe->id; ?>"><?php } ?><img
 	style="height: 100px;" alt="<?php print $recipe->name; ?>"
@@ -73,14 +73,14 @@ $this->view->headScript()->captureEnd();
 	if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice() && !$selectable){ ?><a id="recipe<?php print $recipe->id.'_'.
 	Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id]; ?>"
 	href="<?php print $this->view->url(array('module'=>'website',
-		'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'rest',true); ?>?format=<?php 
+		'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'recipe',true); ?>?format=<?php 
 	print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"
 	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>"><img alt="Info"
 	src="<?php print $this->view->baseUrl(); ?>/img/info.png" 
 	style="vertical-align: top;" height="17" width="20" /></a><?php } ?><br /><?php 
 	if(!$selectable){ ?><a
 		href="<?php print $this->view->url(array('module'=>'website',
-			'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'rest',true); ?>?format=<?php 
+			'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'recipe',true); ?>?format=<?php 
 		print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"><?php 
 	} else { 
 	}
@@ -104,7 +104,7 @@ $this->view->headScript()->captureEnd();
 		?>&nbsp;<span id="recipe<?php print $recipe->id.'_'.
 	Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id]; ?>"
 	href="<?php print $this->view->url(array('module'=>'website',
-		'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'rest',true); ?>?format=<?php 
+		'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'recipe',true); ?>?format=<?php 
 	print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"
 	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>" class="pointer"><img alt="Info"
 		src="<?php print $this->view->baseUrl(); ?>/img/info.png" 

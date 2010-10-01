@@ -48,7 +48,7 @@ class SitemapController extends Zend_Controller_Action{
 					$page->set('lastmod',$recipe->updateDate);
 					$page->set('changefreq','monthly');
 					$page->set('priority','0.9');
-					$page->setRoute('rest');
+					$page->setRoute('recipe');
 					$cocktails2['r'.$recipe->id] = $page;
 				}
 			}
@@ -70,7 +70,7 @@ class SitemapController extends Zend_Controller_Action{
 			$page->set('lastmod',$ingredient->updateDate);
 			$page->set('changefreq','monthly');
 			$page->set('priority','0.7');
-			$page->setRoute('rest');
+			$page->setRoute('ingredient');
 			$ingredients2['i'.$ingredient->id] = $page;
 		}
 		$ingredient = $pages; //->findOneBy('action','alcoholic');
@@ -90,7 +90,7 @@ class SitemapController extends Zend_Controller_Action{
 			$page->set('lastmod',$product->updateDate);
 			$page->set('changefreq','monthly');
 			$page->set('priority','0.4');
-			$page->setRoute('rest');
+			$page->setRoute('product');
 			$products2['i'.$product->id] = $page;
 		}
 		$product = $pages; //->findOneBy('action','alcoholic');
@@ -110,7 +110,7 @@ class SitemapController extends Zend_Controller_Action{
 			$page->set('lastmod',$manufacturer->updateDate);
 			$page->set('changefreq','monthly');
 			$page->set('priority','0.5');
-			$page->setRoute('rest');
+			$page->setRoute('manufacturer');
 			$manufacturers2['i'.$manufacturer->id] = $page;
 		}
 		$manufacturer = $pages; //->findOneBy('action','alcoholic');

@@ -140,7 +140,125 @@ class MyBootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		    'recipe','recipeCategory','session','tag','video');
 		$restRoute = new Zend_Rest_Route($front, array(),
 		array('website' => $restControllers));
+		
+		
+		$recipesRoute = new Zend_Controller_Router_Route(
+		    'rezept',
+		    array('controller' => 'recipe', 'action' => 'index', 'module' => 'website')
+		);
+		
+		$recipesAlcoholicRoute = new Zend_Controller_Router_Route(
+		    'alkoholische-cocktailrezepte',
+		    array(	'controller' => 'recipe', 'action' => 'index', 
+		    		'module' => 'website', 'search_type' => 'alcoholic')
+		);
+		
+		$recipesNonAlcoholicRoute = new Zend_Controller_Router_Route(
+		    'alkoholfreie-cocktailrezepte',
+		    array(	'controller' => 'recipe', 'action' => 'index', 
+		    		'module' => 'website', 'search_type' => 'non-alcoholic')
+		);
+		
+		$recipesTop10Route = new Zend_Controller_Router_Route(
+		    'top10-cocktailrezepte',
+		    array(	'controller' => 'recipe', 'action' => 'index', 
+		    		'module' => 'website', 'search_type' => 'top10')
+		);
+		
+		$recipesEasyRoute = new Zend_Controller_Router_Route(
+		    'einfache-cocktailrezepte',
+		    array(	'controller' => 'recipe', 'action' => 'index', 
+		    		'module' => 'website', 'search_type' => 'difficulty',
+		    		'search' => 'beginner')
+		);
+		
+		$recipesVodkaRoute = new Zend_Controller_Router_Route(
+		    'vodka-cocktail-rezepte',
+		    array(	'controller' => 'recipe', 'action' => 'index', 
+		    		'module' => 'website', 'search_type' => 'ingredient',
+		    		'search' => 'Vodka')
+		);
+		
+		$recipesRumRoute = new Zend_Controller_Router_Route(
+		    'rum-cocktail-rezepte',
+		    array(	'controller' => 'recipe', 'action' => 'index', 
+		    		'module' => 'website', 'search_type' => 'ingredient',
+		    		'search' => 'Rum')
+		);
+		
+		$recipesImagesRoute = new Zend_Controller_Router_Route(
+		    'cocktailrezepte-mit-bildern',
+		    array(	'controller' => 'recipe', 'action' => 'index', 
+		    		'module' => 'website', 'search_type' => 'image')
+		);
+		
+		$recipesClassicsRoute = new Zend_Controller_Router_Route(
+		    'cocktail-klassiker',
+		    array(	'controller' => 'recipe', 'action' => 'index', 
+		    		'module' => 'website', 'search_type' => 'tag',
+		    		'search' => 'Klassiker')
+		);
+		
+		$recipesOriginalRoute = new Zend_Controller_Router_Route(
+		    'original-cocktail-rezepte',
+		    array(	'controller' => 'portal', 'action' => 'authors', 
+		    		'module' => 'website')
+		);
+		
+		$recipeRoute = new Zend_Controller_Router_Route(
+		    'rezept/:id',
+		    array('controller' => 'recipe', 'action' => 'get', 'module' => 'website')
+		);
+		
+		$ingredientsRoute = new Zend_Controller_Router_Route(
+		    'zutat',
+		    array('controller' => 'ingredient', 'action' => 'index', 'module' => 'website')
+		);
+			
+		$ingredientRoute = new Zend_Controller_Router_Route(
+		    'zutat/:id',
+		    array('controller' => 'ingredient', 'action' => 'get', 'module' => 'website')
+		);
+		
+		$productsRoute = new Zend_Controller_Router_Route(
+		    'produkt',
+		    array('controller' => 'product', 'action' => 'index', 'module' => 'website')
+		);
+		
+		$productRoute = new Zend_Controller_Router_Route(
+		    'produkt/:id',
+		    array('controller' => 'product', 'action' => 'get', 'module' => 'website')
+		);
+		
+		$manufacturersRoute = new Zend_Controller_Router_Route(
+		    'hersteller',
+		    array('controller' => 'manufacturer', 'action' => 'index', 'module' => 'website')
+		);
+		
+		$manufacturerRoute = new Zend_Controller_Router_Route(
+		    'hersteller/:id',
+		    array('controller' => 'manufacturer', 'action' => 'get', 'module' => 'website')
+		);
+		
+		$front->getRouter()->addRoute('recipes', $recipesRoute);
+		$front->getRouter()->addRoute('recipes-alcoholic', $recipesAlcoholicRoute);
+		$front->getRouter()->addRoute('recipes-non-alcoholic', $recipesNonAlcoholicRoute);
+		$front->getRouter()->addRoute('recipes-top10', $recipesTop10Route);
+		$front->getRouter()->addRoute('recipes-easy', $recipesEasyRoute);
+		$front->getRouter()->addRoute('recipes-vodka', $recipesVodkaRoute);
+		$front->getRouter()->addRoute('recipes-rum', $recipesRumRoute);
+		$front->getRouter()->addRoute('recipes-images', $recipesImagesRoute);
+		$front->getRouter()->addRoute('recipes-classics', $recipesClassicsRoute);
+		$front->getRouter()->addRoute('recipes-original', $recipesOriginalRoute);
+		$front->getRouter()->addRoute('recipe', $recipeRoute);
+		$front->getRouter()->addRoute('ingredients', $ingredientsRoute);
+		$front->getRouter()->addRoute('ingredient', $ingredientRoute);
+		$front->getRouter()->addRoute('products', $productsRoute);
+		$front->getRouter()->addRoute('product', $productRoute);
+		$front->getRouter()->addRoute('manufacturers', $manufacturersRoute);
+		$front->getRouter()->addRoute('manufacturer', $manufacturerRoute);
 		$front->getRouter()->addRoute('rest', $restRoute);
+		
 		// Returns the router resource to bootstrap resource registry
 		return $router;
 	}

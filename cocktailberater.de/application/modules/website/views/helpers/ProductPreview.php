@@ -21,7 +21,7 @@ class Zend_View_Helper_ProductPreview extends Zend_View_Helper_Abstract {
 		?>
 		<li style="height: 80px; padding-top: 1em; padding-bottom: 1em;">
 		<a href="<?php echo $this->view->url(array('controller'=>'product',
-		'action'=>'get','module'=>'website','id'=>$product->getUniqueName())); ?>" 
+		'action'=>'get','module'=>'website','id'=>$product->getUniqueName()),'product',true); ?>" 
 		style="margin-right: 1em; width: 80px; height: 80px; display: block; float: left; text-align: center;"><img
 		src="<?php echo ($product->getImage() ? $product->getImage() : '/img/bottle.png'); ?>"
 		style="max-width: 80px; max-height: 80px;" 
@@ -29,11 +29,11 @@ class Zend_View_Helper_ProductPreview extends Zend_View_Helper_Abstract {
 		
 		<span class="pink">Produkt: </span><a href="<?php echo $this->view->url(
 		array('controller'=>'product','action'=>'get','module'=>'website',
-		'id'=>$product->getUniqueName())); ?>"><?php echo $product->name; ?></a><?php 
+		'id'=>$product->getUniqueName()),'product',true); ?>"><?php echo $product->name; ?></a><?php 
 		if ($product->getManufacturer()){ ?>
 			von <a href="<?php echo $this->view->url(
 			array('controller'=>'manufacturer','action'=>'get','module'=>'website',
-			'id'=>$product->getManufacturer()->getUniqueName())); ?>"><?php 
+			'id'=>$product->getManufacturer()->getUniqueName()),'manufacturer',true); ?>"><?php 
 			echo $product->getManufacturer()->name; ?></a><?php
 		}
 		?>, Menge: <?php
@@ -48,7 +48,7 @@ class Zend_View_Helper_ProductPreview extends Zend_View_Helper_Abstract {
 		<br />
 		<span class="pink">Zutat: </span><a href="<?php echo $this->view->url(
 		array('controller'=>'ingredient','action'=>'get','module'=>'website',
-		'id'=>$product->getIngredient()->getUniqueName())); ?>"><?php
+		'id'=>$product->getIngredient()->getUniqueName()),'ingredient',true); ?>"><?php
 		echo $product->getIngredient()->name; ?></a>
 	</li><?php 
 	$log->log('cocktailPreview, exiting',Zend_Log::DEBUG);

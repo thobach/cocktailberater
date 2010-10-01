@@ -25,23 +25,23 @@ $this->placeholder('type')->set('drink');
 // rdf
 $this->headLink(array('rel' => 'meta','type' => 'application/rdf+xml',
 					  'title' => $recipe->name.' - RDF',
-                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=rdf'));
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=rdf'),'recipe',true);
 // atom
 $this->headLink(array('rel' => 'alternate','type' => 'application/atom+xml',
 					  'title' => $recipe->name.' - Atom',
-                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=atom'));
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=atom'),'recipe',true);
 // rss
 $this->headLink(array('rel' => 'alternate','type' => 'application/rss+xml',
 					  'title' => $recipe->name.' - RSS',
-                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=rss'));
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=rss'),'recipe',true);
 // json
 $this->headLink(array('rel' => 'alternate','type' => 'application/json',
 					  'title' => $recipe->name.' - JSON',
-                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=json'));
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=json'),'recipe',true);
 // xml
 $this->headLink(array('rel' => 'alternate','type' => 'application/xml',
 					  'title' => $recipe->name.' - XML',
-                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'));
+                      'href' => $this->url(array('module'=>'website','controller'=>'recipe','action'=>'get','id'=>$recipe->getUniqueName())).'?format=xml'),'recipe',true);
 ?>
 <div itemscope itemtype="http://www.data-vocabulary.org/Recipe" class="hrecipe">
 <h2 class="textLeft fn" style="margin-left: 25px;" itemprop="name"><?php
@@ -112,7 +112,7 @@ dojo.addOnLoad(initLightbox<?php echo $imageCounter; ?>);
 
 if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=atom"><img src="<?php 
+'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); ?>?format=atom"><img src="<?php 
 echo $this->baseUrl();?>/img/icons/atom_2.png" alt="Atom" style="margin-right: 1em;" /></a>
 <?php }
 if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?>
@@ -124,24 +124,24 @@ style="margin-right: 1em; vertical-align: top; text-decoration: none;">&gt;</spa
  id="alternate_options">
 <?php if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?><a 
 href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=rss"><img 
+'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); ?>?format=rss"><img 
 src="<?php echo $this->baseUrl();?>/img/icons/rss_2.png" alt="RSS" 
 style="margin-right: 1.4em;" /></a><?php } ?>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=pdf"><img 
+'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); ?>?format=pdf"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/printer_2.png" alt="PDF Druck" 
 style="margin-right: 1.4em; margin-bottom: 0.3em; margin-top: 0.6em;" /></a>
 <?php if(!Wb_Controller_Plugin_Layout::requestFromTouchDevice()){ ?>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName()));?>?format=xml"><img 
+'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true);?>?format=xml"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/xml.png" alt="XML" 
 style="margin-right: 1.4em; margin-bottom: 0.2em;" /></a>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=json"><img 
+'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); ?>?format=json"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/json.png" alt="JSON" 
 style="margin-bottom: 0.2em; margin-right: 1.6em; margin-top: 0.6em;" /></a>
 <a href="<?php echo $this->url(array('module'=>'website','controller'=>'recipe',
-'action'=>'get','id'=>$recipe->getUniqueName())); ?>?format=rdf"><img 
+'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); ?>?format=rdf"><img 
 src="<?php echo $this->baseUrl(); ?>/img/icons/rdf.png" alt="RDF" 
 style="margin-left: 0.4em; margin-top: 0.5em; margin-right: 1em; margin-bottom: 0.2em; " /></a>
 <?php } ?>
@@ -210,20 +210,21 @@ foreach ( $components as /* @var $component Website_Model_Component */ $componen
 	
 	$componentString .= '<a id="zutat'.$component->getIngredient()->id.'" '.
 							'href="'.$this->url(array('module'=>'website',
-							'controller'=>'ingredient',
+							'controller'=>'ingredient','action'=>'get',
 							'id'=>$component->getIngredient()->getUniqueName()),
-							null,true).'"><span itemprop="name">'.
+							'ingredient',true).'"><span itemprop="name">'.
 							$component->getIngredient()->name.'</span></a>';
 	if($component->getPreferredProduct()){
-		$componentString .= '<ul style="margin-left: 1.9em;"><li>empfohlen <a href="'.$this->url(array('module'=>'website',
-							'controller'=>'product',
+		$componentString .= '<ul style="margin-left: 1.9em;"><li>empfohlen <a href="'.
+							$this->url(array('module'=>'website',
+							'controller'=>'product','action'=>'get',
 							'id'=>$component->getPreferredProduct()->getUniqueName()),
-							null,true).'">'.$component->getPreferredProduct()->name.
+							'product',true).'">'.$component->getPreferredProduct()->name.
 							'</a>'.($component->getPreferredProduct()->getManufacturer() ? 
 							' von <a href="'.$this->url(array('module'=>'website',
-							'controller'=>'manufacturer',
+							'controller'=>'manufacturer','action'=>'get',
 							'id'=>$component->getPreferredProduct()->getManufacturer()->getUniqueName()),
-							null,true).'">'.
+							'manufacturer',true).'">'.
 							$component->getPreferredProduct()->getManufacturer()->name.'</a>' : '').'</li></ul>'; 
 	} 
 	$componentString .= '</li>';
@@ -259,7 +260,7 @@ var ratingFormSubmit = function(e){
     e.preventDefault(); 
     // submit the form in the background    
     dojo.xhrPost({
-        url: "<?=$this->url(array('controller'=>'rating','action'=>'post','module'=>'website'),null,true)?>?format=json",
+        url: "<?=$this->url(array('controller'=>'rating','action'=>'post','module'=>'website'),'rest',true)?>?format=json",
         form: "rating_form",
         handleAs: "json",
         handle: function(data,args){
@@ -310,7 +311,7 @@ function clearRatingFormError(){
 		<div id="rating_state" class="hide">&nbsp;</div>
 	<?php } ?>
 	<form id="rating_form" method="post" style="margin-top: 0.3em;"
-	action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),null,true); ?>">
+	action="<?php print $this->url(array('module'=>'website','controller'=>'rating'),'rest',true); ?>">
 	<fieldset>
 		<?php for($rating = 1; $rating <= 5; $rating++){
 		?><button type="submit" id="rating<?php echo $rating; ?>"
@@ -378,11 +379,13 @@ foreach($tags as $tag){
 	<?php $this->headScript()->captureEnd();
 	}
 	?>
-	<li class="left" style="clear: none; margin-right: 0.4em;">
-		<a href="<?php print $this->url(array('module'=>'website',
-			'controller'=>'recipe','action'=>'index','search_type'=>'tag',
-			'search'=>$tag->getTitle()),'default',true); ?>" rel="tag" 
-			id="tag<?php print str_replace(array('-',' ','.'),array('_','__','___'),$tag->getTitle()); ?>"><?php print $tag->name; ?></a></li>
+	<li class="left" style="clear: none; margin-right: 0.4em;"><a 
+		href="<?php print $this->url(array('module'=>'website',
+			'controller'=>'recipe','action'=>'index'),'recipes',true); 
+			?>?search_type=tag&amp;search=<?php print $tag->getTitle(); ?>" 
+			rel="tag" id="tag<?php print str_replace(array('-',' ','.'),
+			array('_','__','___'),$tag->getTitle()); ?>"><?php 
+			print $tag->name; ?></a></li>
 	<?php 
 }
 ?><li class="left" style="clear: none;"><a id="tag_prev" onclick="insertTag();" href="#tags" style="margin-top: 1em; text-decoration: underline;">Schlagwort hinzufügen</a></li></ul>
@@ -397,7 +400,7 @@ $autoCompletionUrl = array('action'=>'index','controller'=>'recipe',
 							'module'=>'website','format'=>'ajax','index'=>'index');
 $this->headScript()->captureStart(); ?>
 function initTagReadStore() {
-	var tagReadStore = new custom.TagReadStore({url:"<?php echo $this->url($autoCompletionUrl,null,true); ?>", requestMethod:"get"},dojo.byId('tagReadStore'));
+	var tagReadStore = new custom.TagReadStore({url:"<?php echo $this->url($autoCompletionUrl,'default',true); ?>", requestMethod:"get"},dojo.byId('tagReadStore'));
 	var tagSearch = new dijit.form.ComboBox({store:tagReadStore, autoComplete:false, hasDownArrow:false},dojo.byId('tagvalue'));
 }
 dojo.addOnLoad(initTagReadStore);
@@ -453,7 +456,7 @@ var tagFormSubmit = function(e){
     // submit the form in the background    
     dojo.xhrPost({
         url: "<?php echo $this->url(array('controller'=>'tag','action'=>'post',
-					'module'=>'website'),null,true)?>?format=json",
+					'module'=>'website'),'rest',true)?>?format=json",
         form: "tag_form",
         handleAs: "json",
         handle: function(data,args){
@@ -479,7 +482,7 @@ var tagFormSubmit2 = function(e){
 	    // submit the form in the background    
 	    dojo.xhrPost({
 	        url: "<?php echo $this->url(array('controller'=>'tag',
-					'action'=>'post','module'=>'website'),null,true)?>?format=json",
+					'action'=>'post','module'=>'website'),'rest',true)?>?format=json",
 	        form: "tag_form",
 	        handleAs: "json",
 	        handle: function(data,args){
@@ -516,7 +519,7 @@ function insertTag(){
 <?php $this->headScript()->captureEnd(); ?>
 
 <form id="tag_form" class="regular_form hide abstand_unten clear" method="post"
-	action="<?php print $this->url(array('module'=>'website','controller'=>'tag'),null,true); ?>" style="padding-top: 1em;">
+	action="<?php print $this->url(array('module'=>'website','controller'=>'tag'),'rest',true); ?>" style="padding-top: 1em;">
 	<fieldset>
 		<legend>Schlagwort hinzufügen</legend>
 		<div id="tag_state" class="hide">&nbsp;</div>
@@ -643,7 +646,7 @@ dojo.addOnLoad(function(){
 	} ?>
 <form id="comment_form" class="regular_form clear"
 	style="margin-top: 1em;"
-	action="<?php print $this->url(array('module'=>'website','controller'=>'comment'),null,true); ?>#comment-insert"
+	action="<?php print $this->url(array('module'=>'website','controller'=>'comment'),'rest',true); ?>#comment-insert"
 	method="post">
 <fieldset>
 	<legend><a id="comment-insert">Kommentar hinzufügen</a></legend><?php 
@@ -783,28 +786,28 @@ function showStatistics() {
 				print ($printViews==1 ? '1 Aufruf' : $printViews.' Aufrufe'); ?> 
 				über die <a href="<?php echo $this->url(array(
 					'module'=>'website','controller'=>'recipe',
-					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); 
 					?>?format=pdf">Druckansicht</a> dieser Seite,</li>
 			<li style="margin-left: 2em; list-style-type: circle;"><?php 
 				print ($feedViews==1 ? '1 Aufruf' : $feedViews.' Aufrufe'); ?> 
 				über News-Reader (<a href="<?php echo $this->url(array(
 					'module'=>'website','controller'=>'recipe',
-					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); 
 					?>?format=atom">Atom</a> und <a href="<?php 
 				echo $this->url(array('module'=>'website','controller'=>'recipe',
-					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); 
 					?>?format=rss">RSS</a>) und</li>
 			<li style="margin-left: 2em; list-style-type: circle;"><?php 
 				print ($appViews==1 ? '1 Aufruf' : $appViews.' Aufrufe'); ?> 
 				über andere Programme (<a href="<?php echo $this->url(array(
 					'module'=>'website','controller'=>'recipe',
-					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); 
 					?>?format=xml">XML</a>, <a href="<?php 
 				echo $this->url(array('module'=>'website','controller'=>'recipe',
-					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); 
 					?>?format=json">JSON</a> und <a href="<?php 
 				echo $this->url(array('module'=>'website','controller'=>'recipe',
-					'action'=>'get','id'=>$recipe->getUniqueName())); 
+					'action'=>'get','id'=>$recipe->getUniqueName()),'recipe',true); 
 					?>?format=rdf">RDF</a>).</li>
 		</ul>
 		<p class="abstand_oben">Eingefügt hat dieses Rezept <a class="author" 
