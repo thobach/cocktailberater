@@ -81,10 +81,15 @@ class Website_Model_Photo {
 		$log->log('Website_Model_Photo->__construct exiting',Zend_Log::DEBUG);
 	}
 	
+	/**
+	 * Returns the absolute path to this photo
+	 * 
+	 * @return string absolute path to photo
+	 */
 	public function getPhotoUrl(){
 		return Zend_Controller_Front::getInstance()->getBaseUrl().'/img/'.
 		$this->getPhotoCategory()->folder.'/'.
-		$this->id.'.jpg';
+		$this->fileName;
 	}
 	
 	/**
