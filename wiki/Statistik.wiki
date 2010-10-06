@@ -13,7 +13,7 @@ Seitwert: http://www.seitwert.de/?url=www.thobach.de
 Seitwert: http://www.seitwert.de/?url=www.carolinebock.de
 
 
-|| *Datum* || *Seitwert cocktailberater.de* || *Seitwert thobach.de* || *Seitwert carolinebock.de* ||
+|| *Datum* || *Seitwert cocktailberater.de* || *Seitwert thobach.de* (blog.) || *Seitwert carolinebock.de* ||
 || 2009-10-14 || 9.43 || - || - ||
 || 2009-10-16 || 14.93 || - || - ||
 || 2009-10-17 || 16.43 || 27.99 || 21.14 ||
@@ -25,6 +25,7 @@ Seitwert: http://www.seitwert.de/?url=www.carolinebock.de
 || 2010-02-21 || 23.79 || 20.41 || 22.51 ||
 || 2010-05-03 || 20.19 || 25.52 || 23.15 ||
 || 2010-09-19 || 23.95 || 16.45 || 21.36 ||
+|| 2010-10-06 || 26.06 || 17.32 (11.17) || 21.31 ||
 
 =ohloh Statistiken=
 <wiki:gadget url="http://www.ohloh.net/p/385175/widgets/project_languages.xml" height="180" width="320" border="0" />
