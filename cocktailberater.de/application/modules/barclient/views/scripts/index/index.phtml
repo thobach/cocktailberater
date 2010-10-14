@@ -1,0 +1,31 @@
+<div class="welcome"><h2 class="pink">Herzlich Willkommen beim
+Barclient des cocktailberaters</h2>
+<p><strong>Funktionen</strong><br />
+Der Barclient hilft bei der Vorbereitung und Durchführung von
+Cocktailpartys, indem er folgendes ermöglicht:</p>
+<ul>
+	<li>Bestellungen eingeben, angezeigen, stornieren und abarbeiten</li>
+	<li>Gäste abgerechnen</li>
+	<li>Inventar verwalten</li>
+	<li>Cocktailkarte erstellen</li>
+	<li>Statistik anzeigen</li>
+</ul>
+<p><strong>Anmelden oder Registrieren?</strong><br />
+Um den Barclient zu nutzen brauchst du einen Account. Wenn du schon
+einen Account hast, kannst du dich <a href="<?php print $this->url(array('action'=>'login')); ?>">anmelden</a>, ansonsten
+musst du dich erst <a href="<?php print $this->url(array('action'=>'register')); ?>">registrieren</a>.</p>
+<p class="center"><a href="<?php print $this->url(array('action'=>'login')); ?>" 
+	class="button pink">anmelden</a> <a href="<?php print $this->url(array('action'=>'register')); ?>" 
+	class="button pink" style="margin-left: 40px;">registrieren</a></p>
+<p><strong>Demo-Zugang</strong><br />
+Um den Barclient auszuprobieren kannst du dich auch mit den folgenden
+Benutzerdaten <a href="<?php print $this->url(array('action'=>'login')); ?>">anmelden</a>. Der Demo-Zugang hat keine
+Beschränkungen, ist offen für alle Nutzer und wird regelmäßig
+zurückgesetzt.</p>
+<ul>
+	<li>E-Mail-Adresse: demo@cocktailberater.de</li>
+	<li>Passwort: demo</li>
+</ul>
+<a href="<?php print $this->url(array('action'=>'login')); ?>" 
+	class="button pink">mit Demozugang anmelden</a>
+</div>

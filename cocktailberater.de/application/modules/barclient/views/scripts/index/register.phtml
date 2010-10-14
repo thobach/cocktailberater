@@ -1,0 +1,14 @@
+<div class="register"><h2 class="pink">Neuen Benutzer registrieren</h2>
+<form action="" method="post"><label>Vorname: <br />
+<input type="text" /></label><label>Nachname: <br />
+<input type="text" /></label><label>E-Mail-Adresse: <br />
+<input type="email" /><span class="grey smaller">(z.B.
+max.mustermann@tollebar.de)</span> </label> <label>Passwort: <br />
+<input type="password" /></label><label>Passwort (Wiederholung): <br />
+<input type="password" /><span class="grey smaller">(um Vertipper auszuschließen)
+</span></label> <a class="grey button"
+	href="<?php print $this->url(array('action'=>'index')); ?>">Abbrechen</a><input
+	type="submit" value="Registrieren" name="action" class="pink right" /></form>
+<p>Schon registriert?  <a href="<?php print $this->url(array('action'=>'login')); ?>">Anmelden</a></p>
+
+</div>
