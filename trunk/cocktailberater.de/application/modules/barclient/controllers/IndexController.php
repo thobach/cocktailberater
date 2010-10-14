@@ -7,7 +7,23 @@
 class Barclient_IndexController extends Zend_Controller_Action {
 
 	public function indexAction () {
-		$this->_forward('index','orders');
+
+	}
+
+	public function logoutAction () {
+
+	}
+
+	public function loginAction () {
+
+	}
+	
+	public function registerAction () {
+
+	}
+	
+	public function passwordAction () {
+
 	}
 
 }

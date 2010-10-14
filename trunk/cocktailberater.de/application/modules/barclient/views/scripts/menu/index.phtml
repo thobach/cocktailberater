@@ -1,0 +1,282 @@
+<div id="menu_1">
+<div class="menu_1_pre"><span class="pink">Karte verwalten</span> <span
+	class="grey">Rezepte festlegen, die von Gästen bestellt werden können</span>
+<span class="pink">1. Einstellungen</span> &gt; 2. Rezepte aussuchen
+&gt; 3. Drucken</div>
+<div class="menu_1">
+<div class="left" style="width: 60%;">Name der Bar:<br />
+<input value="Meine Bar" /> <span class="grey">Der Barname erscheint auf
+der Frontseite der Karte.</span><br />
+
+<br />
+Standardpreis:<br />
+<input value="2,00 Euro" /> <span class="grey">Dieser Preis sollte für
+alle Cocktails gelten.</span><br />
+
+<br />
+Sonderseiten:<br />
+<ul class="no-bullet">
+	<li><label><input type="checkbox" checked="checked" />Frontseite <span
+		class="grey">mit Barname &amp; Preise</span></label></li>
+	<li><label><input type="checkbox" checked="checked" />Rückseite <span
+		class="grey">mit lustigem Foto</span></label></li>
+	<li><label><input type="checkbox" checked="checked" />Barkunde <span
+		class="grey">mit Drinkkategorien, Gläserkunde und Alkoholsorten</span></label>
+	</li>
+	<li><label><input type="checkbox" checked="checked" />cocktailberater
+	Info <span class="grey">mit Projektinformationen und Teamvorstellung</span></label>
+	</li>
+</ul>
+</div>
+<div class="right" style="width: 40%;">Rezeptseiten: <span class="grey">hilft
+unentschlossenen Gästen bei der Cocktailwahl</span>
+<ul class="pages">
+	<li
+		onmouseover="document.getElementById('category_1').style.display='inline';"
+		onmouseout="document.getElementById('category_1').style.display='none';">Süß
+	und Fruchtig <input type="button" class="pink" id="category_1"
+		value="löschen" name="action" style="display: none;" /></li>
+	<li
+		onmouseover="document.getElementById('category_2').style.display='inline';"
+		onmouseout="document.getElementById('category_2').style.display='none';">Klassiker
+	<input type="button" class="pink" id="category_2" value="löschen"
+		name="action" style="display: none;" /></li>
+	<li
+		onmouseover="document.getElementById('category_3').style.display='inline';"
+		onmouseout="document.getElementById('category_3').style.display='none';">Tropisch
+	<input type="button" class="pink" id="category_3" value="löschen"
+		name="action" style="display: none;" /></li>
+	<li
+		onmouseover="document.getElementById('category_4').style.display='inline';"
+		onmouseout="document.getElementById('category_4').style.display='none';">DeLux
+	<input type="button" class="pink" id="category_4" value="löschen"
+		name="action" style="display: none;" /></li>
+</ul>
+Kategorie: <input value="Klassiker" /> <span class="grey">z.B.
+Klassiker, Süß &amp; Fruchtig</span><br />
+<input type="button" class="pink" value="hinzufügen" name="action" /><br />
+<input type="button" class="pink right" value="weiter" name="action"
+	onclick="document.getElementById('menu_1').style.display='none';document.getElementById('menu_2').style.display='block';" /></div>
+</div>
+</div>
+<div id="menu_2" class="hide">
+<div class="menu_2_pre"><span class="pink">Karte verwalten</span> <span
+	class="grey">Rezepte festlegen, die von Gästen bestellt werden können</span>
+1. Einstellungen &gt; <span class="pink">2. Rezepte aussuchen</span>
+&gt; 3. Drucken</div>
+<div class="menu_2">
+<div class="menu_settings">1. Einstellungen<br />
+<input type="button" class="pink" value="zurück"
+	onclick="document.getElementById('menu_2').style.display='none';document.getElementById('menu_1').style.display='block';" /></div>
+<script type="text/javascript">
+
+function live_search(text){
+	// get all recipes
+	var entrys = document.querySelectorAll('ul#origin li');
+	// create search
+	var rg = new RegExp(text,'i');
+	// walk through all recipes
+	for(var i in entrys) { 
+		// check if search is in name or ingredients -> display
+		if(entrys[i].parentNode && entrys[i].textContent && 
+			(entrys[i].getElementsByClassName('recipe_name')[0].textContent.search(rg)>=0 ||
+			entrys[i].getElementsByClassName('grey')[0].textContent.search(rg)>=0 ||
+			entrys[i].getElementsByClassName('grey')[1].textContent.search(rg)>=0
+			)){ 
+			entrys[i].style.display='block'; 
+		}
+		// hide otherwise
+		else { 
+			if(entrys[i].parentNode) { 
+				entrys[i].style.display='none'; 
+			}
+		}
+	}
+}
+
+function switch_page(id){
+	var pages = document.getElementsByClassName('menu_page_detail');
+	// hide all pages
+	for(var i in pages){
+		if(pages[i].style) { 
+			pages[i].style.display='none'; 
+		} 
+	} 
+	// display selected page
+	document.getElementById('menu_page_'+id).style.display='block';
+}
+
+</script>
+<div class="menu_recipe">Rezeptfilter: <input type="text" class="right"
+	placeholder="z.B. Mai Tai, süß, Klassiker"
+	onkeyup="live_search(this.value)" /><br />
+<input type="checkbox" /> nur mögliche Rezepte laut Inventar anzeigen
+<ul id="origin">
+<?php foreach ($this->recipes as /* @var $recipe Website_Model_Recipe */ $recipe) { ?>
+	<li id="recipe_<?php print $recipe->id; ?>" draggable="true"><img
+		src="<?php 
+		$photos = $recipe->getPhotos(1); 
+		print ($photos[0] ? $photos[0]->getPhotoUrl() : $recipe->getGlass()->getPhoto()->getPhotoUrl()); ?>"
+		alt="<?php print $recipe->name; ?>"
+		style="float: left; width: 33px; clear: left; margin-right: 4px; margin-bottom: 4px;" />
+	<span class="recipe_name"><?php print $recipe->name; ?></span><br />
+	<span class="grey smaller"><?php 
+	$components = array();
+	foreach($recipe->getComponents() as /* @var $component Website_Model_Component */ $component){
+		$components[] = $component->getIngredient()->name;
+	}
+	print implode(', ', $components); ?></span> <span class="grey hide"><?php
+	$tags = array();
+	foreach(Website_Model_Tag::tagsByRecipeId($recipe->id,true) as /* @var $tag Website_Model_Tag */ $tag){
+		$tags[] = $tag->name;
+	}
+	print implode(', ', $tags); ?></span></li>
+	<?php } ?>
+</ul>
+</div>
+<div class="menu_page">Seite: <select class="right"
+	onchange="switch_page(this.value);">
+	<option value="1">Süß und Fruchtig</option>
+	<option value="2">Klassiker</option>
+</select>
+
+<div class="menu_page_container">
+<div id="menu_page_1" class="menu_page_detail">
+<div class="menu_page_header">Süß und Fruchtig</div>
+<div class="menu_page_content">
+<ul class="target">
+	<li>
+	<div>hierhin ziehen um Rezept<br />
+	zur Seite Süß und Fruchtig hinzuzufügen</div>
+	</li>
+</ul>
+</div>
+</div>
+<div id="menu_page_2" class="menu_page_detail hide">
+<div class="menu_page_header">Klassiker</div>
+<div class="menu_page_content">
+<ul class="target">
+	<li>
+	<div>hierhin ziehen um Rezept<br />
+	zur Seite Klassiker hinzuzufügen</div>
+	</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="menu_print">3. Karte drucken<br />
+<input type="button" class="pink" value="PDF erzeugen" /></div>
+</div>
+</div>
+<script>
+// taken from http://html5demos.com/drag
+//For discussion and comments, see: http://remysharp.com/2009/01/07/html5-enabling-script/
+/*@cc_on'abbr article aside audio canvas details figcaption figure footer header hgroup mark menu meter nav output progress section summary time video'.replace(/\w+/g,function(n){document.createElement(n)})@*/
+
+var addEvent = (function () {
+  if (document.addEventListener) {
+    return function (el, type, fn) {
+      if (el && el.nodeName || el === window) {
+        el.addEventListener(type, fn, false);
+      } else if (el && el.length) {
+        for (var i = 0; i < el.length; i++) {
+          addEvent(el[i], type, fn);
+        }
+      }
+    };
+  } else {
+    return function (el, type, fn) {
+      if (el && el.nodeName || el === window) {
+        el.attachEvent('on' + type, function () { return fn.call(el, window.event); });
+      } else if (el && el.length) {
+        for (var i = 0; i < el.length; i++) {
+          addEvent(el[i], type, fn);
+        }
+      }
+    };
+  }
+})();
+
+var newLinkItem = document.createElement('li');
+var msie = /*@cc_on!@*/0;
+
+var links = document.querySelectorAll('.menu_recipe ul li'), el = null;
+for (var i = 0; i < links.length; i++) {
+    el = links[i];
+  
+    el.setAttribute('draggable', 'true');
+  
+    addEvent(el, 'dragstart', function (e) {
+      e.dataTransfer.effectAllowed = 'copy'; // only dropEffect='copy' will be dropable
+      e.dataTransfer.setData('Text', this.id); // required otherwise doesn't work
+    });
+}
+
+var bins = document.querySelectorAll('.target');
+console.log(bins);
+var origin = document.querySelector('#origin');
+
+for(var i = 0; i < bins.length; i++){
+	addEvent(bins[i], 'dragover', function (e) {
+		if (e.preventDefault) e.preventDefault(); // allows us to drop
+		e.dataTransfer.dropEffect = 'copy';
+		return false;
+	});
+}
+
+addEvent(origin, 'dragover', function (e) {
+	if (e.preventDefault) e.preventDefault(); // allows us to drop
+	e.dataTransfer.dropEffect = 'copy';
+	return false;
+});
+
+// drag to page
+for(var i = 0; i < bins.length; i++){
+	addEvent(bins[i], 'drop', function (e) {
+		if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
+		// get currently dragged element
+	    var el = document.getElementById(e.dataTransfer.getData('Text'));
+	    el.parentNode.removeChild(el);
+	    // copy content to new <li> element 
+	    newLinkItem.innerHTML = el.innerHTML;
+	    // clone new <li> element
+	    var y = newLinkItem.cloneNode(true);
+	    y.setAttribute('draggable', 'true');
+	    y.setAttribute('id',e.dataTransfer.getData('Text'));
+	    addEvent(y, 'dragstart', function (e) {
+	        e.dataTransfer.effectAllowed = 'copy'; // only dropEffect='copy' will be dropable
+	        e.dataTransfer.setData('Text', this.id); // required otherwise doesn't work
+	    });
+		// get target indicator element remove it and add it later
+		var dropBox = e.srcElement.parentElement;
+		var list = e.srcElement.parentElement.parentElement;
+		list.removeChild(dropBox);
+		list.appendChild(y);
+		list.appendChild(dropBox);
+	    return false;
+	});
+}
+
+// drag back to list
+addEvent(origin, 'drop', function (e) {
+    if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
+	
+    var el = document.getElementById(e.dataTransfer.getData('Text'));
+    
+    el.parentNode.removeChild(el);
+
+    newLinkItem.innerHTML = el.innerHTML;
+
+    var y = newLinkItem.cloneNode(true);
+    y.setAttribute('draggable', 'true');
+    y.setAttribute('id',e.dataTransfer.getData('Text'));
+    addEvent(y, 'dragstart', function (e) {
+        e.dataTransfer.effectAllowed = 'copy'; // only dropEffect='copy' will be dropable
+        e.dataTransfer.setData('Text', this.id); // required otherwise doesn't work
+    });
+    origin.appendChild(y);
+
+    return false;
+});
+</script>

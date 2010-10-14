@@ -1,0 +1,58 @@
+<div id="inventar">
+<div class="menu_2_pre"><span class="pink">Inventar verwalten</span> <span
+	class="grey">um aus den vorhanden Zutaten alle mixbaren Cocktails für
+die Karte ermitteln</span></div>
+<div class="inventar" id="inventar_a">
+<ul class="margin_top_no">
+<?php
+/* @var $category Website_Model_IngredientCategory */
+$categories = $this->ingredientCategories;
+$count = 0;
+foreach ($categories as $category) {
+	$count++;
+	if($count <= 2){ ?>
+	<li><span class="pink"><?php print $category->name; ?></span>
+	<ul class="no-bullet margin_top_no margin_bottom">
+	<?php
+	foreach ($category->getIngredientsByCategory($category->id) as $ingredient){ ?>
+		<li><label><input type="checkbox" /> <?php print $ingredient->name; ?></label></li>
+		<?php
+	}
+	?>
+	</ul>
+	</li>
+	<?php
+	}
+} ?>
+</ul>
+<a href="#" class="pink right button"
+	onclick="document.getElementById('inventar_a').style.display='none';document.getElementById('inventar_b').style.display='block';">weiter</a></div>
+<div class="inventar hide" id="inventar_b">
+<ul class="margin_top_no">
+<?php
+$count = 0;
+foreach ($categories as $category) {
+	$count++;
+	if($count > 2){ ?>
+	<li><span class="pink"><?php print $category->name; ?></span>
+	<ul class="no-bullet margin_top_no margin_bottom">
+	<?php
+	foreach ($category->getIngredientsByCategory($category->id) as $ingredient){ ?>
+		<li><label><input type="checkbox" /> <?php print $ingredient->name; ?></label></li>
+		<?php
+	}
+	?>
+	</ul>
+	</li>
+	<?php
+	}
+} ?>
+</ul>
+
+<a href="#" class="pink left button"
+	onclick="document.getElementById('inventar_b').style.display='none';document.getElementById('inventar_a').style.display='block';">zurück</a>
+<input type="button" class="pink right button" value="Speichern" /><a
+	href="#" class="grey right button margin_right"
+	onclick="document.getElementById('inventar_b').style.display='none';document.getElementById('inventar_a').style.display='block';">abbrechen</a>
+</div>
+</div>

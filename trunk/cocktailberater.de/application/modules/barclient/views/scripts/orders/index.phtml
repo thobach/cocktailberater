@@ -1,12 +1,28 @@
-<div class="block">
+<script type="text/javascript">
+function order_form(show){
+	var order_form = document.getElementById('order_form');
+	var order_form2 = document.getElementById('order_form2');
+	if(show){
+		order_form.style.display='block';
+		order_form2.style.display='block';
+	} else {
+		order_form.style.display='none';
+		order_form2.style.display='none';
+	}
+}
+</script>
+<div class="order">
+<div class="block"><span class="pink">Bestellungen:</span> <input
+	type="submit" value="Neue Bestellung" name="action" class="pink right"
+	onclick="order_form(true);" />
+<hr class="light" />
 <ul>
 	<li><img src="/img/recipes/1.jpg" alt="" />
 	<div><span class="title">Mojito</span><br />
 	<span class="subline">vor 10 min, von Maximilian Mustermann, Kurt
 	Krause</span><br />
-	<input type="submit" value="stornieren" name="action"
-		class="grey" /> <input type="submit" value="fertig"
-		name="action" class="pink right" /></div>
+	<input type="submit" value="stornieren" name="action" class="grey" /> <input
+		type="submit" value="fertig" name="action" class="pink right" /></div>
 	<hr />
 	</li>
 	<li><img src="/img/recipes/2.jpg" alt="" />
@@ -33,15 +49,22 @@
 </ul>
 <p class="block_info">offene Bestellungen: 10<br />
 abgearbeitete Bestellungen: 20<br />
-<input type="button" class="pink left margin_top" value="&lt; zurück" name="action" />
-<input type="button" class="pink right margin_top" value="weiter &gt;"
-	name="action" /></p>
+<input type="button" class="pink left margin_top" value="&lt; zurück"
+	name="action" /> <input type="button" class="pink right margin_top"
+	value="weiter &gt;" name="action" /></p>
 </div>
-<div class="bestellungen"><span class="right"><img
-	src="/img/recipes/1.jpg" alt="" class="recipe_image" /><br />
-<img src="/img/glasses/tumbler_gross_big.png" alt="" class="glass_image" /><br />
-<img src="/img/video.png" alt="" class="video_image" /></span> <span
-	class="title">Sex on the Beach nach IBA</span><br />
+<div class="bestellungen">
+<div class="right center"><img src="/img/recipes/1.jpg" alt=""
+	class="recipe_image" /><br />
+<img src="/img/glasses/tumbler_gross_big.png" alt="" class="glass" /><br />
+Cocktailglas / <br />
+Highballglas<br />
+<img src="/img/volumen.png" alt="" class="volume" /><br />
+21 cl<br />
+<img src="/img/prozent.png" alt="" class="volume" /><br />
+14 % Alkohol</div>
+<div class="left"><span class="title pink">Sex on the Beach nach IBA</span>
+<img src="/img/video.png" alt="" class="video_image" /><br />
 <span class="subline">bestellt vor 10 min</span> <br />
 <p class="info comment">Kommentar von Maximilian Mustermann: bitte mit
 viel Alkohol!!!!</p>
@@ -70,7 +93,19 @@ keine<br />
 	<li>in ein mit Eis gefülltes Highball Glas abgießen</li>
 	<li>mit einer Orangenscheibe garnieren</li>
 </ul>
-<span class="pink">Glas:</span><br />
-Cocktailglas / Highballglas <br />
-<p class="info">Achtung: Mehrere Bestellungen wurden zusammengefasst!</p>
+</div>
+<p class="clear center info">Achtung: Mehrere Bestellungen wurden
+zusammengefasst!</p>
+</div>
+<div id="order_form" class="hide"></div>
+<div id="order_form2" class="hide"><span class="pink">Neue Bestellung</span><br />
+<br />
+<label>Gast: <select class="right">
+	<option>Max Mustermann</option>
+</select></label> <label>Rezept: <select class="right">
+	<option>Mai Tai</option>
+</select></label> Kommentar: <textarea rows="4" cols="29"></textarea><br />
+<input type="submit" value="Bestellen" name="action" class="pink right margin_top" /><a
+	href="" class="button grey right margin_right margin_top"
+	onclick="order_form(false);">Abbrechen</a></div>
 </div>

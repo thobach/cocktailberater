@@ -38,19 +38,25 @@ echo $this->doctype('HTML5')."\n";
 <body>
 <div id="wrapper">
 <h1><span class="pink">c</span>ocktail<span class="pink">b</span>erater</h1>
+<div id="head_info">Du bist eingeloggt als Thomas Bachmann, <a href="<?php print $this->url(array('controller'=>'index','action'=>'logout')); ?>">ausloggen</a>. Bar: <select><option>Tabas Bar</option></select></div>
 <ul class="navigation">
-	<li style="width: 6.5em; margin-top: 4em; margin-left: -2.65em;"
-		<?php if($controller=='orders') { ?> class="active"<?php } ?>><a href="/barclient/orders">Bestellungen</a></li>
-	<li style="width: 3.5em; margin-top: 10em; margin-left: -5.15em;"><a
-		<?php if($controller=='cash') { ?> class="active"<?php } ?>href="#cash">Kasse</a></li>
-	<li style="width: 5em; margin-top: 15em; margin-left: -5.9em;"><a
-		<?php if($controller=='guests') { ?> class="active"<?php } ?>href="/barclient/guests">Gästeliste</a></li>
-	<li style="width: 4em; margin-top: 20.5em; margin-left: -5.4em;"><a
-		<?php if($controller=='invetory') { ?> class="active"<?php } ?>href="#inventory">Inventar</a></li>
-	<li style="width: 3em; margin-top: 25em; margin-left: -4.9em;"><a
-		<?php if($controller=='menue') { ?> class="active"<?php } ?>href="#menu">Karte</a></li>
-	<li style="width: 4em; margin-top: 29.5em; margin-left: -5.4em;"><a
-		<?php if($controller=='statistic') { ?> class="active"<?php } ?>href="#statistic">Statistik</a></li>
+	<li style="width: 6.5em; margin-top: 4em; margin-left: -2.7em;"
+		<?php if($controller=='orders') { ?> class="active"<?php } ?>><a 
+		href="/barclient/orders">Bestellungen</a></li>
+	<li style="width: 6em; margin-top: 11.5em; margin-left: -6.4em;"
+		<?php if($controller=='cash') { ?> class="active"<?php } ?>><a
+		href="/barclient/cash">Abrechnung</a></li>
+	<li style="width: 4.5em; margin-top: 18em; margin-left: -5.65em;"
+		<?php if($controller=='inventory') { ?> class="active"<?php } ?>><a
+		href="/barclient/inventory">Inventar</a></li>
+	<li style="width: 3.5em; margin-top: 23.25em; margin-left: -5.15em;"
+		<?php if($controller=='menu') { ?> class="active"<?php } ?>><a
+		href="/barclient/menu">Karte</a></li>
+	<li style="width: 4.5em; margin-top: 28.5em; margin-left: -5.65em;"
+		<?php if($controller=='statistic') { ?> class="active"<?php } ?>><a
+		href="/barclient/statistic">Statistik</a></li>
+	<li style="width: 4em; margin-top: 34em; margin-left: -5.4em;"><a
+		<?php if($controller=='party') { ?> class="active"<?php } ?>href="/barclient/party">Partys</a></li>
 </ul>
 <div id="content"><?php echo $this->layout()->content; ?></div>
 </div>
