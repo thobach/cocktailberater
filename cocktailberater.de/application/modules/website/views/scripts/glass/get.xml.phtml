@@ -1,0 +1,14 @@
+<?php
+// create a dom object
+$this->xml = new DOMDocument("1.0");
+// create root element 'rsp'
+$this->rsp = $this->xml->createElement("rsp");
+// add the 'rsp' element to the xml document
+$this->xml->appendChild($this->rsp);
+// add the 'glass' element to the 'rsp' element
+$this->glass->toXml($this->xml,$this->rsp,$this->showHashCode);
+// set status for root element 'rsp' to 'ok'
+$this->rsp->setAttribute('status','ok');
+
+// save and display tree
+print $this->xml->saveXML();

@@ -43,6 +43,7 @@ class Website_WsdlController extends Zend_Controller_Action {
 		if($this->_hasParam('wsdl')){
 			$autodiscover = new Zend_Soap_AutoDiscover();
 			$typeMap = array("Website_Model_RecipeInterface[]" => "Zend_Soap_Wsdl_Strategy_ArrayOfTypeComplex","Website_Model_RecipeInterface" => "Zend_Soap_Wsdl_Strategy_DefaultComplexType");
+			$autodiscover->setBindingStyle(array('style'=>'document')); // default style was rpc, transport is soap over http
 			$autodiscover->setComplexTypeStrategy(new Zend_Soap_Wsdl_Strategy_Composite($typeMap,"Zend_Soap_Wsdl_Strategy_AnyType"));
 			$autodiscover->setClass('Website_Model_RecipeInterface');
 			$autodiscover->handle();

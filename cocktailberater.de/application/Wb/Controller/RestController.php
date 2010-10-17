@@ -68,6 +68,11 @@ abstract class Wb_Controller_RestController extends Zend_Rest_Controller {
 					'init'	=> array(__CLASS__, 'enableLayout'),
 		            'post' => array(__CLASS__, 'setLayoutContext'))));
 		}
+		if(!$contextSwitch->hasContext('image')){
+			$contextSwitch->addContext('image',array(
+				'suffix'	=> 'image',
+				'headers'	=> array('Content-Type' => 'image/jpeg')));
+		}
 		$contextSwitch->addActionContext('index', true);
 		$contextSwitch->addActionContext('get', true);
 		$contextSwitch->addActionContext('post', true);

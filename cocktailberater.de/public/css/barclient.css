@@ -142,6 +142,11 @@ ul.navigation li a {
 	color: #0044CC;
 }
 
+#content a.nolink {
+	text-decoration: none;
+	color: black;
+}
+
 ul.navigation li:hover,li:focus {
 	border-color: #E10E80;
 }
@@ -326,6 +331,7 @@ hr.light {
 
 .bestellungen ul {
 	margin-top: 0.2em;
+	padding-left: 1.1em;
 }
 
 div#order_form {
@@ -338,7 +344,7 @@ div#order_form {
 	height: 105%;
 }
 
-div#order_form2 {
+div#order_form2, div#video {
 	position: absolute;
 	top: -10px;
 	left: 400px;
@@ -346,10 +352,16 @@ div#order_form2 {
 	border: 2px solid #DDDDDD;
 	background: -moz-linear-gradient(0 0, #FFFFFF, #E6E6E6);
     background: -webkit-gradient(linear, 0 0, 0 100%, from(#FFFFFF), to(#E6E6E6));
-    width: 200px;
+    width: 282px;
     margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
+}
+
+div#video {
+	width: 425px;
+	margin-top: 50px;
+	left: 350px;
 }
 
 #order_form2 label {

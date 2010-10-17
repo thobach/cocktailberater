@@ -1,56 +1,69 @@
-<div class="block"><span class="pink">Offene Posten:</span>
+<div class="block"><span class="pink">Offene Rechnungen:</span>
 <hr class="light" />
 <ul style="margin-top: 0;">
-	<li class="active"
-		onmouseover="document.getElementById('guest_has_payed_1').style.display='inline';"
-		onmouseout="document.getElementById('guest_has_payed_1').style.display='none';">
-	<span class="title">Maximilian Mustermann</span><br />
-	2 Cocktails, 5,50 Euro <input type="button" class="pink right"
-		id="guest_has_payed_1" value="hat bezhalt" name="action"
+	<?php 
+	$current = ($_GET['current'] ? $_GET['current'] : 0);
+	$count = 0;
+	$currentGuest = -1;
+	foreach ($this->unpaidOrdersByGuests as $unpaidOrdersByGuest) { 
+		if($count <=8){
+	$name = $unpaidOrdersByGuest[0]->getMember()->firstname.' '.$unpaidOrdersByGuest[0]->getMember()->lastname;
+	$amountOrders = count($unpaidOrdersByGuest);
+	/* @todo: make price dynamic by adding price info to recipe2menu table */
+	$price = count($unpaidOrdersByGuest)*2;
+		?>
+	<li <?php if($count == $current) { ?>class="active"<?php $currentGuest = $unpaidOrdersByGuest[0]->getMember()->id; } ?>
+		onmouseover="document.getElementById('guest_has_payed_<?php print $count; ?>').style.display='inline';"
+		onmouseout="document.getElementById('guest_has_payed_<?php print $count; ?>').style.display='none';">
+	<a href="?current=<?php print $count; ?>"><span class="title"><?php print $name; ?></span></a><br />
+	<?php print $amountOrders; ?> Cocktails, <?php print $pice; ?> Euro <input type="button" class="pink right"
+		id="guest_has_payed_<?php print $count; ?>" value="hat bezhalt" name="action"
 		style="display: none;" />
 	<hr class="light" />
 	</li>
-	<li
-		onmouseover="document.getElementById('guest_has_payed_2').style.display='inline';"
-		onmouseout="document.getElementById('guest_has_payed_2').style.display='none';">
-	<span class="title">Kurt Krause</span><br />
-	1 Cocktail, 2,00 Euro <input type="button" class="pink right"
-		id="guest_has_payed_2" value="hat bezhalt" name="action"
-		style="display: none;" />
-	<hr class="light" />
-	</li>
-	<li
-		onmouseover="document.getElementById('guest_has_payed_3').style.display='inline';"
-		onmouseout="document.getElementById('guest_has_payed_3').style.display='none';">
-	<span class="title">Caroline Bock</span><br />
-	0 Cocktails, 0,00 Euro <input type="button" class="pink right"
-		id="guest_has_payed_3" value="hat bezhalt" name="action"
-		style="display: none;" />
-	<hr class="light" />
-	</li>
+	<?php 
+	$count++;
+	}} ?>
 </ul>
-<p class="block_info_guests">Anzahl Gäste: 3<br />
+<p class="block_info_guests">Anzahl offener Rechnungen: <?php print count($this->unpaidOrdersByGuests); ?><br />
 <input type="button" class="pink left margin_top" value="&lt; zurück"
 	name="action" /> <input type="button" class="pink right margin_top"
 	value="weiter &gt;" name="action" /><br />
 </p>
 <hr class="bottom_divider" />
 <p class="switch_party">Party wechseln: <select class="switch_party">
-	<option>Hawaii Party</option>
+	<?php foreach ($this->partys as $party) { ?><option><?php print $party->name; ?></option><?php } ?>
 </select></p>
 </div>
 <div class="cash">
-<p class="center"><strong>Tabas Bar <br />
+<p class="center"><strong><?php 
+/* @var $currentParty Website_Model_Party  */
+$currentParty = $this->currentParty;
+print $currentParty->getBar()->name; 
+/* @todo: add address to bar in bar table */
+?><!-- <br />
 Kleiststraße 21 <br />
-70197 Stuttgart</strong></p>
-<p class="center"><em>Hawaii Party</em></p>
-<p>Gast: Maximilian Mustermann</p>
-<p>1x Cuba Libre <span class="right">2,00 Euro </span><br />
-1x Mai Tai <span class="right">2,50 Euro </span><br />
+70197 Stuttgart --></strong></p>
+<p class="center"><em><?php print $currentParty->name; ?></em></p>
+<p>Gast: <?php print $this->unpaidOrdersByGuests[$currentGuest][0]->getMember()->firstname.' '.$this->unpaidOrdersByGuests[$currentGuest][0]->getMember()->lastname; ?></p>
+<p><?php 
+// accumulate orders
+foreach($this->unpaidOrdersByGuests[$currentGuest] as $order) { 
+	$aggregatedOrders[$order->getRecipe()->id] = $aggregatedOrders[$order->getRecipe()->id]+1; 
+}
+// print orders
+$alreadyShownRecipes = array();
+foreach($this->unpaidOrdersByGuests[$currentGuest] as $order) {
+	if(!$alreadyShownRecipes[$order->getRecipe()->id]){ 
+		print $aggregatedOrders[$order->getRecipe()->id]; ?>x <?php print $order->getRecipe()->name;?> <span class="right"><?php print number_format($aggregatedOrders[$order->getRecipe()->id]*2,2,',','.'); ?> Euro </span><br /><?php
+	}
+	$alreadyShownRecipes[$order->getRecipe()->id] = true;
+}
+?>
 =================================== <br />
-Gesamt <span class="right">7,50 Euro</span></p>
-<p class="smaller">Es bediente dich: <span class="right">Thomas Bachmann</span></p>
-<p class="smaller">Datum und Uhrzeit: <span class="right">28.08.2010, 23:55 Uhr</span></p>
+Gesamt <span class="right"><?php print number_format(count($this->unpaidOrdersByGuests[$currentGuest])*2,2,',','.'); ?> Euro</span></p>
+<p class="smaller">Es bediente dich: <span class="right"><?php print $this->currentParty->getHost()->firstname.' '.$this->currentParty->getHost()->lastname; ?></span></p>
+<p class="smaller">Datum und Uhrzeit: <span class="right"><?php print new Zend_Date(); ?> Uhr</span></p>
 <p class="center" style="margin-top: 4em;">Vielen Dank für deinen Besuch! Bis zum nächstem Mal!</p>
 <p class="center smaller" style="bottom: 35px; left: 445px; position: absolute;">Ein Service von www.cocktailberater.de.</p>
 <p class="center"><input type="submit" value="Drucken" name="action" class="pink" style="bottom: 20px; left: 530px; position: absolute;" /></p>

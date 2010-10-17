@@ -14,6 +14,7 @@ class Website_Model_Party {
 	// associations
 	private $_host;
 	private $_bar;
+	private $_menu;
 
 	// supporting variables
 	private static $_party;
@@ -96,7 +97,7 @@ class Website_Model_Party {
 	/**
 	 * resolve Association and return an object of Menu
 	 *
-	 * @return Menu
+	 * @return Website_Model_Menu
 	 */
 	public function getMenu() {
 		$log = Zend_Registry::get('logger');
