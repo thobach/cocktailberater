@@ -13,14 +13,14 @@ Anwendungen genutzt werden.</p>
 Dahinter kommt das Themengebiet (die Ressource) auf Englisch, wie zum
 Beispiel <code>/recipe</code>, <code>/cocktail</code>, <code>/ingredient</code>,
 <code>/ingredient-category</code>, <code>/manufacturer</code>, <code>/product</code>,
-<code>/comment</code>, <code>/tag</code> oder <code>/rating</code>. Nun
-kann das gewünschte Ausgabeformat mit <code>?format=</code> angegeben
-werden. Es stehen zur Verfügung: <code>html</code>, <code>xml</code>, <code>json</code>,
-<code>pdf</code>, <code>rdf</code>, <code>rss</code>, <code>atom</code>,
-<code>htmlexport</code> und <code>mobile</code>. Wenn der Zugriff nur
-auf ein bestimmtes Objekt mit einer ID (Zahl oder eindeutiger Name)
-benötigt wird, kann die ID auch hinter das Themengebiet geschrieben
-werden, zum Beispiel <code>/4711</code>.</p>
+<code>/comment</code>, <code>/tag</code>, <code>/glass</code> oder <code>/rating</code>.
+Nun kann das gewünschte Ausgabeformat mit <code>?format=</code>
+angegeben werden. Es stehen zur Verfügung: <code>html</code>, <code>xml</code>,
+<code>json</code>, <code>pdf</code>, <code>rdf</code>, <code>rss</code>,
+<code>atom</code>, <code>htmlexport</code>, <code>image</code> und <code>mobile</code>.
+Wenn der Zugriff nur auf ein bestimmtes Objekt mit einer ID (Zahl oder
+eindeutiger Name) benötigt wird, kann die ID auch hinter das
+Themengebiet geschrieben werden, zum Beispiel <code>/4711</code>.</p>
 <p>Ein vollständiges Beispiel um also alle Rezepte als XML angezeigt zu
 bekommen wäre: <code>http://www.cocktailberater.de/website/recipe/?format=xml</code>
 oder um alle Kommentare als Atom-Feed zu bekommen: <code>http://www.cocktailberater.de/website/comment?format=atom</code>.</p>
@@ -166,7 +166,14 @@ verlinkt.</p>
 			<a href="http://www.cocktailberater.de/website/recipe/1?format=html">html</a>,
 			<a
 				href="http://www.cocktailberater.de/website/recipe/1?format=mobile">mobile</a>,
-			<a href="http://www.cocktailberater.de/website/recipe/1?format=pdf">pdf</a></td>
+			<a href="http://www.cocktailberater.de/website/recipe/1?format=pdf">pdf</a>,
+			<a href="http://www.cocktailberater.de/website/recipe/1?format=image">image</a></td>
+		</tr>
+		<tr>
+			<td>glass</td>
+			<td>GET mit ID</td>
+			<td><a
+				href="http://www.cocktailberater.de/website/glass/1?format=image">image</a></td>
 		</tr>
 		<tr>
 			<td>tag</td>

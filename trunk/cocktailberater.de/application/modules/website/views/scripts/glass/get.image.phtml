@@ -1,0 +1,7 @@
+<?php 
+$file = APPLICATION_PATH.'/../public'.$this->glass->getPhoto()->getPhotoUrl();
+// determine image file type
+$size = getimagesize($file);
+$this->response->setHeader('Content-Type', $size['mime']);
+// print image
+print file_get_contents($file);

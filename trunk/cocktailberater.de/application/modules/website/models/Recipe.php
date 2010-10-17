@@ -476,6 +476,12 @@ class Website_Model_Recipe {
 		return false;
 	}
 
+	/**
+	 * Returns the given number of photos of this recipe
+	 * 
+	 * @param $max maximum number of photos wanted
+	 * @return array[int]Website_Model_Photo
+	 */
 	public function getPhotos($max = NULL) {
 		return Website_Model_Photo::photosByRecipeId ($this->id, $max);
 	}
@@ -546,7 +552,8 @@ class Website_Model_Recipe {
 	}
 
 	/**
-	 * returns the statistic objects of this reciep
+	 * returns the statistic objects of this recipe
+	 * 
 	 * @return Website_Model_Statistic
 	 */
 	public function getStatistics() {
@@ -564,6 +571,11 @@ class Website_Model_Recipe {
 		return Website_Model_Comment::commentsByRecipeId ($this->id);
 	}
 
+	/**
+	 * returns the tags of the recipe
+	 * 
+	 * @return array[int]Website_Model_Tag
+	 */
 	public function getTags() {
 		return Website_Model_Tag::tagsByRecipeId ($this->id);
 	}
@@ -759,9 +771,9 @@ class Website_Model_Recipe {
 		$recipe->setAttribute ('difficulty', $this->difficulty);
 		$recipe->setAttribute ('isOriginal', $this->isOriginal);
 		$recipe->setAttribute ('isAlcoholic', $this->isAlcoholic);
-		$recipe->setAttribute ('alcoholLevel', $this->alcoholLevel);
-		$recipe->setAttribute ('caloriesKcal', $this->caloriesKcal);
-		$recipe->setAttribute ('volumeCl', $this->volumeCl) ;
+		$recipe->setAttribute ('alcoholLevel', $this->__get('alcoholLevel'));
+		$recipe->setAttribute ('caloriesKcal', $this->__get('caloriesKcal'));
+		$recipe->setAttribute ('volumeCl', $this->__get('volumeCl')) ;
 		$categories = $xml->createElement ( 'categories' ) ;
 
 		if (is_array ( $_categories = $this->getCategories() )) {

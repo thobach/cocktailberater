@@ -341,6 +341,7 @@ class Website_Model_Component {
 	 * @param XmlElement $branch
 	 */
 	public function toXml ( $xml , $ast ) {
+		// @todo: add preferredProduct and isDecoration
 		$component = $xml->createElement ( 'component' ) ;
 		$component->setAttribute ( 'recipe', $this->recipeId) ;
 		$component->setAttribute ( 'ingredient', $this->ingredientId) ;

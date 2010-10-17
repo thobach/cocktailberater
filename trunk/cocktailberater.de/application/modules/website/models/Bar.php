@@ -208,16 +208,25 @@ class Website_Model_Bar {
 		$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'product2bar');
 		return $table->fetchAll('bar='.$this->id);
 	}
-
+	
 	/**
-	 * Returns all ingredients from the inventory
-	 *
-	 * @return array[int]Website_Model_Ingredient
+	 * returns all ingredients from the inventory, if bar id given, looks for the persisted ones of a specific bar
+	 * 
+	 * @param int $barId the id of the bar which you need the ingredients for
+	 * @return array[int]Website_Model_Ingredient the key relates to the ingredient id
 	 */
-	public function getIngredients(){
+	public static function getIngredients($barId=NULL){
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_Model_Bar->getIngredients',Zend_Log::DEBUG);
-		return $this->_ingredients;
+		if(!$barId){
+			return $this->_ingredients;
+		} else {
+			$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','ingredient2bar');
+			foreach ($table->fetchAll($table->select()->where('bar=?',$barId)) as $ingredient2bar) {
+				$ingredients[$ingredient2bar->ingredient] = Website_Model_CbFactory::factory('Website_Model_Ingredient',$ingredient2bar->ingredient);
+			}
+			return $ingredients;
+		}
 	}
 
 	public function removeProducts(){

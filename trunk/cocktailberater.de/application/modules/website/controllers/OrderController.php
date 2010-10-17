@@ -1,4 +1,4 @@
-#<?php
+<?php
 /**
  * Context sensitive Controller for order matters
  *
@@ -124,7 +124,7 @@ class Website_OrderController extends Wb_Controller_RestController {
 					break;
 			}
 
-			$order->save($this->_getParam('hashCode'));
+			//$order->save($this->_getParam('hashCode'));
 			return $this->_forward('get');
 		} else {
 			throw new Website_Model_OrderException('Id_Missing');

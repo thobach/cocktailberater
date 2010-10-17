@@ -15,7 +15,7 @@ foreach ($categories as $category) {
 	<ul class="no-bullet margin_top_no margin_bottom">
 	<?php
 	foreach ($category->getIngredientsByCategory($category->id) as $ingredient){ ?>
-		<li><label><input type="checkbox" /> <?php print $ingredient->name; ?></label></li>
+		<li><label><input type="checkbox"<?php if($this->inventory[$ingredient->id]){ ?> checked="checked"<?php } ?> /> <?php print $ingredient->name; ?></label></li>
 		<?php
 	}
 	?>
@@ -38,7 +38,7 @@ foreach ($categories as $category) {
 	<ul class="no-bullet margin_top_no margin_bottom">
 	<?php
 	foreach ($category->getIngredientsByCategory($category->id) as $ingredient){ ?>
-		<li><label><input type="checkbox" /> <?php print $ingredient->name; ?></label></li>
+		<li><label><input type="checkbox"<?php if($this->inventory[$ingredient->id]){ ?> checked="checked"<?php } ?> /> <?php print $ingredient->name; ?></label></li>
 		<?php
 	}
 	?>

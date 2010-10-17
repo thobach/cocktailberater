@@ -49,6 +49,7 @@ class Website_Model_Order {
 	/**
 	 * getter for association member
 	 * @tested
+	 * @return Website_Model_Member
 	 */
 	public function getMember(){
 		$log = Zend_Registry::get('logger');
@@ -77,6 +78,7 @@ class Website_Model_Order {
 
 	/**
 	 * getter for association recipe
+	 * @return Website_Model_Recipe
 	 */
 	public function getRecipe(){
 		$log = Zend_Registry::get('logger');
@@ -240,6 +242,17 @@ class Website_Model_Order {
 		}
 
 		return $orderArray;
+	}
+	
+	public static function getUnpaidOrders($partyId){
+		$unpaidOrdersByGuest = array();
+		$completedOrders = Website_Model_Order::listOrders($partyId,'completed');
+		$orderedOrders = Website_Model_Order::listOrders($partyId,'ordered');
+		$unpaidOrders = array_merge($completedOrders,$orderedOrders);
+		foreach($unpaidOrders as $unpaidOrder){
+			$unpaidOrdersByGuest[$unpaidOrder->memberId][] = $unpaidOrder;
+		}
+		return $unpaidOrdersByGuest;
 	}
 
 	/**
