@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="cocktailberater.de" default="build" basedir=".">
+<project name="cocktailberater.de" default="build" basedir="../.">
 	<target name="checkout">
 		<exec dir="${basedir}/source/" executable="svn">
 			<arg line="up"/>
