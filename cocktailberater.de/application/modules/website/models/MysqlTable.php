@@ -4,13 +4,13 @@ class Website_Model_MysqlTable extends Zend_Db_Table_Abstract
 	protected $_name;
 
 	public function __construct($name) {
-			
-
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_MysqlTable->__construct',Zend_Log::DEBUG);
+		
 		$this->_name=$name;
 		parent::__construct();
-			
-		//print_r($this->fetchAll());
-		//exit;
+		
+		$log->log('Website_Model_MysqlTable->__construct exiting',Zend_Log::DEBUG);
 	}
 
 	public static function mergeTogether($ziel, $row) {
