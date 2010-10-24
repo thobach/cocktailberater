@@ -15,6 +15,12 @@ class Website_SessionController extends Wb_Controller_RestController {
 		throw new Zend_Controller_Action_Exception('Seite wurde nicht gefunden.', 404);
 	}
 
+	/**
+	 * Create a new session
+	 * 
+	 * (non-PHPdoc)
+	 * @see application/Wb/Controller/Wb_Controller_RestController::postAction()
+	 */
 	public function postAction() {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_SessionController->postAction',Zend_Log::DEBUG);
@@ -28,13 +34,28 @@ class Website_SessionController extends Wb_Controller_RestController {
 
 		// @todo: extract to config file
 		$member = Website_Model_Member::getMemberByEmail($this->_getParam('email'));
-		$auth = $member->authenticate($this->_getParam('password'));
+		if($member){
+			$auth = $member->login($this->_getParam('password'));
+		} else {
+			$log->log('Website_Session_Controller::post(): not authenticated (email does not exist)',Zend_Log::INFO);
+			// destroy session
+			$session = new Zend_Session_Namespace('member');
+			$session->unsetAll();
+			// set http code and show error
+			$this->view->status = 'error';
+			$this->getResponse()->setHttpResponseCode(401); // unauthorized
+		}
 		if($auth){
-			$log->log('authenticated',Zend_Log::DEBUG);
+			$log->log('Website_Session_Controller::post(): authenticated',Zend_Log::INFO);
+			// set http code and forward to member controller
 			$this->getResponse()->setHttpResponseCode(201); // created
 			$this->_forward('get','member','website',array('id'=>$member->id,'showHashCode'=>true));
 		} else {
-			$log->log('not authenticated',Zend_Log::DEBUG);
+			$log->log('Website_Session_Controller::post(): not authenticated',Zend_Log::INFO);
+			// destroy session
+			$session = new Zend_Session_Namespace('member');
+			$session->unsetAll();
+			// set http code and show error
 			$this->view->status = 'error';
 			$this->getResponse()->setHttpResponseCode(401); // unauthorized
 		}
@@ -52,8 +73,7 @@ class Website_SessionController extends Wb_Controller_RestController {
 		}
 
 		$member = Website_Model_Member::getMemberByEmail($this->_getParam('email'));
-		$destroyed = $member->logout($this->_getParam('hashCode'));
-		if($destroyed){
+		if($member && $member->setHashCode($this->_getParam('hashCode'))->logout()){
 			$this->view->status = 'ok';
 		} else {
 			$this->view->status = 'error';
