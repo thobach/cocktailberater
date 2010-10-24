@@ -2,20 +2,20 @@
 require_once 'IndexControllerTest.php';
 require_once 'IngredientControllerTest.php';
 require_once 'IngredientCategoryControllerTest.php';
-require_once 'ManufacturerControllerTest.php';
+//require_once 'ManufacturerControllerTest.php';
 require_once 'MemberControllerTest.php';
-require_once 'OrderControllerTest.php';
-require_once 'PartyControllerTest.php';
+//require_once 'OrderControllerTest.php';
+//require_once 'PartyControllerTest.php';
 require_once 'RecipeControllerTest.php';
-require_once 'SessionControllerTest.php';
-/*require_once 'SitemapOutputControllerTest.php';
-/*require_once 'SitemapPerformanceControllerTest.php';*/
+//require_once 'SessionControllerTest.php';
+//require_once 'SitemapOutputControllerTest.php';
+//require_once 'SitemapPerformanceControllerTest.php';
 
 class Controllers_AllTests {
 
-	public static function main() {
+	/*public static function main() {
 		PHPUnit_TextUI_TestRunner::run(self::suite());
-	}
+	}*/
 
 	public static function suite() {
 		$suite = new PHPUnit_Framework_TestSuite('cocktailberater.de controllers');
