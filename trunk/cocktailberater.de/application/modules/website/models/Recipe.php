@@ -452,12 +452,17 @@ class Website_Model_Recipe {
 	/**
 	 * returns alternative recipes, from the same cocktail
 	 *
-	 * @return Website_Model_Recipe[]
+	 * @return array[int]Website_Model_Recipe
 	 */
 	public function getAlternatives(){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Recipe->getAlternatives',Zend_Log::DEBUG);
+		
 		if(!$this->_alternatives){
+			$log->log('Website_Model_Recipe->getAlternatives looking for alternatives',Zend_Log::DEBUG);
 			$this->_alternatives = array();
 			if(is_array($this->getCocktail()->getRecipes())){
+				$log->log('Website_Model_Recipe->getAlternatives found alternatives',Zend_Log::DEBUG);
 				foreach($this->getCocktail()->getRecipes() as $recipe){
 					if($recipe->id != $this->id){
 						$this->_alternatives[] = $recipe;
@@ -465,6 +470,8 @@ class Website_Model_Recipe {
 				}
 			}
 		}
+		
+		$log->log('Website_Model_Recipe->getAlternatives exiting',Zend_Log::DEBUG);
 		return $this->_alternatives;
 	}
 
