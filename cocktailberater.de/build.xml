@@ -38,6 +38,13 @@
 				line="--verbose --log-junit ${basedir}/build/logs/junit.xml --coverage-clover ${basedir}/build/logs/phpunit.coverage.xml --coverage-html ${basedir}/build/coverage AllTests" />
 		</exec>
 	</target>
-	<target name="build" depends="phpunit" />
+	<target name="phpunit-light">
+		<exec executable="/usr/local/zend/bin/phpunit" dir="${basedir}/source/tests"
+			failonerror="true">
+			<arg
+				line="--verbose --log-junit ${basedir}/build/logs/junit.xml --coverage-clover ${basedir}/build/logs/phpunit.coverage.xml AllTests" />
+		</exec>
+	</target>
+	<target name="build" depends="phpunit-light" />
 	<target name="build-full" depends="php-documentor,phpcs,phpmd,php-depend,phpunit" />
 </project>
