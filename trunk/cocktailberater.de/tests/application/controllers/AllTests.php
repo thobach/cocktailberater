@@ -25,8 +25,8 @@ class Controllers_AllTests {
 		$suite->addTestSuite('Controllers_PartyControllerTest');
 		$suite->addTestSuite('Controllers_OrderControllerTest');
 		$suite->addTestSuite('Controllers_ManufacturerControllerTest');
-		$suite->addTestSuite('Controllers_SitemapOutputTest');
-		$suite->addTestSuite('Controllers_SitemapPerformanceTest');
+		//$suite->addTestSuite('Controllers_SitemapOutputTest');
+		//$suite->addTestSuite('Controllers_SitemapPerformanceTest');
 		return $suite;
 	}
 }
