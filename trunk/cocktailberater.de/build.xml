@@ -27,7 +27,9 @@
 	</target>
 	<target name="phpunit">
 		<exec executable="/usr/local/zend/bin/phpunit" dir="${basedir}/source/tests" failonerror="true">
-			<arg line="--log-junit ${basedir}/build/logs/junit.xml --coverage-xml  ${basedir}/build/logs/phpunit.coverage.xml --coverage-html ${basedir}/build/coverage AllTest" />
+			<arg line="--log-junit ${basedir}/build/logs/junit.xml 
+			--coverage-xml ${basedir}/build/logs/phpunit.coverage.xml 
+			--coverage-html ${basedir}/build/coverage AllTest" />
 		</exec>
 	</target>
 	<target name="build" depends="php-documentor,phpcs,phpmd,php-depend,phpunit"/>
