@@ -43,15 +43,18 @@ class Website_Model_Cocktail {
 	}
 
 	/**
-	 * Constructor of Cocktail Class, to load a Cocktail object or create one
+	 * Constructor of Cocktail Class, to load a Cocktail object from DB or create one
 	 *
 	 * @param integer $id
-	 * @return Cocktail
+	 * @return Website_Model_Cocktail
 	 */
 	public function __construct($id = NULL) {
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Cocktail->__construct',Zend_Log::DEBUG);
+		
 		// Get cocktail from DB
 		if (!empty ($id)) {
-			$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
+			$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable');
 			$cocktail = $cocktailTable->fetchRow('id=' . $id);
 			// if cocktail does not exist
 			if(!$cocktail){
@@ -61,7 +64,9 @@ class Website_Model_Cocktail {
 			$this->name = $cocktail['name'];
 			$this->insertDate = $cocktail['insertDate'];
 			$this->updateDate = $cocktail['updateDate'];
-		} 
+		}
+
+		$log->log('Website_Model_Cocktail->__construct exiting',Zend_Log::DEBUG);
 	}
 
 	/**
@@ -71,7 +76,7 @@ class Website_Model_Cocktail {
 	 * @return booloean | int False or ID for cocktail
 	 */
 	public static function exists($id) {
-		$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
+		$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable');
 		
 		
 		if($id>0){
@@ -115,7 +120,7 @@ class Website_Model_Cocktail {
 		}
 		// process search
 		try {
-			$cocktailTable= Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
+			$cocktailTable= Website_Model_CbFactory::factory('Website_Model_CocktailTable');
 			$db = Zend_Db_Table::getDefaultAdapter();
 			// top10
 			if ($option == 'top10') {
@@ -304,7 +309,7 @@ class Website_Model_Cocktail {
 	 * @return array String Cocktailnamen
 	 */
 	public static function listCocktailNamesIndexed($search = NULL) {
-		$tabelle = Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
+		$tabelle = Website_Model_CbFactory::factory('Website_Model_CocktailTable');
 		if ($search) {
 			$search = "name LIKE '$search%'";
 		}
@@ -316,14 +321,25 @@ class Website_Model_Cocktail {
 		return $cocktailArray;
 	}
 
+	/**
+	 * Returns all associated recipes of this Cocktail
+	 * 
+	 * @return array[int]Website_Model_Recipe 
+	 */
 	public function getRecipes(){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_Cocktail->getRecipes',Zend_Log::DEBUG);
+		
+		// don't use caching here, it killed the unit tests (cache file was larger than 1 MB)
 		// load cache from registry
-		$cache = Zend_Registry::get('cache');
+		//$cache = Zend_Registry::get('cache');
 		// see if recipe - list is already in cache
-		if(!$recipes = $cache->load('recipesByCocktailId'.$this->id)) {
+		//if(!$recipes = $cache->load('recipesByCocktailId'.$this->id)) {
 			$recipes = Website_Model_Recipe::recipesByCocktailId($this->id);
-			$cache->save($recipes,'recipesByCocktailId'.$this->id,array('model'));
-		}
+		//	$cache->save($recipes,'recipesByCocktailId'.$this->id,array('model'));
+		//}
+		
+		$log->log('Website_Model_Cocktail->getRecipes exiting',Zend_Log::DEBUG);
 		return $recipes;
 	}
 	
@@ -372,7 +388,7 @@ class Website_Model_Cocktail {
 	}
 
 	public function delete (){
-		$orderTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable', 'cocktail');
+		$orderTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable');
 		$orderTable->delete('id='.$this->id);
 		Website_Model_CbFactory::destroy('Cocktail',$this->id);
 		unset($this);
@@ -384,7 +400,7 @@ class Website_Model_Cocktail {
 	 * @return boolean|int on opdate true, on insert int (cocktailId)
 	 */
 	public function save() {
-		$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable',NULL);
+		$cocktailTable = Website_Model_CbFactory::factory('Website_Model_CocktailTable');
 		$cocktailIdExists = Website_Model_Cocktail :: exists($this->name);
 		if ($this->id) {
 			$cocktailTable->update($this->dataBaseRepresentation(), 'id = ' . $this->id);
