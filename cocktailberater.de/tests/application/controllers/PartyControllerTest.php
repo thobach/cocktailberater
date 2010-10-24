@@ -91,19 +91,19 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$xml = simplexml_load_string(print_r($this->response->outputBody(),true));
 		$res = $xml->xpath("member");
 		$xmlAttr = $res[0]->attributes();
-		PartyControllerTest::$hashCode = print_r($xmlAttr['hashCode']."",true);
-		PartyControllerTest::$hostId = print_r($xmlAttr['id']."",true);
+		self::$hashCode = print_r($xmlAttr['hashCode']."",true);
+		self::$hostId = print_r($xmlAttr['id']."",true);
 		$this->reset();
 		$this->setUp();
 
 		// post new party
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>PartyControllerTest::$hashCode,'name'=>'test party','hostId'=>PartyControllerTest::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
+		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party','hostId'=>self::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
 
 		$xml = simplexml_load_string(print_r($this->response->outputBody(),true));
 		$res = $xml->xpath("party");
 		$xmlAttr = $res[0]->attributes();
-		PartyControllerTest::$partyId = print_r($xmlAttr['id']."",true);
+		self::$partyId = print_r($xmlAttr['id']."",true);
 		$this->assertModule("website");
 		$this->assertController("party");
 		$this->assertAction("get"); // redirect
@@ -113,14 +113,14 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 	}
 
 	public function testPostHashCodeMissingAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('name'=>'test party','hostId'=>PartyControllerTest::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
+		$this->request->setMethod('POST')->setPost(array('name'=>'test party','hostId'=>self::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('HashCode missing!'));
 	}
 
 	public function testPostInvalidHashCodeAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>'abc','name'=>'test party','hostId'=>PartyControllerTest::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
+		$this->request->setMethod('POST')->setPost(array('hashCode'=>'abc','name'=>'test party','hostId'=>self::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
 
 		$this->assertModule("website");
@@ -131,42 +131,42 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 	}
 
 	public function testPostDateMissingAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>PartyControllerTest::$hashCode,'name'=>'test party','hostId'=>PartyControllerTest::$hostId,'barId'=>'1'));
+		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party','hostId'=>self::$hostId,'barId'=>'1'));
 		$this->dispatch('/website/party/?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Date missing!'));
 	}
 
 	public function testPostDateInvalidAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>PartyControllerTest::$hashCode,'name'=>'test party','hostId'=>PartyControllerTest::$hostId,'barId'=>'1','date'=>'31.13.2010 18:30:12'));
+		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party','hostId'=>self::$hostId,'barId'=>'1','date'=>'31.13.2010 18:30:12'));
 		$this->dispatch('/website/party/?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Wrong_Date_Format'));
 	}
 
 	public function testPostHostMissingAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>PartyControllerTest::$hashCode,'name'=>'test party','barId'=>'1','date'=>'2010-12-31 18:30:00'));
+		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party','barId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Host missing!'));
 	}
 
 	public function testPostBarMissingAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>PartyControllerTest::$hashCode,'name'=>'test party','hostId'=>'1','date'=>'2010-12-31 18:30:00'));
+		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party','hostId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Bar missing!'));
 	}
 
 	public function testPostNameMissingAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>PartyControllerTest::$hashCode,'hostId'=>PartyControllerTest::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
+		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'hostId'=>self::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Name missing!'));
 	}
 
 	public function testPutAsXmlAction() {
-		$this->request->setMethod('PUT')->setPost(array('hashCode'=>PartyControllerTest::$hashCode,'userId'=>PartyControllerTest::$hostId,'name'=>'test party1','hostId'=>'1','barId'=>'3','date'=>'2011-01-01 02:30:00'));
-		$this->dispatch('/website/party/'.PartyControllerTest::$partyId.'?format=xml');
+		$this->request->setMethod('PUT')->setPost(array('hashCode'=>self::$hashCode,'userId'=>self::$hostId,'name'=>'test party1','hostId'=>'1','barId'=>'3','date'=>'2011-01-01 02:30:00'));
+		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 
 		$this->assertModule("website");
 		$this->assertController("party");
@@ -176,8 +176,8 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 	}
 
 	public function testPutInvalidHashCodeAsXmlAction() {
-		$this->request->setMethod('PUT')->setPost(array('userId'=>PartyControllerTest::$hostId,'hashCode'=>'abc','name'=>'test party1'));
-		$this->dispatch('/website/party/'.PartyControllerTest::$partyId.'?format=xml');
+		$this->request->setMethod('PUT')->setPost(array('userId'=>self::$hostId,'hashCode'=>'abc','name'=>'test party1'));
+		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 
 		$this->assertModule("website");
 		$this->assertController("party");
@@ -187,21 +187,21 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 	}
 
 	public function testPutUserIdMissingAsXmlAction() {
-		$this->request->setMethod('PUT')->setPost(array('hashCode'=>PartyControllerTest::$hashCode,'name'=>'test party1'));
-		$this->dispatch('/website/party/'.PartyControllerTest::$partyId.'?format=xml');
+		$this->request->setMethod('PUT')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party1'));
+		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('UserId missing!'));
 	}
 
 
 	public function testPutHashCodeMissingAsXmlAction() {
-		$this->request->setMethod('PUT')->setPost(array('userId'=>PartyControllerTest::$hostId,'name'=>'test party1'));
-		$this->dispatch('/website/party/'.PartyControllerTest::$partyId.'?format=xml');
+		$this->request->setMethod('PUT')->setPost(array('userId'=>self::$hostId,'name'=>'test party1'));
+		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('HashCode missing!'));
 	}
 
 	public function testDeleteInvalidHashCodeXmlAction() {
-		$this->request->setMethod('DELETE')->setPost(array('userId'=>PartyControllerTest::$hostId,'hashCode'=>'abc'));
-		$this->dispatch('/website/party/'.PartyControllerTest::$partyId.'?format=xml');
+		$this->request->setMethod('DELETE')->setPost(array('userId'=>self::$hostId,'hashCode'=>'abc'));
+		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 
 		$this->assertModule("website");
 		$this->assertController("party");
@@ -211,20 +211,20 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 	}
 
 	public function testDeleteHashCodeMissingXmlAction() {
-		$this->request->setMethod('DELETE')->setPost(array('userId'=>PartyControllerTest::$hostId));
-		$this->dispatch('/website/party/'.PartyControllerTest::$partyId.'?format=xml');
+		$this->request->setMethod('DELETE')->setPost(array('userId'=>self::$hostId));
+		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('HashCode missing!'));
 	}
 
 	public function testDeleteUserIdMissingAsXmlAction() {
-		$this->request->setMethod('DELETE')->setPost(array('hashCode'=>PartyControllerTest::$hashCode,'name'=>'test party1'));
-		$this->dispatch('/website/party/'.PartyControllerTest::$partyId.'?format=xml');
+		$this->request->setMethod('DELETE')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party1'));
+		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('UserId missing!'));
 	}
 
 	public function testDeleteAsXmlAction() {
-		$this->request->setMethod('DELETE')->setPost(array('hashCode'=>PartyControllerTest::$hashCode,'userId'=>PartyControllerTest::$hostId));
-		$this->dispatch('/website/party/'.PartyControllerTest::$partyId.'?format=xml');
+		$this->request->setMethod('DELETE')->setPost(array('hashCode'=>self::$hashCode,'userId'=>self::$hostId));
+		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 		$this->assertModule("website");
 		$this->assertController("party");
 		$this->assertAction("delete");

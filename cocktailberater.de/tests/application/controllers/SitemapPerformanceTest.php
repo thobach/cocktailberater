@@ -1,6 +1,6 @@
 <?php
 
-class Controllers_SitemapPerformanceTest extends PHPUnit_Extensions_PerformanceTestCase {
+class Controllers_SitemapPerformanceTest extends ControllerTestCase {
 
 
 	public function testCaseProvider()	{
@@ -13,7 +13,11 @@ class Controllers_SitemapPerformanceTest extends PHPUnit_Extensions_PerformanceT
 	 * @dataProvider testCaseProvider
 	 */
 	public function testPerformance($url) {
-		$this->setMaxRunningTime(2);
+		$start = microtime();
 		file_get_contents ('http://cocktailberater.local:10088'.$url);
+		$end = microtime();
+		if($end-$start>=2000){
+			$this->fail('http://cocktailberater.local:10088'.$url.' needed over 2s to load');
+		}
 	}
 }

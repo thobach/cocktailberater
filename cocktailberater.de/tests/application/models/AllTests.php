@@ -3,6 +3,7 @@ require_once 'IngredientTest.php';
 require_once 'MemberTest.php';
 require_once 'BarTest.php';
 require_once 'StatisticTest.php';
+require_once 'CocktailTest.php';
 
 class Models_AllTests {
 
@@ -17,6 +18,7 @@ class Models_AllTests {
 		$suite->addTestSuite('Models_MemberTest');
 		$suite->addTestSuite('Models_BarTest');
 		$suite->addTestSuite('Models_StatisticTest');
+		$suite->addTestSuite('Models_CocktailTest');
 
 		return $suite;
 	}
