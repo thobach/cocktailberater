@@ -191,6 +191,9 @@ class Website_Model_Ingredient {
 						$recipes[$component->recipeId] = Website_Model_CbFactory::factory('Website_Model_Recipe',$component->recipeId);
 					}
 				}
+				if(count($recipes)==0){
+					$recipes = true;
+				}
 				$cache->save($recipes,'recipesByIngredientId'.$this->id,array('model'));
 			}
 			$this->recipes = $recipes;
