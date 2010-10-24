@@ -255,6 +255,11 @@ class Website_Model_Party {
 		$table->delete('party='.$this->id .' AND member='.$memberId);
 	}
 
+	/**
+	 * Returns all guests of this party
+	 * 
+	 * @return array[int]Website_Model_Member
+	 */
 	public function getGuests(){
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_Model_Party->getGuests',Zend_Log::DEBUG);
