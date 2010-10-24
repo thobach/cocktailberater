@@ -19,7 +19,7 @@ class Controllers_AllTests {
 		$suite->addTestSuite('Controllers_IndexControllerTest');
 		$suite->addTestSuite('Controllers_MemberControllerTest');
 		$suite->addTestSuite('Controllers_IngredientControllerTest');
-		$suite->addTestSuite('Controllers_IngredientCategoryControllerTest'); //
+		//$suite->addTestSuite('Controllers_IngredientCategoryControllerTest');
 		$suite->addTestSuite('Controllers_RecipeControllerTest');
 		$suite->addTestSuite('Controllers_SessionControllerTest');
 		$suite->addTestSuite('Controllers_PartyControllerTest');
