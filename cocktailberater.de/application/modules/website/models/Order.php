@@ -280,7 +280,6 @@ class Website_Model_Order {
 	 * @param String $hashCode
 	 * @return unknown_type nothing
 	 * @throws Website_Model_OrderException if arguments are missing or user is not logged in (hashCode)
-	 * @todo: write unit test with hashCode
 	 */
 	public function save ($hashCode){
 		$log = Zend_Registry::get('logger');
@@ -288,33 +287,35 @@ class Website_Model_Order {
 
 		// check if all required attributes are filled
 		if(!$this->partyId){
-			$log->log('Website_Model_Order->save: Website_Model_OrderException (Party missing)',Zend_Log::DEBUG);
+			$log->log('Website_Model_Order->save: Website_Model_OrderException (Party missing)',Zend_Log::WARN);
 			throw new Website_Model_OrderException('Party missing!');
 		}
 		elseif(!$this->recipeId){
-			$log->log('Website_Model_Order->save: Website_Model_OrderException (Recipe missing)',Zend_Log::DEBUG);
+			$log->log('Website_Model_Order->save: Website_Model_OrderException (Recipe missing)',Zend_Log::WARN);
 			throw new Website_Model_OrderException('Recipe missing!');
 		}
 		elseif(!$hashCode){
-			$log->log('Website_Model_Order->save: Website_Model_OrderException (HashCode missing)',Zend_Log::DEBUG);
+			$log->log('Website_Model_Order->save: Website_Model_OrderException (HashCode missing)',Zend_Log::WARN);
 			throw new Website_Model_OrderException('HashCode missing!');
 		}
 		elseif(!$this->memberId){
-			$log->log('Website_Model_Order->save: Website_Model_OrderException (Member missing)',Zend_Log::DEBUG);
+			$log->log('Website_Model_Order->save: Website_Model_OrderException (Member missing)',Zend_Log::WARN);
 			throw new Website_Model_OrderException('Member missing!');
 		}
 		elseif(!$this->orderDate){
-			$log->log('Website_Model_Order->save: Website_Model_OrderException (OrderDate missing)',Zend_Log::DEBUG);
+			$log->log('Website_Model_Order->save: Website_Model_OrderException (OrderDate missing)',Zend_Log::WARN);
 			throw new Website_Model_OrderException('OrderDate missing!');
 		}
 		elseif(!$this->status){
-			$log->log('Website_Model_Order->save: Website_Model_OrderException (Status missing)',Zend_Log::DEBUG);
+			$log->log('Website_Model_Order->save: Website_Model_OrderException (Status missing)',Zend_Log::WARN);
 			throw new Website_Model_OrderException('Status missing!');
 		}
 		// check if the hashCode is valid and belongs to a guest or host
-		elseif(!(Website_Model_Member::loggedIn($this->memberId,$hashCode) ||
-		Website_Model_Member::loggedIn($this->getParty()->getHost()->id,$hashCode))){
-			$log->log('Website_Model_Order->save: Website_Model_MemberException (Not_Authorized)',Zend_Log::DEBUG);
+		elseif(!(Website_Model_CbFactory::factory('Website_Model_Member', $this->memberId)
+					->setHashCode($hashCode)->loggedIn() ||
+				Website_Model_CbFactory::factory('Website_Model_Member', $this->getParty()->getHost()->id)
+					->setHashCode($hashCode)->loggedIn())){
+			$log->log('Website_Model_Order->save: Website_Model_MemberException (Not_Authorized)',Zend_Log::INFO);
 			throw new Website_Model_MemberException('Not_Authorized');
 		}
 		else {
