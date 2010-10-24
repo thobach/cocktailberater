@@ -110,7 +110,7 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 
 	public function testIndexAsRssAction() {
 		$log = Zend_Registry::get('logger');
-		$log->log('testIndexAsRssAction',Zend_Log::DEBUG);
+		$log->log('RecipeControllerTest->testIndexAsRssAction',Zend_Log::DEBUG);
 		
 		$this->getRequest()->setParam('format','rss');
 		$this->dispatch('/website/recipe/');

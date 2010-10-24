@@ -48,9 +48,9 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
 		if ($this->bootstrap instanceof Zend_Application) {
 			$this->bootstrap->run();
 		} else {
-			$log->log('dispatch',Zend_Log::DEBUG);
+			$log->log('ControllerTestCase->dispatch pre dispatch',Zend_Log::DEBUG);
 			$this->frontController->dispatch();
-			$log->log('dispatched',Zend_Log::DEBUG);
+			$log->log('ControllerTestCase->dispatch post dispatch',Zend_Log::DEBUG);
 		}
 	}
 

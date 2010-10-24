@@ -23,6 +23,8 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 		if(!$member){
 			$member = new Website_Model_Member();
 			$member->email='max@thobach.de';
+			$member->firstname = 'Max';
+			$member->lastname = 'Mustermann';
 			$member->setPassword('test1');
 			$member->save();
 		}
@@ -33,7 +35,7 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 		$xml = simplexml_load_string(print_r($this->response->outputBody(),true));
 		$res = $xml->xpath("member");
 		$xmlAttr = $res[0]->attributes();
-		SessionControllerTest::$hashCode = print_r($xmlAttr['hashCode']."",true);
+		self::$hashCode = print_r($xmlAttr['hashCode']."",true);
 		$this->assertModule("website");
 		$this->assertController("member");
 		$this->assertAction("get"); // redirected
@@ -59,7 +61,6 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 	public function testDeleteInvalidCredentialsXmlAction(){
 		$this->request->setMethod('DELETE')->setPost(array('email'=>'max@thobach.de','hashCode'=>'invalid'));
 		$this->dispatch('/website/session/?format=xml');
-
 		$this->assertModule("website");
 		$this->assertController("session");
 		$this->assertAction("delete");
@@ -82,9 +83,8 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 	}
 
 	public function testDeleteXmlAction(){
-		$this->request->setMethod('DELETE')->setPost(array('email'=>'max@thobach.de','hashCode'=>SessionControllerTest::$hashCode));
+		$this->request->setMethod('DELETE')->setPost(array('email'=>'max@thobach.de','hashCode'=>self::$hashCode));
 		$this->dispatch('/website/session/?format=xml');
-
 		$this->assertModule("website");
 		$this->assertController("session");
 		$this->assertAction("delete");
@@ -99,6 +99,8 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 		if(!$member){
 			$member = new Website_Model_Member();
 			$member->email='max@thobach.de';
+			$member->firstname = 'Max';
+			$member->lastname = 'Mustermann';
 			$member->setPassword('test1');
 			$member->save();
 		}

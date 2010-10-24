@@ -9,11 +9,15 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 
 	public function setUp(){
 		parent::setUp();
+		
+		$log = Zend_Registry::get('logger');
+		$log->log('OrderControllerTest->setUp',Zend_Log::DEBUG);
 
 		// get valid session
 		$member = Website_Model_Member::getMemberByEmail('max@thobach.de');
+		// create new member
 		if(!$member){
-			// create new member
+			$log->log('OrderControllerTest->setUp create new member',Zend_Log::DEBUG);
 			$member = new Website_Model_Member();
 			$member->email='max@thobach.de';
 			$member->setPassword('test1');
@@ -21,51 +25,80 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 			$member->lastname='Mustermann';
 			$member->save();
 		}
+		
+		$log->log('OrderControllerTest->setUp create guest session',Zend_Log::DEBUG);
+		// create session for guest and store hashCode and member id
 		$this->request->setMethod('POST')->setPost(array('email'=>'max@thobach.de','password'=>'test1'));
 		$this->dispatch('/website/session/?format=xml');
 		$xml = simplexml_load_string(print_r($this->response->outputBody(),true));
-		$res = $xml->xpath("//member");
-		$xmlAttr = $res[0]->attributes();
-		OrderControllerTest::$hashCode = print_r($xmlAttr['hashCode']."",true);
-		OrderControllerTest::$memberId = print_r($xmlAttr['id']."",true);
+		if($xml){
+			$res = $xml->xpath("//member");
+			$xmlAttr = $res[0]->attributes();
+			self::$hashCode = print_r($xmlAttr['hashCode']."",true);
+			self::$memberId = print_r($xmlAttr['id']."",true);
+		} else {
+			$log->log('OrderControllerTest->setUp guest session could not be created',Zend_Log::DEBUG);
+			$this->fail('guest session could not be created');
+		}
 		
+		// reset to create new request in same method
 		$this->reset();
 		parent::setUp();
 		
+		$log->log('OrderControllerTest->setUp create host session',Zend_Log::DEBUG);
+		// create session for host and store hashCode and member id
 		$this->request->setMethod('POST')->setPost(array('email'=>'thobach@web.de','password'=>'test1'));
 		$this->dispatch('/website/session/?format=xml');
 		$xml = simplexml_load_string(print_r($this->response->outputBody(),true));
-		$res = $xml->xpath("//member");
-		$xmlAttr = $res[0]->attributes();
-		$hostHashCode = print_r($xmlAttr['hashCode']."",true);
-		$hostId = print_r($xmlAttr['id']."",true);
+		if($xml){
+			$res = $xml->xpath("//member");
+			$xmlAttr = $res[0]->attributes();
+			$hostHashCode = print_r($xmlAttr['hashCode']."",true);
+			$hostId = print_r($xmlAttr['id']."",true);
+		} else {
+			$log->log('OrderControllerTest->setUp host session could not be created',Zend_Log::DEBUG);
+			$this->fail('host session could not be created');
+		}
 		
-				
+		// reset to create new request in same method
 		$this->reset();
 		parent::setUp();
 		
-		// be sure that the member is a guest
+		$log->log('OrderControllerTest->setUp add guest to party',Zend_Log::DEBUG);
+		// add member as guest
 		$this->request->setMethod('POST')->setPost(
 			array('hashCode'=>$hostHashCode,
 			'member'=>$hostId,
 			'party'=>1,
-			'guest'=>OrderControllerTest::$memberId));
+			'guest'=>self::$memberId));
 		$this->dispatch('/website/guest/?format=xml');
 
+		// reset to create new request in same method
 		$this->reset();
 		parent::setUp();
+		
+		$log->log('OrderControllerTest->setUp exiting',Zend_Log::DEBUG);
 	}
 
 	public function testPostAsXmlAction() {
 		$log = Zend_Registry::get('logger');
 		$log->log('OrderControllerTest->testPostAsXmlAction',Zend_Log::DEBUG);
 		
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>OrderControllerTest::$hashCode,'recipe'=>'1','member'=>OrderControllerTest::$memberId,'party'=>'1'));
+		$orderData = array(	'hashCode'=>self::$hashCode,
+					'recipe'=>'1',
+					'guest'=>self::$memberId,
+					'member'=>self::$memberId,
+					'party'=>'1');
+		$this->request->setMethod('POST')->setPost($orderData);
 		$this->dispatch('/website/order/?format=xml');
 		$xml = simplexml_load_string(print_r($this->response->outputBody(),true));
-		$res = $xml->xpath("//order");
-		$xmlAttr = $res[0]->attributes();
-		OrderControllerTest::$orderId = print_r($xmlAttr['id']."",true);
+		if($xml){
+			$res = $xml->xpath("//order");
+			$xmlAttr = $res[0]->attributes();
+			self::$orderId = print_r($xmlAttr['id']."",true);
+		} else {
+			$this->fail('xml could not be loaded');
+		}
 		$this->assertModule("website");
 		$this->assertController("order");
 		$this->assertAction("get"); // redirect
@@ -78,7 +111,7 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 		$log = Zend_Registry::get('logger');
 		$log->log('OrderControllerTest->testIndexOfPartyAsHtmlAction',Zend_Log::DEBUG);
 
-		$this->dispatch('/website/order/party/1/member/'.OrderControllerTest::$memberId.'/hashCode/'.OrderControllerTest::$hashCode);
+		$this->dispatch('/website/order/party/1/member/'.self::$memberId.'/hashCode/'.self::$hashCode);
 
 		$this->assertModule("website");
 		$this->assertController("order");
@@ -90,26 +123,29 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 	public function testIndexAsHtmlAction() {
 		$log = Zend_Registry::get('logger');
 		$log->log('OrderControllerTest->testIndexAsHtmlAction',Zend_Log::DEBUG);
-
-		$this->dispatch('/website/order/member/'.OrderControllerTest::$memberId.'/hashCode/'.OrderControllerTest::$hashCode);
-
+		
+		$this->dispatch('/website/order/member/'.self::$memberId.'/hashCode/'.self::$hashCode);
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Party missing!'));
 	}
 
 	public function testIndexAsXmlAction() {
-		$this->dispatch('/website/order/party/1/member/'.OrderControllerTest::$memberId.'?format=xml');
-
+		$log = Zend_Registry::get('logger');
+		$log->log('OrderControllerTest->testIndexAsXmlAction',Zend_Log::DEBUG);
+		
+		$this->dispatch('/website/order/party/1/member/'.self::$memberId.'?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('HashCode missing!'));
 	}
 
 	public function testIndexAsRssAction() {
-		$this->dispatch('/website/order/party/1/hashCode/'.OrderControllerTest::$hashCode.'?format=rss');
+		$log = Zend_Registry::get('logger');
+		$log->log('OrderControllerTest->testIndexAsRssAction',Zend_Log::DEBUG);
 
+		$this->dispatch('/website/order/party/1/hashCode/'.self::$hashCode.'?format=rss');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Member missing!'));
 	}
 
 	public function testIndexAsAtomAction() {
-		$this->dispatch('/website/order/party/1/hashCode/abc/member/'.OrderControllerTest::$memberId.'?format=atom');
+		$this->dispatch('/website/order/party/1/hashCode/abc/member/'.self::$memberId.'?format=atom');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage(Website_Model_MemberException::INVALID_CREDENTIALS));
 	}
@@ -130,7 +166,7 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 
 
 	public function testIndexOfPartyAsXmlAction() {
-		$this->dispatch('/website/order/party/1/member/'.OrderControllerTest::$memberId.'/hashCode/'.OrderControllerTest::$hashCode.'?format=xml');
+		$this->dispatch('/website/order/party/1/member/'.self::$memberId.'/hashCode/'.self::$hashCode.'?format=xml');
 		$this->assertModule("website");
 		$this->assertController("order");
 		$this->assertAction("index");
@@ -151,7 +187,7 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 	//}
 
 	public function testIndexOfPartyAsRssAction() {
-		$this->dispatch('/website/order/party/1/member/'.OrderControllerTest::$memberId.'/hashCode/'.OrderControllerTest::$hashCode.'?format=rss');
+		$this->dispatch('/website/order/party/1/member/'.self::$memberId.'/hashCode/'.self::$hashCode.'?format=rss');
 		$this->assertModule("website");
 		$this->assertController("order");
 		$this->assertAction("index");
@@ -162,7 +198,7 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 
 
 	public function testIndexOfPartyAsAtomAction() {
-		$this->dispatch('/website/order/party/1/member/'.OrderControllerTest::$memberId.'/hashCode/'.OrderControllerTest::$hashCode.'?format=atom');
+		$this->dispatch('/website/order/party/1/member/'.self::$memberId.'/hashCode/'.self::$hashCode.'?format=atom');
 		$this->assertModule("website");
 		$this->assertController("order");
 		$this->assertAction("index");
@@ -172,7 +208,7 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 	}
 
 	public function testGetAction() {
-		$this->dispatch('/website/order/id/'.OrderControllerTest::$orderId.'/member/'.OrderControllerTest::$memberId.'/hashCode/'.OrderControllerTest::$hashCode);
+		$this->dispatch('/website/order/id/'.self::$orderId.'/member/'.self::$memberId.'/hashCode/'.self::$hashCode);
 		$this->assertModule("website");
 		$this->assertController("order");
 		$this->assertAction("get");
@@ -181,42 +217,42 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 	}
 
 	public function testGetWithWrongIdAction() {
-		$this->dispatch('/website/order/id/0/member/'.OrderControllerTest::$memberId.'/hashCode/'.OrderControllerTest::$hashCode);
+		$this->dispatch('/website/order/id/0/member/'.self::$memberId.'/hashCode/'.self::$hashCode);
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Id_Wrong'));
 	}
 
 	public function testPostHashCodeMissingAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('recipe'=>'1','member'=>OrderControllerTest::$memberId,'party'=>'1'));
+		$this->request->setMethod('POST')->setPost(array('recipe'=>'1','member'=>self::$memberId,'party'=>'1'));
 		$this->dispatch('/website/order/?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('HashCode missing!'));
 	}
 
 	public function testPostInvalidHashCodeAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>'abc','recipe'=>'1','member'=>OrderControllerTest::$memberId,'party'=>'1'));
+		$this->request->setMethod('POST')->setPost(array('hashCode'=>'abc','recipe'=>'1','member'=>self::$memberId,'party'=>'1'));
 		$this->dispatch('/website/order/?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage(Website_Model_MemberException::INVALID_CREDENTIALS));
 	}
 
 	public function testPostUserMissingAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>OrderControllerTest::$hashCode,'recipe'=>'1','party'=>'1'));
+		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'recipe'=>'1','party'=>'1'));
 		$this->dispatch('/website/order/?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Member missing!'));
 	}
 
 	public function testPostPartyMissingAsXmlAction() {
-		$this->request->setMethod('POST')->setPost(array('hashCode'=>OrderControllerTest::$hashCode,'recipe'=>'1','member'=>OrderControllerTest::$memberId));
+		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'recipe'=>'1','member'=>self::$memberId));
 		$this->dispatch('/website/order/?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Party missing!'));
 	}
 
 	public function testPutAsXmlAction() {
-		$this->request->setMethod('PUT')->setPost(array('hashCode'=>OrderControllerTest::$hashCode,'member'=>OrderControllerTest::$memberId,'status'=>Website_Model_Order::CANCELED));
-		$this->dispatch('/website/order/'.OrderControllerTest::$orderId.'?format=xml');
+		$this->request->setMethod('PUT')->setPost(array('hashCode'=>self::$hashCode,'member'=>self::$memberId,'status'=>Website_Model_Order::CANCELED));
+		$this->dispatch('/website/order/'.self::$orderId.'?format=xml');
 
 		$this->assertModule("website");
 		$this->assertController("order");
@@ -226,44 +262,44 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 	}
 
 	public function testPutInvalidHashCodeAsXmlAction() {
-		$this->request->setMethod('PUT')->setPost(array('member'=>OrderControllerTest::$memberId,'hashCode'=>'abc','status'=>'CANCELED'));
-		$this->dispatch('/website/order/'.OrderControllerTest::$orderId.'?format=xml');
+		$this->request->setMethod('PUT')->setPost(array('member'=>self::$memberId,'hashCode'=>'abc','status'=>'CANCELED'));
+		$this->dispatch('/website/order/'.self::$orderId.'?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage(Website_Model_MemberException::INVALID_CREDENTIALS));
 	}
 
 	public function testPutUserIdMissingAsXmlAction() {
-		$this->request->setMethod('PUT')->setPost(array('hashCode'=>OrderControllerTest::$hashCode,'status'=>'CANCELED'));
-		$this->dispatch('/website/order/'.OrderControllerTest::$orderId.'?format=xml');
+		$this->request->setMethod('PUT')->setPost(array('hashCode'=>self::$hashCode,'status'=>'CANCELED'));
+		$this->dispatch('/website/order/'.self::$orderId.'?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Member missing!'));
 	}
 
 
 	public function testPutHashCodeMissingAsXmlAction() {
-		$this->request->setMethod('PUT')->setPost(array('member'=>OrderControllerTest::$memberId,'status'=>'CANCELED'));
-		$this->dispatch('/website/order/'.OrderControllerTest::$orderId.'?format=xml');
+		$this->request->setMethod('PUT')->setPost(array('member'=>self::$memberId,'status'=>'CANCELED'));
+		$this->dispatch('/website/order/'.self::$orderId.'?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('HashCode missing!'));
 	}
 
 	public function testDeleteAsXmlAction() {
-		$this->request->setMethod('DELETE')->setPost(array('hashCode'=>OrderControllerTest::$hashCode,'member'=>OrderControllerTest::$memberId));
-		$this->dispatch('/website/order/'.OrderControllerTest::$orderId.'?format=xml');
+		$this->request->setMethod('DELETE')->setPost(array('hashCode'=>self::$hashCode,'member'=>self::$memberId));
+		$this->dispatch('/website/order/'.self::$orderId.'?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Delete not possible!'));
 	}
 
 	public function testGetGuestAction() {
-		$this->request->setMethod('GET')->setPost(array('hashCode'=>OrderControllerTest::$hashCode,'member'=>OrderControllerTest::$memberId,'party'=>1,'guest'=>1));
-		$this->dispatch('/website/guest/'.OrderControllerTest::$memberId.'?format=xml');
+		$this->request->setMethod('GET')->setPost(array('hashCode'=>self::$hashCode,'member'=>self::$memberId,'party'=>1,'guest'=>1));
+		$this->dispatch('/website/guest/'.self::$memberId.'?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Seite wurde nicht gefunden.'));
 	}
 	
 	public function testPutGuestAction() {
-		$this->request->setMethod('PUT')->setPost(array('hashCode'=>OrderControllerTest::$hashCode,'member'=>OrderControllerTest::$memberId,'party'=>1,'guest'=>1));
-		$this->dispatch('/website/guest/'.OrderControllerTest::$memberId.'?format=xml');
+		$this->request->setMethod('PUT')->setPost(array('hashCode'=>self::$hashCode,'member'=>self::$memberId,'party'=>1,'guest'=>1));
+		$this->dispatch('/website/guest/'.self::$memberId.'?format=xml');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Seite wurde nicht gefunden.'));
 	}
@@ -289,9 +325,9 @@ class Controllers_OrderControllerTest extends ControllerTestCase
 			array('hashCode'=>$hostHashCode,
 			'member'=>$hostId,
 			'party'=>1,
-			'guest'=>OrderControllerTest::$memberId));
+			'guest'=>self::$memberId));
 		$this->dispatch('/website/guest/?format=xml');
 		
-		$this->assertFalse(Website_Model_CbFactory::factory('Website_Model_Party',1)->memberIsGuest(OrderControllerTest::$memberId));
+		$this->assertFalse(Website_Model_CbFactory::factory('Website_Model_Party',1)->memberIsGuest(self::$memberId));
 	}
 }

@@ -1,5 +1,9 @@
 <?php 
 error_reporting( E_ALL & E_STRICT); //  & ~E_NOTICE
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+date_default_timezone_set('Europe/Berlin');
+
 
 define('BASE_PATH', realpath(dirname(__FILE__) . '/../../'));
 define('APPLICATION_PATH', BASE_PATH . '/application');
