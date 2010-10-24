@@ -21,6 +21,8 @@ class Website_Model_Bar {
 	private $_newsletter;
 	private $_ingredients;
 	private $_recipes;
+	private $_partys;
+	private $_regulars;
 
 	/**
 	 * magic getter for all attributes
@@ -210,23 +212,52 @@ class Website_Model_Bar {
 	}
 	
 	/**
-	 * returns all ingredients from the inventory, if bar id given, looks for the persisted ones of a specific bar
+	 * returns an array with all partys associated to this bar
 	 * 
-	 * @param int $barId the id of the bar which you need the ingredients for
+	 * @return array[int]Website_Model_Party
+	 */
+	public function getPartys (){
+		if(!$this->_partys){
+			$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable', 'party');
+			foreach($table->fetchAll($table->select()->where('bar=?',$this->id)) as $row){
+				$this->_partys[] = Website_Model_CbFactory::factory('Website_Model_Party', $row->id);
+			}
+		}
+		return $this->_partys;
+	}
+	
+	/**
+	 * returns all guests of all partys associated to this bar
+	 * 
+	 * @return array[int]Website_Model_Member the id of the Member is the array key 
+	 */
+	public function getRegulars(){
+		if(!$this->_regulars){
+			foreach($this->getPartys() as /* @var $party Website_Model_Party */ $party){
+				foreach($party->getGuests() as /* @var $member Website_Model_Member */ $member){
+					$this->_regulars[$member->id] = $member;
+				}
+			}
+		}
+		return $this->_regulars;
+	}
+	
+	/**
+	 * returns all ingredients from the inventory
+	 * 
 	 * @return array[int]Website_Model_Ingredient the key relates to the ingredient id
 	 */
-	public static function getIngredients($barId=NULL){
+	public function getIngredients(){
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_Model_Bar->getIngredients',Zend_Log::DEBUG);
-		if(!$barId){
-			return $this->_ingredients;
-		} else {
+		if(!$this->_ingredients){
 			$table = Website_Model_CbFactory::factory('Website_Model_MysqlTable','ingredient2bar');
 			foreach ($table->fetchAll($table->select()->where('bar=?',$barId)) as $ingredient2bar) {
 				$ingredients[$ingredient2bar->ingredient] = Website_Model_CbFactory::factory('Website_Model_Ingredient',$ingredient2bar->ingredient);
 			}
 			return $ingredients;
 		}
+		return $this->_ingredients;
 	}
 
 	public function removeProducts(){
