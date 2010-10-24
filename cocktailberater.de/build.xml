@@ -2,35 +2,41 @@
 <project name="cocktailberater.de" default="build" basedir="../.">
 	<target name="checkout">
 		<exec dir="${basedir}/source/" executable="svn">
-			<arg line="up"/>
+			<arg line="up" />
 		</exec>
 	</target>
 	<target name="php-documentor">
-		<exec executable="/usr/local/zend/bin/phpdoc" dir="${basedir}/source" logerror="true">
-			<arg line="-o HTML:frames:DOM/earthli -ti '${ant.project.name} documentation' -dn default -i tests/ -s on -ue on -t ${basedir}/build/api -d ." />
+		<exec executable="/usr/local/zend/bin/phpdoc" dir="${basedir}/source"
+			logerror="true">
+			<arg
+				line="-o HTML:frames:DOM/earthli -ti '${ant.project.name} documentation' -dn default -i tests/ -s on -ue on -t ${basedir}/build/api -d ." />
 		</exec>
 	</target>
 	<target name="phpcs">
-		<exec executable="/usr/local/zend/bin/phpcs" output="${basedir}/build/logs/checkstyle.xml" dir="${basedir}">
+		<exec executable="/usr/local/zend/bin/phpcs" output="${basedir}/build/logs/checkstyle.xml"
+			dir="${basedir}">
 			<arg line="--ignore=*/tests/* --report=checkstyle --standard=PEAR source" />
 		</exec>
 	</target>
 	<target name="phpmd">
 		<exec executable="/usr/local/zend/bin/phpmd" dir="${basedir}/source">
-			<arg line=". xml codesize,unusedcode,naming --reportfile ${basedir}/build/logs/pmd.xml"/>
+			<arg
+				line=". xml codesize,unusedcode,naming --reportfile ${basedir}/build/logs/pmd.xml" />
 		</exec>
 	</target>
 	<target name="php-depend">
-		<exec executable="/usr/local/zend/bin/pdepend" dir="${basedir}/source" logerror="true">
-			<arg line="--phpunit-xml=${basedir}/build/logs/pdepend.xml --jdepend-chart=${basedir}/build/graph/10-dependencies.svg --overview-pyramid=${basedir}/build/graph/11-software-metrics-pyramid.svg . " />
+		<exec executable="/usr/local/zend/bin/pdepend" dir="${basedir}/source"
+			logerror="true">
+			<arg
+				line="--phpunit-xml=${basedir}/build/logs/pdepend.xml --jdepend-chart=${basedir}/build/graph/10-dependencies.svg --overview-pyramid=${basedir}/build/graph/11-software-metrics-pyramid.svg . " />
 		</exec>
 	</target>
 	<target name="phpunit">
-		<exec executable="/usr/local/zend/bin/phpunit" dir="${basedir}/source/tests" failonerror="true">
-			<arg line="--log-junit ${basedir}/build/logs/junit.xml 
-			--coverage-xml ${basedir}/build/logs/phpunit.coverage.xml 
-			--coverage-html ${basedir}/build/coverage AllTest" />
+		<exec executable="/usr/local/zend/bin/phpunit" dir="${basedir}/source/tests"
+			failonerror="true">
+			<arg
+				line="--log-junit ${basedir}/build/logs/junit.xml --coverage-xml ${basedir}/build/logs/phpunit.coverage.xml --coverage-html ${basedir}/build/coverage AllTest" />
 		</exec>
 	</target>
-	<target name="build" depends="php-documentor,phpcs,phpmd,php-depend,phpunit"/>
+	<target name="build" depends="php-documentor,phpcs,phpmd,php-depend,phpunit" />
 </project>
