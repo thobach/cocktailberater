@@ -126,6 +126,9 @@ class Website_RecipeController extends Wb_Controller_RestController {
 	 * @param comments any show comments only
 	 */
 	public function getAction(){
+		$log = Zend_Registry::get('logger');
+		$log->log('Website_RecipeController->getAction',Zend_Log::DEBUG);
+		
 		// check if recipe id / name was given
 		if($this->_getParam('id')==''){
 			// if the id parameter is missing or empty, throw exception
@@ -170,6 +173,8 @@ class Website_RecipeController extends Wb_Controller_RestController {
 		$this->view->msg = $this->_getParam('msg');
 		// for image content-type
 		$this->view->response = $this->getResponse();
+		
+		$log->log('Website_RecipeController->getAction exiting',Zend_Log::DEBUG);
 	}
 
 }
