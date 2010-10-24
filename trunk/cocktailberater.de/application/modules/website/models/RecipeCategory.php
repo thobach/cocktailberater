@@ -48,19 +48,23 @@ class Website_Model_RecipeCategory extends Website_Model_Category {
 		$cache = Zend_Registry::get('cache');
 
 		// see if categoryByRecipeId - list is already in cache
-		if(!$recipesArray = $cache->load('categoryByRecipeId'.$id)) {
+		if(!$recipeCategoryArray = $cache->load('categoryByRecipeId'.$id)) {
 			// print "no cache: ".$id." (id) ";
+			$recipeCategoryArray = array();
 			$recipe2categoryTable = Website_Model_CbFactory::factory('Website_Model_MysqlTable','recipe2recipecategory');
 			$recipes = $recipe2categoryTable->fetchAll('recipe='.$id);
 			if(count($recipes) > 0 ){
 				foreach ($recipes as $recipe) {
-					$recipesArray[] = Website_Model_CbFactory::factory('Website_Model_RecipeCategory', $recipe->recipeCategory);
+					$recipeCategoryArray[] = Website_Model_CbFactory::factory('Website_Model_RecipeCategory', $recipe->recipeCategory);
 				}
 			}
-			$cache->save($recipesArray,'categoryByRecipeId'.$id,array('model'));
+			if(count($recipeCategoryArray)==0){
+				$recipeCategoryArray = true;
+			}
+			$cache->save($recipeCategoryArray,'categoryByRecipeId'.$id,array('model'));
 		}
 		//	print microtime(). ' ';
-		return $recipesArray;
+		return $recipeCategoryArray;
 
 	}
 
