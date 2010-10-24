@@ -19,15 +19,16 @@ class Website_OrderController extends Wb_Controller_RestController {
 			$log->log('Website_OrderController->preDispatch: Website_Model_OrderException (HashCode missing!)',Zend_Log::DEBUG);
 			throw new Website_Model_OrderException('HashCode missing!');
 		}
-		// member is always needed
+		// member is always needed (must match the hashCode)
 		if(!$this->_hasParam('member')){
 			$log->log('Website_OrderController->preDispatch: Website_Model_OrderException (Member missing!)',Zend_Log::DEBUG);
 			throw new Website_Model_OrderException('Member missing!');
 		}
-		// check if hashCode is correct
-		$auth = Website_Model_Member::loggedIn($this->_getParam('member'),$this->_getParam('hashCode'));
+		// check if hashCode is correct (must match the member)
+		$member = Website_Model_CbFactory::factory('Website_Model_Member',$this->_getParam('member'));
+		$member->setHashCode($this->_getParam('hashCode'));
 		// check: authorized?
-		if(!$auth) {
+		if(!$member->loggedIn()) {
 			$log->log('Website_OrderController->preDispatch: Website_Model_MemberException(INVALID_CREDENTIALS)',Zend_Log::DEBUG);
 			throw new Website_Model_MemberException(Website_Model_MemberException::INVALID_CREDENTIALS);
 		}
@@ -70,9 +71,7 @@ class Website_OrderController extends Wb_Controller_RestController {
 		if(($this->_hasParam('party') || $this->_hasParam('member')) && !$this->_hasParam('id')){
 			return $this->_forward('index');
 		} else if($this->_getParam('id') > 0) {
-			$log->log('id enthalten',Zend_Log::DEBUG);
 			$this->view->order =  Website_Model_CbFactory::factory('Website_Model_Order',$this->_getParam('id'));
-			$log->log('order:'.print_r($this->view->order,true),Zend_Log::DEBUG);
 			if(!$this->view->order || $this->_getParam('id')==0){
 				$log->log('Website_OrderController->getAction: Website_Model_OrderException(Id_Wrong)',Zend_Log::DEBUG);
 				throw new Website_Model_OrderException('Id_Wrong');
@@ -83,15 +82,25 @@ class Website_OrderController extends Wb_Controller_RestController {
 		}
 	}
 
+	/**
+	 * create new order
+	 * 
+	 * (non-PHPdoc)
+	 * @see application/Wb/Controller/Wb_Controller_RestController::postAction()
+	 */
 	public function postAction(){
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_OrderController->postAction',Zend_Log::DEBUG);
 
 		$order = new Website_Model_Order();
-		$order->memberId = $this->_getParam('member');
+		$order->memberId = $this->_getParam('guest'); // changed, was previous member 
+		// => changed because differentiation between orderer and guest needed
 		$order->orderDate = date(Website_Model_DateFormat::PHPDATE2MYSQLTIMESTAMP);
 		$order->partyId = $this->_getParam('party');
 		$order->recipeId = $this->_getParam('recipe');
+		if($this->_getParam('comment')){
+			$order->comment = $this->_getParam('comment');
+		}
 		$order->status = Website_Model_Order::ORDERED;
 		$order->save($this->_getParam('hashCode'));
 		if($order->id){
@@ -101,6 +110,12 @@ class Website_OrderController extends Wb_Controller_RestController {
 		}
 	}
 
+	/**
+	 * change order state
+	 * 
+	 * (non-PHPdoc)
+	 * @see application/Wb/Controller/Wb_Controller_RestController::putAction()
+	 */
 	public function putAction() {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_OrderController->putAction',Zend_Log::DEBUG);
