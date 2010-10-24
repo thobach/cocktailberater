@@ -1,15 +1,15 @@
 <?php
 
-class IndexControllerTest extends ControllerTestCase
+class Controllers_IndexControllerTest extends ControllerTestCase
 {
 
 	public function testIndexAction() {
 		$this->dispatch('/');
-		$this->assertModule("default");
+		$this->assertModule("website");
 		$this->assertController("index");
 		$this->assertAction("index");
-		$this->assertResponseCode(302);
-		//$this->assertXpathContentContains("/html/body/div[2]/div[2]/div/div/form/fieldset/label", "Cocktail:");
+		$this->assertResponseCode(200);
+		$this->assertXpathContentContains("/html/body/div[2]/div[2]/form[1]/fieldset/label[1]", "Cocktail:");
 	}
 
 	// somehow kills the unit test routine

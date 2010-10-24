@@ -1,11 +1,22 @@
 <?php
-
-class Model_BarTest extends ControllerTestCase {
+class Models_BarTest extends ControllerTestCase {
 
 	public function testCreateBar() {
 		$bar = new Website_Model_Bar();
 		$bar->name = "Tabas Bar";
 		$this->assertEquals("Tabas Bar",$bar->name);
+	}
+	
+	public function testGetPartys() {
+		// good case
+		$bar = new Website_Model_Bar(1);
+		$partys = $bar->getPartys();
+		$this->assertEquals("tabas bar",$partys[0]->name);
+		$this->assertEquals(1,count($partys));
+		// case: no partys associated
+		$bar = new Website_Model_Bar(3);
+		$partys = $bar->getPartys();
+		$this->assertEquals(0,count($partys));
 	}
 
 	public function testAddAndGetAndHasIngredient() {
