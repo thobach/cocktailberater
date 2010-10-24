@@ -16,7 +16,12 @@ class Website_PartyController extends Wb_Controller_RestController {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_PartyController->indexAction',Zend_Log::DEBUG);
 
-		$list = Website_Model_Party::listPartys();
+		if($this->_hasParam('host') && $this->_getParam('host') != '' && 
+			$this->_hasParam('bar') && $this->_getParam('bar')){
+			$list = Website_Model_Party::listPartys($this->_getParam('host'),$this->_getParam('bar'));
+		} else {
+			$list = Website_Model_Party::listPartys();
+		}
 		$this->view->partys = $list ;
 		$this->view->title = 'Partyliste';
 	}
@@ -62,26 +67,25 @@ class Website_PartyController extends Wb_Controller_RestController {
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_PartyController->postAction',Zend_Log::DEBUG);
 
-		if(!$this->_hasParam('hashCode')){
+		// check required params
+		if(!$this->_hasParam('hashCode') || $this->_getParam('hashCode') == ''){
 			throw new Website_Model_MemberException('HashCode missing!');
 		}
-		if(!$this->_hasParam('barId')){
+		if(!$this->_hasParam('barId') || $this->_getParam('barId') == ''){
 			throw new Website_Model_PartyException('Bar missing!');
 		}
-		if(!$this->_hasParam('hostId')){
+		if(!$this->_hasParam('hostId') || $this->_getParam('hostId') == ''){
 			throw new Website_Model_PartyException('Host missing!');
 		}
-		if(!$this->_hasParam('name')){
+		if(!$this->_hasParam('name') || $this->_getParam('name') == ''){
 			throw new Website_Model_PartyException('Name missing!');
 		}
-		if(!$this->_hasParam('date')){
+		if(!$this->_hasParam('date') || $this->_getParam('date') == ''){
 			throw new Website_Model_PartyException('Date missing!');
 		}
-
-		// @todo: extract to config file
-		$auth = Website_Model_Member::loggedIn($this->_getParam('hostId'),$this->_getParam('hashCode'));
-		if($auth){
-			$log->log('authenticated',Zend_Log::DEBUG);
+		// check if host is logged in
+		$host = Website_Model_CbFactory::factory('Website_Model_Member',$this->_getParam('hostId'));
+		if($host->setHashCode($this->_getParam('hashCode'))->loggedIn()){
 			$party = new Website_Model_Party();
 			$party->name = $this->_getParam('name');
 			$party->date = $this->_getParam('date');
@@ -92,7 +96,6 @@ class Website_PartyController extends Wb_Controller_RestController {
 			$this->getResponse()->setHttpResponseCode(201); // created
 			$this->_forward('get','party','website',array('id'=>$party->id));
 		} else {
-			$log->log('not authenticated',Zend_Log::DEBUG);
 			$this->view->status = 'error';
 			$this->getResponse()->setHttpResponseCode(401); // unauthorized
 		}
@@ -114,8 +117,9 @@ class Website_PartyController extends Wb_Controller_RestController {
 			throw new Website_Model_MemberException('UserId missing!');
 		}
 
-		$auth = Website_Model_Member::loggedIn($this->_getParam('userId'),$this->_getParam('hashCode'));
-		if($auth){
+		$member = Website_Model_CbFactory::factory('Website_Model_Member',$this->_getParam('userId'));
+		$member->setHashCode($this->_getParam('hashCode'));
+		if($member->loggedIn()){
 			$log->log('authenticated',Zend_Log::DEBUG);
 			$party = Website_Model_CbFactory::factory('Website_Model_Party',$this->_getParam('id'));
 			if($this->_hasParam('name')){
@@ -157,8 +161,9 @@ class Website_PartyController extends Wb_Controller_RestController {
 			throw new Website_Model_MemberException('UserId missing!');
 		}
 
-		$auth = Website_Model_Member::loggedIn($this->_getParam('userId'),$this->_getParam('hashCode'));
-		if($auth){
+		$member = Website_Model_CbFactory::factory('Website_Model_Member',$this->_getParam('userId'));
+		$member->setHashCode($this->_getParam('hashCode'));
+		if($member->loggedIn()){
 			$log->log('authenticated',Zend_Log::DEBUG);
 			$party = Website_Model_CbFactory::factory('Website_Model_Party',$this->_getParam('id'));
 			$party->delete();
