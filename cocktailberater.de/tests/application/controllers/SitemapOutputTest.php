@@ -1,6 +1,6 @@
 <?php
 
-class SitemapOutputTest extends ControllerTestCase {
+class Controllers_SitemapOutputTest extends ControllerTestCase {
 
 
 	public function testCaseProvider()	{

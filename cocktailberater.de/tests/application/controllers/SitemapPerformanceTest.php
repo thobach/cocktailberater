@@ -1,7 +1,6 @@
 <?php
-require_once 'PHPUnit/Extensions/PerformanceTestCase.php';
 
-class SitemapPerformanceTest extends PHPUnit_Extensions_PerformanceTestCase {
+class Controllers_SitemapPerformanceTest extends PHPUnit_Extensions_PerformanceTestCase {
 
 
 	public function testCaseProvider()	{

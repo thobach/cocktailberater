@@ -1,6 +1,6 @@
 <?php
 
-class MemberControllerTest extends ControllerTestCase
+class Controllers_MemberControllerTest extends ControllerTestCase
 {
 
 	private $id;

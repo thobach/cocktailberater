@@ -1,6 +1,6 @@
 <?php
 
-class SessionControllerTest extends ControllerTestCase
+class Controllers_SessionControllerTest extends ControllerTestCase
 {
 
 	public static $hashCode;

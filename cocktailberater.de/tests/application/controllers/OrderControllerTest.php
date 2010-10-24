@@ -1,6 +1,6 @@
 <?php
 
-class OrderControllerTest extends ControllerTestCase
+class Controllers_OrderControllerTest extends ControllerTestCase
 {
 
 	public static $orderId;

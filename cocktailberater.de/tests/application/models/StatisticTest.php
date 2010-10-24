@@ -1,6 +1,5 @@
 <?php
-
-class Model_StatisticTest extends ControllerTestCase {
+class Models_StatisticTest extends ControllerTestCase {
 
 	public function testAddView() {
 		$statistic = new Website_Model_Statistic(

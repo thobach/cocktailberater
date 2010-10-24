@@ -1,6 +1,5 @@
 <?php
-
-class Model_IngredientTest extends ControllerTestCase {
+class Models_IngredientTest extends ControllerTestCase {
 
 	public function testCreateIngredient() {
 		$ingredient = new Website_Model_Ingredient();

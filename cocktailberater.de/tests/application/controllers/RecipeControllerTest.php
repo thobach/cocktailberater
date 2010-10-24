@@ -1,6 +1,6 @@
 <?php
 
-class RecipeControllerTest extends ControllerTestCase
+class Controllers_RecipeControllerTest extends ControllerTestCase
 {
 
 	public function testIndexAction() {
@@ -27,7 +27,7 @@ class RecipeControllerTest extends ControllerTestCase
 		$this->assertController("recipe");
 		$this->assertAction("index");
 		$this->assertResponseCode(200);
-		$this->assertContains('Sex on the Beach',$this->response->outputBody());
+		$this->assertContains('Sex on the Beach nach Brandl',$this->response->outputBody());
 	}
 
 	public function testIndexAsAjaxIngredientAction() {
@@ -77,7 +77,7 @@ class RecipeControllerTest extends ControllerTestCase
 		$this->assertController("recipe");
 		$this->assertResponseCode(200);
 		$this->assertXpathCountMin('/rsp/recipes/recipe',10);
-		$this->assertContains('name="Sex on the Beach"',$this->response->outputBody());
+		$this->assertContains('name="Sex on the Beach nach Brandl"',$this->response->outputBody());
 	}
 
 	public function testIndexAsJsonAction() {
@@ -104,7 +104,7 @@ class RecipeControllerTest extends ControllerTestCase
 		$this->assertController("recipe");
 		$this->assertResponseCode(200);
 		$log->log('assert2',Zend_Log::DEBUG);
-		$this->assertContains('"name":"Sex on the Beach"',$this->response->outputBody());
+		$this->assertContains('"name":"Sex on the Beach nach Brandl"',$this->response->outputBody());
 		$log->log('assert3',Zend_Log::DEBUG);
 	}
 
@@ -118,7 +118,7 @@ class RecipeControllerTest extends ControllerTestCase
 		$this->assertAction("index");
 		$this->assertController("recipe");
 		$this->assertResponseCode(200);
-		$this->assertContains('<title><![CDATA[Sex on the Beach]]></title>',$this->response->outputBody());
+		$this->assertContains('<title><![CDATA[Sex on the Beach nach Brandl]]></title>',$this->response->outputBody());
 	}
 
 
@@ -202,7 +202,7 @@ class RecipeControllerTest extends ControllerTestCase
 		$this->assertController("recipe");
 		$this->assertAction("get");
 		$this->assertResponseCode(200);
-		$this->assertContains('<div class="wert" itemprop="name">Mojito</div>',$this->response->outputBody());
+		$this->assertContains('<h2 class="textLeft fn" style="margin-left: 25px;" itemprop="name">Mojito</h2>',$this->response->outputBody());
 	}
 	
 	public function testGetWithNameAction() {
@@ -211,7 +211,7 @@ class RecipeControllerTest extends ControllerTestCase
 		$this->assertController("recipe");
 		$this->assertAction("get");
 		$this->assertResponseCode(200);
-		$this->assertContains('<div class="wert" itemprop="name">Mai Tai</div>',$this->response->outputBody());
+		$this->assertContains('<h2 class="textLeft fn" style="margin-left: 25px;" itemprop="name">Mai Tai</h2>',$this->response->outputBody());
 	}
 
 	public function testGetWithWrongIdAction() {

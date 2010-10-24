@@ -1,6 +1,6 @@
 <?php
 
-class ProductControllerTest extends ControllerTestCase
+class Controllers_ProductControllerTest extends ControllerTestCase
 {
 
 	public function testIndexAction() {

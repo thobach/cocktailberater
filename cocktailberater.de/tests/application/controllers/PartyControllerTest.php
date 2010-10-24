@@ -1,6 +1,6 @@
 <?php
 
-class PartyControllerTest extends ControllerTestCase
+class Controllers_PartyControllerTest extends ControllerTestCase
 {
 
 	public static $partyId;
