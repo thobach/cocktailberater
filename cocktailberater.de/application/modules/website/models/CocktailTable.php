@@ -4,7 +4,10 @@ class Website_Model_CocktailTable extends Website_Model_MysqlTable
 
     public function __construct()
     {
+    	$log = Zend_Registry::get('logger');
+		$log->log('Website_Model_CocktailTable->__construct',Zend_Log::DEBUG);
 	    parent::__construct('cocktail');
+	    $log->log('Website_Model_CocktailTable->__construct exiting',Zend_Log::DEBUG);
     }
 
 	
