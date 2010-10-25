@@ -91,7 +91,7 @@ class SitemapController extends Zend_Controller_Action{
 			$page->set('changefreq','monthly');
 			$page->set('priority','0.4');
 			$page->setRoute('product');
-			$products2['i'.$product->id] = $page;
+			$products2['p'.$product->id] = $page;
 		}
 		$product = $pages; //->findOneBy('action','alcoholic');
 		$product->addPages($products2);
@@ -111,7 +111,7 @@ class SitemapController extends Zend_Controller_Action{
 			$page->set('changefreq','monthly');
 			$page->set('priority','0.5');
 			$page->setRoute('manufacturer');
-			$manufacturers2['i'.$manufacturer->id] = $page;
+			$manufacturers2['m'.$manufacturer->id] = $page;
 		}
 		$manufacturer = $pages; //->findOneBy('action','alcoholic');
 		$manufacturer->addPages($manufacturers2);
@@ -127,13 +127,13 @@ class SitemapController extends Zend_Controller_Action{
 			$options['controller'] = 'recipe';
 			$options['action'] = 'index';
 			$options['params'] = array();
-			$options['params']['search'] = $source;
+			$options['params']['search'] = urlencode($source);
 			$options['params']['search_type'] = 'source';
 			$page = new Zend_Navigation_Page_Mvc($options);
 			$page->set('changefreq','monthly');
 			$page->set('priority','0.5');
 			$page->setRoute('default');
-			$sources2['m'.md5($source)] = $page;
+			$sources2['s'.md5($source)] = $page;
 		}
 		$pages->addPages($sources2);
 
