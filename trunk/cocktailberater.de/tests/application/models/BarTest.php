@@ -1,12 +1,21 @@
 <?php
 class Models_BarTest extends ControllerTestCase {
 
+	/**
+	 * @covers Website_Model_Bar::__contruct
+	 * @covers Website_Model_Bar::__get
+	 * @covers Website_Model_Bar::__set
+	 */
 	public function testCreateBar() {
 		$bar = new Website_Model_Bar();
 		$bar->name = "Tabas Bar";
 		$this->assertEquals("Tabas Bar",$bar->name);
 	}
 	
+	/**
+	 * @covers Website_Model_Bar::__contruct
+	 * @covers Website_Model_Bar::getPartys
+	 */
 	public function testGetPartys() {
 		// good case
 		$bar = new Website_Model_Bar(1);
@@ -19,6 +28,10 @@ class Models_BarTest extends ControllerTestCase {
 		$this->assertEquals(0,count($partys));
 	}
 
+	/**
+	 * @covers Website_Model_Bar::addIngredient
+	 * @covers Website_Model_Bar::getIngredients
+	 */
 	public function testAddAndGetAndHasIngredient() {
 		// add
 		$whiteRum = new Website_Model_Ingredient(8);
@@ -36,6 +49,9 @@ class Models_BarTest extends ControllerTestCase {
 		$this->assertTrue($bar->hasIngredient($whiteRum));
 	}
 	
+	/**
+	 * @covers Website_Model_Bar::getPossibleRecipies
+	 */
 	public function testGetPossibleRecipies() {
 		$whiteRum = new Website_Model_Ingredient(8);
 		$limeJuice = new Website_Model_Ingredient(30);
@@ -58,6 +74,10 @@ class Models_BarTest extends ControllerTestCase {
 		$this->assertNotNull($daiquiri);
 	}
 	
+	/**
+	 * @covers Website_Model_Bar::hasIngredient
+	 * @covers Website_Model_Bar::removeIngredients
+	 */
 	public function testRemoveIngredients() {
 		// add
 		$bar = new Website_Model_Bar();

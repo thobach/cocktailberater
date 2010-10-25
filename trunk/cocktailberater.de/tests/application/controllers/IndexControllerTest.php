@@ -3,6 +3,9 @@
 class Controllers_IndexControllerTest extends ControllerTestCase
 {
 
+	/**
+	 * @covers Website_IndexController::indexAction
+	 */
 	public function testIndexAction() {
 		$this->dispatch('/');
 		$this->assertModule("website");

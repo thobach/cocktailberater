@@ -3,6 +3,9 @@
 class Controllers_IngredientControllerTest extends ControllerTestCase
 {
 
+	/**
+	 * @covers Website_IngredientController::indexAction
+	 */
 	public function testIndexAction() {
 		$this->dispatch('/website/ingredient/');
 		$this->assertModule("website");
@@ -12,6 +15,9 @@ class Controllers_IngredientControllerTest extends ControllerTestCase
 		$this->assertXpathCountMin('//table/tbody/tr',10);
 	}
 
+	/**
+	 * @covers Website_IngredientController::getAction
+	 */
 	public function testGetWithIdAction() {
 		$this->dispatch('/website/ingredient/1');
 		$this->assertModule("website");
@@ -21,6 +27,9 @@ class Controllers_IngredientControllerTest extends ControllerTestCase
 		$this->assertXpathContentContains('//h2', 'Wodka');
 	}
 	
+	/**
+	 * @covers Website_IngredientController::getAction
+	 */
 	public function testGetWithNameAction() {
 		$this->dispatch('/website/ingredient/Orangensaft');
 		$this->assertModule("website");
@@ -30,6 +39,9 @@ class Controllers_IngredientControllerTest extends ControllerTestCase
 		$this->assertXpathContentContains('//h2', 'Orangensaft');
 	}
 
+	/**
+	 * @covers Website_IngredientController::getAction
+	 */
 	public function testGetWithWrongIdAction() {
 		$this->dispatch('/website/ingredient/0');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Incorrect_Id'));

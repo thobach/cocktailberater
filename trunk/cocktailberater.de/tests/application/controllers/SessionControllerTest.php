@@ -14,6 +14,7 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 
 	/**
 	 * Create new Session (xml)
+	 * @covers Website_SessionController::postAction
 	 */
 	public function testPostXmlAction() {
 		$log = Zend_Registry::get('logger');
@@ -44,6 +45,9 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 		$this->assertContains('email="max@thobach.de"',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_SessionController::postAction
+	 */
 	public function testPostEmailMissingXmlAction() {
 		$this->request->setMethod('POST')->setPost(array('password'=>'test1'));
 		$this->dispatch('/website/session/?format=xml');
@@ -51,6 +55,9 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Email missing!'));
 	}
 
+	/**
+	 * @covers Website_SessionController::postAction
+	 */
 	public function testPostPasswordMissingXmlAction() {
 		$this->request->setMethod('POST')->setPost(array('email'=>'max@thobach.de'));
 		$this->dispatch('/website/session/?format=xml');
@@ -58,6 +65,9 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Password missing!'));
 	}
 
+	/**
+	 * @covers Website_SessionController::deleteAction
+	 */
 	public function testDeleteInvalidCredentialsXmlAction(){
 		$this->request->setMethod('DELETE')->setPost(array('email'=>'max@thobach.de','hashCode'=>'invalid'));
 		$this->dispatch('/website/session/?format=xml');
@@ -68,6 +78,9 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 		$this->assertXpathCount('/rsp[@status="error"]',1);
 	}
 
+	/**
+	 * @covers Website_SessionController::deleteAction
+	 */
 	public function testDeleteEmailMissingXmlAction() {
 		$this->request->setMethod('DELETE')->setPost(array('password'=>'test1'));
 		$this->dispatch('/website/session/?format=xml');
@@ -75,6 +88,9 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Email missing!'));
 	}
 
+	/**
+	 * @covers Website_SessionController::deleteAction
+	 */
 	public function testDeleteHashCodeMissingXmlAction() {
 		$this->request->setMethod('DELETE')->setPost(array('email'=>'max@thobach.de'));
 		$this->dispatch('/website/session/?format=xml');
@@ -82,6 +98,9 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('HashCode missing!'));
 	}
 
+	/**
+	 * @covers Website_SessionController::deleteAction
+	 */
 	public function testDeleteXmlAction(){
 		$this->request->setMethod('DELETE')->setPost(array('email'=>'max@thobach.de','hashCode'=>self::$hashCode));
 		$this->dispatch('/website/session/?format=xml');
@@ -93,6 +112,9 @@ class Controllers_SessionControllerTest extends ControllerTestCase
 		$this->assertXpathCount('/rsp/*',0);
 	}
 
+	/**
+	 * @covers Website_SessionController::postAction
+	 */
 	public function testPostInvalidCredentialsXmlAction() {
 		// check that member exists
 		$member = Website_Model_Member::getMemberByEmail('max@thobach.de');

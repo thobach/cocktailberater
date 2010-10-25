@@ -3,6 +3,9 @@
 class Controllers_RecipeControllerTest extends ControllerTestCase
 {
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexAction() {
 		$this->dispatch('/website/recipe/');
 		$this->assertModule("website");
@@ -12,6 +15,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertXpathCountMin('//*[@id="ergebnisse"]/div',10);
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexAsAjaxNameAction() {
 		$this->getRequest()->setActionName('index')
 		->setModuleName('website')->setControllerName('recipe')
@@ -30,6 +36,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('Sex on the Beach nach Brandl',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexAsAjaxIngredientAction() {
 		$this->getRequest()->setActionName('index')
 		->setModuleName('website')->setControllerName('recipe')
@@ -47,6 +56,10 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertResponseCode(200);
 		$this->assertContains('Sahne',$this->response->outputBody());
 	}
+	
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexAsAjaxTagAction() {
 		$this->getRequest()->setActionName('index')
 		->setModuleName('website')->setControllerName('recipe')
@@ -65,6 +78,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('Klassiker',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexAsXmlAction() {
 		$log = Zend_Registry::get('logger');
 		$log->log('testIndexAsXmlAction',Zend_Log::DEBUG);
@@ -80,6 +96,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('name="Sex on the Beach nach Brandl"',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexAsJsonAction() {
 		$log = Zend_Registry::get('logger');
 		$log->log('testIndexAsJsonAction',Zend_Log::DEBUG);
@@ -108,6 +127,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$log->log('assert3',Zend_Log::DEBUG);
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexAsRssAction() {
 		$log = Zend_Registry::get('logger');
 		$log->log('RecipeControllerTest->testIndexAsRssAction',Zend_Log::DEBUG);
@@ -121,7 +143,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('<title><![CDATA[Sex on the Beach nach Brandl]]></title>',$this->response->outputBody());
 	}
 
-
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexAlcoholicAction() {
 		$this->dispatch('/website/recipe/index/search_type/alcoholic');
 		$this->assertModule("website");
@@ -132,6 +156,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexNonAlcoholicAction() {
 		$this->dispatch('/website/recipe/index/search_type/non-alcoholic');
 		$this->assertModule("website");
@@ -141,6 +168,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('Red Risk',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexTop10Action() {
 		$this->dispatch('/website/recipe/index/search_type/top10');
 		$this->assertModule("website");
@@ -150,6 +180,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('#10',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexDifficultyAction() {
 		$this->dispatch('/website/recipe/index/search_type/difficulty/search/beginner');
 		$this->assertModule("website");
@@ -159,6 +192,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('Tequila Sunrise',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexIngredientAction() {
 		$this->dispatch('/website/recipe/index/search_type/ingredient/search/Vodka');
 		$this->assertModule("website");
@@ -168,6 +204,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('Sex on the Beach',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexImageAction() {
 		$this->dispatch('/website/recipe/index/search_type/image');
 		$this->assertModule("website");
@@ -176,7 +215,10 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertResponseCode(200);
 		$this->assertContains('Tequila Sunrise',$this->response->outputBody());
 	}
-
+	
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexTagAction() {
 		$this->dispatch('/website/recipe/index/search_type/tag/search/Klassiker');
 		$this->assertModule("website");
@@ -186,6 +228,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('Sex on the Beach',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_RecipeController::indexAction
+	 */
 	public function testIndexNameAction() {
 		$this->dispatch('/website/recipe/index/search_type/name/search/sex');
 		$this->assertModule("website");
@@ -196,6 +241,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 	}
 
 
+	/**
+	 * @covers Website_RecipeController::getAction
+	 */
 	public function testGetWithIdAction() {
 		$this->dispatch('/website/recipe/1');
 		$this->assertModule("website");
@@ -205,6 +253,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('<h2 class="textLeft fn" style="margin-left: 25px;" itemprop="name">Mojito</h2>',$this->response->outputBody());
 	}
 	
+	/**
+	 * @covers Website_RecipeController::getAction
+	 */
 	public function testGetWithNameAction() {
 		$this->dispatch('/website/recipe/Mai_Tai');
 		$this->assertModule("website");
@@ -214,6 +265,9 @@ class Controllers_RecipeControllerTest extends ControllerTestCase
 		$this->assertContains('<h2 class="textLeft fn" style="margin-left: 25px;" itemprop="name">Mai Tai</h2>',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_RecipeController::getAction
+	 */
 	public function testGetWithWrongIdAction() {
 		$this->dispatch('/website/recipe/0');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Incorrect_Id'));
