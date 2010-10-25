@@ -8,8 +8,7 @@ require_once 'OrderControllerTest.php';
 require_once 'PartyControllerTest.php';
 require_once 'RecipeControllerTest.php';
 require_once 'SessionControllerTest.php';
-require_once 'SitemapOutputTest.php';
-require_once 'SitemapPerformanceTest.php';
+require_once 'SitemapTest.php';
 
 class Controllers_AllTests {
 
@@ -29,8 +28,7 @@ class Controllers_AllTests {
 		$suite->addTestSuite('Controllers_PartyControllerTest');
 		$suite->addTestSuite('Controllers_OrderControllerTest');
 		$suite->addTestSuite('Controllers_ManufacturerControllerTest');
-		$suite->addTestSuite('Controllers_SitemapOutputTest');
-		$suite->addTestSuite('Controllers_SitemapPerformanceTest');
+		$suite->addTestSuite('Controllers_SitemapTest');
 		return $suite;
 	}
 }
