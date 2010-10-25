@@ -1,6 +1,10 @@
 <?php
 class Models_MemberTest extends ControllerTestCase {
 
+	/**
+	 * @covers Website_Model_Member::__construct
+	 * @covers Website_Model_Member::getBars
+	 */
 	public function testGetBars() {
 		// good case
 		$this->object = new Website_Model_Member(54);

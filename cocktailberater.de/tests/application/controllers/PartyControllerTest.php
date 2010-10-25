@@ -7,6 +7,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 	public static $hashCode;
 	public static $hostId;
 
+	/**
+	 * @covers Website_PartyController::indexAction
+	 */
 	public function testIndexAsHtmlAction() {
 		$this->dispatch('/website/party/');
 		$this->assertModule("website");
@@ -16,6 +19,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertContains('tabas bar',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_PartyController::indexAction
+	 */
 	public function testIndexAsXmlAction() {
 		$this->dispatch('/website/party/?format=xml');
 		$this->assertModule("website");
@@ -40,6 +46,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 
 		}*/
 
+	/**
+	 * @covers Website_PartyController::indexAction
+	 */
 	public function testIndexAsRssAction() {
 		$this->dispatch('/website/party/?format=rss');
 		$this->assertModule("website");
@@ -50,7 +59,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertContains('<title><![CDATA[tabas bar]]></title>',$this->response->outputBody());
 	}
 
-
+	/**
+	 * @covers Website_PartyController::indexAction
+	 */
 	public function testIndexAsAtomAction() {
 		$this->dispatch('/website/party/?format=atom');
 		$this->assertModule("website");
@@ -61,6 +72,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertContains('<title><![CDATA[tabas bar]]></title>',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_PartyController::getAction
+	 */
 	public function testGetAction() {
 		$this->dispatch('/website/party/1');
 		$this->assertModule("website");
@@ -70,12 +84,18 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertXpathContentContains('/html/body/div[@id=\'wrapper\']/div[@id=\'homepage\']/div[@id=\'content\']/h2', "tabas bar");
 	}
 
+	/**
+	 * @covers Website_PartyController::getAction
+	 */
 	public function testGetWithWrongIdAction() {
 		$this->dispatch('/website/party/0');
 
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Id_Missing'));
 	}
 
+	/**
+	 * @covers Website_PartyController::postAction
+	 */
 	public function testPostAsXmlAction() {
 		// get valid session
 		$member = Website_Model_Member::getMemberByEmail('max@thobach.de');
@@ -112,6 +132,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertContains('name="test party"',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_PartyController::postAction
+	 */
 	public function testPostHashCodeMissingAsXmlAction() {
 		$this->request->setMethod('POST')->setPost(array('name'=>'test party','hostId'=>self::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
@@ -119,6 +142,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('HashCode missing!'));
 	}
 
+	/**
+	 * @covers Website_PartyController::postAction
+	 */
 	public function testPostInvalidHashCodeAsXmlAction() {
 		$this->request->setMethod('POST')->setPost(array('hashCode'=>'abc','name'=>'test party','hostId'=>self::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
@@ -130,6 +156,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertXpathCount('/rsp[@status="error"]',1);
 	}
 
+	/**
+	 * @covers Website_PartyController::postAction
+	 */
 	public function testPostDateMissingAsXmlAction() {
 		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party','hostId'=>self::$hostId,'barId'=>'1'));
 		$this->dispatch('/website/party/?format=xml');
@@ -137,6 +166,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Date missing!'));
 	}
 
+	/**
+	 * @covers Website_PartyController::postAction
+	 */
 	public function testPostDateInvalidAsXmlAction() {
 		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party','hostId'=>self::$hostId,'barId'=>'1','date'=>'31.13.2010 18:30:12'));
 		$this->dispatch('/website/party/?format=xml');
@@ -144,6 +176,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Wrong_Date_Format'));
 	}
 
+	/**
+	 * @covers Website_PartyController::postAction
+	 */
 	public function testPostHostMissingAsXmlAction() {
 		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party','barId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
@@ -151,6 +186,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Host missing!'));
 	}
 
+	/**
+	 * @covers Website_PartyController::postAction
+	 */
 	public function testPostBarMissingAsXmlAction() {
 		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party','hostId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
@@ -158,12 +196,18 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Bar missing!'));
 	}
 
+	/**
+	 * @covers Website_PartyController::postAction
+	 */
 	public function testPostNameMissingAsXmlAction() {
 		$this->request->setMethod('POST')->setPost(array('hashCode'=>self::$hashCode,'hostId'=>self::$hostId,'barId'=>'1','date'=>'2010-12-31 18:30:00'));
 		$this->dispatch('/website/party/?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('Name missing!'));
 	}
 
+	/**
+	 * @covers Website_PartyController::putAction
+	 */
 	public function testPutAsXmlAction() {
 		$this->request->setMethod('PUT')->setPost(array('hashCode'=>self::$hashCode,'userId'=>self::$hostId,'name'=>'test party1','hostId'=>'1','barId'=>'3','date'=>'2011-01-01 02:30:00'));
 		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
@@ -175,6 +219,9 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertContains('name="test party1"',$this->response->outputBody());
 	}
 
+	/**
+	 * @covers Website_PartyController::putAction
+	 */
 	public function testPutInvalidHashCodeAsXmlAction() {
 		$this->request->setMethod('PUT')->setPost(array('userId'=>self::$hostId,'hashCode'=>'abc','name'=>'test party1'));
 		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
@@ -186,19 +233,27 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertXpathCount('/rsp[@status="error"]',1);
 	}
 
+	/**
+	 * @covers Website_PartyController::putAction
+	 */
 	public function testPutUserIdMissingAsXmlAction() {
 		$this->request->setMethod('PUT')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party1'));
 		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('UserId missing!'));
 	}
 
-
+	/**
+	 * @covers Website_PartyController::putAction
+	 */
 	public function testPutHashCodeMissingAsXmlAction() {
 		$this->request->setMethod('PUT')->setPost(array('userId'=>self::$hostId,'name'=>'test party1'));
 		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('HashCode missing!'));
 	}
 
+	/**
+	 * @covers Website_PartyController::deleteAction
+	 */
 	public function testDeleteInvalidHashCodeXmlAction() {
 		$this->request->setMethod('DELETE')->setPost(array('userId'=>self::$hostId,'hashCode'=>'abc'));
 		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
@@ -210,18 +265,27 @@ class Controllers_PartyControllerTest extends ControllerTestCase
 		$this->assertXpathCount('/rsp[@status="error"]',1);
 	}
 
+	/**
+	 * @covers Website_PartyController::deleteAction
+	 */
 	public function testDeleteHashCodeMissingXmlAction() {
 		$this->request->setMethod('DELETE')->setPost(array('userId'=>self::$hostId));
 		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('HashCode missing!'));
 	}
 
+	/**
+	 * @covers Website_PartyController::deleteAction
+	 */
 	public function testDeleteUserIdMissingAsXmlAction() {
 		$this->request->setMethod('DELETE')->setPost(array('hashCode'=>self::$hashCode,'name'=>'test party1'));
 		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');
 		$this->assertTrue($this->getResponse()->hasExceptionOfMessage('UserId missing!'));
 	}
 
+	/**
+	 * @covers Website_PartyController::deleteAction
+	 */
 	public function testDeleteAsXmlAction() {
 		$this->request->setMethod('DELETE')->setPost(array('hashCode'=>self::$hashCode,'userId'=>self::$hostId));
 		$this->dispatch('/website/party/'.self::$partyId.'?format=xml');

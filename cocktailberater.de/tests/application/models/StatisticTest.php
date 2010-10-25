@@ -1,6 +1,11 @@
 <?php
 class Models_StatisticTest extends ControllerTestCase {
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 * @covers Website_Model_Statistic::__get
+	 * @covers Website_Model_Statistic::addView
+	 */
 	public function testAddView() {
 		$statistic = new Website_Model_Statistic(
 		Website_Model_Statistic::RESOURCE_COCKTAIL,1,
@@ -26,11 +31,20 @@ class Models_StatisticTest extends ControllerTestCase {
 		$this->assertEquals($currentViewCount+1,$statistic->views);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::statisticsByRecipeId
+	 * @covers Website_Model_Statistic::__get
+	 */
 	public function testStatisticsByRecipeId() {
 		$statistic = Website_Model_Statistic::statisticsByRecipeId(1);
 		$this->assertGreaterThan(0,$statistic[0]->views);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 * @covers Website_Model_Statistic::getResource
+	 * @covers Website_Model_Statistic::__get
+	 */
 	public function testGetResource() {
 		$statistic = new Website_Model_Statistic(
 		Website_Model_Statistic::RESOURCE_RECIPE,1,
@@ -39,6 +53,10 @@ class Models_StatisticTest extends ControllerTestCase {
 		$this->assertType('Website_Model_Recipe',$resource);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 * @covers Website_Model_Statistic::__set
+	 */
 	public function testSetProperty() {
 		$this->setExpectedException('Website_Model_StatisticException');
 		$statistic = new Website_Model_Statistic(
@@ -47,6 +65,10 @@ class Models_StatisticTest extends ControllerTestCase {
 		$statistic->views=3;
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 * @covers Website_Model_Statistic::__set
+	 */
 	public function testGetProperty() {
 		$this->setExpectedException('Website_Model_StatisticException');
 		$statistic = new Website_Model_Statistic(
@@ -55,17 +77,29 @@ class Models_StatisticTest extends ControllerTestCase {
 		$statistic->wrongField;
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::listStatistics
+	 */
 	public function testList() {
 		$list = Website_Model_Statistic::listStatistics();
 		$this->assertType('Website_Model_Statistic',$list[0]);
 	}
 	
+	/**
+	 * @covers Website_Model_Statistic::listStatistics
+	 * @covers Website_Model_Statistic::__construct
+	 * @covers Website_Model_Statistic::__get
+	 */
 	public function testSmallId() {
 		$list = Website_Model_Statistic::listStatistics();
 		$statistic = new Website_Model_Statistic($list[0]->id);
 		$this->assertGreaterThan(0,$statistic->id);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 * @covers Website_Model_Statistic::delete
+	 */
 	public function testDelete() {
 		// create
 		$statistic = new Website_Model_Statistic(
@@ -81,6 +115,9 @@ class Models_StatisticTest extends ControllerTestCase {
 		Website_Model_Statistic::FORMAT_HTML));
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 */
 	public function testWrongIdBig() {
 		$this->setExpectedException('Website_Model_StatisticException');
 		$statistic = new Website_Model_Statistic(
@@ -88,47 +125,72 @@ class Models_StatisticTest extends ControllerTestCase {
 		Website_Model_Statistic::FORMAT_HTML);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 */
 	public function testWrongIdSmall() {
 		$this->setExpectedException('Website_Model_StatisticException');
 		$statistic = new Website_Model_Statistic(9999);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 */
 	public function testWrongFormat() {
 		$this->setExpectedException('Website_Model_StatisticException');
 		$statistic = new Website_Model_Statistic(
 		Website_Model_Statistic::RESOURCE_RECIPE,1,'wrongformat');
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 */
 	public function testFormatMissing() {
 		$this->setExpectedException('Website_Model_StatisticException');
 		$statistic = new Website_Model_Statistic(
 		Website_Model_Statistic::RESOURCE_RECIPE,1);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 */
 	public function testWrongResource() {
 		$this->setExpectedException('Website_Model_StatisticException');
 		$statistic = new Website_Model_Statistic('wrongResource',1,
 		Website_Model_Statistic::FORMAT_HTML);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 */
 	public function testIdMissing() {
 		$this->setExpectedException('Website_Model_StatisticException');
 		$statistic = new Website_Model_Statistic('wrongResource',NULL,
 		Website_Model_Statistic::FORMAT_HTML);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 */
 	public function testResourceMissing() {
 		$this->setExpectedException('Website_Model_StatisticException');
 		$statistic = new Website_Model_Statistic(NULL,1,
 		Website_Model_Statistic::FORMAT_HTML);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 */
 	public function testFormatAndIdMissing() {
 		$this->setExpectedException('Website_Model_StatisticException');
 		$statistic = new Website_Model_Statistic(
 		Website_Model_Statistic::RESOURCE_RECIPE);
 	}
 
+	/**
+	 * @covers Website_Model_Statistic::__construct
+	 * @covers Website_Model_Statistic::toXml
+	 */
 	public function testToXml() {
 		$statistic = new Website_Model_Statistic(
 		Website_Model_Statistic::RESOURCE_RECIPE,1,

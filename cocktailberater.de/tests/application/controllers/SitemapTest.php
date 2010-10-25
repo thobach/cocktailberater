@@ -20,8 +20,10 @@ class Controllers_SitemapTest extends ControllerTestCase
 	/**
 	 * Checks whether all pages are loaded within 2s and HTTP Status Code
 	 * is 200
+	 * 
+	 * @todo covers for phpUnit is missing
 	 *
-	 * @dataProvider testCaseProvider
+	 * @dataProvider testCaseProvider 
 	 */
 	public function testPerformanceAndContent($url)
 	{
