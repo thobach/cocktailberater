@@ -3,6 +3,13 @@
 class Controllers_SitemapPerformanceTest extends ControllerTestCase {
 
 
+	/**
+	 * Returns 'all' accessible pages of the website, uses sitemap as reference 
+	 * for 'all'
+	 * 
+	 * Does not contain workflow of 'Partyhelferlein'.
+	 * 
+	 */
 	public function testCaseProvider()	{
 		$data = file_get_contents("http://cocktailberater.local:10088/sitemap/index/format/array");
 		$data = unserialize($data);
@@ -10,6 +17,8 @@ class Controllers_SitemapPerformanceTest extends ControllerTestCase {
 	}
 
 	/**
+	 * Checks whether all pages are 
+	 * 
 	 * @dataProvider testCaseProvider
 	 */
 	public function testPerformance($url) {
