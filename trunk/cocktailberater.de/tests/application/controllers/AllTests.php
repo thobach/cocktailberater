@@ -13,20 +13,24 @@ require_once 'SitemapPerformanceTest.php';
 
 class Controllers_AllTests {
 
+	/**
+	 * Integration and performance test suite
+	 */
 	public static function suite() {
+		// test suite
 		$suite = new PHPUnit_Framework_TestSuite('cocktailberater.de controllers');
-
+		// tests
 		$suite->addTestSuite('Controllers_IndexControllerTest');
 		$suite->addTestSuite('Controllers_MemberControllerTest');
 		$suite->addTestSuite('Controllers_IngredientControllerTest');
-		//$suite->addTestSuite('Controllers_IngredientCategoryControllerTest');
+		$suite->addTestSuite('Controllers_IngredientCategoryControllerTest');
 		$suite->addTestSuite('Controllers_RecipeControllerTest');
 		$suite->addTestSuite('Controllers_SessionControllerTest');
 		$suite->addTestSuite('Controllers_PartyControllerTest');
 		$suite->addTestSuite('Controllers_OrderControllerTest');
 		$suite->addTestSuite('Controllers_ManufacturerControllerTest');
-		//$suite->addTestSuite('Controllers_SitemapOutputTest');
-		//$suite->addTestSuite('Controllers_SitemapPerformanceTest');
+		$suite->addTestSuite('Controllers_SitemapOutputTest');
+		$suite->addTestSuite('Controllers_SitemapPerformanceTest');
 		return $suite;
 	}
 }

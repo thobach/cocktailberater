@@ -7,19 +7,18 @@ require_once 'CocktailTest.php';
 
 class Models_AllTests {
 
-	public static function main() {
-		PHPUnit_TextUI_TestRunner::run(self::suite());
-	}
-
+	/**
+	 * Unit test suite
+	 */
 	public static function suite() {
+		// test suite
 		$suite = new PHPUnit_Framework_TestSuite('cocktailberater.de models');
-
+		// tests
 		$suite->addTestSuite('Models_IngredientTest');
 		$suite->addTestSuite('Models_MemberTest');
 		$suite->addTestSuite('Models_BarTest');
 		$suite->addTestSuite('Models_StatisticTest');
 		$suite->addTestSuite('Models_CocktailTest');
-
 		return $suite;
 	}
 }
