@@ -4,21 +4,34 @@
 
 barmap.org shows different kinds of bars/pubs/nightclubs on a openstreetmap.org map. The user can get detailed information on the bar or add information.
 
+User Story #1: I am in the city with a couple of friends and we don't know where to go. We want suggestions on close bars, close bars with happy hour right now, close bars where we have not been yet.
+
+User Story #2: I am planning a birthday party in a bar and look for close bars with an happy hour at a specific day and or time.
+
+User Story #3: I am at a bar and I want a friend to find me. I want to send him a SMS or E-Mail with all relevant information to find me.
+
+User Story #4: I am at a bar and want to remind me and others that this bar is good/bad and how expensive drinks are etc.
+
 = Details =
 
- * All relevant nodes can be received like this http://www.informationfreeway.org/api/0.6/*%5Bamenity=pub%5D%5Bbbox=8.4806,53.0159,8.9911,53.2299%5D (http://wiki.openstreetmap.org/wiki/Bremen/POI/Restaurant_%26_Bar)
- * barmap.org will be available as iPhone App, Android App, mobile website, desktop website
+ * clients
+  * iPhone App
+  * Android App
+  * mobile website
+  * desktop website
   * all versions allow to view and edit the data
  * community
   * store favorite bars
   * show edits of user
   * the information will be stored in OSM and if necessary in local key-value store
+  * integration with twitter, facebook places, foursquare
  * Displayed information: (sth. like this http://maps.google.de/places/de/stuttgart/hirschstraße/36/-kaufhaus-schocken?hl=de&gl=de)
   * category (bar, pub, nightclub)
   * name of the bar
   * description
   * opening hours
   * happy hours
+  * phone number
   * website
   * address
   * public transport
@@ -34,10 +47,14 @@ barmap.org shows different kinds of bars/pubs/nightclubs on a openstreetmap.org 
   * world-wide usage (scalable)
   * quick response time
   * reduced design, concentrate on content
-  * possibilities
+  * easily adopt to other topics like schoolmap, bankmap etc.
+  * platform possibilities
    * PHP/ZF on own server (doesn't scale, cheap in the beginning)
    * GAE (scales, cheap in the beginning)
    * Amazon EC2 (scales, expensive in the beginning)
+  * source possibilities:
+   * OSM, all relevant nodes can be received like this http://www.informationfreeway.org/api/0.6/*%5Bamenity=pub%5D%5Bbbox=8.4806,53.0159,8.9911,53.2299%5D (http://wiki.openstreetmap.org/wiki/Bremen/POI/Restaurant_%26_Bar)
+
 
  * todo
   * market evaluation: Google Maps, Bing maps, Foursqure, cojito.do, facebook places, bartime.de
