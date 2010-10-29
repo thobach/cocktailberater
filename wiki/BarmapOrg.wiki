@@ -1,0 +1,43 @@
+#summary Shows cocktail bars on a map in your city
+
+= Introduction =
+
+barmap.org shows different kinds of bars/pubs/nightclubs on a openstreetmap.org map. The user can get detailed information on the bar or add information.
+
+= Details =
+
+ * All relevant nodes can be received like this http://www.informationfreeway.org/api/0.6/*%5Bamenity=pub%5D%5Bbbox=8.4806,53.0159,8.9911,53.2299%5D (http://wiki.openstreetmap.org/wiki/Bremen/POI/Restaurant_%26_Bar)
+ * barmap.org will be available as iPhone App, Android App, mobile website, desktop website
+  * all versions allow to view and edit the data
+ * community
+  * store favorite bars
+  * show edits of user
+  * the information will be stored in OSM and if necessary in local key-value store
+ * Displayed information: (sth. like this http://maps.google.de/places/de/stuttgart/hirschstraße/36/-kaufhaus-schocken?hl=de&gl=de)
+  * category (bar, pub, nightclub)
+  * name of the bar
+  * description
+  * opening hours
+  * happy hours
+  * website
+  * address
+  * public transport
+  * photos (browse through)
+  * food? (y/n)
+  * smoking? (y/n)
+  * size (# tables, # m2)
+  * prices (mojito, mai tai, cuba libre, rum cola)
+  * ratings (qype.com, ...)
+
+ * architecture & design
+  * internationalization
+  * world-wide usage (scalable)
+  * quick response time
+  * reduced design, concentrate on content
+  * possibilities
+   * PHP/ZF on own server (doesn't scale, cheap in the beginning)
+   * GAE (scales, cheap in the beginning)
+   * Amazon EC2 (scales, expensive in the beginning)
+
+ * todo
+  * market evaluation: Google Maps, Bing maps, Foursqure, cojito.do, facebook places, bartime.de
