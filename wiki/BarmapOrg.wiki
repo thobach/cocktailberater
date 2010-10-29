@@ -1,5 +1,7 @@
 #summary Shows cocktail bars on a map in your city
 
+http://cocktailberater.googlecode.com/files/barmap_org.png
+
 = Introduction =
 
 barmap.org shows different kinds of bars/pubs/nightclubs on a openstreetmap.org map. The user can get detailed information on the bar or add information.
