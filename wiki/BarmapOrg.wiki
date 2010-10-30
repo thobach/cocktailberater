@@ -49,7 +49,7 @@ User Story #4: I am at a bar and want to remind me and others that this bar is g
   * world-wide usage (scalable)
   * quick response time
   * reduced design, concentrate on content
-  * easily adopt to other topics like schoolmap, bankmap etc.
+  * easily adopt to other topics like schoolmap, bankmap, public toilette etc.
   * platform possibilities
    * PHP/ZF on own server (doesn't scale, cheap in the beginning)
    * GAE (scales, cheap in the beginning)
