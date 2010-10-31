@@ -60,8 +60,9 @@ User Story #4: I am at a bar and want to remind me and others that this bar is g
 
  * todo
   * market evaluation: Google Maps, Bing maps, Foursqure, cojito.do, facebook places, bartime.de
-  * http://toolserver.org/~stephankn/smoking/ (only smoking yes/no/..)
-  * http://toolserver.org/~stephankn/cuisine/ (not responding)
+   * http://toolserver.org/~stephankn/smoking/ (only smoking yes/no/..)
+   * http://toolserver.org/~stephankn/cuisine/ (not responding)
+  * add service to http://wiki.openstreetmap.org/wiki/List_of_OSM_based_Services and sub pages
 
 = Code =
 {{{
