@@ -45,6 +45,8 @@ User Story #4: I am at a bar and want to remind me and others that this bar is g
   * ratings (qype.com, ...)
 
  * architecture & design
+  * sizing:
+   * Germany: 1.493 bars ({{{cat germany.osm | grep -i 'k="amenity" v="bar"' | wc -l}}}), 12.359 pubs ({{{cat germany.osm | grep -i 'k="amenity" v="pub"' | wc -l}}})
   * internationalization
   * world-wide usage (scalable)
   * quick response time
