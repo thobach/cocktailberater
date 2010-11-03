@@ -64,6 +64,12 @@ User Story #4: I am at a bar and want to remind me and others that this bar is g
   * market evaluation: Google Maps, Bing maps, Foursqure, cojito.do, facebook places, bartime.de
    * http://toolserver.org/~stephankn/smoking/ (only smoking yes/no/..)
    * http://toolserver.org/~stephankn/cuisine/ (not responding)
+   * http://www.partygps.com/ (only US, no real details)
+   * http://outalot.com/ (only 2 US areas, no real details)
+   * http://www.pubipedia.co.uk/ (only UK, no real details)
+   * http://www.BestBloodyMary.com/ (only US, only Bloody Mary ratings)
+   * http://www.urbandrinks.com/ (only US, many details)
+   * http://www.thursdayclub.com/city/ (only few in Germany, some details)
   * add service to http://wiki.openstreetmap.org/wiki/List_of_OSM_based_Services and sub pages
 
 = Code =
