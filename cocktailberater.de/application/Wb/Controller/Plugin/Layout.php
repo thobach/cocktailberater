@@ -32,7 +32,10 @@ class Wb_Controller_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
 		// skip mobile browser detection if normal, mobile or pdf layout is wanted explicitly
 		if($request->getParam('format') == 'html' ||
 			$request->getParam('format') == 'mobile' ||
-			$request->getParam('format') == 'pdf'){
+			$request->getParam('format') == 'pdf' ||
+			$request->getParam('format') == 'xml' ||
+			$request->getParam('format') == 'json' ||
+			$request->getParam('format') == 'image'){
 			return;
 		}
 
