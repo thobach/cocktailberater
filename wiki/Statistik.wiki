@@ -27,6 +27,7 @@ Seitwert: http://www.seitwert.de/?url=www.carolinebock.de
 || 2010-09-19 || 23.95 || 16.45 || 21.36 ||
 || 2010-10-06 || 26.06 || 17.32 (11.17) || 21.31 ||
 || 2010-10-22 || 24.49 || 17.32 (11.17) || 20.20 ||
+|| 2010-11-18 || 26.25 || 21.44 (12.34) || 20.20 ||
 
 =ohloh Statistiken=
 <wiki:gadget url="http://www.ohloh.net/p/385175/widgets/project_languages.xml" height="180" width="320" border="0" />
