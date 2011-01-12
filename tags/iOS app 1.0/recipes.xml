@@ -1,0 +1,1560 @@
+<?xml version="1.0"?>
+<rsp status="ok">
+	<recipes count="62">
+		<recipe id="37" member="1" glass="7" cocktail="40" name="Aperol Sour"
+			price="2" rating="3.5"
+			instruction="Zutaten mit Eisw&#xFC;rfeln shaken und in ein Longdrinkglas abseihen."
+			description="" source="" workMin="2" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="6.7" caloriesKcal="157"
+			volumeCl="16">
+			<glass id="7" name="Longdrinkglas" description="" volumeMl="250">
+				<photo id="38" name="Longdrink Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/longdrink.png"
+					originalFileName="longdrink_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="37" ingredient="4" amount="2" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="37" ingredient="14" amount="2" unit="cl"
+					name="Orangensaft" />
+				<component recipe="37" ingredient="33" amount="1" unit="cl"
+					name="Rohrzuckersirup" />
+				<component recipe="37" ingredient="39" amount="4" unit="cl"
+					name="Aperol" />
+				<component recipe="37" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="3" name="herb" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="5" name="sauer" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos />
+			<videos />
+		</recipe>
+		<recipe id="38" member="1" glass="3" cocktail="41" name="Apricot Fizz"
+			price="2" rating="0"
+			instruction="Alles bis auf das Soda Wasser shaken. In ein Fancyglas mit Eisw&#xFC;rfeln abseihen und mit Soda auff&#xFC;llen."
+			description="" source="" workMin="3" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="7.1" caloriesKcal="173"
+			volumeCl="24">
+			<glass id="3" name="Hurricaneglas" description="Hurricane- oder auch Fancyglas"
+				volumeMl="300">
+				<photo id="36" name="Hurricane / Fancy Glass" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/hurricane.png"
+					originalFileName="hurricane_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="38" ingredient="4" amount="3" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="38" ingredient="9" amount="6" unit="cl"
+					name="Soda" />
+				<component recipe="38" ingredient="14" amount="2" unit="cl"
+					name="Orangensaft" />
+				<component recipe="38" ingredient="33" amount="1" unit="cl"
+					name="Rohrzuckersirup" />
+				<component recipe="38" ingredient="40" amount="5" unit="cl"
+					name="Apricot Brandy" />
+				<component recipe="38" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="3" name="herb" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="5" name="sauer" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos />
+			<videos />
+		</recipe>
+		<recipe id="63" member="1" glass="10" cocktail="30" name="B 52 nach IBA"
+			price="2" rating="4.5"
+			instruction="Zuerst den Kahluha, dann Bailey's Irish Cream und zuletzt Grand Marnier vorsichtig in ein Shooterglas schichten (bauen) und mit einem R&#xFC;hrstab servieren."
+			description="Der B52 ist ein Shooter, hier das Rezept aus der Kategorie &quot;Popular Drinks&quot; der &quot;IBA Offical Cocktails&quot;."
+			source="International Bartenders Association (http://www.iba-world.com/english/cocktails/)"
+			workMin="3" difficulty="advanced" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="24.3" caloriesKcal="162" volumeCl="6">
+			<glass id="10" name="Shooter Glas" description="" volumeMl="50">
+				<photo id="48" name="Shooter Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/shooter.png"
+					originalFileName="shooter_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="63" ingredient="27" amount="2" unit="cl"
+					name="Cremelik&#xF6;r" />
+				<component recipe="63" ingredient="28" amount="2" unit="cl"
+					name="Kaffeelik&#xF6;r" />
+				<component recipe="63" ingredient="37" amount="2" unit="cl"
+					name="Triple Sec Cura&#xE7;ao" />
+			</components>
+			<categories>
+				<recipeCategory id="4" name="milchig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="54" name="B52" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/B52_iba_small.jpg"
+					originalFileName="B52_iba.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="28" name="B 52 Shooter Cocktail Recipe"
+					description="Rezept mit den Originalzutaten." url="http://www.youtube.com/v/yeqxS35QXiQ"
+					insertDate="2010-03-19 19:24:11" updateDate="2010-03-19 19:24:11" />
+			</videos>
+		</recipe>
+		<recipe id="15" member="1" glass="3" cocktail="18" name="Bahama Mama"
+			price="2" rating="4"
+			instruction="Die Zutaten mit einigen Eisw&#xFC;rfeln shaken und in ein Cocktailglas geben. Mit tropischen Fr&#xFC;chten dekorieren."
+			description="" source="" workMin="2" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="16.5" caloriesKcal="258"
+			volumeCl="25">
+			<glass id="3" name="Hurricaneglas" description="Hurricane- oder auch Fancyglas"
+				volumeMl="300">
+				<photo id="36" name="Hurricane / Fancy Glass" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/hurricane.png"
+					originalFileName="hurricane_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="15" ingredient="3" amount="1" unit="cl"
+					name="Grenadinesirup" />
+				<component recipe="15" ingredient="4" amount="1" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="15" ingredient="8" amount="2" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="15" ingredient="13" amount="4" unit="cl"
+					name="Rum (braun)" />
+				<component recipe="15" ingredient="14" amount="4" unit="cl"
+					name="Orangensaft" />
+				<component recipe="15" ingredient="16" amount="4" unit="cl"
+					name="Ananassaft" />
+				<component recipe="15" ingredient="38" amount="2" unit="cl"
+					name="Whiskeylik&#xF6;r" />
+				<component recipe="15" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="15" name="Bahama Mama Basic" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/15.jpg"
+					originalFileName="15_original.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="6" name="Bahama Mama Cocktail" description=""
+					url="http://www.youtube.com/v/2mDScP9gHhE" insertDate="0000-00-00 00:00:00"
+					updateDate="2009-05-29 18:33:17" />
+			</videos>
+		</recipe>
+		<recipe id="16" member="1" glass="6" cocktail="19" name="Batida Kirsch"
+			price="2" rating="4"
+			instruction="Den Kokoslik&#xF6;r in ein Longdrinkglas geben und das ganze mit dem Kirschsaft auff&#xFC;llen. Der Kirschsaft sollte gut gek&#xFC;hlt sein. Mit Trinkhalm servieren."
+			description="" source="" workMin="2" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="4.3" caloriesKcal="315"
+			volumeCl="27">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="16" ingredient="18" amount="15" unit="cl"
+					name="Kirschsaft" />
+				<component recipe="16" ingredient="29" amount="5" unit="cl"
+					name="Kokoslik&#xF6;r" />
+				<component recipe="16" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="7" name="tropisch" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="60" name="Batia Kirsch" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/dreamstime_8945972-batida-kirsch.jpg"
+					originalFileName="dreamstime_8945972-batida-kirsch_klein.jpg"
+					photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="84" member="" glass="5" cocktail="57"
+			name="Black Russian nach Tops" price="2" rating="0"
+			instruction="Eisw&#xFC;rfel in einen kleinen Tumbler (Old-Fashioned Glas) geben, dann den Kaffeelik&#xF6;r und zuletzt den Wodka hinzugeben. Die Reihenfolge ist wichtig, damit sich der schwerere Kaffeelik&#xF6;r mit dem Wodka vermischt."
+			description="Dieser Cocktail wurde in der 1950er Jahren von Gustave Tops erfunden. Er arbeitete im Hotel Metropole in Br&#xFC;ssel."
+			source="The Museum of the American Cocktail. Pocket Recipe Guide, Robert Hess &amp; Anistatia Miller, 2. Auflage 2007, Mixellany, Lexington"
+			workMin="2" difficulty="beginner" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="33.6" caloriesKcal="205" volumeCl="14">
+			<glass id="5" name="kleiner Tumbler" description="auch Whiske(y)glas"
+				volumeMl="150">
+				<photo id="49" name="kleiner Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_klein.png"
+					originalFileName="tumbler_klein_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="84" ingredient="1" amount="6" unit="cl"
+					name="Wodka" />
+				<component recipe="84" ingredient="28" amount="3" unit="cl"
+					name="Kaffeelik&#xF6;r" />
+				<component recipe="84" ingredient="113" amount="3"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="3" name="herb" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="71" name="Black Russian" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/black_russian_dreamstime_12849334_small.jpg"
+					originalFileName="black_russian_dreamstime_12849334.jpg"
+					photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="49" name="Black Russian Drink Recipe"
+					description="Die Anleitung passt sehr gut zum Rezept, allerdings stimmen die Mengenverh&#xE4;ltnisse nicht ganz &#xFC;berein."
+					url="http://www.youtube.com/v/Yu5HJpaFH5A" insertDate="2010-07-15 18:01:59"
+					updateDate="2010-07-15 18:01:59" />
+			</videos>
+		</recipe>
+		<recipe id="86" member="" glass="13" cocktail="47"
+			name="Bloody Mary nach Petitot" price="2" rating="0"
+			instruction="Alle Zutaten in den Mixing-Becher geben und in einen anderen Mixing-Becher vorsichtig umf&#xFC;llen. Das ganze mehrfach wiederholen. Zum Schluss in ein gek&#xFC;hltes Stielglas geben und mit einer Limetten- und Zitronenscheibe auf einem kleinen Teller servieren."
+			description="Der Bloody Mary Cocktail wurde 1921 von Fernand &quot;Pete&quot; Petiot in der &quot;Harry's New York Bar&quot; in Paris erfunden. Nach seinem Umzug in die USA &#xE4;nderte er die Rezeptur und machte den Bloody Mary sch&#xE4;rfer.&#13;&#10;Um den Bloody Mary ranken sich viele Legenden die Queen Mary I, Ernest Hemmingway und zwei Reisende aus Chicago beinhalten. Laut Petiot kommt der Name aber von den Reisenden, die der Drink an eine Bardame namens &quot;Bloody Mary&quot; erinnerte."
+			source="The Museum of the American Cocktail. Pocket Recipe Guide, Robert Hess &amp; Anistatia Miller, 2. Auflage 2007, Mixellany, Lexington"
+			workMin="3" difficulty="advanced" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="9.5" caloriesKcal="122" volumeCl="18">
+			<glass id="13" name="Weinglas" description="auch Stielglas"
+				volumeMl="200">
+				<photo id="53" name="Weinglas oder Stielglas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/wine.png"
+					originalFileName="wine_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="86" ingredient="1" amount="4.5" unit="cl"
+					name="Wodka" />
+				<component recipe="86" ingredient="4" amount="0.75" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="86" ingredient="82" amount="12" unit="cl"
+					name="Tomatensaft" />
+				<component recipe="86" ingredient="115" amount="0.25"
+					unit="TL" name="Worcestershiresauce" />
+				<component recipe="86" ingredient="116" amount="0.5" unit="TL"
+					name="Tabascosauce" />
+				<component recipe="86" ingredient="117" amount="0.25"
+					unit="TL" name="Salz" />
+				<component recipe="86" ingredient="118" amount="0.25"
+					unit="TL" name="Pfeffer" />
+			</components>
+			<categories>
+				<recipeCategory id="3" name="herb" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="55" name="Bloody Mary" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/bloodymary_small.jpg"
+					originalFileName="bloodymary.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="51"
+					name="'The Red Snapper'. How to make the perfect bloody Mary"
+					description="Die Mengenangaben im Video stimmen nicht ganz mit den Originalangaben &#xFC;berein. Au&#xDF;erdem wird der Bloody Mary hier im Shaker gesch&#xFC;ttelt. Aber der Barkeeper kommt aus der Bar, wo der Cocktail sp&#xE4;ter von Fernand an den Geschmack der Amerikaner angepasst wurde. (Video-Quelle: http://video.foxnews.com/v/3941585/the-red-snapper)"
+					url="http://www.maxilamba.com/player.swf?file=http://media2.foxnews.com/100409/100409_ff_mary_B700.flv"
+					insertDate="2010-08-09 20:49:15" updateDate="2010-08-09 21:08:40" />
+			</videos>
+		</recipe>
+		<recipe id="20" member="1" glass="3" cocktail="23" name="Blue Hawaiian"
+			price="2" rating="0"
+			instruction="Alle Zutaten gut shaken und in ein mit Crushed Ice gef&#xFC;lltes Glas geben. Mit tropischen Fr&#xFC;chten garnieren."
+			description="" source="" workMin="4" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="9.8" caloriesKcal="185"
+			volumeCl="32">
+			<glass id="3" name="Hurricaneglas" description="Hurricane- oder auch Fancyglas"
+				volumeMl="300">
+				<photo id="36" name="Hurricane / Fancy Glass" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/hurricane.png"
+					originalFileName="hurricane_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="20" ingredient="8" amount="2" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="20" ingredient="16" amount="6" unit="cl"
+					name="Ananassaft" />
+				<component recipe="20" ingredient="21" amount="2" unit="cl"
+					name="Cream of Coconut" />
+				<component recipe="20" ingredient="24" amount="2" unit="cl"
+					name="Blue Cura&#xE7;ao" />
+				<component recipe="20" ingredient="114" amount="20" unit="cl"
+					name="Chrushed Ice" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="20" name="Blue Hawaiian Basic" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/20.jpg"
+					originalFileName="20_original.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="70" member="" glass="7" cocktail="48"
+			name="Blue Lagoon nach Brandl" price="2" rating="0"
+			instruction="Wodka, Blue Cur&#xE7;ao und Zitronensaft in ein Longdrinkglas auf Eis geben und umr&#xFC;hren. Zum Schluss mit Sprite auff&#xFC;llen. Dieser Cocktail wird nicht gesch&#xFC;ttelt."
+			description="Der Blue Lagoon ist ein beliebter Sommercocktail mit Blue Curacao."
+			source="Cocktails. &#xDC;ber 1000 Drinks mit und ohne Alkohol, Franz Brandl, 2007, s&#xFC;dwest Verlag"
+			workMin="2" difficulty="beginner" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="10.6" caloriesKcal="211" volumeCl="28">
+			<glass id="7" name="Longdrinkglas" description="" volumeMl="250">
+				<photo id="38" name="Longdrink Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/longdrink.png"
+					originalFileName="longdrink_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="70" ingredient="1" amount="4" unit="cl"
+					name="Wodka" />
+				<component recipe="70" ingredient="4" amount="1" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="70" ingredient="24" amount="3" unit="cl"
+					name="Blue Cura&#xE7;ao" />
+				<component recipe="70" ingredient="83" amount="13" unit="cl"
+					name="Zitronenlimonade" />
+				<component recipe="70" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="5" name="sauer" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="56" name="Blue Lagoon" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/IStock_000005989817XSmall-zorro_klein.jpg"
+					originalFileName="IStock_000005989817XSmall-zorro.jpg"
+					photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="35" name="Blue Lagoon"
+					description="Die Zutatenmenge im Video passt nicht ganz zum Rezept, bitte beachten!"
+					url="http://www.youtube.com/vZu2S52WFEgs" insertDate="2010-03-25 20:12:23"
+					updateDate="2010-03-25 20:12:23" />
+			</videos>
+		</recipe>
+		<recipe id="22" member="1" glass="6" cocktail="25"
+			name="Brasilian Sunrise" price="2" rating="0"
+			instruction="Die Zutaten au&#xDF;er der Grenadine im Shaker mixen. Anschlie&#xDF;end die Grenadine hinzugeben. Da diese schwerer ist, setzt sie sich nach unten ab und verursacht einen sch&#xF6;nen Farbeffekt.&#13;&#10;&#13;&#10;Tequila Sunrise auf brasilianisch."
+			description="" source="" workMin="4" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="9.4" caloriesKcal="230"
+			volumeCl="24">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="22" ingredient="3" amount="2" unit="cl"
+					name="Grenadinesirup" />
+				<component recipe="22" ingredient="4" amount="1" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="22" ingredient="14" amount="10" unit="cl"
+					name="Orangensaft" />
+				<component recipe="22" ingredient="25" amount="4" unit="cl"
+					name="Cacha&#xE7;a" />
+				<component recipe="22" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="7" name="tropisch" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="22" name="Brasilian Sunrise Basic" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/22.jpg"
+					originalFileName="22_original.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="52" member="1" glass="5" cocktail="24"
+			name="Caipirinha nach IBA" price="2" rating="4"
+			instruction="Die halbe Limette in 4 Teile schneiden und mit Zucker im kleinen Tumbler zerdr&#xFC;cken. Dann das Glas bis zum Rand mit Eis f&#xFC;llen und den Cachaca hinzugeben."
+			description="Der Caipirinha oder auch kurz Caipi ist ein Klassiker aus Brasilien. Er geh&#xF6;rt zu den meistgetrunkenen Cocktails der Welt."
+			source="International Bartenders Association (http://www.iba-world.com/english/cocktails/)"
+			workMin="3" difficulty="advanced" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="40" caloriesKcal="180" volumeCl="26">
+			<glass id="5" name="kleiner Tumbler" description="auch Whiske(y)glas"
+				volumeMl="150">
+				<photo id="49" name="kleiner Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_klein.png"
+					originalFileName="tumbler_klein_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="52" ingredient="10" amount="0.5" unit="St&#xFC;ck"
+					name="Limette" />
+				<component recipe="52" ingredient="12" amount="2" unit="TL"
+					name="Rohrzucker" />
+				<component recipe="52" ingredient="25" amount="5" unit="cl"
+					name="Cacha&#xE7;a" />
+				<component recipe="52" ingredient="114" amount="20" unit="cl"
+					name="Chrushed Ice" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="5" name="sauer" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="21" name="Caipirinha" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/21.jpg"
+					originalFileName="21_original.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="17" name="The Perfect Caipirinha" description="Anleitung auf Spanisch."
+					url="http://www.youtube.com/v/vGw2IPFhy5k" insertDate="2010-02-06 12:07:50"
+					updateDate="2010-02-07 15:24:30" />
+			</videos>
+		</recipe>
+		<recipe id="17" member="1" glass="6" cocktail="20" name="Cairo Cocktail"
+			price="2" rating="0"
+			instruction="Alle Zutaten im Shaker mit Eis gut mixen und in ein Cocktailglas geben.&#13;&#10;&#13;&#10;Schmeckt sehr fruchtig, geh&#xF6;rt zu den weicheren Drinks."
+			description="" source="" workMin="2" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="9.1" caloriesKcal="243"
+			volumeCl="29">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="17" ingredient="1" amount="4" unit="cl"
+					name="Wodka" />
+				<component recipe="17" ingredient="4" amount="2" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="17" ingredient="7" amount="2" unit="cl"
+					name="Mandelsirup" />
+				<component recipe="17" ingredient="14" amount="12" unit="cl"
+					name="Orangensaft" />
+				<component recipe="17" ingredient="24" amount="2" unit="cl"
+					name="Blue Cura&#xE7;ao" />
+				<component recipe="17" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="7" name="tropisch" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="17" name="Cairo Cocktail - Original" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/17.jpg"
+					originalFileName="17_original.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="13" member="1" glass="6" cocktail="16"
+			name="Caribbean Cruise" price="2" rating="0"
+			instruction="Alle Zutaten in einem Shaker auf Eis kr&#xE4;ftig sch&#xFC;tteln und anschlie&#xDF;end in einer Cocktailschale servieren."
+			description="" source="" workMin="2" difficulty="profi" isOriginal="0"
+			isAlcoholic="1" alcoholLevel="13.7" caloriesKcal="205" volumeCl="16">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="13" ingredient="1" amount="2" unit="cl"
+					name="Wodka" />
+				<component recipe="13" ingredient="3" amount="1" unit="cl"
+					name="Grenadinesirup" />
+				<component recipe="13" ingredient="8" amount="2" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="13" ingredient="16" amount="4" unit="cl"
+					name="Ananassaft" />
+				<component recipe="13" ingredient="21" amount="2" unit="cl"
+					name="Cream of Coconut" />
+				<component recipe="13" ingredient="113" amount="3"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories />
+			<photos />
+			<videos />
+		</recipe>
+		<recipe id="32" member="1" glass="6" cocktail="35"
+			name="Chicago Freestyle" price="2" rating="0"
+			instruction="Alle Zutaten auf Eis im Shaker mischen und anschlie&#xDF;end in ein Longdrinkglas geben. Als Dekoration sind tropische Fr&#xFC;chte (wie z.B. eine Sternfrucht) denkbar."
+			description="" source="" workMin="2" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="17" caloriesKcal="317"
+			volumeCl="27">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="32" ingredient="1" amount="2" unit="cl"
+					name="Wodka" />
+				<component recipe="32" ingredient="2" amount="2" unit="cl"
+					name="Gin" />
+				<component recipe="32" ingredient="4" amount="2" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="32" ingredient="8" amount="2" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="32" ingredient="14" amount="4" unit="cl"
+					name="Orangensaft" />
+				<component recipe="32" ingredient="16" amount="2" unit="cl"
+					name="Ananassaft" />
+				<component recipe="32" ingredient="24" amount="2" unit="cl"
+					name="Blue Cura&#xE7;ao" />
+				<component recipe="32" ingredient="31" amount="2" unit="cl"
+					name="Limettensirup" />
+				<component recipe="32" ingredient="38" amount="2" unit="cl"
+					name="Whiskeylik&#xF6;r" />
+				<component recipe="32" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="3" name="herb" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos />
+			<videos />
+		</recipe>
+		<recipe id="55" member="1" glass="2" cocktail="42"
+			name="Cosmopolitan nach IBA" price="2" rating="4"
+			instruction="Alle Zutaten in einen Cocktailshaker mit Eis geben und gut sch&#xFC;tteln. Dann in ein gro&#xDF;es Cocktailglas geben und mit einer Limettenscheibe garnieren."
+			description="Ein Klassiker aus San Francisco, der in den 80er Jahren ber&#xFC;hmt wurde."
+			source="International Bartenders Association (http://www.iba-world.com/english/cocktails/)"
+			workMin="2" difficulty="advanced" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="21" caloriesKcal="145" volumeCl="17">
+			<glass id="2" name="Cocktailschale" description="" volumeMl="100">
+				<photo id="35" name="Cocktail Schale" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/cocktail.png"
+					originalFileName="cocktail_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="55" ingredient="15" amount="3" unit="cl"
+					name="Cranberrysaft" />
+				<component recipe="55" ingredient="30" amount="1.5" unit="cl"
+					name="Limettensaft" />
+				<component recipe="55" ingredient="37" amount="1.5" unit="cl"
+					name="Triple Sec Cura&#xE7;ao" />
+				<component recipe="55" ingredient="78" amount="4" unit="cl"
+					name="Vodka Zitrone" />
+				<component recipe="55" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="43" name="Cosmopolitan" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/cosmopolitan_small.jpg"
+					originalFileName="cosmopolitan.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="20" name="How to make a Cosmopolitan"
+					description="Englisches Video mit leicht ver&#xE4;ndertem Rezept."
+					url="http://www.youtube.com/v/7sGxJDlg_h4" insertDate="2010-02-08 10:49:16"
+					updateDate="2010-02-08 10:49:16" />
+			</videos>
+		</recipe>
+		<recipe id="83" member="" glass="7" cocktail="29"
+			name="Cuba Libre nach Schumann" price="2" rating="0"
+			instruction="Die Limetten achten und in ein Longdrinkglas ausdr&#xFC;cken und hinzugeben. Anschlie&#xDF;end die Eisw&#xFC;rfel und den Rum hineingeben und mit Cola auff&#xFC;llen. Zum Schluss noch leicht umr&#xFC;hren."
+			description="Der Cuba Libre (&quot;Freies Cuba&quot;) wurde 1898 in Kuba erfunden. US-Soldaten stie&#xDF;en damit auf die Befreiung Kubas nach dem Spanisch-Amerikanischen Krieg an. In Europa wurde er durch den Song &quot;Rum and Coca-Cola&quot; der Andrews Sisters popul&#xE4;r."
+			source="American Bar von Charles Schumann, 18. Auflage, M&#xFC;nchen 2006"
+			workMin="2" difficulty="beginner" isOriginal="0" isAlcoholic="1"
+			alcoholLevel="12.1" caloriesKcal="164" volumeCl="26">
+			<glass id="7" name="Longdrinkglas" description="" volumeMl="250">
+				<photo id="38" name="Longdrink Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/longdrink.png"
+					originalFileName="longdrink_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="83" ingredient="8" amount="5" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="83" ingredient="10" amount="1" unit="St&#xFC;ck"
+					name="Limette" />
+				<component recipe="83" ingredient="22" amount="10" unit="cl"
+					name="Cola" />
+				<component recipe="83" ingredient="113" amount="6"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="26" name="Cuba Libre" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/26.jpg"
+					originalFileName="26_original.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="48" name="How To Make a Cuba Libre"
+					description="Das Rezept ist nah an der Schumann-Variante. Hier wird allerdings weniger Limette(nsaft) verwendet."
+					url="http://www.youtube.com/v/5X97EqzdKu4" insertDate="2010-06-30 22:28:04"
+					updateDate="2010-06-30 22:33:29" />
+			</videos>
+		</recipe>
+		<recipe id="29" member="1" glass="2" cocktail="32" name="Daiquiri"
+			price="2" rating="0"
+			instruction="Alle Zutaten mit Eis kr&#xE4;ftig shaken (mind. 10sec.) und in eine kleine Martinischale auf frisches Eis abseihen. &#13;&#10;&#13;&#10;Eine Limettenscheibe zur Dekoration anstecken und servieren.&#13;&#10;Als Rum eignet sich z.B. der Havanna Club 3 A&#xF1;os recht gut. Der Limettensaft sollte frisch gepre&#xDF;t sein. Den Zuckersirup, oder auch nur Teile davon, kann man auch durch Grenadine- oder BlueCuracao-Sirup ersetzen. "
+			description="" source="" workMin="2" difficulty="advanced"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="22.3" caloriesKcal="121"
+			volumeCl="13">
+			<glass id="2" name="Cocktailschale" description="" volumeMl="100">
+				<photo id="35" name="Cocktail Schale" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/cocktail.png"
+					originalFileName="cocktail_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="29" ingredient="8" amount="4" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="29" ingredient="30" amount="2" unit="cl"
+					name="Limettensaft" />
+				<component recipe="29" ingredient="33" amount="0.5" unit="cl"
+					name="Rohrzuckersirup" />
+				<component recipe="29" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="29" name="Daiquiri" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/29.jpg"
+					originalFileName="29_original.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="12" name="Daiquiri" description=""
+					url="http://www.youtube.com/v/A4NKH9He66U" insertDate="0000-00-00 00:00:00"
+					updateDate="2009-05-29 18:35:35" />
+			</videos>
+		</recipe>
+		<recipe id="73" member="" glass="2" cocktail="51" name="Fifth Avenue"
+			price="2" rating="4"
+			instruction="Alle Zutaten mit Eisw&#xFC;rfeln im Shaker kr&#xE4;ftig sch&#xFC;tteln und in eine Cocktailschale abseihen. Als Garnitur empfiehlt sich den Cocktail mit Schokoladenraspeln zu bestreuen."
+			description="Der Fifth Avenue ist ein s&#xFC;&#xDF;er, cremiger Cocktail der mal zu den Klassikern geh&#xF6;rte, aber mittlerweile vom Aussterben bedroht ist."
+			source="Cocktails. &#xDC;ber 1000 Drinks mit und ohne Alkohol, Franz Brandl, 2007, s&#xFC;dwest Verlag"
+			workMin="3" difficulty="advanced" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="16" caloriesKcal="240" volumeCl="16">
+			<glass id="2" name="Cocktailschale" description="" volumeMl="100">
+				<photo id="35" name="Cocktail Schale" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/cocktail.png"
+					originalFileName="cocktail_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="73" ingredient="35" amount="3" unit="cl"
+					name="Sahne" />
+				<component recipe="73" ingredient="40" amount="3" unit="cl"
+					name="Apricot Brandy" />
+				<component recipe="73" ingredient="85" amount="3" unit="cl"
+					name="Creme de Cacao braun" />
+				<component recipe="73" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="4" name="milchig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="68" name="Fifth Avenue" description="Foto von iStockPhoto"
+					url="http://www-test.cocktailberater.de/img/recipes/iStock_000004256948XSmall.jpg"
+					originalFileName="iStock_000004256948XSmall.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="71" member="" glass="7" cocktail="49"
+			name="Gin Tonic nach Brandl" price="2" rating="0"
+			instruction="Gin auf Eisw&#xFC;rfel in ein Longdrinkglas geben und mit kaltem Tonic Water auff&#xFC;llen. Als Garnitur eine Zitronenscheibe hinzugeben."
+			description="Der Gin (and) Tonic, kurz G&amp;T z&#xE4;hlt zu den klassischen Longdrinks. Er wurde urspr&#xFC;nglich von der britischen Armee in Indien eingef&#xFC;hrt um vor Malaria zu sch&#xFC;tzen. Das fr&#xFC;her sehr bittere chininhaltige Tonic Water sch&#xFC;tzte vor der Krankheit und Gin wurde hinzugegeben um den Geschmack zu verbessern."
+			source="Cocktails. &#xDC;ber 1000 Drinks mit und ohne Alkohol, Franz Brandl, 2007, s&#xFC;dwest Verlag"
+			workMin="1" difficulty="beginner" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="14.3" caloriesKcal="331" volumeCl="27">
+			<glass id="7" name="Longdrinkglas" description="" volumeMl="250">
+				<photo id="38" name="Longdrink Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/longdrink.png"
+					originalFileName="longdrink_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="71" ingredient="2" amount="4" unit="cl"
+					name="Gin" />
+				<component recipe="71" ingredient="80" amount="16" unit="cl"
+					name="Tonic Water" />
+				<component recipe="71" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="3" name="herb" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="57" name="Gin (and) Tonic" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/Gin-tonic_klein.jpg"
+					originalFileName="Gin-tonic.jpg" photoCategory="1" />
+				<photo id="62" name="Gin Tonic"
+					description="Bild von Borco-Marken-Import GmbH &amp; Co. KG "
+					url="http://www-test.cocktailberater.de/img/recipes/re_gin_tonic.jpg"
+					originalFileName="re_gin_tonic.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="36" name="How to make a Gin and Tonic"
+					description="Diese englische Videoanleitung passt gut zum angegeben Rezept."
+					url="http://www.youtube.com/v/DLm54IoZxW0" insertDate="2010-03-25 22:24:37"
+					updateDate="2010-03-25 22:24:37" />
+			</videos>
+		</recipe>
+		<recipe id="81" member="" glass="7" cocktail="56"
+			name="Grasshopper alkoholfrei nach Brandl" price="2" rating="0"
+			instruction="Alle Zutaten im Elektromixer mixen und in ein Longdrinkglas mit Eisw&#xFC;feln geben. Als Dekoration einen Minzezweig dazugeben."
+			description="Dies ist die alkoholfreie Variante des Grasshopper. Seinen Name hat er von der gr&#xFC;nen Farbe, weswegen er in den USA auch h&#xE4;ufig zum St. Patrick's Day getrunken wird. Er schmeckt s&#xFC;&#xDF; und nach Minze."
+			source="Cocktails. &#xDC;ber 1000 Drinks mit und ohne Alkohol, Franz Brandl, 2007, s&#xFC;dwest Verlag"
+			workMin="4" difficulty="advanced" isOriginal="0" isAlcoholic="0"
+			alcoholLevel="0" caloriesKcal="180" volumeCl="26">
+			<glass id="7" name="Longdrinkglas" description="" volumeMl="250">
+				<photo id="38" name="Longdrink Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/longdrink.png"
+					originalFileName="longdrink_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="81" ingredient="11" amount="1" unit="St&#xFC;ck"
+					name="Minzezweig" />
+				<component recipe="81" ingredient="16" amount="12" unit="cl"
+					name="Ananassaft" />
+				<component recipe="81" ingredient="21" amount="4" unit="cl"
+					name="Cream of Coconut" />
+				<component recipe="81" ingredient="55" amount="4" unit="cl"
+					name="Minzsirup" />
+				<component recipe="81" ingredient="113" amount="6" unit="cl"
+					name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="4" name="milchig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos />
+			<videos />
+		</recipe>
+		<recipe id="82" member="" glass="2" cocktail="56"
+			name="Grasshopper nach Guichet" price="2" rating="0"
+			instruction="Alle Zutaten im Shaker mit Eis gut sch&#xFC;tteln und in eine Cocktailschale geben."
+			description="Dies ist das Originalrezept des Grasshopper. Er wurde angeblich von Phlibert Guichet, dem Eigent&#xFC;mer der Tujaque's Bar in New Orleans erfunden und in einen New Yorker Cocktailwettbewerb eingereicht. Dies geschah kurz bevor das Alkoholverbot in Kraft trat."
+			source="The Pocket Recipe Guide: Museum of the American Cocktail, Hess und Hess, 2007, Booksurge Llc"
+			workMin="2" difficulty="beginner" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="12" caloriesKcal="338" volumeCl="17">
+			<glass id="2" name="Cocktailschale" description="" volumeMl="100">
+				<photo id="35" name="Cocktail Schale" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/cocktail.png"
+					originalFileName="cocktail_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="82" ingredient="35" amount="6" unit="cl"
+					name="Sahne" />
+				<component recipe="82" ingredient="84" amount="3" unit="cl"
+					name="Creme de Cacao wei&#xDF;" />
+				<component recipe="82" ingredient="96" amount="3" unit="cl"
+					name="Gr&#xFC;ner Pfefferminzlik&#xF6;r" />
+				<component recipe="82" ingredient="113" amount="5" unit="cl"
+					name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="4" name="milchig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="70" name="Grasshopper" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/dreamstime_12851464-grasshopper_small.jpg"
+					originalFileName="dreamstime_12851464-grasshopper.jpg"
+					photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="47"
+					name="How to make a Grasshopper Martini - Drink recipes from Bartending Bootcamp"
+					description="Wenn der Barkeeper Creme de Coco sagt, meint er Creme de Cacao. Statt Sahne wird hier Milch verwendet. Ansonsten sind die Mengenangaben leicht abweichend."
+					url="http://www.youtube.com/v/aZp-Ar6Mfk4" insertDate="2010-06-30 11:17:34"
+					updateDate="2010-06-30 11:17:34" />
+			</videos>
+		</recipe>
+		<recipe id="56" member="1" glass="2" cocktail="43"
+			name="Kamikaze nach IBA" price="2" rating="0"
+			instruction="Alle Zutaten in einen Cocktailshaker mit Eis geben und gut sch&#xFC;tteln. Dann in eine Cocktailschale abgie&#xDF;en und mit einem Limettenst&#xFC;ck (Achtel) und R&#xFC;hrst&#xE4;bchen garnieren."
+			description="Der Kamikaze ist ein starker Cocktail den es in verschiedenen Gr&#xF6;&#xDF;en gibt. So existiert er als Cocktail oder auch als Shooter. Den Namen verdankt er seiner starken Wirkung die mit den Auswirkungen japanischer Flieger-Spezialtruppen verglichen wird."
+			source="International Bartenders Association (http://www.iba-world.com/english/cocktails/)"
+			workMin="2" difficulty="beginner" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="24.1" caloriesKcal="158" volumeCl="16">
+			<glass id="2" name="Cocktailschale" description="" volumeMl="100">
+				<photo id="35" name="Cocktail Schale" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/cocktail.png"
+					originalFileName="cocktail_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="56" ingredient="1" amount="3" unit="cl"
+					name="Wodka" />
+				<component recipe="56" ingredient="30" amount="3" unit="cl"
+					name="Limettensaft" />
+				<component recipe="56" ingredient="37" amount="3" unit="cl"
+					name="Triple Sec Cura&#xE7;ao" />
+				<component recipe="56" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos />
+			<videos>
+				<video id="21" name="Kamikaze Drink" description="gleiches Rezept wie in der Anleitung"
+					url="http://www.youtube.com/v/E-ssydIVpU0" insertDate="2010-02-09 12:14:56"
+					updateDate="2010-02-09 12:14:56" />
+			</videos>
+		</recipe>
+		<recipe id="60" member="1" glass="1" cocktail="27"
+			name="Long Island Iced Tea nach IBA" price="2" rating="4"
+			instruction="Alle Zutaten in ein Highball-Glas mit Eis geben. Dann vorsichtig umr&#xFC;hren, mit einer Limettenspirale garnieren und mit Strohhalm servieren."
+			description="Der Long Island Iced Tea ist ein starker und beliebter Longdrink der seinen Namen seiner Farbe, nicht aber seinem Geschmack verdankt. Erfunden wurde er in den 1970er Jahren in den USA."
+			source="International Bartenders Association (http://www.iba-world.com/english/cocktails/)"
+			workMin="4" difficulty="beginner" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="13.1" caloriesKcal="332" volumeCl="28">
+			<glass id="1" name="Cocktailglas / Highballglas" description=""
+				volumeMl="350">
+				<photo id="34" name="Highball Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/highball.png"
+					originalFileName="highball_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="60" ingredient="1" amount="1.5" unit="cl"
+					name="Wodka" />
+				<component recipe="60" ingredient="2" amount="1.5" unit="cl"
+					name="Gin" />
+				<component recipe="60" ingredient="8" amount="1.5" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="60" ingredient="22" amount="8" unit="cl"
+					name="Cola" />
+				<component recipe="60" ingredient="30" amount="2.5" unit="cl"
+					name="Limettensaft" />
+				<component recipe="60" ingredient="33" amount="3" unit="cl"
+					name="Rohrzuckersirup" />
+				<component recipe="60" ingredient="36" amount="1.5" unit="cl"
+					name="Tequila (wei&#xDF;)" />
+				<component recipe="60" ingredient="37" amount="1.5" unit="cl"
+					name="Triple Sec Cura&#xE7;ao" />
+				<component recipe="60" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="24" name="Planers Punch" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/24.jpg"
+					originalFileName="24_original.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="25" name="How To Make a Long Island Iced Tea"
+					description="Die Videoanleitung ist recht nahe am IBA Rezept, bis auf das Zitronensaft und Rohrzucker statt Limettensaft und Rohrzuckersirup verwendet wird und der Cocktail im Video gesch&#xFC;ttelt und nicht ger&#xFC;hrt wird."
+					url="http://www.youtube.com/v/BawlBaz5Yjo" insertDate="2010-02-23 16:08:43"
+					updateDate="2010-02-23 16:08:43" />
+			</videos>
+		</recipe>
+		<recipe id="12" member="1" glass="6" cocktail="15" name="Magic Queen"
+			price="2" rating="0"
+			instruction="Alle Zutaten in einem Shaker auf Eis gut sch&#xFC;tteln und anschlie&#xDF;end in einem Cocktailglas servieren. &#13;&#10;&#13;&#10;Deko mit Ananas oder Orangenscheibe denkbar. Fruchtig-s&#xFC;&#xDF;er Geschmack und ein sch&#xF6;ner Farbeffekt."
+			description="" source="" workMin="2" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="11.9" caloriesKcal="220"
+			volumeCl="29">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="12" ingredient="3" amount="1" unit="cl"
+					name="Grenadinesirup" />
+				<component recipe="12" ingredient="4" amount="2" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="12" ingredient="13" amount="5" unit="cl"
+					name="Rum (braun)" />
+				<component recipe="12" ingredient="14" amount="4" unit="cl"
+					name="Orangensaft" />
+				<component recipe="12" ingredient="16" amount="5" unit="cl"
+					name="Ananassaft" />
+				<component recipe="12" ingredient="23" amount="1" unit="cl"
+					name="Bananensirup" />
+				<component recipe="12" ingredient="37" amount="1" unit="cl"
+					name="Triple Sec Cura&#xE7;ao" />
+				<component recipe="12" ingredient="113" amount="6"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories />
+			<photos />
+			<videos />
+		</recipe>
+		<recipe id="57" member="1" glass="1" cocktail="36"
+			name="Mai Tai nach IBA" price="2" rating="4.33"
+			instruction="Alle Zutaten, bis auf den braunen Rum in einen Cocktailshaker mit Eis geben und gut sch&#xFC;tteln. Dann in ein Highball Glas geben und den braunen Rum hinzugeben. Als Garnitur bietet sich ein Ananasblatt und eine St&#xFC;ck Limetten-Schale an. Serviert wird der Mai Tai mit Strohhalm."
+			description="Der Mai Tai ist ein Klassiker unter den Rum-Cocktails. Er wurde 1944 von Trader Vic in San Francisco erfunden. Die heutigen &quot;Mai Tai&quot; Cocktails sind meist mit S&#xE4;ften gemischt."
+			source="International Bartenders Association (http://www.iba-world.com/english/cocktails/)"
+			workMin="2" difficulty="beginner" isOriginal="0" isAlcoholic="1"
+			alcoholLevel="26.2" caloriesKcal="241" volumeCl="17">
+			<glass id="1" name="Cocktailglas / Highballglas" description=""
+				volumeMl="350">
+				<photo id="34" name="Highball Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/highball.png"
+					originalFileName="highball_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="57" ingredient="7" amount="1.5" unit="cl"
+					name="Mandelsirup" />
+				<component recipe="57" ingredient="8" amount="3" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="57" ingredient="13" amount="3" unit="cl"
+					name="Rum (braun)" />
+				<component recipe="57" ingredient="30" amount="1" unit="cl"
+					name="Limettensaft" />
+				<component recipe="57" ingredient="33" amount="0.5" unit="cl"
+					name="Rohrzuckersirup" />
+				<component recipe="57" ingredient="37" amount="1.5" unit="cl"
+					name="Triple Sec Cura&#xE7;ao" />
+				<component recipe="57" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="3" name="herb" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="33" name="Mai Tai"
+					description="Bild von Borco-Marken-Import GmbH &amp; Co. KG "
+					url="http://www-test.cocktailberater.de/img/recipes/rum_maitai.jpg"
+					originalFileName="rum_maitai.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="22" name="How to make a Mai Tai" description="sehr nahe am hier beschriebenen Rezept"
+					url="http://www.youtube.com/v/bkT_dxe3Drk" insertDate="2010-02-09 12:55:17"
+					updateDate="2010-02-09 12:55:17" />
+			</videos>
+		</recipe>
+		<recipe id="35" member="1" glass="9" cocktail="38" name="Margarita"
+			price="2" rating="0"
+			instruction="Den wei&#xDF;en Tequila, Triple Sec Cura&#xE7;ao und Limettensaft zusammen mit Eis in einen Mixer geben und anschlie&#xDF;end in ein Margaritaglas geben."
+			description="" source="" workMin="2" difficulty="advanced"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="27.3" caloriesKcal="138"
+			volumeCl="15">
+			<glass id="9" name="Margarita Glas" description="" volumeMl="260">
+				<photo id="40" name="Margarita Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/margarita.png"
+					originalFileName="margarita_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="35" ingredient="30" amount="2" unit="cl"
+					name="Limettensaft" />
+				<component recipe="35" ingredient="36" amount="4" unit="cl"
+					name="Tequila (wei&#xDF;)" />
+				<component recipe="35" ingredient="37" amount="2" unit="cl"
+					name="Triple Sec Cura&#xE7;ao" />
+				<component recipe="35" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="42" name="Margarita" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/35.jpg"
+					originalFileName="35.jpg" photoCategory="1" />
+				<photo id="65" name="Margarita"
+					description="Bild von Borco-Marken-Import GmbH &amp; Co. KG "
+					url="http://www-test.cocktailberater.de/img/recipes/re_cock_margarita.jpg"
+					originalFileName="re_cock_margarita.jpg" photoCategory="1" />
+				<photo id="67" name="Margarita" description="Bild von Beam Global Deutschland GmbH"
+					url="http://www-test.cocktailberater.de/img/recipes/sauza_cockt_01_klein.jpg"
+					originalFileName="sauza_cockt_01.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="15" name="How to Make a Margarita Cocktail"
+					description="" url="http://www.youtube.com/v/WfS4FsBgovg"
+					insertDate="0000-00-00 00:00:00" updateDate="2009-05-29 18:35:35" />
+			</videos>
+		</recipe>
+		<recipe id="59" member="1" glass="7" cocktail="1" name="Mojito nach IBA"
+			price="2" rating="5"
+			instruction="Die Minzzweige mit Zucker und frischem Limettensaft zerdr&#xFC;cken. Dann Rum hinzugeben und mit Sodawasser auff&#xFC;llen. Zum Schluss mit Minzzweig und Strohhalm garnieren."
+			description="Der Mojito ist das kubanische Nationalgetr&#xE4;nk."
+			source="International Bartenders Association (http://www.iba-world.com/english/cocktails/)"
+			workMin="3" difficulty="beginner" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="8.5" caloriesKcal="135" volumeCl="39">
+			<glass id="7" name="Longdrinkglas" description="" volumeMl="250">
+				<photo id="38" name="Longdrink Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/longdrink.png"
+					originalFileName="longdrink_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="59" ingredient="8" amount="4" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="59" ingredient="9" amount="10" unit="cl"
+					name="Soda" />
+				<component recipe="59" ingredient="11" amount="3" unit="St&#xFC;ck"
+					name="Minzezweig" />
+				<component recipe="59" ingredient="12" amount="2" unit="TL"
+					name="Rohrzucker" />
+				<component recipe="59" ingredient="30" amount="3" unit="cl"
+					name="Limettensaft" />
+				<component recipe="59" ingredient="114" amount="20" unit="cl"
+					name="Chrushed Ice" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="5" name="sauer" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="1" name="Mojito - Original" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/1.jpg"
+					originalFileName="1_original.jpg" photoCategory="1" />
+				<photo id="41" name="photocase597323977152.jpg" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/60fb1ea07876f57ff94c643ef38c3251.jpg"
+					originalFileName="60fb1ea07876f57ff94c643ef38c3251_original.jpg"
+					photoCategory="1" />
+				<photo id="64" name="Mojito"
+					description="Bild von Borco-Marken-Import GmbH &amp; Co. KG "
+					url="http://www-test.cocktailberater.de/img/recipes/re_mojito.jpg"
+					originalFileName="re_mojito.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="24" name="bacardi mojito"
+					description="Mojito Videoanleitung, die sehr nahe am IBA-Rezept ist. Hier wird nur statt Limettensaft eine halbe Limette im Glas zerdr&#xFC;ckt."
+					url="http://www.youtube.com/v/bIv5gsjDfaU" insertDate="2010-02-22 21:31:40"
+					updateDate="2010-02-22 21:31:40" />
+			</videos>
+		</recipe>
+		<recipe id="64" member="16" glass="5" cocktail="46"
+			name="Orgasm nach IBA" price="2" rating="0"
+			instruction="Als Triple Sec Cura&#xE7;ao empfiehlt sich ein Mischung aus 2cl Grand Marnier und 3cl Cointreau. Als Cremelik&#xF6;r ist Bailey's Irish Cream zu empfehlen. &#13;&#10;&#13;&#10;Alle Zutaten in einen Tumbler mit Eis oder ein Shotglas geben und mit einer Cocktailkirsche garnieren."
+			description="Der Name des Cocktail geht auf seine &#xC4;hnlichkeit zu Spermien im Wasser zur&#xFC;ck. &#13;&#10;Der Orgams ist international einer der bekanntesten Cocktails und ist den Shootern zuzuordnen."
+			source="International Bartenders Association (http://www.iba-world.com/english/cocktails/)"
+			workMin="2" difficulty="beginner" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="27.1" caloriesKcal="226" volumeCl="15">
+			<glass id="5" name="kleiner Tumbler" description="auch Whiske(y)glas"
+				volumeMl="150">
+				<photo id="49" name="kleiner Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_klein.png"
+					originalFileName="tumbler_klein_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="64" ingredient="27" amount="3" unit="cl"
+					name="Cremelik&#xF6;r" />
+				<component recipe="64" ingredient="37" amount="5" unit="cl"
+					name="Triple Sec Cura&#xE7;ao" />
+				<component recipe="64" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="4" name="milchig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos />
+			<videos />
+		</recipe>
+		<recipe id="72" member="1" glass="6" cocktail="17"
+			name="Pi&#xF1;a Colada nach Schuhmann" price="2" rating="0"
+			instruction="Alle Zutaten im Shaker zusammen mit gesto&#xDF;enem Eis kr&#xE4;ftig sch&#xFC;tteln, in einen gro&#xDF;en Tumbler mit gesto&#xDF;enem Eis geben.&#13;&#10;Als Dekoration bietet sich ein St&#xFC;ck Ananas und eine Amarenakirsche an."
+			description="Dies ist die Variante des Pi&#xF1;a Colada von Charles Schuhmann."
+			source="American Bar von Charles Schumann, 18. Auflage, M&#xFC;nchen 2006"
+			workMin="4" difficulty="advanced" isOriginal="0" isAlcoholic="1"
+			alcoholLevel="14.2" caloriesKcal="288" volumeCl="36">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="72" ingredient="8" amount="2" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="72" ingredient="13" amount="4" unit="cl"
+					name="Rum (braun)" />
+				<component recipe="72" ingredient="16" amount="6" unit="cl"
+					name="Ananassaft" />
+				<component recipe="72" ingredient="21" amount="2" unit="cl"
+					name="Cream of Coconut" />
+				<component recipe="72" ingredient="35" amount="2" unit="cl"
+					name="Sahne" />
+				<component recipe="72" ingredient="114" amount="20" unit="cl"
+					name="Chrushed Ice" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="4" name="milchig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="7" name="tropisch" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="14" name="Pi&#xF1;a Colada - Original" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/14.jpg"
+					originalFileName="14_original.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="37" name="Pi&#xF1;a Colada"
+					description="Videoanleitung, die relativ nah an Schuhmann's Pi&#xF1;a Colada Variante ist. Hier werden jedoch 3cl brauner Rum, 3cl wei&#xDF;er Rum, ungesto&#xDF;enes Eis sowie ein Fancyglas verwendet."
+					url="http://www.youtube.com/v/0Z3zmYtWkdU" insertDate="2010-04-17 21:42:15"
+					updateDate="2010-04-17 21:42:15" />
+			</videos>
+		</recipe>
+		<recipe id="23" member="1" glass="6" cocktail="26" name="Planter's Punch"
+			price="2" rating="5"
+			instruction="Alle Zutaten mit Eisw&#xFC;rfel in einen Shaker geben und gut sch&#xFC;tteln. Anschlie&#xDF;end in ein Cocktailglas f&#xFC;llen und bei Bedarf mit zwei Cocktailkirschen dekorieren."
+			description="" source="" workMin="2" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="15" caloriesKcal="242"
+			volumeCl="22">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="23" ingredient="3" amount="1" unit="cl"
+					name="Grenadinesirup" />
+				<component recipe="23" ingredient="4" amount="3" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="23" ingredient="8" amount="3" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="23" ingredient="13" amount="3" unit="cl"
+					name="Rum (braun)" />
+				<component recipe="23" ingredient="14" amount="4" unit="cl"
+					name="Orangensaft" />
+				<component recipe="23" ingredient="33" amount="1" unit="cl"
+					name="Rohrzuckersirup" />
+				<component recipe="23" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="7" name="tropisch" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="23" name="Planter\'s Punch" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/23.jpg"
+					originalFileName="23_original.jpg" photoCategory="1" />
+				<photo id="63" name="Planter's Punch"
+					description="Bild von Borco-Marken-Import GmbH &amp; Co. KG "
+					url="http://www-test.cocktailberater.de/img/recipes/rum_planterspunch.jpg"
+					originalFileName="rum_planterspunch.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="31" member="1" glass="6" cocktail="34" name="Pussy Foot"
+			price="2" rating="5"
+			instruction="Die Zutaten mit ein paar Eisw&#xFC;rfeln in einem Shaker gut sch&#xFC;tteln und anschlie&#xDF;end in ein Cocktailglas geben."
+			description="" source="" workMin="2" difficulty="beginner"
+			isOriginal="0" isAlcoholic="0" alcoholLevel="0" caloriesKcal="136"
+			volumeCl="27">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="31" ingredient="3" amount="2" unit="cl"
+					name="Grenadinesirup" />
+				<component recipe="31" ingredient="14" amount="6" unit="cl"
+					name="Orangensaft" />
+				<component recipe="31" ingredient="16" amount="6" unit="cl"
+					name="Ananassaft" />
+				<component recipe="31" ingredient="17" amount="6" unit="cl"
+					name="Grapefruitsaft" />
+				<component recipe="31" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="3" name="herb" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="8" name="starker cocktail"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos />
+			<videos />
+		</recipe>
+		<recipe id="61" member="1" glass="3" cocktail="44"
+			name="Red Risk nach Brandl" price="2" rating="5"
+			instruction="Alle Zutaten im Shaker mit Eisw&#xFC;rfeln kr&#xE4;ftig sch&#xFC;tteln. Dann durch ein Barsieb in ein gro&#xDF;es Stielglas mit Eisw&#xFC;rfeln abseihen und mit einer Erdbeere und Melonenscheibe garnieren."
+			description="Erfrischender, fruchtig-s&#xFC;&#xDF;er alkoholfreier Cocktail."
+			source="Franz Brandl, Cocktails. &#xDC;ber 1000 Drinks mit und ohne Alkohol, S&#xFC;dwest-Verlag 2007, M&#xFC;nchen"
+			workMin="2" difficulty="beginner" isOriginal="1" isAlcoholic="0"
+			alcoholLevel="0" caloriesKcal="83" volumeCl="31">
+			<glass id="3" name="Hurricaneglas" description="Hurricane- oder auch Fancyglas"
+				volumeMl="300">
+				<photo id="36" name="Hurricane / Fancy Glass" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/hurricane.png"
+					originalFileName="hurricane_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="61" ingredient="4" amount="3" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="61" ingredient="14" amount="11" unit="cl"
+					name="Orangensaft" />
+				<component recipe="61" ingredient="16" amount="6" unit="cl"
+					name="Ananassaft" />
+				<component recipe="61" ingredient="65" amount="2" unit="cl"
+					name="Karamelsirup" />
+				<component recipe="61" ingredient="71" amount="2" unit="cl"
+					name="Erdbeersirup" />
+				<component recipe="61" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos />
+			<videos />
+		</recipe>
+		<recipe id="18" member="1" glass="7" cocktail="21"
+			name="Sex on the Beach nach Brandl" price="2" rating="2.5"
+			instruction="Alle Zutaten auf Eis im Shaker sch&#xFC;tteln und anschlie&#xDF;end in ein Longdrinkglas geben. Als Dekoration sind verschiedene Fr&#xFC;chte m&#xF6;glich (z. B. Honigmelone)."
+			description="Diese Variante des Sex on the Beach nutzt Ananassaft statt Orangensaft und ist auch unter dem Namen Modern Sex on the Beach bekannt."
+			source="Cocktails. &#xDC;ber 1000 Drinks mit und ohne Alkohol, Franz Brandl, 2007, s&#xFC;dwest Verlag"
+			workMin="3" difficulty="beginner" isOriginal="0" isAlcoholic="1"
+			alcoholLevel="9.4" caloriesKcal="188" volumeCl="25">
+			<glass id="7" name="Longdrinkglas" description="" volumeMl="250">
+				<photo id="38" name="Longdrink Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/longdrink.png"
+					originalFileName="longdrink_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="18" ingredient="1" amount="3" unit="cl"
+					name="Wodka" />
+				<component recipe="18" ingredient="16" amount="6" unit="cl"
+					name="Ananassaft" />
+				<component recipe="18" ingredient="19" amount="3" unit="cl"
+					name="Pfirsichlik&#xF6;r" />
+				<component recipe="18" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+				<component recipe="18" ingredient="119" amount="6" unit="cl"
+					name="Preiselbeernektar" />
+			</components>
+			<categories>
+				<recipeCategory id="7" name="tropisch" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="18" name="Sex on the Beach Basic" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/18.jpg"
+					originalFileName="18_original.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="19" member="1" glass="6" cocktail="22"
+			name="Swimming Pool nach Schumann" price="2" rating="4"
+			instruction="Im Shaker auf chrushed ice kr&#xE4;ftig sch&#xFC;tteln, in gro&#xDF;es Becherglas aus crushed ice abseihen, Curacao dar&#xFC;bergleiten lassen, mit Stielkirsche und Ananasst&#xFC;ck dekorieren."
+			description="Der &quot;Swimming Pool&quot; wurde 1979 von Charles Schumann kreiert."
+			source="American Bar von Charles Schumann, 18. Auflage, M&#xFC;nchen 2006"
+			workMin="2" difficulty="advanced" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="11.5" caloriesKcal="271" volumeCl="37">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="19" ingredient="1" amount="2" unit="cl"
+					name="Wodka" />
+				<component recipe="19" ingredient="8" amount="2" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="19" ingredient="16" amount="6" unit="cl"
+					name="Ananassaft" />
+				<component recipe="19" ingredient="21" amount="2" unit="cl"
+					name="Cream of Coconut" />
+				<component recipe="19" ingredient="24" amount="1" unit="cl"
+					name="Blue Cura&#xE7;ao" />
+				<component recipe="19" ingredient="35" amount="2" unit="cl"
+					name="Sahne" />
+				<component recipe="19" ingredient="72" amount="1" unit="St&#xFC;ck"
+					name="Stielkirsche" />
+				<component recipe="19" ingredient="73" amount="1" unit="St&#xFC;ck"
+					name="Ananas" />
+				<component recipe="19" ingredient="114" amount="20" unit="cl"
+					name="Chrushed Ice" />
+			</components>
+			<categories>
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="19" name="Swimming Pool" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/19.jpg"
+					originalFileName="19_original.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="67" member="16" glass="7" cocktail="2"
+			name="Tequila Sunrise nach IBA" price="2" rating="4"
+			instruction="Tequlia und Orangensaft direkt in ein mit Eisw&#xFC;rfeln gef&#xFC;lltes Longdrinkglas geben.&#13;&#10;Nun den Grenadinesirup dazu geben und mit einer Orangenscheibe und einer Cocktailkirche garnieren.&#13;&#10;&#13;&#10;Wichtig: Den Cocktail vorm Servieren nicht umr&#xFC;hren, damit der Sunrise-Effekt erhalten bleibt."
+			description="Seinen Namen verdank der Tequila Sunrise seinen Farbabstufungen von gelblich bis orangerot. Diese erinnert an einen Sonnenaufgang."
+			source="International Bartenders Association (http://www.iba-world.com/english/cocktails/)"
+			workMin="2" difficulty="beginner" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="10.9" caloriesKcal="147" volumeCl="21">
+			<glass id="7" name="Longdrinkglas" description="" volumeMl="250">
+				<photo id="38" name="Longdrink Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/longdrink.png"
+					originalFileName="longdrink_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="67" ingredient="3" amount="1" unit="cl"
+					name="Grenadinesirup" />
+				<component recipe="67" ingredient="14" amount="9" unit="cl"
+					name="Orangensaft" />
+				<component recipe="67" ingredient="36" amount="4" unit="cl"
+					name="Tequila (wei&#xDF;)" />
+				<component recipe="67" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="2" name="Tequila Sunrise - Original" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/2.jpg"
+					originalFileName="2_original.jpg" photoCategory="1" />
+				<photo id="66" name="Tequila Sunrise"
+					description="Bild von Borco-Marken-Import GmbH &amp; Co. KG "
+					url="http://www-test.cocktailberater.de/img/recipes/sunrise-frontal-1.jpg"
+					originalFileName="sunrise-frontal-1.jpg" photoCategory="1" />
+			</photos>
+			<videos>
+				<video id="32" name="Cocktail Mixing - Tequila Sunrise"
+					description="In dieser Videoanleitung wird anschaulich erkl&#xE4;rt wie der Cocktail Tequila Sunrise entstanden ist und wie er zubereitet wird.&#13;&#10;Das Rezept ist &#xE4;hnlich dem Rezept der International Bartenders Association."
+					url="http://www.youtube.com/v/cNCrFL2l83o" insertDate="2010-03-21 19:13:55"
+					updateDate="2010-03-21 19:13:55" />
+			</videos>
+		</recipe>
+		<recipe id="25" member="1" glass="6" cocktail="28" name="Watermelon Man"
+			price="2" rating="0"
+			instruction="Alle Zutaten mit einigen Eisw&#xFC;rfeln im Shaker sch&#xFC;tteln und anschlie&#xDF;end das Ganze in ein Glas geben."
+			description="" source="" workMin="2" difficulty="beginner"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="9.8" caloriesKcal="241"
+			volumeCl="27">
+			<glass id="6" name="gro&#xDF;er Tumbler" description=""
+				volumeMl="300">
+				<photo id="50" name="gro&#xDF;er Tumbler" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/tumbler_gross.png"
+					originalFileName="tumbler_gross_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="25" ingredient="1" amount="4" unit="cl"
+					name="Wodka" />
+				<component recipe="25" ingredient="3" amount="2" unit="cl"
+					name="Grenadinesirup" />
+				<component recipe="25" ingredient="4" amount="2" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="25" ingredient="14" amount="10" unit="cl"
+					name="Orangensaft" />
+				<component recipe="25" ingredient="32" amount="2" unit="cl"
+					name="Melonenlik&#xF6;r" />
+				<component recipe="25" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="25" name="Watermelon Man" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/25.jpg"
+					originalFileName="25_original.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="28" member="1" glass="2" cocktail="31" name="White Russian"
+			price="2" rating="5"
+			instruction="Die Zutaten auf Eis in ein Glas geben und gut verr&#xFC;hren."
+			description="" source="" workMin="2" difficulty="advanced"
+			isOriginal="0" isAlcoholic="1" alcoholLevel="25.2" caloriesKcal="195"
+			volumeCl="15">
+			<glass id="2" name="Cocktailschale" description="" volumeMl="100">
+				<photo id="35" name="Cocktail Schale" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/cocktail.png"
+					originalFileName="cocktail_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="28" ingredient="1" amount="4" unit="cl"
+					name="Wodka" />
+				<component recipe="28" ingredient="28" amount="2" unit="cl"
+					name="Kaffeelik&#xF6;r" />
+				<component recipe="28" ingredient="35" amount="2" unit="cl"
+					name="Sahne" />
+				<component recipe="28" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="6" name="s&#xFC;&#xDF;"
+					insertDate="0000-00-00 00:00:00" updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="45" name="White Russian" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/white-russian.jpg"
+					originalFileName="iStock_000004055874XSmall-white-russian.jpg"
+					photoCategory="1" />
+				<photo id="61" name="White Russian"
+					description="Bild von Borco-Marken-Import GmbH &amp; Co. KG "
+					url="http://www-test.cocktailberater.de/img/recipes/re_borghetti_whiterussian.jpg"
+					originalFileName="re_borghetti_whiterussian.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="62" member="1" glass="3" cocktail="45"
+			name="Young, Fresh and Beautiful" price="2" rating="4.5"
+			instruction="Nur den Blue Curacao und die S&#xE4;fte in einem Cocktailshaker mit Eisw&#xFC;rfeln sch&#xFC;tteln, dann durch ein Barsieb in ein Fancyglas mit Eisw&#xFC;rfeln abseihen und mit Bitter Lemon auff&#xFC;llen. Zum Schluss mit einer Zitronen und Limettenspirale garnieren und mit einem Strohhalm servieren."
+			description="Ein erfrischender, prickelnder Cocktail der seinem Namen stand h&#xE4;lt."
+			source="Franz Brandl, Cocktails. &#xDC;ber 1000 Drinks mit und ohne Alkohol, S&#xFC;dwest-Verlag 2007, M&#xFC;nchen"
+			workMin="2" difficulty="beginner" isOriginal="1" isAlcoholic="1"
+			alcoholLevel="4.7" caloriesKcal="163" volumeCl="26">
+			<glass id="3" name="Hurricaneglas" description="Hurricane- oder auch Fancyglas"
+				volumeMl="300">
+				<photo id="36" name="Hurricane / Fancy Glass" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/hurricane.png"
+					originalFileName="hurricane_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="62" ingredient="4" amount="2" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="62" ingredient="24" amount="4" unit="cl"
+					name="Blue Cura&#xE7;ao" />
+				<component recipe="62" ingredient="30" amount="3" unit="cl"
+					name="Limettensaft" />
+				<component recipe="62" ingredient="79" amount="10" unit="cl"
+					name="Bitter Lemon" />
+				<component recipe="62" ingredient="113" amount="4"
+					unit="St&#xFC;ck" name="Eisw&#xFC;rfel" />
+			</components>
+			<categories>
+				<recipeCategory id="1" name="erfrischend" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="2" name="fruchtig" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+				<recipeCategory id="3" name="herb" insertDate="0000-00-00 00:00:00"
+					updateDate="0000-00-00 00:00:00" />
+			</categories>
+			<photos>
+				<photo id="69" name="Young Fresh and Beautiful" description=""
+					url="http://www-test.cocktailberater.de/img/recipes/young_fresh_beautiful.jpg"
+					originalFileName="young_fresh_beautiful_big.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+		<recipe id="44" member="1" glass="7" cocktail="33"
+			name="Zombie nach Brandl" price="2" rating="4.5"
+			instruction="Die Zutaten mit Eisw&#xFC;rfeln im Shaker gut sch&#xFC;tteln und in ein zur H&#xE4;lfte mit gesto&#xDF;enem Eis gef&#xFC;lltes Longdrinkglas abgie&#xDF;en. Mit einem Ananasst&#xFC;ck, einer Cocktailkirsche und Minze garnieren."
+			description=""
+			source="Cocktails von Franz Brandl, 1. Auflage, M&#xFC;nchen 2007"
+			workMin="3" difficulty="advanced" isOriginal="0" isAlcoholic="1"
+			alcoholLevel="18.3" caloriesKcal="450" volumeCl="58">
+			<glass id="7" name="Longdrinkglas" description="" volumeMl="250">
+				<photo id="38" name="Longdrink Glas" description=""
+					url="http://www-test.cocktailberater.de/img/glasses/longdrink.png"
+					originalFileName="longdrink_big.png" photoCategory="2" />
+			</glass>
+			<components>
+				<component recipe="44" ingredient="3" amount="2" unit="cl"
+					name="Grenadinesirup" />
+				<component recipe="44" ingredient="4" amount="4" unit="cl"
+					name="Zitronensaft" />
+				<component recipe="44" ingredient="8" amount="4" unit="cl"
+					name="Rum (wei&#xDF;)" />
+				<component recipe="44" ingredient="13" amount="4" unit="cl"
+					name="Rum (braun)" />
+				<component recipe="44" ingredient="14" amount="4" unit="cl"
+					name="Orangensaft" />
+				<component recipe="44" ingredient="16" amount="4" unit="cl"
+					name="Ananassaft" />
+				<component recipe="44" ingredient="34" amount="2" unit="cl"
+					name="Rum 73%" />
+				<component recipe="44" ingredient="37" amount="2" unit="cl"
+					name="Triple Sec Cura&#xE7;ao" />
+				<component recipe="44" ingredient="60" amount="2" unit="cl"
+					name="Maracujasirup" />
+				<component recipe="44" ingredient="114" amount="30" unit="cl"
+					name="Chrushed Ice" />
+			</components>
+			<categories />
+			<photos>
+				<photo id="30" name="Zombie" description="none"
+					url="http://www-test.cocktailberater.de/img/recipes/30.jpg"
+					originalFileName="30_original.jpg" photoCategory="1" />
+			</photos>
+			<videos />
+		</recipe>
+	</recipes>
+</rsp>
