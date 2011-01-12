@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-Sitemap: http://www.cocktailberater.de/sitemap
-Sitemap: http://www.cocktailberater.de/mobile-sitemap

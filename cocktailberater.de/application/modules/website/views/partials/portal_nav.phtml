@@ -1,9 +1,0 @@
-<?php
-$format = Zend_Controller_Front::getInstance()->getRequest()->getParam('format','html');
-?>
-<ul class="textLeft no-bullet-html">
-<?php foreach(/*@var $pages Zend_Navigation_Page */$pages as $this->container) { ?>
-	<li><a
-		href="<?php print $pages->getHref(); ?>?format=<?php echo $format; ?>"><?php print $pages->getTitle(); ?></a></li>
-		<?php } ?>
-</ul>

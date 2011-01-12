@@ -1,7 +1,0 @@
-<?php
-function callback($buffer){
-	return Zend_Json::fromXml($buffer, false);
-}
-ob_start("callback");
-include ('index.xml.phtml');
-ob_end_flush();
