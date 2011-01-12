@@ -45,7 +45,7 @@ function showRecipe (recipe){
 			'</style>' + 
 			'<div id="content"><h2 style="margin:0;">' + recipe.title + alcoholic + '</h2>'+ 
 			(recipe.photos[0] ? '<div style="text-align: center;"><img src="' + recipe.photos[0].url + '" id="recipe_image" '+
-			'	style="height: 160px;" /></div>' : '' ) +
+			'	style="width: 160px; margin-bottom: 5px;" /></div>' : '' ) +
 			(recipe.description ? '	<div class="attribut">Beschreibung:</div>'+
 			'	<div class="wert"><p>' + recipe.description + '</p></div>' : '' ) +
 			'	<div class="attribut">Zutaten:</div>'+
@@ -71,15 +71,14 @@ function showRecipe (recipe){
 			'</body></html>'});
 		win.add(webview);
 		
-		cocktailTab.open(win, {
-			animated : true
-		});
+		return win;
 	}
 }
 
 
 //create recipeTable view event listener
 recipeTable.addEventListener('click', function(e) {
-	Ti.API.info('click ' + recipe);
-	showRecipe(e.rowData.recipe);
+	cocktailTab.open(showRecipe(e.rowData.recipe), {
+		animated : true
+	});
 });

@@ -24,4 +24,20 @@ if (Titanium.Platform.name == 'android') {
 	});
 }
 
+//offline warning
+tabGroup.addEventListener('focus', function(e){
+	setTimeout(function() {
+		if(e.index == 2 && !Titanium.Network.online) {
+			shoppingListWebView.html = '<html><head>' + 
+			'<style>' + 
+			'* { font-family: "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif; text-align: center; }' +
+			'p { margin-bottom: 0.5em; margin-top: 0; } ' +  
+			'</style>' + 
+			'</head>' + 
+			'<body style="text-align: center;"><p>Diese Funktion steht leider nur mit Internetverbindung zur Verfügung.</p></body>' + 
+			'</html>';
+		}
+	},100);
+});
+
 shoppingListWindow.add(shoppingListWebView);
