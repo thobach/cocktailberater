@@ -7,42 +7,17 @@ var imagesRecipe = [];
 var c=0;
 
 // on first load save pre-calculated variables
-if(!(Titanium.App.Properties.getList("recipes") && Titanium.App.Properties.getList("images") && Titanium.App.Properties.getList("imagesRecipe"))){
+if(!(Titanium.App.Properties.getList("recipeRows") && Titanium.App.Properties.getList("images") && Titanium.App.Properties.getList("imagesRecipe"))){
 	var recipesFile = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory,'recipes.xml');
 	var xml = Titanium.XML.parseString(recipesFile.read().text);
 
-	var data = [];
+	var rows = [];
+	var lastHeader = '';
+	
 	var doc = xml.documentElement;
 	var elements = doc.getElementsByTagName("recipe");
 
-	// create indicator
-	var ind2;
-	if (Titanium.Platform.name == 'iPhone OS') {
-		ind2 = Titanium.UI.createProgressBar({
-			min : 0,
-			max : elements.length,
-			value : 0,
-			message : 'Lade Rezepte in den cocktailberater',
-			style : Titanium.UI.iPhone.ProgressBarStyle.PLAIN,
-			width: 120,
-			height:50,
-			bottom:10
-		});
-		loadingWindow.add(ind2);
-	} else {
-		ind2 = Titanium.UI.createActivityIndicator({
-			location : Titanium.UI.ActivityIndicator.DIALOG,
-			type : Titanium.UI.ActivityIndicator.DETERMINANT,
-			message : 'Lade Rezepte in den cocktailberater',
-			min : 0,
-			max : elements.length,
-			value : 0
-		});
-	}
-	ind.hide();
-	ind2.show();
 	for ( var i = 0; i < elements.length; i++) {
-		ind2.setValue(i);
 		var recipe = {};
 		recipe.title = elements.item(i).getAttribute("name");
 		recipe.description = elements.item(i).getAttribute("description");
@@ -101,24 +76,40 @@ if(!(Titanium.App.Properties.getList("recipes") && Titanium.App.Properties.getLi
 				}
 			}
 		}
+		
+		var photo = '';
+		
+		if(recipe.photos[0] != null) {
+			photo = recipe.photos[0].url;
+		} else {
+			photo = recipe.glass.photos[0].url;
+		}
 
-		data.push({
-			title : elements.item(i).getAttribute("name"),
+		var row = {
+			left: '50%',
+			leftImage : photo,
+			title: recipe.title,
 			hasChild : true,
 			recipe : recipe
-		});
+		};
+		
+		if(lastHeader != recipe.title.charAt(0)){
+			lastHeader = row.header = recipe.title.charAt(0);
+		}
+		
+		rows[i] = row;
 	}
 		
-	Titanium.App.Properties.setList("recipes",data);
 	Titanium.App.Properties.setList("images",images);
 	Titanium.App.Properties.setList("imagesRecipe",imagesRecipe);
+	Titanium.App.Properties.setList("recipeRows",rows);
 	
-	ind2.hide();
 	loadingWindow.hide();
+	ind.hide();
 }
 
-//load cached recipes
-recipeTable.setData(Titanium.App.Properties.getList("recipes"));
+// load cached recipes
+recipeTable.setData(Titanium.App.Properties.getList("recipeRows"));
 
 // create coverflow view with images
 var coverFlowWindow = Titanium.UI.createWindow({});
@@ -126,26 +117,48 @@ coverFlowWindow.orientationModes = [
 			                		Titanium.UI.LANDSCAPE_LEFT, 
 			                		Titanium.UI.LANDSCAPE_RIGHT
 			                	];
+
+var imageList2 = Titanium.App.Properties.getList("images");
+var imageNameList2 = Titanium.App.Properties.getList("imagesRecipe");
+
+var coverFlowView = Titanium.UI.createCoverFlowView({
+	images:imageList2,
+	backgroundColor:'#FFF'
+});
+coverFlowWindow.add(coverFlowView);
+
+var recipeNameLabel = Titanium.UI.createLabel({
+	text: 'B52',
+	width:300,
+	height:15,
+	bottom:20,
+	color:'#000',
+	textAlign:'center'
+});
+coverFlowWindow.add(recipeNameLabel);
+
+// update label of recipe in cover flow view
+coverFlowView.addEventListener('change',function(e){
+	recipeNameLabel.text = 'lade Name';
+	recipeNameLabel.text = imageNameList2[e.index].title;
+});
+
 Ti.Gesture.addEventListener('orientationchange',function(e) {
 	if(e.source.isLandscape() && tabGroup.activeTab.title == cocktailTab.title){
-		var view = Titanium.UI.createCoverFlowView({
-			images:Titanium.App.Properties.getList("images"),
-			backgroundColor:'#000'
-		});
-		
-		// click listener - when image is clicked
-		view.addEventListener('click',function(e)
-		{
-			showRecipe(Titanium.App.Properties.getList("imagesRecipe")[e.index]);
-			coverFlowWindow.close();
-		});
-		coverFlowWindow.add(view);
 		coverFlowWindow.open();
+		recipeNameLabel.text = imageNameList2[coverFlowView.selected].title;
 	}
-	
 	if(e.source.isPortrait() && tabGroup.activeTab.title == cocktailTab.title) {
 		coverFlowWindow.close();
 	}
+});
+
+//click listener - when image is clicked
+coverFlowView.addEventListener('click',function(e) {
+	cocktailTab.open(showRecipe(Titanium.App.Properties.getList("imagesRecipe")[e.index]), {
+		animated : true
+	});
+	coverFlowWindow.close();
 });
 
 // switch views

@@ -1,6 +1,10 @@
 /**
+ * initViews.js
  * 
+ * creates all windows at startup
  */
+
+// loading window
 var loadingWindow = Titanium.UI.createWindow({
 	title : 'cocktailberater', 
 	fullscreen: false, 
@@ -15,8 +19,8 @@ var imageView = Titanium.UI.createImageView({
 	top:-20
 });
 loadingWindow.add(imageView);
-loadingWindow.open();
 
+// loading indicator
 var ind;
 if (Titanium.Platform.name == 'iPhone OS') {
 	ind = Titanium.UI.createActivityIndicator({
@@ -37,20 +41,12 @@ if (Titanium.Platform.name == 'iPhone OS') {
 		message:'Lade Rezepte ...'
 	});
 }
+loadingWindow.open();
 ind.show();
 
-
-var orientationModes = [ 
-                		Titanium.UI.PORTRAIT, 
-                		Titanium.UI.UPSIDE_PORTRAIT, 
-                		Titanium.UI.LANDSCAPE_LEFT, 
-                		Titanium.UI.LANDSCAPE_RIGHT, 
-                		Titanium.UI.FACE_UP, 
-                		Titanium.UI.FACE_DOWN
-                	];
-
-//create tab group
+// create tab group
 var tabGroup = Titanium.UI.createTabGroup();
+tabGroup.allowUserCustomization = false;
 
 // cocktails view (tab index=0)
 var cocktailsWindow = Titanium.UI.createWindow({title : 'Cocktails'});
@@ -62,7 +58,7 @@ var appiconView = Ti.UI.createImageView({
 });
 cocktailsWindow.rightNavButton = appiconView;
 var cocktailTab = Titanium.UI.createTab({
-	icon:'images/tab_cocktails_small.png',
+	icon:'images/tab_cocktails_small_white.png',
 	title : 'Cocktails',
 	window : cocktailsWindow
 });
@@ -81,35 +77,60 @@ var recipeTable = Titanium.UI.createTableView({
 cocktailsWindow.add(recipeTable);
 Ti.include("/views/cocktailsView.js");
 
-// hausbar view (tab index=1)
+// random cocktail view (tab index=1)
+var randomWindow = Titanium.UI.createWindow({
+	title : 'Schüttel deinen Zufallscocktail', 
+	backgroundImage : 'images/shaker.jpg'});
+randomWindow.orientationModes = [ Titanium.UI.PORTRAIT ];
+var randomCocktailTabText = 'Zufallscocktail';
+var randomTab = Titanium.UI.createTab({
+	icon : 'images/tab_shaker_small_white.png',
+	title : randomCocktailTabText,
+	window : randomWindow
+});
+tabGroup.addTab(randomTab);
+Ti.include("/views/randomView.js");
+
+// hausbar view (tab index=2)
 var hausbarWindow = Titanium.UI.createWindow({title : 'Hausbar'});
-hausbarWindow.orientationModes = orientationModes;
+hausbarWindow.orientationModes = [ Titanium.UI.PORTRAIT ];
 var hausbarTab = Titanium.UI.createTab({
-	icon : 'images/tab_housebar_small.png',
+	icon : 'images/tab_housebar_small_white.png',
 	title : 'Hausbar',
 	window : hausbarWindow
 });
 tabGroup.addTab(hausbarTab);
 Ti.include("/views/hausbarView.js");
 
-// shopping list view (tab index=2)
+// shopping list view (tab index=3)
 var shoppingListWindow = Titanium.UI.createWindow({title : 'Einkaufsliste'});
-shoppingListWindow.orientationModes = orientationModes;
+shoppingListWindow.orientationModes = [ Titanium.UI.PORTRAIT ];
 var shoppingListTab = Titanium.UI.createTab({
-	icon : 'images/tab_shoppinglist_small.png',
+	icon : 'images/tab_shoppinglist_small_white.png',
 	title : 'Einkaufsliste',
 	window : shoppingListWindow
 });
 tabGroup.addTab(shoppingListTab);
 Ti.include("/views/shoppingListView.js");
 
-// about view (tab index=3)
+// about view (tab index=4)
 var aboutWindow = Titanium.UI.createWindow({title : 'Über cocktailberater'});
-aboutWindow.orientationModes = orientationModes;
+aboutWindow.orientationModes = [ Titanium.UI.PORTRAIT ];
 var aboutTab = Titanium.UI.createTab({
-	icon : 'images/tab_about_small.png',
-	title : 'Über cocktailberater',
+	icon : 'images/tab_about_small_white.png',
+	title : 'cocktailberater',
 	window : aboutWindow
 });
 tabGroup.addTab(aboutTab);
 Ti.include("/views/aboutView.js");
+
+// quiz view (tab index=5)
+var quizWindow = Titanium.UI.createWindow({title : 'Quiz', backgroundColor:'#FFFFFF'});
+quizWindow.orientationModes = [ Titanium.UI.PORTRAIT ];
+var quizTab = Titanium.UI.createTab({
+	icon : 'images/tab_about_small_white.png',
+	title : 'Quiz',
+	window : quizWindow
+});
+tabGroup.addTab(quizTab);
+Ti.include("/views/quizView.js");
