@@ -29,8 +29,64 @@ class  Website_AdminController extends Zend_Controller_Action {
 		}
 		$contextSwitch->addActionContexts(array('propose-cocktail'=>true,
 		'propose-cocktail-submitted'=>true,'add-product'=>true,
-		'add-ingredient'=>true,'delete-cache'=>true,'find-popular'=>true));
+		'add-ingredient'=>true,'delete-cache'=>true,'find-popular'=>true,
+		'add-translations'=>true));
 		$contextSwitch->initContext();
+
+	}
+
+	public function addTranslationsAction () {
+
+		$cache = Zend_Registry::get('cache');
+		$cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+
+		$log = Zend_Registry::get('logger');
+
+		if($this->_hasParam ('save_recipe')) {
+
+			$recipeId = $this->_getParam ('recipeId');
+			$recipe = Website_Model_Recipe::getRecipe($recipeId);
+
+			$log->log('Website_AdminController->addTranslationsAction (updateing recipe ' . $recipe->id . ')',Zend_Log::DEBUG);
+
+			if($this->_getParam ('name_en')){
+				$recipe->name_en = $this->_getParam ('name_en');
+			}
+
+			if($this->_getParam ('description_en')){
+				$recipe->description_en = $this->_getParam ('description_en');
+			}
+
+			if($this->_getParam ('instruction_en')){
+				$recipe->instruction_en = $this->_getParam ('instruction_en');
+			}
+
+			if($this->_getParam ('source_en')){
+				$recipe->source_en = $this->_getParam ('source_en');
+			}
+
+			$recipe->translation_en_state = $this->_getParam ('translation_en_state');
+
+			$recipe->save();
+				
+		}
+
+		$this->view->recipes = Website_Model_Recipe::listRecipes();
+
+		// prepopulate translations
+		foreach ($this->view->recipes as $recipe){
+			if($recipe->translation_en_state == null){
+				$log->log('Website_AdminController->addTranslationsAction (prepopulationg recipe ' . $recipe->id . ' - state: ' . $recipe->translation_en_state . ')',Zend_Log::DEBUG);
+				$recipe->name_en = $this->getTranslation($recipe->name);
+				$recipe->description_en = $this->getTranslation($recipe->description);
+				$recipe->instruction_en = $this->getTranslation($recipe->instruction);
+				$recipe->source_en = $this->getTranslation($recipe->source);
+				$recipe->translation_en_state = 'google-translate';
+				$recipe->save();
+			}
+		}
+
+		$cache->clean(Zend_Cache::CLEANING_MODE_ALL);
 
 	}
 
@@ -206,15 +262,15 @@ class  Website_AdminController extends Zend_Controller_Action {
 			//take substring out, which'd be the number we want
 			$search_number=substr($data,$pos1+strlen($find1), $pos2-$pos1-strlen($find2));
 			$search_number=str_replace(',','',$search_number);
-			
+
 			if($search_number>0){
 				print '<br />$search_number: '.$search_number;
 			}
 			if(!($search_number>0)){
 				$search_number = 0;
 			}
-				$db->update('betaRecipeStats',
-				array('cocktailRezeptOhneBar'=>$search_number),
+			$db->update('betaRecipeStats',
+			array('cocktailRezeptOhneBar'=>$search_number),
 		    				'recipeName=\''.str_replace('\'','\\\'',$row['recipeName']).'\'');
 		}
 		exit;
@@ -233,6 +289,35 @@ class  Website_AdminController extends Zend_Controller_Action {
 				$layout->setLayout($layout->getLayout() . '.' . $context);
 			}
 		}
+	}
+
+	private function getTranslation($stringToTranslate){
+
+		$cache = Zend_Registry::get('cache');
+		$translations = $cache->load('adminTranslations');
+
+		if(!$translations[md5($stringToTranslate)]){
+
+			$client = new Zend_Http_Client('http://ajax.googleapis.com/ajax/services/language/translate', array('maxredirects' => 0, 'timeout' => 10));
+			$client->setParameterGet(array('v' => '1.0', 'q' => $stringToTranslate, 'langpair' => 'de|en'));
+			$response = $client->request();
+			$data = $response->getBody();
+			$server_result = json_decode($data);
+			$status = $server_result->responseStatus; // should be 200
+			$details = $server_result->responseDetails;
+			$result = $server_result->responseData->translatedText;
+
+			$translations[md5($stringToTranslate)] = $result;
+
+			$cache->save($translations,'adminTranslations',array('admin'));
+
+		} else {
+
+			$result = $translations[md5($stringToTranslate)];
+
+		}
+
+		return $result;
 	}
 
 }

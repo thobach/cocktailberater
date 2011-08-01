@@ -1,0 +1,140 @@
+<style type="text/css">
+input[disabled],input[readonly],select[disabled],select[readonly],checkbox[disabled],checkbox[readonly],textarea[disabled],textarea[readonly]
+	{
+	background-color: #F5F5F5;
+}
+</style>
+<script type="text/javascript">
+var observe;
+if (window.attachEvent) {
+    observe = function (element, event, handler) {
+        element.attachEvent('on'+event, handler);
+    };
+}
+else {
+    observe = function (element, event, handler) {
+        element.addEventListener(event, handler, false);
+    };
+}
+function autoresize (text) {
+    function resize () {
+        text.style.height = 'auto';
+        text.style.height = text.scrollHeight+'px';
+    }
+    /* 0-timeout to get the already changed text */
+    function delayedResize () {
+        window.setTimeout(resize, 0);
+    }
+    observe(text, 'change',  resize);
+    observe(text, 'cut',     delayedResize);
+    observe(text, 'paste',   delayedResize);
+    observe(text, 'drop',    delayedResize);
+    observe(text, 'keydown', delayedResize);
+
+    resize();
+}
+</script>
+<p style="margin: 2em;">Danke fürs Übersetzen ;)</p>
+<p style="margin: 2em;"><strong>Anleitung:</strong> In den englischen
+Übersetzungsfeldern befinden sich bereits die Vorübersetzungen von
+Google Translate, welche noch etwas Überarbeitung benötigen. Es kann
+immer nur eine Übersetzung gleichzeitig angepasst werden. Also nach
+jeder Übersetzung eines Rezepts auf Speichern drücken. Wenn der
+Übersetzungszustand auf 'done' gesetzt wird, taucht er hier in der Liste
+nicht mehr auf. Bitte die Formatierung des Originaltexts übernehmen, der
+Name braucht nur eine Übersetzung wenn etwas wie 'nach' drin vorkommt,
+die Buchtitel bei den Quellen bitte auf Deutsch lassen.</p>
+<?php
+foreach ($this->recipes as $recipe){
+	if((($recipe->translation_en_state == 'google-translate' || $recipe->translation_en_state == 'draft' || $recipe->translation_en_state == 'rejected') && !$_GET['accessLevel']=='reviewer') || ($recipe->translation_en_state == 'done' && $_GET['accessLevel']=='reviewer')){
+		?>
+<form class="regular_form" style="width: 42em; margin-left: 2em;"
+	method="post">
+<fieldset><legend>Übersetzung ins Englische</legend> <label
+	class="attribut" for="name_de">Name (de)</label> <input class="q2 wert"
+	name="name_de" id="name_de" value="<?=$recipe->name;?>"
+	disabled="disabled" /> <label class="attribut" for="name_en">Name (en)</label>
+<input class="q2 wert" name="name_en" id="name_en"
+	value="<?=$recipe->name_en;?>" /> <?php 
+	if($recipe->description) {
+		?> <label class="attribut clear"
+	for="description_dt<?php echo $recipe->id; ?>">Beschreibung (dt)</label>
+<textarea disabled="disabled"
+	id="description_dt<?php echo $recipe->id; ?>" class="q2 wert"
+	style="height: auto; border: 1px solid black; width: 400px;"><?php echo $recipe->description; ?></textarea>
+<script>autoresize(document.getElementById('description_dt<?php echo $recipe->id; ?>'));</script>
+
+<label class="attribut clear"
+	for="description_en<?php echo $recipe->id; ?>">Beschreibung (en)</label>
+<textarea class="q2 wert" name="description_en"
+	id="description_en<?php echo $recipe->id; ?>" class="q2 wert"
+	style="height: auto; border: 1px solid black; width: 400px;"><?=$recipe->description_en;?></textarea>
+<script>autoresize(document.getElementById('description_en<?php echo $recipe->id; ?>'));</script>
+		<?php
+	}
+
+	if($recipe->source) {
+		?> <label class="attribut clear"
+	for="source_dt<?php echo $recipe->id; ?>">Quelle (dt)</label> <textarea
+	disabled="disabled" id="source_dt<?php echo $recipe->id; ?>"
+	class="q2 wert"
+	style="height: auto; border: 1px solid black; width: 400px;"><?php echo $recipe->source; ?></textarea>
+<script>autoresize(document.getElementById('source_dt<?php echo $recipe->id; ?>'));</script>
+
+<label class="attribut clear" for="source_en<?php echo $recipe->id; ?>">Quelle
+(en)</label> <textarea class="q2 wert" name="source_en"
+	id="source_en<?php echo $recipe->id; ?>" class="q2 wert"
+	style="height: auto; border: 1px solid black; width: 400px;"><?=$recipe->source_en;?></textarea>
+<script>autoresize(document.getElementById('source_en<?php echo $recipe->id; ?>'));</script>
+		<?php
+	}
+	?> <label class="attribut clear"
+	for="instruction_dt<?php echo $recipe->id; ?>">Anleitung (dt)</label> <textarea
+	disabled="disabled" id="instruction_dt<?php echo $recipe->id; ?>"
+	class="q2 wert"
+	style="height: auto; border: 1px solid black; width: 400px;"><?php echo $recipe->instruction; ?></textarea>
+<script>autoresize(document.getElementById('instruction_dt<?php echo $recipe->id; ?>'));</script>
+<label class="attribut clear"
+	for="instruction_en<?php echo $recipe->id; ?>">Anleitung (en)</label> <textarea
+	class="q2 wert" name="instruction_en"
+	id="instruction_en<?php echo $recipe->id; ?>"
+	style="height: auto; border: 1px solid black; width: 400px;"><?=$recipe->instruction_en;?></textarea>
+<script>autoresize(document.getElementById('instruction_en<?php echo $recipe->id; ?>'));</script>
+<label class="attribut clear" for="translation_en_state">Übersetzungs-zustand</label>
+<p class="wert" style="width: 30em;"><select name="translation_en_state"
+	id="translation_en_state" class="q2" style="width: auto;">
+	<option>google-translate</option>
+	<option>draft</option>
+	<option
+	<?php
+	if($recipe->translation_en_state == 'google-translate' ||
+	$recipe->translation_en_state == 'draft' ||
+	$recipe->translation_en_state == 'rejected') {
+		?>
+		selected="selected" <?php 
+	}
+	?>>done</option>
+	<?php
+	if($_GET['accessLevel']=='reviewer') {
+		?>
+	<option <?php
+	if($recipe->translation_en_state == 'done') {
+		?>
+		selected="selected" <?php 
+	}
+	?>>reviewed</option>
+	<option>rejected</option>
+	<?php
+	}
+	?>
+</select> (aktuell: <?php echo $recipe->translation_en_state; ?>)</p>
+<label class="attribut" for="additional_information">&nbsp;</label>
+<div class="wert"><input type="hidden" name="recipeId"
+	value="<?php echo $recipe->id; ?>" /><input class="q2 submit"
+	type="submit" name="save_recipe" value="Speichern" /></div>
+</fieldset>
+</form>
+	<?php
+	}
+}
+?>
