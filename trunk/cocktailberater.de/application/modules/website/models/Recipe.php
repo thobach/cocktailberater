@@ -31,6 +31,12 @@ class Website_Model_Recipe {
 	private $ratingsCount; // calculated
 	private $insertDate;
 	private $updateDate;
+	
+	private $name_en;
+	private $description_en;
+	private $instruction_en;
+	private $source_en;
+	private $translation_en_state;
 
 	// associations
 	private $_cocktail;
@@ -228,7 +234,11 @@ class Website_Model_Recipe {
 			$this->insertDate =  $recipe->insertDate;
 			$this->updateDate =  $recipe->updateDate;
 
-
+			$this->name_en = $recipe->name_en ;
+			$this->description_en = $recipe->description_en ;
+			$this->instruction_en = $recipe->instruction_en ;
+			$this->source_en = $recipe->source_en ;
+			$this->translation_en_state = $recipe->translation_en_state ;
 		}
 
 	}
@@ -891,6 +901,11 @@ class Website_Model_Recipe {
 		$array [ 'description' ] = $this->description ;
 		$array [ 'isOriginal' ] = $this->isOriginal ;
 		$array [ 'isAlcoholic' ] = $this->isAlcoholic ;
+		$array [ 'name_en' ] = $this->name_en;
+		$array [ 'description_en' ] = $this->description_en;
+		$array [ 'instruction_en' ] = $this->instruction_en;
+		$array [ 'source_en' ] = $this->source_en;
+		$array [ 'translation_en_state' ] = $this->translation_en_state;
 		//$array [ 'views' ] = $this->views ;
 		//$array [ 'ratingsSum' ] = $this->ratingsSum ;
 		//$array [ 'ratingsCount' ] = $this->ratingsCount ;
