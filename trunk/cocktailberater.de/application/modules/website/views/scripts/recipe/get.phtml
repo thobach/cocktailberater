@@ -968,6 +968,7 @@ function showStatistics() {
 	    $priceStyle = ' style="text-decoration: underline; text-underline-style: dotted; cursor: pointer; color: rgb(84, 97, 110);"';
 	}
 	?>
+<?php if($recipe->getAveragePrice() > 0) {?>
 <div class="left icon" style="left: 480px;" id="priceInfo"><img  height="42" width="34"
 	src="<?php print $this->baseUrl(); ?>/img/icons/money.png" alt="Preis / Kosten"
 	title="Preis / Kosten" /><br /><span<?php print $priceStyle; ?>>
@@ -977,6 +978,7 @@ function showStatistics() {
 	}
 	print number_format($recipe->getAveragePrice(),2,',','.');
 	?> €</span></div>
+<?php } ?>
 <div class="left icon" style="left: 60px;"><img  height="47" width="25"
 	src="<?php
 	print $this->baseUrl() ;
