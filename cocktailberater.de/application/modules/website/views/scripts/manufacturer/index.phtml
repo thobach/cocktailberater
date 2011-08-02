@@ -17,14 +17,14 @@ foreach ($this->manufacturers as $manufacturer){
 	$products = $manufacturer->getProducts();
 	$recipes = $manufacturer->getRecipes();
 	print '<td><a href="'.$this->url(
-	array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website')).'">'.
+	array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website'),'manufacturer',true).'">'.
 	$manufacturer->name.'</a></td>';
 	print '<td>'.($manufacturer->website ? '<a href="'.$manufacturer->website.'" style="text-overflow: ellipsis;">Link</a>' : '');
 	print '</td>';
 	print '<td>'.($products!==false ? '<a href="'.$this->url(
-		array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website')).'#products-list">'.count($products).' Stk.</a>' : 'keine').'</td>';
+		array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website'),'manufacturer',true).'#products-list">'.count($products).' Stk.</a>' : 'keine').'</td>';
 	print '<td>'.(count($recipes)>0 ? '<a href="'.$this->url(
-		array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website')).'#recipes-list">'.count($recipes).' Stk.</a>' : 'keine').'</td>';
+		array('id'=>$manufacturer->getUniqueName(),'controller'=>'manufacturer','action'=>'get','module'=>'website'),'manufacturer',true).'#recipes-list">'.count($recipes).' Stk.</a>' : 'keine').'</td>';
 	print '</tr>';
 }
 ?>
