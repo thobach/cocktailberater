@@ -33,11 +33,11 @@ dojo.addOnLoad(function() {
 			$categories = '';
 			if(is_array($ingredient->getIngredientCategories())){
 				foreach($ingredient->getIngredientCategories() as $cagetory){
-					$cagetory = '<a href="'.$this->url(array('controller'=>'ingredient-category','action'=>'get','module'=>'website','id'=>$cagetory->getUniqueName())).'">'.$cagetory->name.'</a>';
+					$cagetory = '<a href="'.$this->url(array('controller'=>'ingredient-category','action'=>'get','module'=>'website','id'=>$cagetory->getUniqueName()),'rest',true).'">'.$cagetory->name.'</a>';
 					$categories	= ($categories ? $categories.', '.$cagetory : $cagetory);
 				}
 			} ?> <a
-				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName())); ?>">
+				href="<?php print $this->url(array('controller'=>'ingredient','action'=>'get','module'=>'website','id'=>$ingredient->getUniqueName()),'ingredient',true); ?>">
 				<?php print $ingredient->name; ?></a><br />
 				<?php if($ingredient->getAverageAlcoholLevel()) { print $ingredient->getAverageAlcoholLevel().' %'; } else { print '0 %'; } ?></td>
 			<td><?php print $categories; ?></td>
@@ -59,7 +59,7 @@ dojo.addOnLoad(function() {
 			if($numberOfRecipes) { ?>
 				<a href="<?php print $this->url(array(
 				'controller'=>'ingredient','action'=>'get','module'=>'website',
-				'id'=>$ingredient->getUniqueName())); ?>#recipes-list">
+				'id'=>$ingredient->getUniqueName()),'ingredient',true); ?>#recipes-list">
 				<?php print $numberOfRecipes; ?> Stk.</a><?php
 			} else { ?>keine<?php } 
 			?> /<br />
@@ -67,7 +67,7 @@ dojo.addOnLoad(function() {
 			$products = Website_Model_Product::numberOfProductsByIngredientId($ingredient->id);
 			if($products>0) { ?><a href="<?php print $this->url(array(
 				'controller'=>'ingredient','action'=>'get','module'=>'website',
-				'id'=>$ingredient->getUniqueName())); ?>#products-list"><?php print $products; ?>
+				'id'=>$ingredient->getUniqueName()),'ingredient',true); ?>#products-list"><?php print $products; ?>
 				Stk.</a><?php 
 			} ?></td>
 		</tr>
