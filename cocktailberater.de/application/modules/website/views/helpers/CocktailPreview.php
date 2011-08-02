@@ -55,10 +55,12 @@ if (is_array ( $components )) {
 <?php
 $this->view->headScript()->captureEnd();
 		} // end no JS for touch devices
+		
+$uniqueName = $recipe->getUniqueName();
 ?>
 <div class="cocktail<?php if($selectable){ ?> center selectable<?php } ?>"><?php 
 	if(!$selectable){ ?><a
-		href="<?php $uniqueName = $recipe->getUniqueName();
+		href="<?php 
 			print $this->view->url(array('module'=>'website','controller'=>'recipe',
 			'action'=>'get','id'=>$uniqueName),'recipe',true); ?>?format=<?php 
 			print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"><?php 
@@ -101,14 +103,17 @@ $this->view->headScript()->captureEnd();
 		?></a><?php 
 	} else {
 		if($format != 'mobile'){ 
-		?>&nbsp;<span id="recipe<?php print $recipe->id.'_'.
+		?>&nbsp;<span id="recipe<?php 
+		print $recipe->id.'_'.
 	Zend_View_Helper_CocktailPreview::$alreadyDisplayed[$recipe->id]; ?>"
 	href="<?php print $this->view->url(array('module'=>'website',
 		'controller'=>'recipe','action'=>'get','id'=>$uniqueName),'recipe',true); ?>?format=<?php 
 	print Zend_Controller_Front::getInstance()->getRequest()->getParam('format'); ?>"
 	title="<?php echo $this->view->escape(str_replace('\\','',$recipe->name)) ?>" class="pointer"><img alt="Info"
 		src="<?php print $this->view->baseUrl(); ?>/img/info.png" 
-		style="vertical-align: top;" height="17" width="20" /></span><?php } ?></label><br />
+		style="vertical-align: top;" height="17" width="20" /></span><?php 
+		}
+		?></label><br />
 		<input type="checkbox" name="recipe2menu[]" value="<?php print $recipe->id; ?>" 
 		<?php if($preselected[$recipe->id]) { print ' checked="checked"'; } ?> id="recipe_<?php print $recipe->id; ?>" /><?php 
 	} ?></div><?php 
