@@ -99,14 +99,14 @@ dojo.addOnLoad(initLightbox0);
 dojo.addOnLoad(initLightbox<?php echo $imageCounter; ?>);
 <?php $this->headScript()->captureEnd();?>
 			<a href="<?php echo $this->baseUrl() .'/img/recipes/' . $photo->originalFileName ; ?>" 
-				id="lightbox<?php echo $imageCounter; ?>" title="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>">
-			<?php // display photo icon for first image
-			if ($imageCounter == 1) { ?>
-				<img src="<?php print $this->baseUrl(); ?>/img/foto.png" 
+				id="lightbox<?php echo $imageCounter; ?>" title="<?php print str_replace ( '\\', '', $recipe->name ) ; ?>"><?php
+			// display photo icon for first image
+			if ($imageCounter == 1) { 
+			?><img src="<?php print $this->baseUrl(); ?>/img/foto.png" 
 					alt="Fotos" height="21" width="28" title="Fotos"
-					style="margin-right: 1em; margin-bottom: 0.7em;" />
-			<?php } // if	?>
-			</a>
+					style="margin-right: 1em; margin-bottom: 0.7em;" /><?php 
+			} // if	
+			?></a>
 		<?php } // foreach
 	} // is array
 
