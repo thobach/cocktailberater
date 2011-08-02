@@ -42,31 +42,55 @@ class Website_Model_Ingredient {
 	const GEL = 'gel';
 
 	/**
+
 	 * magic getter for all attributes
+
 	 *
+
 	 * @param string $name
+
 	 * @return mixed
+
 	 */
+
 	public function __get($name) {
+
 		if (property_exists(get_class($this), $name)) {
+
 			return $this->$name;
+
 		} else {
+
 			throw new Exception('Class \''.get_class($this).'\' does not provide property: ' . $name . '.');
+
 		}
+
 	}
 
 	/**
+
 	 * Magic Setter Function, is accessed when setting an attribute
+
 	 *
+
 	 * @param mixed $name
+
 	 * @param mixed $value
+
 	 */
+
 	public function __set ( $name , $value ) {
+
 		if (property_exists ( get_class($this), $name )) {
+
 			$this->$name = $value ;
+
 		} else {
+
 			throw new Exception ( 'Class \''.get_class($this).'\' does not provide property: ' . $name . '.' ) ;
+
 		}
+
 	}
 
 	/* depreciated
@@ -359,6 +383,9 @@ class Website_Model_Ingredient {
 	 * @return float average price
 	 */
 	public function getAveragePricePerLitre(){
+		
+		return NULL;
+		
 		// check if data is already calculated
 		if(Website_Model_Ingredient::$_averageIngredientPricePerLitre[$this->id] === NULL){
 			// load cache module from registry
@@ -412,6 +439,9 @@ class Website_Model_Ingredient {
 	 * @return float average price
 	 */
 	public function getAveragePricePerKilogram(){
+		
+		return NULL;
+		
 		// check if data is already calculated
 		if(Website_Model_Ingredient::$_averageIngredientPricePerKilogram[$this->id] === NULL){
 			// load cache module from registry
@@ -458,6 +488,9 @@ class Website_Model_Ingredient {
 	 * @return float average price
 	 */
 	public function getAveragePricePerPiece(){
+		
+		return NULL;
+		
 		if($this->averagePricePerPiece === NULL){
 			$products = $this->getProducts();
 			$avgCount = 0;
@@ -484,6 +517,9 @@ class Website_Model_Ingredient {
 	 * @return float average price
 	 */
 	public function getAveragePricePerWhole(){
+		
+		return NULL;
+		
 		if($this->averagePricePerWhole === NULL){
 			$products = $this->getProducts();
 			$avgCount = 0;
@@ -631,8 +667,18 @@ class Website_Model_Ingredient {
 		$zutat->setAttribute('description',$this->description);
 		$zutat->setAttribute('aggregation',$this->aggregation);
 		$zutat->setAttribute('aliasName',$this->aliasName);
+		$zutat->setAttribute('avgAlcoholLevel',$this->getAverageAlcoholLevel());
 		$zutat->setAttribute('insertDate',$this->insertDate);
 		$zutat->setAttribute('updateDate',$this->updateDate);
+		$categories = $xml->createElement ( 'ingredientCategories' ) ;
+
+		if (is_array ( $_categories = $this->getIngredientCategories() )) {
+			foreach ( $_categories as $_category ) {
+				$_category->toXml ( $xml, $categories ) ;
+			}
+		}
+
+		$zutat->appendChild ( $categories ) ;
 		$ast->appendchild($zutat);
 	}
 

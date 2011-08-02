@@ -135,6 +135,9 @@ class Website_Model_Product
 	 * @return double
 	 */
 	public function getAveragePrice(){
+		
+		return NULL;
+		
 		$log = Zend_Registry::get('logger');
 		$log->log('Website_Model_Product->getAveragePrice',Zend_Log::DEBUG);
 		// check if data is already calculated
@@ -234,6 +237,9 @@ class Website_Model_Product
 	 * @return array keys: title, description, shop, shopUrl, price, imageUrl, brand
 	 */
 	public function getOffers($limit=50){
+		
+		return NULL;
+		
 		if($this->offers === NULL){
 			// load cache from registry
 			$cache = Zend_Registry::get('cache');
@@ -341,6 +347,9 @@ class Website_Model_Product
 	 * @return string image url
 	 */
 	public function getImage(){
+		
+		return NULL;
+		
 		if($this->image === NULL){
 			// load cache from registry
 			$cache = Zend_Registry::get('cache');
