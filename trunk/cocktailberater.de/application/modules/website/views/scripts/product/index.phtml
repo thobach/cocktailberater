@@ -30,17 +30,17 @@ dojo.addOnLoad(function() {
 	<tr>
 		<td><a href="<?php print $this->url(
 			array('id'=>$product->getUniqueName(),'controller'=>'product',
-			'action'=>'get','module'=>'website')); ?>"><?php print $product->name; ?></a> 
+			'action'=>'get','module'=>'website'),'product',true); ?>"><?php print $product->name; ?></a> 
 		<?php if($product->getManufacturer() && $product->getManufacturer()->name){ ?>
 			(<a href="<?php print $this->url(array('controller'=>'manufacturer',
-			'id'=>$product->getManufacturer()->getUniqueName())); ?>"><?php 
+			'id'=>$product->getManufacturer()->getUniqueName()),'manufacturer',true); ?>"><?php 
 			print $product->getManufacturer()->name; ?></a>)
 		<?php } ?> 
 		<?php print number_format($product->size,2,',','.').'&nbsp;'.$product->unit; ?></td>
 		<td>
 		<?php if($product->getIngredient()) { ?>
 			<a href="<?php print $this->url(array('id'=>$product->getIngredient()->getUniqueName(),
-			'controller'=>'ingredient','action'=>'get','module'=>'website')); ?>"><?php 
+			'controller'=>'ingredient','action'=>'get','module'=>'website'),'ingredient',true); ?>"><?php 
 			print $product->getIngredient()->name; ?></a>
 		<?php } ?><br /><?php print round($product->alcoholLevel); ?>&nbsp;% / 
 			<?php print round($product->fruitConcentration); ?>&nbsp;%</td>
@@ -57,7 +57,7 @@ dojo.addOnLoad(function() {
 		<td class="textRight"><?php $numberOfRecipes = $product->getNumberOfRecipes(); 
 		if($numberOfRecipes>0){ ?>
 			<a href="<?php echo $this->url(array('controller'=>'product',
-				'id'=>$product->getUniqueName(),'action'=>'get','module'=>'website')); ?>#recipes-list"><?php 
+				'id'=>$product->getUniqueName(),'action'=>'get','module'=>'website'),'product',true); ?>#recipes-list"><?php 
 			echo $numberOfRecipes; ?>&nbsp;Stk.</a>
 		<?php } 
 		else { ?>
