@@ -14,6 +14,11 @@ class Website_Model_Ingredient {
 	private $pieces_in_whole;
 	private $insertDate;
 	private $updateDate;
+	
+	private $aliasName_en;
+	private $name_en;
+	private $description_en;
+	private $translation_en_state;
 
 	// calculated attributes
 	private $averageAlcoholLevel;
@@ -129,6 +134,11 @@ class Website_Model_Ingredient {
 			$this->pieces_in_whole		= $ingredient['pieces_in_whole'];
 			$this->insertDate			= $ingredient['insertDate'];
 			$this->updateDate			= $ingredient['updateDate'];
+			
+			$this->aliasName_en			= $ingredient['aliasName_en'];
+			$this->name_en				= $ingredient['name_en'];
+			$this->description_en		= $ingredient['description_en'];
+			$this->translation_en_state	= $ingredient['translation_en_state'];
 		}
 	}
 
@@ -741,6 +751,11 @@ class Website_Model_Ingredient {
 		$array [ 'description' ] = $this->description;
 		$array [ 'aggregation' ] = $this->aggregation;
 		$array [ 'aliasName' ] = $this->aliasName ;
+		
+		$array [ 'name_en' ] = $this->name_en;
+		$array [ 'description_en' ] = $this->description_en;
+		$array [ 'aliasName_en' ] = $this->aliasName_en;
+		$array [ 'translation_en_state' ] = $this->translation_en_state;
 		return $array ;
 	}
 }
