@@ -1,0 +1,1 @@
+![http://wiki.cocktailberater.de/images/d/df/IStock_000006061073Medium.jpg](http://wiki.cocktailberater.de/images/d/df/IStock_000006061073Medium.jpg)
